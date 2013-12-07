@@ -1,2 +1,0 @@
-add_executable(spc_test_attitude attitude.cpp)
-target_link_libraries(spc_test_attitude spc_elements)
