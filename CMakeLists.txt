@@ -14,7 +14,7 @@ set(SPC_LIBRARY_DIRS "/home/luca/apps/lib" CACHE STRING "SPC linking dir")
 include_directories(${SPC_INCLUDES_DIRS})
 link_directories(${SPC_LIBRARY_DIRS})
 
-
+find_package(SPC 0.1 REQUIRED)
 
 find_library(SPC_LIBRARIES NAMES spc_common spc_devices spc_elements spc_estimators spc_geology spc_io spc_methods spc_statigraphy spc_time_series
              HINTS ${SPC_LIBRARY_DIRS} )
