@@ -114,6 +114,6 @@ QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
 add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} PclUtils qGEOTools qGEOVis ${SPC_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
+target_link_libraries(${PROJECT_NAME} PclUtils qGEOTools qGEOVis ${SPC_LIBRARIES} ${PCL_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${QGEO_INSTALL_DIR})
