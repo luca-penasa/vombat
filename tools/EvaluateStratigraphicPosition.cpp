@@ -10,7 +10,7 @@
 
 #include <iostream> // for debug
 
-#include <qGEO/qGEO.h>
+#include <qGEO.h>
 
 EvaluateStratigraphicPosition::EvaluateStratigraphicPosition(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Evaluate Stratigraphic Position",
                                                                          "Evaluate the stratiraphic position for the current clodus",

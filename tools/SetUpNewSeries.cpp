@@ -1,5 +1,4 @@
 #include "SetUpNewSeries.h"
-#include <ccArrow.h>
 
 #include <dialogs/ccTimeSeriesGeneratorEditorDlg.h>
 
@@ -21,10 +20,10 @@
 
 #include <ccOutOfCore/ccTimeSeriesGenerator.h>
 #include <ccOutOfCore/ccTimeSeries.h>
-#include <qGEO/qGEO.h>
+#include <qGEO.h>
 
-#include <PlotterWidget.h>
-#include <PlotterDlg.h>
+#include <visualization/PlotterWidget.h>
+#include <visualization/PlotterDlg.h>
 #include <OpenPlotsDialog.h>
 
 #include <ccOutOfCore/ccPlanarSelection.h>

@@ -123,7 +123,7 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
     {
         float val = m_breaks.at(i);
         std::stringstream s;
-        s << setprecision(2) << val;
+        s << std::setprecision(2) << val;
 
         Vector3f pos = m_major_thicks_positions.at(i);
         Vector3f end = pos + m_major_thicks_vector;
@@ -213,7 +213,7 @@ void ccSingleAttitudeModel::updateMajorBreaks()
     m_breaks.clear();
 
     float intpart;
-    modf((m_min_sp / m_step), &intpart);
+    std::modf((m_min_sp / m_step), &intpart);
     float start_break = intpart * m_step;
 
     //    breaks.push_back(m_min_sp);

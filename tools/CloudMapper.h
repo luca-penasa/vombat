@@ -3,7 +3,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
-#include <sensor_msgs/PointCloud2.h>
+
 #include <ccPointCloud.h>
 
 #include <spc/elements/generic_cloud.h>

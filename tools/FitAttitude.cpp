@@ -4,7 +4,7 @@
 
 #include <ccOutOfCore/ccSingleAttitudeModel.h>
 
-#include <ccArrow.h>
+//#include <ccArrow.h>
 
 #include <ccHObjectCaster.h>
 
@@ -26,10 +26,6 @@ FitAttitude::FitAttitude(ccPluginInterface * parent_plugin): BaseFilter(FilterDe
 int
 FitAttitude::compute()
 {
-    ccHObject::Container ents;
-
-
-
     ccHObject::Container entities;
     this->getSelectedEntitiesThatAreCCPointCloud(entities);
 
@@ -41,11 +37,11 @@ FitAttitude::compute()
 
         cc2smReader reader;
         reader.setInputCloud(cloud);
-        sensor_msgs::PointCloud2 sm_cloud = reader.getXYZ();
+        pcl::PCLPointCloud2 sm_cloud = reader.getXYZ();
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
-        pcl::fromROSMsg(sm_cloud, *pcl_cloud);
+        pcl::fromPCLPointCloud2(sm_cloud, *pcl_cloud);
 
         clouds.push_back(pcl_cloud);
 

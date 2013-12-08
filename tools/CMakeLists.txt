@@ -1,11 +1,5 @@
-cmake_minimum_required (VERSION 2.8)
-#project(qGEOTools)
-
 set(MODULE_NAME "qGEOTools")
 
-#lidarlib
-include_directories(/home/luca/apps/include) #why so hardcoded??
-link_directories(/home/luca/apps/lib)
 
 include_directories( ${CC_DLL_SOURCE_DIR}/include )
 include_directories( ${CloudCompare_SOURCE_DIR} )
@@ -15,6 +9,9 @@ include_directories( ${QCC_DB_DLL_SOURCE_DIR} )
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/dialogs)
+
+
+
 
 
 find_package(PCL REQUIRED)
@@ -27,8 +24,6 @@ include_directories(${VTK_INCLUDE_DIRS})
 link_directories(${VTK_LIBRARY_DIRS})
 add_definitions(${VTK_DEFINITIONS})
 
-
-#include_directories( ${Qwt6_INCLUDE_DIR} )
 
 file( GLOB header_list *.h dialogs/*.h ccOutOfCore/*.h)
 file( GLOB source_list *.cpp dialogs/*.cpp ccOutOfCore/*.cpp)
@@ -43,10 +38,11 @@ QT4_WRAP_UI( generated_ui_list ${ui_list} )
 QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
 
+include_directories(${SPC_INCLUDE_DIRS})
+
 add_library( ${MODULE_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_ui_list} ${generated_qrc_list} ${rc_list})
 
-target_link_libraries(${MODULE_NAME} ${PCL_LIBRARIES} ${QT_LIBRARIES} ${QWT_LIBRARY} ${Qwt6_Qt4_LIBRARY} ${VTK_LIBRARIES} ${SPC_LIBRARIES} PclUtils qGEOVis)
-
+target_link_libraries(${MODULE_NAME} ${PCL_LIBRARIES} ${QT_LIBRARIES} ${VTK_LIBRARIES} ${SPC_LIBRARIES} PclUtils qGEOVis)
 
 install(TARGETS ${MODULE_NAME} DESTINATION lib)
 

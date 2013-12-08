@@ -4,6 +4,7 @@
 #include <ccHObject.h>
 
 #include <spc/stratigraphy/single_attitude_model.h>
+
 #include <ccCylinder.h>
 #include <ccOutOfCore/ccEditableHObject.h>
 

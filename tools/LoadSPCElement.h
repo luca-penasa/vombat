@@ -2,7 +2,7 @@
 #define LOAD_SPC_ELEMENT_H
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <qGEO/qGEO.h>
+#include <qGEO.h>
 #include <dialogs/Composer.h>
 #include <spc/elements/element_base.h>
 

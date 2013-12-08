@@ -1,7 +1,7 @@
 #ifndef SINGLEPLOT_H
 #define SINGLEPLOT_H
 #include "qcustomplot.h"
-#include <MainScale.h>
+#include <visualization/MainScale.h>
 
 #include <spc/elements/continous_values_stratigraphy.h>
 #include <spc/time_series/base_time_series.h>

@@ -99,7 +99,7 @@ ComputeStratigraphicPosition::compute()
 
 //        cc2smReader conv;
 //        conv.setInputCloud(m_parameters.cloud);
-//        sensor_msgs::PointCloud2 sm_cloud = conv.getXYZ();
+//        pcl::PCLPointCloud2 sm_cloud = conv.getXYZ();
 //        pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud  (new pcl::PointCloud<pcl::PointXYZ>);
 //        pcl::fromROSMsg(sm_cloud, *pcl_cloud);
 

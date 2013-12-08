@@ -1,8 +1,7 @@
 
-
 set(MODULE_NAME "qGEOVis")
 
- file( GLOB header_list *.h)
+    file( GLOB header_list *.h)
     file( GLOB source_list *.cpp)
     file( GLOB ui_list *.ui )
     file( GLOB qrc_list *.qrc )
@@ -14,11 +13,18 @@ set(MODULE_NAME "qGEOVis")
     QT4_WRAP_UI( generated_ui_list ${ui_list} )
     QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
-link_directories(${SPC_LIBRARY_DIRS})
+    link_directories(${SPC_LIBRARY_DIRS})
+include_directories(${SPC_INCLUDE_DIRS})
+
+include_directories(${CC_INCLUDE_DIRS})
+
+#include_directories(${CC_BUILD_DIR}/qCC)
 
 
 #    include_directories(${CMAKE_CURRENT_BINARY_DIR})
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
+
 
     add_library( qGEOVis SHARED ${header_list} ${source_list} ${moc_list} ${generated_ui_list} ${generated_qrc_list})
 

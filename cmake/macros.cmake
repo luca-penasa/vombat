@@ -1,0 +1,10 @@
+function( find_mocable_files __out_var_name )   # + input list
+    set( local_list )
+    foreach( one_file ${ARGN} )
+        file( READ ${one_file} stream )
+        if( stream MATCHES "Q_OBJECT" )
+            list( APPEND local_list ${one_file} )
+        endif()
+    endforeach()
+    set( ${__out_var_name} ${local_list} PARENT_SCOPE )
+endfunction()

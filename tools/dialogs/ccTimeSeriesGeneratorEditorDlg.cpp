@@ -3,7 +3,7 @@
 
 #include <ccOutOfCore/ccTimeSeriesGenerator.h>
 
-#include <qGEO/qGEO.h>
+#include <qGEO.h>
 
 
 

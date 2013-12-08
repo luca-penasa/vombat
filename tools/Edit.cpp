@@ -2,10 +2,11 @@
 #include <ccOutOfCore/ccAttitude.h>
 #include <ccOutOfCore/ccSingleAttitudeModel.h>
 
+#include <spc/stratigraphy/single_attitude_model.h>
 
 #include <iostream> // for debug
 
-#include <qGEO/qGEO.h>
+#include <qGEO.h>
 
 Edit::Edit(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Edit selected element",
                                                                          "Edit selected element",

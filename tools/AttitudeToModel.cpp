@@ -5,7 +5,7 @@
 
 #include <iostream> // for debug
 
-#include <qGEO/qGEO.h>
+#include <qGEO.h>
 
 AttitudeToModel::AttitudeToModel(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Create Stratigraphic Model from one attitude",
                                                                          "Create Stratigraphic Model from one attitude",
