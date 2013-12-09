@@ -4,7 +4,7 @@
 
 #include <ccPointCloud.h>
 
-#include <qGEO.h>
+#include <vombat.h>
 
 #include <ccGLWindow.h>
 
@@ -40,7 +40,7 @@ int CloudToPlanarSelection::openInputDialog()
     this->setShowProgressBar(false);
 
 
-    ccHObject::Container cont = qGEO::theInstance()->getSelectedKindOf(CC_POINT_CLOUD);
+    ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_POINT_CLOUD);
 
     if (cont.size() == 0)
         return -1;
@@ -77,7 +77,7 @@ int CloudToPlanarSelection::openInputDialog()
 //    if(!cloud)
 //        return -1;
 
-//    qGEO * interface = static_cast<qGEO *> (this->getParentPlugin());
+//    vombat * interface = static_cast<vombat *> (this->getParentPlugin());
 
 //    MainWindow * mainw = static_cast<MainWindow *> (interface->getMainAppInterface());
 
@@ -99,7 +99,7 @@ int CloudToPlanarSelection::openInputDialog()
 
 
 
-//    qGEO * interface = static_cast<qGEO *> (this->getParentPlugin());
+//    vombat * interface = static_cast<vombat *> (this->getParentPlugin());
 
 
 //    MainWindow * mainw = static_cast<MainWindow *> (interface->getMainAppInterface());
@@ -141,7 +141,7 @@ int CloudToPlanarSelection::openInputDialog()
 
 int CloudToPlanarSelection::checkParameters()
 {
-    ccHObject::Container cont = qGEO::theInstance()->getSelectedKindOf(CC_POINT_CLOUD);
+    ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_POINT_CLOUD);
 
     if (cont.size() == 0)
         return -1;
@@ -153,7 +153,7 @@ int CloudToPlanarSelection::checkParameters()
 //{
 
 
-//    qGEO * interface = static_cast<qGEO *> (this->getParentPlugin());
+//    vombat * interface = static_cast<vombat *> (this->getParentPlugin());
 
 
 //    MainWindow * mainw = static_cast<MainWindow *> (interface->getMainAppInterface());

@@ -20,7 +20,7 @@
 
 #include <ccOutOfCore/ccTimeSeriesGenerator.h>
 #include <ccOutOfCore/ccTimeSeries.h>
-#include <qGEO.h>
+#include <vombat.h>
 
 #include <visualization/PlotterWidget.h>
 #include <visualization/PlotterDlg.h>
@@ -37,7 +37,7 @@ SetUpNewSeries::SetUpNewSeries(ccPluginInterface * parent_plugin): BaseFilter(Fi
 {
     this->setShowProgressBar(false);
 
-    PlotterWidget * plotter = qGEO::theInstance()->getPlotterDlg()->getPlotterWidget();
+    PlotterWidget * plotter = vombat::theInstance()->getPlotterDlg()->getPlotterWidget();
     //    connect(this, SIGNAL(newSeries(ccTimeSeries)), plotter, SLOT(handleNewTimeSeries(ccTimeSeries)));
 
 }
@@ -137,7 +137,7 @@ int SetUpNewSeries::openOutputDialog()
     ccTimeSeries * series = new ccTimeSeries(ts);
 
 
-    qGEO::theInstance()->getPlotterDlg()->getPlotterWidget()->handleNewTimeSeries(series);
+    vombat::theInstance()->getPlotterDlg()->getPlotterWidget()->handleNewTimeSeries(series);
     emit newEntity(series);
 
 

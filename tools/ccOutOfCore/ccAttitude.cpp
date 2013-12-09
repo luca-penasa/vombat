@@ -46,7 +46,7 @@ void ccAttitude::initParameters()
 void ccAttitude::initMetadata()
 {
     QVariant var("An attitude of a geologic plane in space");
-    setMetaData(QString("[qGEO][ccAttitude]"), var);
+    setMetaData(QString("[vombat][ccAttitude]"), var);
 }
 
 void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)

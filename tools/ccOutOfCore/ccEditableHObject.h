@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <iostream>
-#include <qGEO.h>
+#include <vombat.h>
 
 class ccEditableHObject
 {
@@ -43,7 +43,7 @@ public:
             updateEditDlg(); // do the update
             if (m_edit_dlg_is_freezes_ui)
             {
-                    qGEO::theInstance()->getMainAppInterface()->freezeUI(true);
+                    vombat::theInstance()->getMainAppInterface()->freezeUI(true);
                     m_edit_dlg->show();
             }
             else

@@ -1,41 +1,36 @@
 cmake_minimum_required(VERSION 2.8)
-project(qGEO)
+project(vombat)
 
 include(cmake/macros.cmake)
 
 
 set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++11 -fopenmp -fPIC" )
 
-add_definitions(-DQGEO)
+add_definitions("")
+
+set(VOMBAT_MODULES) #this will collect all the modular libs needed by vombat
+set(VOMBAT_INCLUDE_DIRS)
 
 
 ########################## USER-OPTIONS ############################
 set(CC_BUILD_DIR "/home/luca/Code/CC_git_clean/build" CACHE STRING "Dir with CloudCompare build")
 set(CC_SOURCE_DIR "/home/luca/Code/CC_git_clean" CACHE STRING "Dir with CloudCompare souces")
-set(QGEO_INSTALL_DIR "/home/luca/apps/bin/plugins" CACHE STRING "Where to intall the qGEO plugin")
+set(VOMBAT_INSTALL_DIR "/home/luca/apps/bin/plugins" CACHE STRING "Where to intall the vombat plugin")
 ####################################################################
 
 
 #################### SPC ###########################################
+#it also automatically find PCL and other required libraries
 find_package(SPC 0.1.0 REQUIRED)
-
 include_directories(${SPC_INCLUDE_DIRS})
+message(${SPC_INCLUDE_DIRS})
 link_directories(${SPC_LIBRARY_DIRS})
+add_definitions(${SPC_DEFINITIONS})
 ####################################################################
 
 
-################### PCL #############################################
-find_package(PCL 1.2 REQUIRED)
-
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
-
-########################################################################
-
-
 ################### QT4 ##################################################
-find_package(Qt4 4 COMPONENTS REQUIRED)
+find_package(Qt4 REQUIRED)
 set(QT_USE_QTOPENGL TRUE)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
@@ -79,41 +74,46 @@ link_directories(${CC_LIBRARIES_DIR})
 
 ################## VOMBAT THINGS #################################
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tools)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/visualization)
-
 
 #for mocketized files
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/tools)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/tools/dialogs)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
 #################################################################
+
+#add_vombat_subdirectory(tools)
+#add_vombat_subdirectory(visualization)
+
+#message("** COMPILING WITH MODULES: ${VOMBAT_MODULES}")
+
+
+#compile_vombat_submodule(tools)
+#compile_vombat_submodule(visualization)
+
+#link_install_vombat_submodule(tools)
+#link_install_vombat_submodule(visualization)
+
+add_vombat_subdir(tools)
+add_vombat_subdir(visualization)
+
+include_directories("${VOMBAT_INCLUDE_DIRS}")
 
 add_subdirectory(tools)
 add_subdirectory(visualization)
 
 
-#file( GLOB header_list *.h)
-#file( GLOB source_list *.cpp)
-#file( GLOB ui_list *.ui )
-#file( GLOB qrc_list *.qrc )
-#file( GLOB rc_list *.rc )
 
-set(header_list qGEO.h)
-set(source_list qGEO.cpp)
-set(qrc_list qGEO.qrc)
+################ PLUGIN ITSELF ############################
+set(header_list vombat.h)
+set(source_list vombat.cpp)
+set(qrc_list vombat.qrc)
 
-# find Qt mocable files
-#find_mocable_files( mocable_list ${header_list} )
 qt4_wrap_cpp( moc_list ${header_list} )
-#QT4_WRAP_UI( generated_ui_list ${ui_list} )
 QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
+############################################################
 
+message("modules: ${VOMBAT_MODULES}" )
 
 add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} PclUtils qGEOTools qGEOVis ${SPC_LIBRARIES} ${PCL_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
+target_link_libraries(${PROJECT_NAME} PclUtils ${VOMBAT_MODULES} ${SPC_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${QGEO_INSTALL_DIR})
+install(TARGETS ${PROJECT_NAME} DESTINATION ${VOMBAT_INSTALL_DIR})

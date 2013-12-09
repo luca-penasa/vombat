@@ -1,4 +1,4 @@
-#include "qGEO.h"
+#include "vombat.h"
 
 
 #include <ccPointCloud.h>
@@ -22,14 +22,14 @@
 #include <PlotterDlg.h>
 
 
-static qGEO * qgeo_instance = 0;
+static vombat * qgeo_instance = 0;
 
-qGEO::qGEO()
+vombat::vombat()
 {
     qgeo_instance = this;
 }
 
-qGEO::~qGEO()
+vombat::~vombat()
 {
 	while (!m_filters.empty())
 	{
@@ -38,7 +38,7 @@ qGEO::~qGEO()
 	}
 }
 
-void qGEO::handleNewEntity(ccHObject* entity)
+void vombat::handleNewEntity(ccHObject* entity)
 {
 	assert(entity && m_app);
     entity->setSelected(true);
@@ -47,7 +47,7 @@ void qGEO::handleNewEntity(ccHObject* entity)
 
 }
 
-void qGEO::handleEntityChange(ccHObject* entity)
+void vombat::handleEntityChange(ccHObject* entity)
 {
 	assert(entity && m_app);
 	entity->prepareDisplayForRefresh_recursive();
@@ -55,14 +55,14 @@ void qGEO::handleEntityChange(ccHObject* entity)
 	m_app->updateUI();
 }
 
-void qGEO::handleErrorMessage(QString message)
+void vombat::handleErrorMessage(QString message)
 {
 	assert(m_app);
 
 	m_app->dispToConsole(qPrintable(message),ccMainAppInterface::ERR_CONSOLE_MESSAGE);
 }
 
-void qGEO::getActions(QActionGroup& group)
+void vombat::getActions(QActionGroup& group)
 {
     if (m_filters.empty())
     {
@@ -94,7 +94,7 @@ void qGEO::getActions(QActionGroup& group)
         group.addAction((*it)->getAction());
 }
 
-int qGEO::addFilter(BaseFilter * filter)
+int vombat::addFilter(BaseFilter * filter)
 {
     assert(filter);
     filter->setMainAppInterface(m_app);
@@ -119,12 +119,12 @@ int qGEO::addFilter(BaseFilter * filter)
 
 
 
-ccHObject::Container qGEO::getSelected() const
+ccHObject::Container vombat::getSelected() const
 {
     return m_selected;
 }
 
-ccHObject::Container qGEO::getSelectedThatHaveMetaData(const QString key) const
+ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) const
 {
     ccHObject::Container sel = getSelected();
     ccHObject::Container new_sel;
@@ -140,27 +140,27 @@ ccHObject::Container qGEO::getSelectedThatHaveMetaData(const QString key) const
 
 }
 
-ccHObject::Container qGEO::getSelectedThatAre(CC_CLASS_ENUM ThisType) const
+ccHObject::Container vombat::getSelectedThatAre(CC_CLASS_ENUM ThisType) const
 {
     ccHObject::Container sel = getSelected(); // all selected  
 
-    ccHObject::Container out = qGEO::filterObjectsByType(sel, ThisType);
+    ccHObject::Container out = vombat::filterObjectsByType(sel, ThisType);
 
     return out;
 
 }
 
-ccHObject::Container qGEO::getSelectedKindOf(CC_CLASS_ENUM ThisType)
+ccHObject::Container vombat::getSelectedKindOf(CC_CLASS_ENUM ThisType)
 {
     ccHObject::Container sel = getSelected(); // all selected
 
-    ccHObject::Container out = qGEO::filterObjectsByKind(sel, ThisType);
+    ccHObject::Container out = vombat::filterObjectsByKind(sel, ThisType);
 
     return out;
 
 }
 
-ccHObject::Container qGEO::filterObjectsByType(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType)
+ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType)
 {
     if (in.empty())
         return in;
@@ -177,7 +177,7 @@ ccHObject::Container qGEO::filterObjectsByType(const ccHObject::Container &in, c
     return out;
 }
 
-ccHObject::Container qGEO::filterObjectsByKind(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType)
+ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType)
 {
     if (in.empty())
         return in;
@@ -194,22 +194,22 @@ ccHObject::Container qGEO::filterObjectsByKind(const ccHObject::Container &in, c
     return out;
 }
 
-ccHObject::Container qGEO::getAllObjectsInTreeThatHaveMetaData( const QString key)
+ccHObject::Container vombat::getAllObjectsInTreeThatHaveMetaData( const QString key)
 {
 
     ccHObject::Container all = this->getAllObjectsInTree();
 
-    return qGEO::filterObjectsByMetaData(all, key);
+    return vombat::filterObjectsByMetaData(all, key);
 }
 
-ccHObject::Container qGEO::getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType)
+ccHObject::Container vombat::getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType)
 {
     ccHObject::Container all = getAllObjectsInTree();
     std::cout << "in tree " <<  all.size() << std::endl;
-    return qGEO::filterObjectsByType(all, ThisType);
+    return vombat::filterObjectsByType(all, ThisType);
 }
 
-ccHObject::Container qGEO::getAllChildren(ccHObject *object)
+ccHObject::Container vombat::getAllChildren(ccHObject *object)
 {
     int n = object->getChildrenNumber();
     ccHObject::Container cont;
@@ -220,7 +220,7 @@ ccHObject::Container qGEO::getAllChildren(ccHObject *object)
     return cont;
 }
 
-ccHObject::Container qGEO::filterObjectsByMetaData(const ccHObject::Container &in, const QString key)
+ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container &in, const QString key)
 {
     ccHObject::Container out;
     for (ccHObject * obj: in)
@@ -234,7 +234,7 @@ ccHObject::Container qGEO::filterObjectsByMetaData(const ccHObject::Container &i
     return out;
 }
 
-ccHObject::Container qGEO::getAllObjectsInTree()
+ccHObject::Container vombat::getAllObjectsInTree()
 {
 //    ccHObject::Container cont;
 
@@ -260,7 +260,7 @@ ccHObject::Container qGEO::getAllObjectsInTree()
 }
 
 
-void qGEO::onNewSelection(const ccHObject::Container& selectedEntities)
+void vombat::onNewSelection(const ccHObject::Container& selectedEntities)
 {
     for (unsigned i=0;i<m_filters.size();++i)
         m_filters[i]->updateSelectedEntities(selectedEntities);
@@ -270,22 +270,22 @@ void qGEO::onNewSelection(const ccHObject::Container& selectedEntities)
     emit selectionChanged(m_selected);
 }
 
-QIcon qGEO::getIcon() const
+QIcon vombat::getIcon() const
 {
-    return QIcon(QString::fromUtf8(":/toolbar/qGEO.png"));
+    return QIcon(QString::fromUtf8(":/toolbar/vombat.png"));
 }
 
-qGEO *qGEO::theInstance()
+vombat *vombat::theInstance()
 {
     return qgeo_instance;
 }
 
-QMainWindow *qGEO::getMainWindow()
+QMainWindow *vombat::getMainWindow()
 {
     return getMainAppInterface()->getMainWindow();
 }
 
-PlotterDlg *qGEO::getPlotterDlg()
+PlotterDlg *vombat::getPlotterDlg()
 {
     for (BaseFilter * f: m_filters)
     {
@@ -302,4 +302,4 @@ PlotterDlg *qGEO::getPlotterDlg()
 
 //plugin export
 Q_EXPORT_PLUGIN2
-(qGEO,qGEO)
+(vombat,vombat)

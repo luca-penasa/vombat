@@ -18,5 +18,5 @@ ccTimeSeries::ccTimeSeries(const spc::EquallySpacedTimeSeries<float> &other) : s
 void ccTimeSeries::initMetaData()
 {
     QVariant var(QString("Is a time Series"));
-    setMetaData(QString("[qGEO][ccTimeSeries]"), var);
+    setMetaData(QString("[vombat][ccTimeSeries]"), var);
 }

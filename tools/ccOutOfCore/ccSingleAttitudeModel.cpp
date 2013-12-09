@@ -187,7 +187,7 @@ void ccSingleAttitudeModel::initMetadata()
 {
     QVariant var(QString("A stratigrahic model"));
 
-    setMetaData(QString("[qGEO][ccSingleAttitudeModel]"), var);
+    setMetaData(QString("[vombat][ccSingleAttitudeModel]"), var);
 }
 
 void ccSingleAttitudeModel::initParameters()

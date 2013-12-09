@@ -3,7 +3,7 @@
 
 #include <ccOutOfCore/ccTimeSeriesGenerator.h>
 
-#include <qGEO.h>
+#include <vombat.h>
 
 
 
@@ -17,7 +17,7 @@ ComputeTimeSeriesDlg::ComputeTimeSeriesDlg(QWidget *parent) :
 
 
     connect(this->ui->comboCloud, SIGNAL(currentIndexChanged(int)), this, SLOT(updateScalarFields(int)));
-//    connect(qGEO::theInstance(), SIGNAL(selectionChanged(ccHObject::Container&)), this, SLOT(updateWithSelected(ccHObject::Container&)) ) ;
+//    connect(vombat::theInstance(), SIGNAL(selectionChanged(ccHObject::Container&)), this, SLOT(updateWithSelected(ccHObject::Container&)) ) ;
 
 }
 
@@ -106,8 +106,8 @@ void ComputeTimeSeriesDlg::updateScalarFields(int id)
 
 void ComputeTimeSeriesDlg::updateWithSelected(ccHObject::Container & selected)
 {
-    ccHObject::Container clouds  = qGEO::theInstance()->getSelectedThatAre(CC_POINT_CLOUD);
-    ccHObject::Container models  = qGEO::theInstance()->getSelectedThatHaveMetaData("[qGEO][ccSingleAttitudeModel]");
+    ccHObject::Container clouds  = vombat::theInstance()->getSelectedThatAre(CC_POINT_CLOUD);
+    ccHObject::Container models  = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat][ccSingleAttitudeModel]");
 
     std::cout << clouds.size() << std::endl;
     std::cout << models.size() << std::endl;
@@ -124,15 +124,15 @@ void ComputeTimeSeriesDlg::updateWithSelected(ccHObject::Container & selected)
 
 void ComputeTimeSeriesDlg::initWithTree()
 {
-    qGEO * qgeo = qGEO::theInstance(); //get the plutign intself
+    vombat * qgeo = vombat::theInstance(); //get the plutign intself
 
     ccHObject::Container clouds = qgeo->getAllObjectsInTreeThatAre(CC_POINT_CLOUD);
 
     std::cout << "found " << clouds.size() << " clouds" << std::endl;
-    ccHObject::Container models  = qgeo->getAllObjectsInTreeThatHaveMetaData("[qGEO][ccSingleAttitudeModel]");
+    ccHObject::Container models  = qgeo->getAllObjectsInTreeThatHaveMetaData("[vombat][ccSingleAttitudeModel]");
 
 
-    ccHObject::Container selections  = qgeo->getAllObjectsInTreeThatHaveMetaData("[qGEO][ccPlanarSelection]");
+    ccHObject::Container selections  = qgeo->getAllObjectsInTreeThatHaveMetaData("[vombat][ccPlanarSelection]");
 
     setInputClouds(clouds);
     setInputAreas(selections);

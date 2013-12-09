@@ -1,5 +1,5 @@
-#ifndef QGEO_PLOTSCONTAINER_H
-#define QGEO_PLOTSCONTAINER_H
+#ifndef VOMBAT_PLOTSCONTAINER_H
+#define VOMBAT_PLOTSCONTAINER_H
 
 #include "qcustomplot.h"
 
@@ -40,4 +40,4 @@ protected:
 
 };
 
-#endif // QGEO_PLOTSCONTAINER_H
+#endif // VOMBAT_PLOTSCONTAINER_H

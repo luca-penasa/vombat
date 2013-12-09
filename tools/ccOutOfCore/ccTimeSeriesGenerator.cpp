@@ -6,7 +6,7 @@ ccTimeSeriesGenerator::ccTimeSeriesGenerator()
 {
 
     QVariant var(QString("Permits to compute time series from cloud, scalar field and model"));
-    setMetaData(QString("[qGEO][TimeSeriesGenerator]"), var);
+    setMetaData(QString("[vombat][TimeSeriesGenerator]"), var);
 }
 
 void ccTimeSeriesGenerator::initEditDlg()

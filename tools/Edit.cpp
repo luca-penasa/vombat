@@ -6,7 +6,7 @@
 
 #include <iostream> // for debug
 
-#include <qGEO.h>
+#include <vombat.h>
 
 Edit::Edit(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Edit selected element",
                                                                          "Edit selected element",
@@ -36,7 +36,7 @@ int Edit::compute()
 int Edit::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->hasMetaData("[qGEO]"))
+    if (selected && selected->hasMetaData("[vombat]"))
     {
 
         ccMyBaseObject * mobj = static_cast<ccMyBaseObject * >(selected);

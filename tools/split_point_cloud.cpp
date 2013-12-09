@@ -43,14 +43,14 @@ SplitPointCloud::compute()
     std::string sf_name = sf_desc.name.toStdString();
 
 
-    spc::PointCloud2Reader * reader = new spc::PointCloud2Reader(cloud);
+//    spc::PointCloud2Reader * reader = new spc::PointCloud2Reader(cloud);
 
     float width = m_dialog->doubleSpinBox_width->value();
     float step = m_dialog->doubleSpinBox_step->value();
     int min_points = m_dialog->spinBox_min_points->value();
 
     spc::CloudSerializedSlicerOnField splitter;
-    splitter.setInputReader(reader);
+//    splitter.setInputReader(reader);
     splitter.setFieldName(sf_name);
     splitter.setSliceStep(step);
     splitter.setSliceWidth(width);

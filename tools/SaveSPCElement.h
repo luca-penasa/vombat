@@ -2,7 +2,7 @@
 #define SAVE_SPC_ELEMENT_H
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <qGEO.h>
+#include <vombat.h>
 #include <dialogs/Composer.h>
 #include <spc/elements/element_base.h>
 
@@ -34,7 +34,7 @@ public:
             return 1;
 
         // get all qgeo-valid objects that are also selected
-        ccHObject::Container all = qGEO::theInstance()->getSelectedThatHaveMetaData("[qGEO]");
+        ccHObject::Container all = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat]");
 
         for (ccHObject * obj: all)
         {
@@ -90,7 +90,7 @@ public:
 
     virtual int checkSelected()
     {
-        ccHObject::Container qua = qGEO::theInstance()->getSelectedThatHaveMetaData("[qGEO]");
+        ccHObject::Container qua = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat]");
 
         if (qua.size() > 0)
         {

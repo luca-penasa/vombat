@@ -4,7 +4,7 @@ ccPlanarSelection::ccPlanarSelection()
 {
 
     QVariant var("An area selection");
-    setMetaData(QString("[qGEO][ccPlanarSelection]"), var);
+    setMetaData(QString("[vombat][ccPlanarSelection]"), var);
 
     m_foreground = false;
     m_width  = 0.0;

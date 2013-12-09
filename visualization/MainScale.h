@@ -1,5 +1,5 @@
-#ifndef QGEO_MAINSCALE_H
-#define QGEO_MAINSCALE_H
+#ifndef VOMBAT_MAINSCALE_H
+#define VOMBAT_MAINSCALE_H
 
 #include "qcustomplot.h"
 
@@ -23,4 +23,4 @@ protected:
 //    QCPAxis * m_bottom_axis;
 };
 
-#endif // QGEO_MAINSCALE_H
+#endif // VOMBAT_MAINSCALE_H

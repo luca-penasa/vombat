@@ -14,7 +14,7 @@ class QMenu;
 class OpenPlotsDialog;
 
 //! PCL bridge plugin
-class qGEO : public QObject, public ccStdPluginInterface
+class vombat : public QObject, public ccStdPluginInterface
 {
     Q_OBJECT
     Q_INTERFACES(ccStdPluginInterface)
@@ -23,17 +23,17 @@ class qGEO : public QObject, public ccStdPluginInterface
 
 public:
     //! Default constructor
-    qGEO();
+    vombat();
 
     //!Destructor
-    virtual ~qGEO();
+    virtual ~vombat();
 
 
-    virtual QString getName() const { return "qGEO"; }
+    virtual QString getName() const { return "vombat"; }
     virtual QString getDescription() const { return "Geologic stuff for qCC"; }
     virtual QIcon getIcon() const;
 
-    static qGEO *theInstance();
+    static vombat *theInstance();
 
     QString getErrorMessage(int errorCode/*, LANGUAGE lang*/);
 

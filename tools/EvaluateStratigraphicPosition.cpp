@@ -10,7 +10,7 @@
 
 #include <iostream> // for debug
 
-#include <qGEO.h>
+#include <vombat.h>
 
 EvaluateStratigraphicPosition::EvaluateStratigraphicPosition(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Evaluate Stratigraphic Position",
                                                                          "Evaluate the stratiraphic position for the current clodus",
@@ -90,7 +90,7 @@ int EvaluateStratigraphicPosition::openInputDialog()
         m_dialog= new FastCloudSelectionDlg;
 
     ccHObject::Container selected;
-    getAllEntitiesThatHaveMetaData(QString("[qGEO][ccSinglePlaneStratigraphicModel]"), selected);
+    getAllEntitiesThatHaveMetaData(QString("[vombat][ccSinglePlaneStratigraphicModel]"), selected);
 
     m_dialog->updateList(selected);
 

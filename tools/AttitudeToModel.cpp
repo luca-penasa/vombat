@@ -5,7 +5,7 @@
 
 #include <iostream> // for debug
 
-#include <qGEO.h>
+#include <vombat.h>
 
 AttitudeToModel::AttitudeToModel(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Create Stratigraphic Model from one attitude",
                                                                          "Create Stratigraphic Model from one attitude",
@@ -34,7 +34,7 @@ int AttitudeToModel::compute()
 
 //    selected->addChild(model);
 
-//    qGEO::theInstance()->getMainAppInterface()->dbRootObject()->updateModificationTime();
+//    vombat::theInstance()->getMainAppInterface()->dbRootObject()->updateModificationTime();
     newEntity(model);
 
 
@@ -48,7 +48,7 @@ int AttitudeToModel::compute()
 int AttitudeToModel::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->hasMetaData("[qGEO][ccAttitude]"))
+    if (selected && selected->hasMetaData("[vombat][ccAttitude]"))
         return 1;
     else
         return 0;

@@ -17,15 +17,11 @@ protected:
 
     virtual int checkSelected();
 
+    virtual int openInputDialog();
+
+    virtual int openOutputDialog();
 
     ComputeTimeSeriesDlg * m_dialog;
-
-    virtual int
-    openInputDialog();
-
-    virtual int
-    openOutputDialog();
-
 
 };
 

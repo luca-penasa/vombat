@@ -2,8 +2,8 @@
 
 ccMyBaseObject::ccMyBaseObject()
 {
-    QVariant var(QString("QGEO plugin object"));
-    setMetaData(QString("[qGEO]"), var);
+    QVariant var(QString("VOMBAT plugin object"));
+    setMetaData(QString("[vombat]"), var);
 }
 
 

@@ -1,5 +1,5 @@
-#ifndef QGEO_PLOTTER_H
-#define QGEO_PLOTTER_H
+#ifndef VOMBAT_PLOTTER_H
+#define VOMBAT_PLOTTER_H
 
 #include "qcustomplot.h"
 #include "MainScale.h"
@@ -74,4 +74,4 @@ protected:
 
 };
 
-#endif // QGEO_PLOTTER_H
+#endif // VOMBAT_PLOTTER_H
