@@ -9,22 +9,30 @@
 #include <spc/elements/generic_cloud.h>
 
 
-template <typename inCloudT>
-class CloudWrapper: public spc::spcGenericCloud
+
+class spcCCPointCloud: public spc::spcGenericCloud
 {
 public:
-    CloudWrapper(inCloudT *cloud)
+
+    typedef boost::shared_ptr<spcCCPointCloud> Ptr;
+    typedef boost::shared_ptr<const spcCCPointCloud> ConstPtr;
+
+    spcCCPointCloud(ccPointCloud *cloud)
     {
         in_cloud  = cloud;
     }
 
-    virtual void getPoint (const int id, float &x, float &y, float &z);
+    virtual void getPoint (const int id, float &x, float &y, float &z) const;
 
     virtual void getFieldValue(const int id, const std::string fieldname,  float &val);
 
     virtual int getSize() const;
 
-    inCloudT * in_cloud;
+    virtual bool hasField(const std::string fieldname);
+
+
+protected:
+    ccPointCloud * in_cloud;
 };
 
 

@@ -3,17 +3,28 @@
 
 
 
-ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation):
-    spcAttitude(asEigenVector(orientation), asEigenVector(center))
+ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 {
+
+    spc::spcAttitude att = spc::spcAttitude(asEigenVector(orientation), asEigenVector(center));
+    setAttitude(att);
+
     initMetadata();
     initParameters();
 }
 
 
 
-ccAttitude::ccAttitude(spc::spcAttitude att): spc::spcAttitude(att)
+ccAttitude::ccAttitude(spc::spcAttitude att)
 {    
+    setAttitude(att);
+    initMetadata();
+    initParameters();
+}
+
+ccAttitude::ccAttitude(spc::spcAttitude::Ptr att_ptr)
+{
+    setAttitude(att_ptr);
     initMetadata();
     initParameters();
 }
@@ -21,13 +32,14 @@ ccAttitude::ccAttitude(spc::spcAttitude att): spc::spcAttitude(att)
 
 ccAttitude::ccAttitude()
 {
+    setAttitude(spc::spcAttitude::Ptr(new spc::spcAttitude));
     initMetadata();
     initParameters();
 }
 
 ccBBox ccAttitude::getMyOwnBB()
 {
-    CCVector3 center (position_.data());
+    CCVector3 center (getAttitude()->getPosition().data());
     CCVector3 min_corner(center - m_scale * 0.5 * m_scale_factor);
     CCVector3 max_corner(center + m_scale * 0.5* m_scale_factor);
     ccBBox box(min_corner, max_corner);
@@ -40,7 +52,7 @@ void ccAttitude::initParameters()
     m_scale_factor = 20;
     m_width = 4;
     m_scale = 0.0;
-//    m_oldTransform.toIdentity();
+    //    m_oldTransform.toIdentity();
 }
 
 void ccAttitude::initMetadata()
@@ -76,17 +88,17 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
         else
             glColor3ubv(ccColor::green);
 
-        Vector3f pos = position_;
+        Vector3f pos = getAttitude()->getPosition();
 
-        Vector3f dip_v = this->getDipVector();
-        Vector3f strike_v = this->getStrikeVector();
+        Vector3f dip_v = getAttitude()->getDipVector();
+        Vector3f strike_v = getAttitude()->getStrikeVector();
 
 
         Vector3f arr_shaft = pos + dip_v * m_scale * m_scale_factor ;
         Vector3f strike_dir = pos + strike_v * m_scale * 0.5 * m_scale_factor ;
         Vector3f s_opp = pos - strike_v * m_scale * 0.5* m_scale_factor;
 
-        context._win->display3DLabel(getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
+        context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
 
 
         glBegin(GL_LINES);
@@ -117,19 +129,19 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 void ccAttitude::applyGLTransformation(const ccGLMatrix &trans)
 {
 
-//    std::cout << " called apply gl trans" << std::endl;
-//    Vector3f p = getPosition();
-//    Vector3f n = getNormal();
+    //    std::cout << " called apply gl trans" << std::endl;
+    //    Vector3f p = getPosition();
+    //    Vector3f n = getNormal();
 
 
-//    CCVector3 position (p(0), p(1), p(2));
-//    CCVector3 normal (n(0), n(1), n(2));
+    //    CCVector3 position (p(0), p(1), p(2));
+    //    CCVector3 normal (n(0), n(1), n(2));
 
-//    trans.apply(position);
-//    trans.transposed().applyRotation(normal);
+    //    trans.apply(position);
+    //    trans.transposed().applyRotation(normal);
 
-//    this->setNormal(Vector3f(normal.x, normal.y, normal.z));
-//    this->setPosition(Vector3f(position.x, position.y, position.z ));
+    //    this->setNormal(Vector3f(normal.x, normal.y, normal.z));
+    //    this->setPosition(Vector3f(position.x, position.y, position.z ));
 
 
 
@@ -137,11 +149,11 @@ void ccAttitude::applyGLTransformation(const ccGLMatrix &trans)
 
 void ccAttitude::setGLTransformation(const ccGLMatrix &trans)
 {
-//    ccGLMatrix oldmatrix = m_oldTransform;
-//    ccGLMatrix newmatrix =  oldmatrix.inverse() * trans ;
+    //    ccGLMatrix oldmatrix = m_oldTransform;
+    //    ccGLMatrix newmatrix =  oldmatrix.inverse() * trans ;
 
-//    applyGLTransformation(newmatrix);
-//    m_oldTransform = trans;
+    //    applyGLTransformation(newmatrix);
+    //    m_oldTransform = trans;
 
 }
 

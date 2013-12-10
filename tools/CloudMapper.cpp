@@ -1,7 +1,7 @@
 #include "CloudMapper.h"
 
-template<>
-void CloudWrapper<ccPointCloud>::getPoint(int id, float &x, float &y, float &z)
+
+void spcCCPointCloud::getPoint(int id, float &x, float &y, float &z) const
 {
     assert(id < in_cloud->size());
     CCVector3 point;
@@ -11,8 +11,8 @@ void CloudWrapper<ccPointCloud>::getPoint(int id, float &x, float &y, float &z)
     z = point.z;
 }
 
-template<>
-void CloudWrapper<ccPointCloud>::getFieldValue(const int id, const std::string fieldname, float &val)
+
+void spcCCPointCloud::getFieldValue(const int id, const std::string fieldname, float &val)
 {
     int field_id = in_cloud->getScalarFieldIndexByName(fieldname.c_str());
 
@@ -24,33 +24,20 @@ void CloudWrapper<ccPointCloud>::getFieldValue(const int id, const std::string f
 }
 
 
-template<>
-void CloudWrapper<pcl::PointCloud<pcl::PointXYZ> >::getFieldValue(const int id, const std::string fieldname, float &val)
+bool spcCCPointCloud::hasField(const std::string fieldname)
 {
-    /// NOTHING
-    std::cout << "error in CloudMapper field does not exists!" << std::endl;
-    return;
+    int id =  in_cloud->getScalarFieldIndexByName(fieldname.c_str());
+    if (id < 0)
+        return false;
+    else
+        return -1;
 }
 
-template<>
-int CloudWrapper<ccPointCloud>::getSize() const
+
+
+
+
+int spcCCPointCloud::getSize() const
 {
     return in_cloud->size();
-}
-
-template<>
-int CloudWrapper<pcl::PointCloud<pcl::PointXYZ>>::getSize() const
-{
-    return in_cloud->size();
-}
-
-template<>
-void CloudWrapper<pcl::PointCloud<pcl::PointXYZ>>::getPoint(int id, float &x, float &y, float &z)
-{
-    assert(id < in_cloud->size());
-//also assert we have xyz fields!!!
-    pcl::PointXYZ point= in_cloud->at(id);
-    x = point.x;
-    y = point.y;
-    z = point.z;
 }

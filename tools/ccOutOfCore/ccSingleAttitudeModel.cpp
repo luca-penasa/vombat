@@ -5,21 +5,34 @@
 ccSingleAttitudeModel::ccSingleAttitudeModel()
 {
 
+    m_attitude_model = spc::spcSingleAttitudeModel::Ptr(new spc::spcSingleAttitudeModel);
     initMetadata();
     initParameters();
 }
 
 
 
-ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &model): spc::spcSingleAttitudeModel(model)
+ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &model)
 {
+    m_attitude_model = model.getModel(); //copy the model
     initMetadata();
     initParameters();
 
 }
 
-ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::spcAttitude &att): spc::spcSingleAttitudeModel(att)
+ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::spcAttitude &att)
 {
+//    spc::spcAttitude::Ptr at_ptr =
+    m_attitude_model = spc::spcSingleAttitudeModel::Ptr(new spc::spcSingleAttitudeModel(att));
+
+    initMetadata();
+    initParameters();
+}
+
+ccSingleAttitudeModel::ccSingleAttitudeModel(const ccAttitude & att)
+{
+    m_attitude_model = spc::spcSingleAttitudeModel::Ptr(new spc::spcSingleAttitudeModel(att.getAttitude()));
+
     initMetadata();
     initParameters();
 }
@@ -62,8 +75,8 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
         else
             glColor3ubv(ccColor::blue);
 
-        Eigen::Vector3f start = this->getPointAtStratigraphicPosition(m_min_sp);
-        Eigen::Vector3f end = this->getPointAtStratigraphicPosition(m_max_sp);
+        Eigen::Vector3f start = getModel()->getPointAtStratigraphicPosition(m_min_sp);
+        Eigen::Vector3f end = getModel()->getPointAtStratigraphicPosition(m_max_sp);
 
 
         glBegin(GL_LINES);
@@ -221,13 +234,13 @@ void ccSingleAttitudeModel::updateMajorBreaks()
     while (curr_pos <= m_max_sp)
     {
         m_breaks.push_back(curr_pos);
-        m_major_thicks_positions.push_back(this->getPointAtStratigraphicPosition(curr_pos));
+        m_major_thicks_positions.push_back(getModel()->getPointAtStratigraphicPosition(curr_pos));
 
         curr_pos +=m_step;
     }
 
     // also update the vector representing a major thick
-    m_major_thicks_vector = getAttitude()->getDipVector() * m_major_thicks_length;
+    m_major_thicks_vector = getModel()->getAttitude()->getDipVector() * m_major_thicks_length;
 
 }
 

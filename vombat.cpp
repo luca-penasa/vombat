@@ -78,6 +78,7 @@ void vombat::getActions(QActionGroup& group)
         addFilter(new SetUpNewSeries(this));
         addFilter(new SaveSPCElement(this));
         addFilter(new LoadSPCElement(this));
+        addFilter(new Test(this));
 
 
 //        addFilter( new ComputeStratigraphicPosition(this) );

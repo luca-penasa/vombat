@@ -10,10 +10,7 @@ ccTimeSeries::ccTimeSeries(const ccTimeSeries &other): spc::EquallySpacedTimeSer
     initMetaData();
 }
 
-ccTimeSeries::ccTimeSeries(const spc::EquallySpacedTimeSeries<float> &other) : spc::EquallySpacedTimeSeries<float>(other)
-{
-    initMetaData();
-}
+
 
 void ccTimeSeries::initMetaData()
 {

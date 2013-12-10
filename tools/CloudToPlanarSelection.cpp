@@ -54,8 +54,8 @@ int CloudToPlanarSelection::openInputDialog()
 
     cc2smReader reader;
     reader.setInputCloud((ccPointCloud *)verts);
-    pcl::PointCloud<pcl::PointXYZ> pcl_verts;
-    reader.getXYZ(pcl_verts);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_verts (new pcl::PointCloud<pcl::PointXYZ>);
+    reader.getXYZ(*pcl_verts);
 
     pcl::console::setVerbosityLevel(pcl::console::L_DEBUG);
 

@@ -1,73 +1,48 @@
-//#include <test.h>
-//#include <plotter.h>
+#include <test.h>
+
+#include <spc/methods/time_series_generator.h>
+#include <spc/stratigraphy/single_attitude_model.h>
+#include <vombat.h>
 
 
-////#include <cc2DPlotWindow.h>
-
-
-//#include <ccStructuredReferenceImage.h>
-
-
-
-//Test::Test() : BaseFilter(FilterDescription(   "Test",
-//                                             "Test",
-//                                             "test",
-//                                             ":/toolbar/icons/time_series.png") )
-//{
+Test::Test(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Test",
+                                                                               "Test",
+                                                                               "test",
+                                                                               ":/toolbar/icons/time_series.png"), parent_plugin )
+{
 
 
 
-//};
+}
 
-//int Test::compute()
-//{
-////  QDialog * dialog = new QDialog;
-////  QVBoxLayout *mainLayout = new QVBoxLayout;
+int Test::compute()
+{
 
-////  QProgressBar * bar = new QProgressBar;
-////  cc2DPlotWindow * plotter = new cc2DPlotWindow;
-////  plotter->show();
-////  dialog->setLayout(mainLayout);
-////  mainLayout->addWidget(plotter);
-////  dialog->show();
+//    spc::TimeSeriesGenerator generator;
 
+//    spc::spcPCLCloud<pcl::PointXYZ>::Ptr cloud (new spc::spcPCLCloud<pcl::PointXYZ>);
 
-//    //ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
-////    ccStructuredReferenceImage referencer;
+//    cloud->resize(100);
+//    for (int i = 0 ; i < cloud->size(); ++i)
+//    {
+//        cloud->at(i).x = i*0.2;
+//        cloud->at(i).y = i*0.4;
+//        cloud->at(i).z = i*0.1;
+//    }
 
-////    referencer.setXStep(0.001);
-////        referencer.setYStep(0.001);
-////        referencer.setZStep(0.001);
+//    spc::spcSingleAttitudeModel::Ptr model(new  spc::spcSingleAttitudeModel);
+//    generator.setInputCloud(cloud);
+//    generator.setLogFieldName("z");
+//    generator.setStratigraphicModel(model);
+//    generator.compute();
 
-////        referencer.setBoundingBoxFromCloud(cloud);
-
-////        referencer.updateAllPixelsCentersFromBB();
-
-
-////        std::cout << "MAPPING..." << std::endl;
-////        CloudToImageMapping map = referencer.computeMappingForCloud(cloud);
-
-////        std::cout << "To Image..." << std::endl;
-////        vtkSmartPointer<vtkImageData> image = vtkSmartPointer<vtkImageData>::New();
-
-////        image = referencer.mapToImage(map, cloud);
-
-////        vtkSmartPointer<vtkDataSetWriter> w = vtkSmartPointer<vtkDataSetWriter>::New();
-////        w->SetInput(image);
-////        w->SetFileName("/home/luca/Desktop/tmp.vtk");
-////        w->Write();
+//    ccLog::Print("DONE!");
 
 
+    return 1;
+}
 
-
-
-
-
-
-//  return 1;
-//};
-
-//int Test::checkSelected()
-//{
-//  return 1;
-//}
+int Test::checkSelected()
+{
+    return 1;
+}

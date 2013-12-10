@@ -51,7 +51,7 @@ BOOST_SERIALIZATION_SPLIT_FREE(QString)
 
 
 
-class ccMyBaseObject: public ccEditableHObject, public ccHObject, virtual public spc::spcCommon
+class ccMyBaseObject: public ccEditableHObject, public ccHObject
 {
                                  public:
                                  ///
@@ -76,42 +76,7 @@ void serialize(Archive &ar, const unsigned int version)
     ar & BOOST_SERIALIZATION_NVP(m_showNameIn3D);
     ar & BOOST_SERIALIZATION_NVP(m_name);
 
-    //        //'visible' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_visible,sizeof(bool))<0)
-    //            return WriteError();
-    //        //'lockedVisibility' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_lockedVisibility,sizeof(bool))<0)
-    //            return WriteError();
-    //        //'colorsDisplayed' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_colorsDisplayed,sizeof(bool))<0)
-    //            return WriteError();
-    //        //'normalsDisplayed' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_normalsDisplayed,sizeof(bool))<0)
-    //            return WriteError();
-    //        //'sfDisplayed' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_sfDisplayed,sizeof(bool))<0)
-    //            return WriteError();
-    //        //'colorIsOverriden' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_colorIsOverriden,sizeof(bool))<0)
-    //            return WriteError();
-    //        if (m_colorIsOverriden)
-    //        {
-    //            //'tempColor' (dataVersion>=20)
-    //            if (out.write((const char*)m_tempColor,sizeof(colorType)*3)<0)
-    //                return WriteError();
-    //        }
-    //        //'glTransEnabled' state (dataVersion>=20)
-    //        if (out.write((const char*)&m_glTransEnabled,sizeof(bool))<0)
-    //            return WriteError();
-    //        if (m_glTransEnabled)
-    //            if (!m_glTrans.toFile(out))
-    //                return false;
 
-    //        //'showNameIn3D' state (dataVersion>=24)
-    //        if (out.write((const char*)&m_showNameIn3D,sizeof(bool))<0)
-    //            return WriteError();
-
-    //        return true;
 
 }
 

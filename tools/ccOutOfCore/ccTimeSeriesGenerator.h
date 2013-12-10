@@ -5,7 +5,7 @@
 #include <spc/methods/time_series_generator.h>
 #include <QIcon>
 
-class ccTimeSeriesGenerator: public ccMyBaseObject, public spc::TimeSeriesGenerator<float>
+class ccTimeSeriesGenerator: public ccMyBaseObject, public spc::TimeSeriesGenerator
 {
 public:
     ccTimeSeriesGenerator();

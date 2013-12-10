@@ -16,8 +16,11 @@
 
 #include <spc/elements/salvable_object.h> //needed to serialize Vector3f
 #include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
-class ccSingleAttitudeModel: public QObject,  public ccMyBaseObject, public spc::spcSingleAttitudeModel
+#include <ccOutOfCore/ccAttitude.h>
+
+class ccSingleAttitudeModel: public QObject,  public ccMyBaseObject
 {
     Q_OBJECT
 
@@ -32,10 +35,13 @@ public:
 
     ccSingleAttitudeModel(const spc::spcAttitude & att);
 
-    spc::spcSingleAttitudeModel::Ptr asSPCClass()
+    ccSingleAttitudeModel(const ccAttitude & att);
+
+
+
+    spc::spcSingleAttitudeModel::Ptr getModel() const
     {
-        spc::spcSingleAttitudeModel * spcPtr =  static_cast<spc::spcSingleAttitudeModel *> (this);
-        return boost::make_shared<spc::spcSingleAttitudeModel>(*spcPtr);
+        return m_attitude_model;
     }
 
 
@@ -78,7 +84,7 @@ public slots:
     void setAdditionalShiftSlot(double additional_shift)
     {
         std::cout << "alled with " << additional_shift << std::endl;
-        setAdditionalShift((float) additional_shift);
+        m_attitude_model->setAdditionalShift((float) additional_shift);
         updateMajorBreaks();
     }
 
@@ -89,6 +95,8 @@ signals:
 
 
 protected:
+
+
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
 
@@ -127,9 +135,8 @@ protected:
         ar & BOOST_SERIALIZATION_NVP(m_major_thicks_positions);
         ar & BOOST_SERIALIZATION_NVP(m_major_thicks_vector);
         ar & BOOST_SERIALIZATION_NVP(m_dynamic_scale);
+        ar & BOOST_SERIALIZATION_NVP(m_attitude_model);
 
-
-        ar & boost::serialization::make_nvp("spcSingleAttitudeModel", boost::serialization::base_object<spc::spcSingleAttitudeModel> (*this));
         ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
 
     }
@@ -142,6 +149,8 @@ protected:
     int m_line_width;
 
     float m_major_thicks_length;
+
+    spc::spcSingleAttitudeModel::Ptr m_attitude_model;
 
 
     //// these for internal use only /////////////////

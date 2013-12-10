@@ -24,7 +24,7 @@ public:
 public slots:
     void stratShiftChanged(double val)
     {
-        m_model->setAdditionalShift((float)val);
+        m_model->getModel()->setAdditionalShift((float)val);
         m_model->updateInternals();
         m_model->redrawDisplay();
     }
@@ -54,7 +54,7 @@ protected:
 
     void initFromModel()
     {
-        ui->spinStratShift->setValue((double) m_model->getAdditionalShift());
+        ui->spinStratShift->setValue((double) m_model->getModel()->getAdditionalShift());
         ui->spinMaxSP->setValue((double) m_model->getMaxSp());
         ui->spinMinSP->setValue((double) m_model->getMinSp());
     }

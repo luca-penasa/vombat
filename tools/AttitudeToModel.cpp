@@ -22,13 +22,15 @@ int AttitudeToModel::compute()
 
     ccHObject * selected = getSelectedEntityAsCCHObject(); //we are sure it exists!
 
-    ccAttitude * att = static_cast<ccAttitude *> (selected);
+    ccAttitude * att =dynamic_cast<ccAttitude *> (selected);
 
     if (!att)
     {
         std::cout << "NOT DEFINED" << std::endl;
         return -1;
     }
+
+
 
     ccSingleAttitudeModel * model = new ccSingleAttitudeModel (*att);
 

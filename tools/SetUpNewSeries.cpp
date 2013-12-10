@@ -28,6 +28,8 @@
 
 #include <ccOutOfCore/ccPlanarSelection.h>
 
+#include <spc/io/time_series_writer.h>
+
 SetUpNewSeries::SetUpNewSeries(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Add a new time series generator",
                                                                                                    "Add a new time series generator",
                                                                                                    "Add a new time series generator",
@@ -77,64 +79,59 @@ int SetUpNewSeries::openOutputDialog()
     ccHObject * sel_obj = m_dialog->getSelectedArea();
 
 
-    std::cout << "mod " << mod_obj << std::endl;
-    std::cout << "cloud " << cloud_obj << std::endl;
-
-
-    std::cout << cloud_obj->getName().toStdString().c_str() << std::endl;
-    std::cout << mod_obj->getName().toStdString().c_str() << std::endl;
-
     ccPointCloud * cloud = static_cast<ccPointCloud *> (cloud_obj);
-
-
     ccSingleAttitudeModel * model  = static_cast<ccSingleAttitudeModel *> (mod_obj);
 
     if (!model || !cloud)
+    {
+        ccLog::Warning("Some error occured retrieving model and cloud");
         return -1;
+    }
 
-    //as shared ptr pointing to a genericloud
-    spc::spcGenericCloud::Ptr mycloud ( new CloudWrapper<ccPointCloud>(cloud));
+    //we wrap i in a nice container for SPC
+    spcCCPointCloud::Ptr mycloud ( new spcCCPointCloud(cloud));
 
-    pcl::console::setVerbosityLevel(pcl::console::L_DEBUG);
+    //set up a ts generator
+    spc::TimeSeriesGenerator generator;
 
-    spc::TimeSeriesGenerator<float> generator;
+    // extract a smaller area if necessary
     std::vector<int> indices;
     if (sel_obj)
     {
         ccPlanarSelection * selection = static_cast<ccPlanarSelection *> (sel_obj);
-
         selection->setInputCloud(mycloud);
         selection->updateIndices();
-
-        pcl::console::print_warn("found %i points after segmentation", indices.size());
-
+        indices = selection->getIndices();
         generator.setIndices(indices);
     }
 
-    // this will create a copy
-    spc::spcSingleAttitudeModel::Ptr ptr =  boost::make_shared<spc::spcSingleAttitudeModel>(*model);
-
-
-
     generator.setInputCloud(mycloud);
-    generator.setStratigraphicModel(ptr);
-    generator.setYFieldName(m_dialog->getSelectedScalarFieldName());
+    generator.setStratigraphicModel(model->getModel());
+    generator.setLogFieldName(m_dialog->getSelectedScalarFieldName());
     generator.setSamplingStep(m_dialog->getStep());
     generator.setBandwidth(m_dialog->getBandwidth());
-
 
     int status = generator.compute();
 
     if (status <= 0)
+    {
+        ccLog::Error("Some error computing the time series");
         return -1;
-
-
-    spc::EquallySpacedTimeSeries<float> ts;
-    generator.getOutputSeries(ts);
+    }
 
 
 
-    ccTimeSeries * series = new ccTimeSeries(ts);
+    spc::EquallySpacedTimeSeries<float>::Ptr ts = generator.getOutputSeries();
+
+
+    spc::TimeSeriesWriter<float> w;
+    w.setInputSeries(ts);
+    w.setFilename("/home/luca/series.txt");
+    w.writeAsciiAsSparse();
+
+    std::cout << ts->getMinX() << " " << ts->getMaxX() << std::endl;
+
+    ccTimeSeries * series = new ccTimeSeries(*ts);
 
 
     vombat::theInstance()->getPlotterDlg()->getPlotterWidget()->handleNewTimeSeries(series);

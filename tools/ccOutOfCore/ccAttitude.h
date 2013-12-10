@@ -11,6 +11,9 @@
 
 #include <ccOutOfCore/ccMyBaseObject.h>
 
+#include <boost/serialization/shared_ptr.hpp>
+
+
 
 #include <QIcon>
 
@@ -20,13 +23,15 @@
 ///
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
-class ccAttitude:public spc::spcAttitude,  public ccMyBaseObject
+class ccAttitude:  public ccMyBaseObject
 
 {
 public:
     ccAttitude(CCVector3 center, CCVector3 orientation);
 
     ccAttitude(spc::spcAttitude att);
+
+    ccAttitude(spc::spcAttitude::Ptr att_ptr);
 
     ccAttitude();
 
@@ -48,7 +53,7 @@ protected:
     //    void setAttitudeAsMetadata();
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
-    virtual void applyGLTransformation(const ccGLMatrix& trans) ;
+    virtual void applyGLTransformation(const ccGLMatrix& trans);
     virtual void setGLTransformation(const ccGLMatrix& trans);
 
 
@@ -60,9 +65,30 @@ protected:
 
     int m_width;
 
+
+    /// the attitude itself
+    spc::spcAttitude::Ptr m_attitude;
+
+public:
+    spc::spcAttitude::Ptr getAttitude() const
+    {
+        return m_attitude;
+    }
+
+    void setAttitude(spc::spcAttitude::Ptr att)
+    {
+        m_attitude = att;
+    }
+
+    void setAttitude(spc::spcAttitude att)
+    {
+        spc::spcAttitude::Ptr at_ptr = boost::make_shared<spc::spcAttitude> (att);
+        setAttitude(at_ptr);
+    }
+
     //    ccGLMatrix m_oldTransform;
 
-
+protected:
     static Eigen::Vector3f asEigenVector(CCVector3 v)
     {
         return Eigen::Vector3f (v.x, v.y, v.z); //we should make a MAP instead than a copy!
@@ -81,7 +107,7 @@ protected:
     {
         ar & BOOST_SERIALIZATION_NVP(m_scale);
         ar & BOOST_SERIALIZATION_NVP(m_width);
-        ar & boost::serialization::make_nvp("spcAttitude", boost::serialization::base_object<spc::spcAttitude> (*this));
+        ar & BOOST_SERIALIZATION_NVP(m_attitude);
         ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
 
     }

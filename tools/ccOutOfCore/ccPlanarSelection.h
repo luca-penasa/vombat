@@ -26,7 +26,7 @@ public:
         Vector4f mincorner;
         Vector4f maxcorner;
 
-        pcl::getMinMax3D(getVertices(), mincorner, maxcorner);
+        pcl::getMinMax3D(*getVertices(), mincorner, maxcorner);
 
         CCVector3 min = CCVector3(mincorner.data());
         CCVector3 max = CCVector3(maxcorner.data());
@@ -41,7 +41,7 @@ public:
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context)
     {
-        unsigned vertCount = getVertices().size();
+        unsigned vertCount = getVertices()->size();
         if (vertCount < 2)
             return;
 
@@ -56,7 +56,7 @@ public:
 
         glBegin(GL_LINE_LOOP);
 
-        for (auto p: getVertices())
+        for (auto &p: *getVertices())
             ccGL::Vertex3v(p.data);
 
 

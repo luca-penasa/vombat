@@ -14,7 +14,10 @@ public:
 
     ccTimeSeries(const ccTimeSeries & other);
 
-    ccTimeSeries(const spc::EquallySpacedTimeSeries<float> &other);
+    ccTimeSeries(const spc::EquallySpacedTimeSeries<float> &other) : spc::EquallySpacedTimeSeries<float>(other)
+    {
+        initMetaData();
+    }
 
     virtual QIcon * getIcon() const
     {
