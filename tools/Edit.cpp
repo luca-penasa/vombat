@@ -1,6 +1,6 @@
 #include "Edit.h"
-#include <ccOutOfCore/ccAttitude.h>
-#include <ccOutOfCore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccAttitude.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 #include <spc/stratigraphy/single_attitude_model.h>
 

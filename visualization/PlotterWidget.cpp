@@ -28,7 +28,7 @@ PlotterWidget::PlotterWidget(QWidget *parent): QCustomPlot(parent), m_main_scale
 
 //    spc::ContinousValuesLog * log =  new spc::ContinousValuesLog;
 //    log->resize(100);
-//    for(int i = 0 ; i < log->getSize(); ++i)
+//    for(int i = 0 ; i < log->size(); ++i)
 //        log->setValue(i, i);
 
 //    sp->updateDataWith(log);
@@ -78,16 +78,17 @@ void PlotterWidget::saveAllSeries()
         }
 
 
-        auto x = ts->getX();
-        auto y = ts->getY();
-        for (int i = 0 ; i < ts->getNumberOfSamples(); ++i)
+        std::vector<float> x = ts->getTimeSeries()->getX();
+        std::vector<float> y = ts->getTimeSeries()->getY();
+
+        for (int i = 0 ; i < ts->getTimeSeries()->getNumberOfSamples(); ++i)
         {
             std::cout << x.at(i) << " " << y.at(i) << std::endl;
         }
 
         std::cout << "saving time series" << std::endl;
 
-        writer.setInputSeries(spc::GenericTimeSeries<float>::Ptr(ts));
+        writer.setInputSeries(ts->getTimeSeries());
 
         writer.setFilename(fname);
 

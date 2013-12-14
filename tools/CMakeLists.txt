@@ -1,2 +1,2 @@
 find_relevant_files_recursive()
-compile_vombat_submodule(vombat_visualization)
+compile_vombat_submodule("vombat_visualization;vombat_dialogs")

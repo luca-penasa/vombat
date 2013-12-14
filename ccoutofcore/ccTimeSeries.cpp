@@ -1,16 +1,13 @@
 #include "ccTimeSeries.h"
+#include <QIcon>
+#include <spc/time_series/base_time_series.h>
 
-ccTimeSeries::ccTimeSeries()
+
+ccTimeSeries::ccTimeSeries(spc::GenericTimeSeries<float>::Ptr series)
 {
     initMetaData();
+    series_ = series;
 }
-
-ccTimeSeries::ccTimeSeries(const ccTimeSeries &other): spc::EquallySpacedTimeSeries<float>(other)
-{
-    initMetaData();
-}
-
-
 
 void ccTimeSeries::initMetaData()
 {

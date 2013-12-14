@@ -3,10 +3,11 @@
 
 
 #include <spc/elements/spcPlanarSelection.h>
-#include <ccOutOfCore/ccMyBaseObject.h>
+#include <ccoutofcore/ccMyBaseObject.h>
 #include <ccPolyline.h>
 #include <pcl/common/common.h>
 #include <pcl/filters/extract_indices.h>
+#include <boost/foreach.hpp>
 
 class ccPlanarSelection: public ccMyBaseObject, public spc::spcPlanarSelection
 {
@@ -56,9 +57,10 @@ public:
 
         glBegin(GL_LINE_LOOP);
 
-        for (auto &p: *getVertices())
+        BOOST_FOREACH( pcl::PointXYZ p, *getVertices())
+        {
             ccGL::Vertex3v(p.data);
-
+        }
 
         glEnd();
 

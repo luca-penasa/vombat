@@ -1,7 +1,7 @@
 #include "EvaluateStratigraphicPosition.h"
 
-//#include <ccOutOfCore/ccMyCCHObject.h>
-//#include <ccOutOfCore/ccAdditionalCaster.h>
+//#include <ccoutofcore/ccMyCCHObject.h>
+//#include <ccoutofcore/ccAdditionalCaster.h>
 
 #include <qPCL/PclUtils/utils/cc2sm.h>
 
@@ -11,6 +11,9 @@
 #include <iostream> // for debug
 
 #include <vombat.h>
+
+#include <spcCCPointCloud.h>
+#include <boost/foreach.hpp>
 
 EvaluateStratigraphicPosition::EvaluateStratigraphicPosition(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Evaluate Stratigraphic Position",
                                                                          "Evaluate the stratiraphic position for the current clodus",
@@ -36,18 +39,14 @@ int EvaluateStratigraphicPosition::compute()
 //    spc::StratigraphicModelBase::Ptr m_base_ptr = boost::make_shared<spc::StratigraphicModelBase> (*m_base);
 
     //for each cloud compute a scalar field! and add it to the pertinent cloud
-    for (ccHObject * obj: clouds)
+    BOOST_FOREACH(ccHObject * obj, clouds)
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
-        cc2smReader reader;
-        reader.setInputCloud(cloud);
-
-        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_pcl = pcl::PointCloud<pcl::PointXYZ>::Ptr( new pcl::PointCloud<pcl::PointXYZ>);
-        reader.getXYZ(*cloud_pcl);
+        spcCCPointCloud::Ptr ptr (new spcCCPointCloud  (cloud) );
 
         spc::StratigraphicEvaluator evaluator;
-        evaluator.setInputCloud(cloud_pcl);
-//        evaluator.setInputModel(m_base);
+        evaluator.setInputCloud(ptr);
+
         evaluator.compute();
 
         std::vector<float> scalars = evaluator.getOutput();
@@ -57,9 +56,10 @@ int EvaluateStratigraphicPosition::compute()
         sf->reserve(cloud->size());
 
         int counter = 0;
-        for (float f : scalars)
+        BOOST_FOREACH(float f , scalars)
+        {
             sf->setValue(counter++, f);
-
+        }
         sf->computeMinAndMax();
 
         int index = cloud->getScalarFieldIndexByName(sf->getName());

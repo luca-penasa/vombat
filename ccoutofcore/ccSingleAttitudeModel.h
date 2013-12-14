@@ -6,11 +6,11 @@
 #include <spc/stratigraphy/single_attitude_model.h>
 
 #include <ccCylinder.h>
-#include <ccOutOfCore/ccEditableHObject.h>
+#include <ccoutofcore/ccEditableHObject.h>
 
 #include <QDialog>
 
-#include <ccOutOfCore/ccMyBaseObject.h>
+#include <ccoutofcore/ccMyBaseObject.h>
 #include <QIcon>
 #include <ccPointCloud.h>
 
@@ -18,7 +18,7 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
-#include <ccOutOfCore/ccAttitude.h>
+#include <ccoutofcore/ccAttitude.h>
 
 class ccSingleAttitudeModel: public QObject,  public ccMyBaseObject
 {

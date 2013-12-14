@@ -2,14 +2,14 @@
 
 #include <dialogs/ccTimeSeriesGeneratorEditorDlg.h>
 
-//#include <ccOutOfCore/ccMyCCHObject.h>
-//#include <ccOutOfCore/ccAdditionalCaster.h>
+//#include <ccoutofcore/ccMyCCHObject.h>
+//#include <ccoutofcore/ccAdditionalCaster.h>
 
 //#include <spc/geology/stratigraphic_model_base.h>
-#include <ccOutOfCore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 #include <ccHObjectCaster.h>
-#include <CloudMapper.h>
+#include <spcCCPointCloud.h>
 
 #include <iostream>
 #include <qPCL/PclUtils/utils/cc2sm.h>
@@ -18,15 +18,15 @@
 
 #include <spc/methods/time_series_generator.h>
 
-#include <ccOutOfCore/ccTimeSeriesGenerator.h>
-#include <ccOutOfCore/ccTimeSeries.h>
+#include <ccoutofcore/ccTimeSeriesGenerator.h>
+#include <ccoutofcore/ccTimeSeries.h>
 #include <vombat.h>
 
 #include <visualization/PlotterWidget.h>
 #include <visualization/PlotterDlg.h>
 #include <OpenPlotsDialog.h>
 
-#include <ccOutOfCore/ccPlanarSelection.h>
+#include <ccoutofcore/ccPlanarSelection.h>
 
 #include <spc/io/time_series_writer.h>
 
@@ -131,7 +131,7 @@ int SetUpNewSeries::openOutputDialog()
 
     std::cout << ts->getMinX() << " " << ts->getMaxX() << std::endl;
 
-    ccTimeSeries * series = new ccTimeSeries(*ts);
+    ccTimeSeries * series = new ccTimeSeries(ts);
 
 
     vombat::theInstance()->getPlotterDlg()->getPlotterWidget()->handleNewTimeSeries(series);

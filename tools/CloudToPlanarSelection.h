@@ -1,5 +1,5 @@
-#ifndef DEFINE2DSELECTION_H
-#define DEFINE2DSELECTION_H
+#ifndef CLOUDTOPLANARSELECTION_H
+#define CLOUDTOPLANARSELECTION_H
 
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>

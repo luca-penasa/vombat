@@ -1,11 +1,17 @@
 #include "AttitudeToModel.h"
-#include <ccOutOfCore/ccAttitude.h>
-#include <ccOutOfCore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccAttitude.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 
 #include <iostream> // for debug
+#include <string>
 
 #include <vombat.h>
+
+
+
+
+
 
 AttitudeToModel::AttitudeToModel(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Create Stratigraphic Model from one attitude",
                                                                          "Create Stratigraphic Model from one attitude",
@@ -18,6 +24,7 @@ this->setShowProgressBar(false);
 
 int AttitudeToModel::compute()
 {
+
 
 
     ccHObject * selected = getSelectedEntityAsCCHObject(); //we are sure it exists!

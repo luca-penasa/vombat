@@ -3,6 +3,9 @@
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 
+#include <spc/common/common.h>
+
+#include <spc/flann/flann1dsearcher.h>
 
 class QDialog;
 
@@ -12,16 +15,37 @@ class Test: public BaseFilter
 public:
     Test(ccPluginInterface * parent_plugin);
 protected:
-   virtual int compute();
-   virtual int checkSelected();
-   virtual int openOutputDialog()
-   {
+    virtual int compute()
+    {
+
         return 1;
-   }
+    }
+
+    virtual int checkSelected()
+    {
+        return 1;
+    }
+    virtual int openInputDialog()
+    {
+
+
+        std::vector<float> x(100);
+        for (int i =0 ; i < 100; ++i)
+            x.at(i) = 0.2;
+
+        Flann1DSearcher<float> ecco(x);
+
+
+          return 1;
+    }
+    virtual int openOutputDialog()
+    {
+        return 1;
+    }
 
 
 
- 
+
 
 };
 

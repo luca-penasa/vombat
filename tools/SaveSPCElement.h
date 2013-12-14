@@ -7,13 +7,15 @@
 #include <spc/elements/element_base.h>
 
 
-#include <ccOutOfCore/ccMyBaseObject.h>
-#include<ccOutOfCore/ccAttitude.h>
+#include <ccoutofcore/ccMyBaseObject.h>
+#include<ccoutofcore/ccAttitude.h>
 #include <boost/typeof/typeof.hpp>
 
 #include <spc/elements/spcSerializableContainer.h>
 
 #include <spc/io/element_io.h>
+
+#include <boost/foreach.hpp>
 
 
 
@@ -36,7 +38,7 @@ public:
         // get all qgeo-valid objects that are also selected
         ccHObject::Container all = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat]");
 
-        for (ccHObject * obj: all)
+        BOOST_FOREACH(ccHObject * obj, all)
         {
             std::cout << obj->getName().toStdString().c_str() << std::endl;
         }
@@ -45,7 +47,7 @@ public:
 
 
 
-        for (ccHObject * obj: all)
+        BOOST_FOREACH (ccHObject * obj, all)
         {
 
             spc::spcSerializableObject * element = dynamic_cast<spc::spcSerializableObject *> (obj);

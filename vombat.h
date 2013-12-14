@@ -12,6 +12,7 @@ class PlotterDlg;
 class QToolBar;
 class QMenu;
 class OpenPlotsDialog;
+class Plotter2DDlg;
 
 //! PCL bridge plugin
 class vombat : public QObject, public ccStdPluginInterface
@@ -52,6 +53,10 @@ public:
     QMainWindow * getMainWindow();
 
     PlotterDlg * getPlotterDlg();
+
+    Plotter2DDlg * getPlotter2DDlg();
+
+
 
 
 

@@ -4,7 +4,7 @@
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <dialogs/ccTimeSeriesGeneratorEditorDlg.h>
 
-#include <ccOutOfCore/ccTimeSeries.h>
+#include <ccoutofcore/ccTimeSeries.h>
 
 class SetUpNewSeries : public BaseFilter
 {

@@ -7,8 +7,8 @@
 #include <spc/elements/element_base.h>
 
 
-#include <ccOutOfCore/ccMyBaseObject.h>
-#include<ccOutOfCore/ccAttitude.h>
+#include <ccoutofcore/ccMyBaseObject.h>
+#include<ccoutofcore/ccAttitude.h>
 #include <boost/typeof/typeof.hpp>
 
 #include <spc/elements/spcSerializableContainer.h>

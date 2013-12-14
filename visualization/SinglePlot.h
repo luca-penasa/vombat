@@ -5,7 +5,7 @@
 
 #include <spc/elements/continous_values_stratigraphy.h>
 #include <spc/time_series/base_time_series.h>
-#include <ccOutOfCore/ccTimeSeries.h>
+#include <ccoutofcore/ccTimeSeries.h>
 
 class SinglePlot : public QCPAxisRect
 {

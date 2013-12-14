@@ -1,5 +1,6 @@
 #include "qtHelper.h"
 #include <boost/graph/graph_concepts.hpp>
+#include <boost/foreach.hpp>
 
 std::ostream&  operator<<(std::ostream& stream,ComboItemDescriptor ob)
 {
@@ -112,6 +113,13 @@ void ScalarFieldsComboBox::addItemsRGB(bool add_also_composite)
     }
 }
 
+std::string ScalarFieldsComboBox::getSelectedFiedName() const
+{
+    QString name = this->itemText(this->currentIndex());
+
+    return name.toStdString();
+}
+
 
 int
 ccVector3fromQstring(QString &string, CCVector3 &vector_output, QString separator)
@@ -197,7 +205,7 @@ void ObjectSelectionComboBox::updateObjects(ccHObject::Container &cont)
 
     m_container = cont;
 
-    for (ccHObject * obj : cont)
+    BOOST_FOREACH(ccHObject * obj , cont)
     {
         QString name = obj->getName();
         this->addItem(name);
@@ -217,7 +225,7 @@ void ObjectSelectionComboBox::updateObjects(ccHObject::Container &cont)
 bool ObjectSelectionComboBox::isPresentObjectWithID(const int id, int &position) const
 {
     position = 0;
-    for (ccHObject * obj: m_container)
+    BOOST_FOREACH (ccHObject * obj, m_container)
     {
         if (obj->getUniqueID() == id)
         {

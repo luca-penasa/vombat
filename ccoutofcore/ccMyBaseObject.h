@@ -1,7 +1,7 @@
 #ifndef CCMYBASEOBJECT_H
 #define CCMYBASEOBJECT_H
 
-#include <ccOutOfCore/ccEditableHObject.h>
+#include <ccoutofcore/ccEditableHObject.h>
 #include <ccHObject.h>
 #include <dialogs/ccTimeSeriesGeneratorEditorDlg.h>
 
@@ -79,6 +79,12 @@ void serialize(Archive &ar, const unsigned int version)
 
 
 }
+
+
+virtual bool isSerializable() const { return false; }
+
+virtual bool hasColors() const { return false; }
+
 
 
 };

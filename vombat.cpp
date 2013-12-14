@@ -17,9 +17,17 @@
 #include <SetUpNewSeries.h>
 #include <split_point_cloud.h>
 #include <OpenPlotsDialog.h>
+#include <OpenPlots2DDialog.h>
 #include <test.h>
 
+#include <SendTo2DPlot.h>
+
 #include <PlotterDlg.h>
+
+#include <CalibrateDevice.h>
+
+
+#include <boost/foreach.hpp>
 
 
 static vombat * qgeo_instance = 0;
@@ -73,13 +81,20 @@ void vombat::getActions(QActionGroup& group)
 
 
         addFilter(new OpenPlotsDialog(this));
+        addFilter(new OpenPlots2DDialog(this));
+
 //        m_plotter = openPlot->getPlotterDlg();
+
+
 
         addFilter(new SetUpNewSeries(this));
         addFilter(new SaveSPCElement(this));
         addFilter(new LoadSPCElement(this));
         addFilter(new Test(this));
 
+        addFilter(new CalibrateDevice(this));
+
+        addFilter(new SendTo2DPlot(this));
 
 //        addFilter( new ComputeStratigraphicPosition(this) );
 //        addFilter( new ComputeTimeSeries(this));
@@ -130,7 +145,7 @@ ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) cons
     ccHObject::Container sel = getSelected();
     ccHObject::Container new_sel;
 
-    for (ccHObject * obj: sel)
+    BOOST_FOREACH(ccHObject * obj, sel)
     {
         if (obj->hasMetaData(key))
             new_sel.push_back(obj);
@@ -167,7 +182,7 @@ ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in,
         return in;
 
     ccHObject::Container out;
-    for (ccHObject * obj: in)
+    BOOST_FOREACH(ccHObject * obj, in)
     {
         if (obj->isA(ThisType))
         {
@@ -184,7 +199,7 @@ ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in,
         return in;
 
     ccHObject::Container out;
-    for (ccHObject * obj: in)
+    BOOST_FOREACH (ccHObject * obj, in)
     {
         if (obj->isKindOf(ThisType))
         {
@@ -224,7 +239,7 @@ ccHObject::Container vombat::getAllChildren(ccHObject *object)
 ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container &in, const QString key)
 {
     ccHObject::Container out;
-    for (ccHObject * obj: in)
+   BOOST_FOREACH (ccHObject * obj, in)
     {
         if (obj->hasMetaData(key))
         {
@@ -254,8 +269,10 @@ ccHObject::Container vombat::getAllObjectsInTree()
 
         ccHObject::Container sons = getAllChildren(last);
 
-        for (ccHObject * obj: sons)
+        BOOST_FOREACH (ccHObject * obj, sons)
+        {
             tovisit.push_back(obj);
+        }
     }
     return out;
 }
@@ -288,13 +305,28 @@ QMainWindow *vombat::getMainWindow()
 
 PlotterDlg *vombat::getPlotterDlg()
 {
-    for (BaseFilter * f: m_filters)
+    BOOST_FOREACH(BaseFilter * f, m_filters)
     {
 //        OpenPlotsDialog * open_plot_filter = dynamic_cast<OpenPlotsDialog *>(f);
         if (typeid(*f) ==typeid(OpenPlotsDialog))
         {
             std::cout << "found!"<<std::endl;
             return static_cast<OpenPlotsDialog *> (f)->getPlotterDlg();
+        }
+
+    }
+    return 0;
+}
+
+Plotter2DDlg *vombat::getPlotter2DDlg()
+{
+    BOOST_FOREACH(BaseFilter * f, m_filters)
+    {
+//        OpenPlotsDialog * open_plot_filter = dynamic_cast<OpenPlotsDialog *>(f);
+        if (typeid(*f) ==typeid(OpenPlots2DDialog))
+        {
+            std::cout << "found!"<<std::endl;
+            return static_cast<OpenPlots2DDialog *> (f)->getPlotterDlg();
         }
 
     }

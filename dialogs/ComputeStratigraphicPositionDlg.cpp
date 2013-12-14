@@ -117,3 +117,14 @@ void ComputeStratigraphicPositionDlg::resetSelections()
 }
 
 
+
+
+ccPointCloud *ComputeStratigraphicPositionDlg::getSelectedCloud() {return m_selected_cloud;}
+
+QString ComputeStratigraphicPositionDlg::getNormalString() {return ui->normal_string->toPlainText();}
+
+double ComputeStratigraphicPositionDlg::getIntercept() {return ui->intercept->value();}
+
+double ComputeStratigraphicPositionDlg::getSP() {return ui->force_sp->value();}
+
+bool ComputeStratigraphicPositionDlg::getCrossSPCheckBox() {return ui->checkBoxNormalToStrata->isChecked();}

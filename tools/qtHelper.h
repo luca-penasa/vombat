@@ -44,6 +44,8 @@ public:
 
     void addItemsRGB(bool add_also_composite=true);
 
+    std::string getSelectedFiedName() const;
+
 
 };
 

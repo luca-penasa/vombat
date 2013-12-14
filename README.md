@@ -1,7 +1,7 @@
-SPC
-===
+VOMBAT
+=====
 
-**Stratigraphy from Point Clouds**
+**Virtual Outcrop Models Basic Analysis Tool**
 
 
 Introduction

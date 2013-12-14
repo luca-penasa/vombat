@@ -12,7 +12,7 @@
 
 #include <ccPolyline.h>
 
-#include <ccOutOfCore/ccPlanarSelection.h>
+#include <ccoutofcore/ccPlanarSelection.h>
 #include <iostream>
 #include <cc2DViewportLabel.h>
 

@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <boost/make_shared.hpp>
+#include <boost/foreach.hpp>
 
 SinglePlot::SinglePlot(QCustomPlot *parentPlot): QCPAxisRect(parentPlot, false)
 {
@@ -30,23 +31,27 @@ void SinglePlot::updateDataWith(const spc::ContinousValuesLog *log)
 
 void SinglePlot::updateDataWith(ccTimeSeries * tserie)
 {
-    auto depth = tserie->getX();
-    auto val = tserie->getY();
+    std::vector<float> depth = tserie->getTimeSeries()->getX();
+    std::vector<float> val = tserie->getTimeSeries()->getY();
 
     QVector<double> m_depth, m_values;
 
-    for (auto d: depth)
+    BOOST_FOREACH( float  d, depth)
+    {
         m_depth.append((double) d);
+    }
 
-    for (auto v: val)
+    BOOST_FOREACH( float v, val)
+    {
+
         m_values.append((double) v);
-
+    }
 
     updateGraphData(m_depth, m_values);
 
 
     /// keep a pointer to this time series (until class is destructed)
-        m_tseries = tserie;
+    m_tseries = tserie;
 
 }
 

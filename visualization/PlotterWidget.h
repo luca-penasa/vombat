@@ -4,7 +4,7 @@
 #include "qcustomplot.h"
 #include "MainScale.h"
 #include "PlotsContainer.h"
-#include <ccOutOfCore/ccTimeSeries.h>
+#include <ccoutofcore/ccTimeSeries.h>
 
 
 //// main plot widget

@@ -181,7 +181,7 @@ void PlotterDlg::addRandomContinousValuesLog()
 
     srand (time(NULL));
 
-    for (int i = 0; i < log->getSize(); ++i)
+    for (int i = 0; i < log->size(); ++i)
     {
         int r = rand() % 1000; //range 0-1000
 

@@ -18,5 +18,7 @@
         <file>icons/selection.png</file>
         <file>icons/load.png</file>
         <file>icons/save.png</file>
+        <file>icons/device.png</file>
+        <file>icons/2dplot.png</file>
     </qresource>
 </RCC>

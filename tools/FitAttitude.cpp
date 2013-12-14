@@ -2,15 +2,16 @@
 #include <qPCL/PclUtils/utils/cc2sm.h>
 
 
-#include <ccOutOfCore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 //#include <ccArrow.h>
 
 #include <ccHObjectCaster.h>
 
-#include <ccOutOfCore/ccAttitude.h>
+#include <ccoutofcore/ccAttitude.h>
 
 #include <spc/estimators/attitude_estimator.h>
+#include <boost/foreach.hpp>
 
 
 
@@ -31,7 +32,7 @@ FitAttitude::compute()
 
     //convert them to pcl point clouds
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds;
-    for (auto ent: entities)
+    BOOST_FOREACH( ccHObject * ent, entities)
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud( ent );
 
@@ -50,7 +51,7 @@ FitAttitude::compute()
     //set up an estimator
     spc::AttitudeEstimator estimator;
 
-    for (auto cloud: clouds) //add the single clouds
+    BOOST_FOREACH(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, clouds) //add the single clouds
     {
         estimator.addInputCloud(cloud);
 
@@ -76,10 +77,8 @@ FitAttitude::compute()
 
 
     //now for each entity we send back a ccOrientation for visualizing the result
-    for (spc::spcAttitude att: atts)
+    BOOST_FOREACH(spc::spcAttitude att, atts)
     {
-
-
         ccAttitude * ccAtt = new ccAttitude (att);
 
         std::cout <<"NORMAL: \n" << att.getUnitNormal() << std::endl;

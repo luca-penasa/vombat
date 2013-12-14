@@ -5,7 +5,7 @@
 #include <dialogs/FastCloudSelectionDlg.h>
 
 
-#include <ccOutOfCore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 
 class Edit : public BaseFilter

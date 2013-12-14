@@ -4,6 +4,7 @@
 #include "qcustomplot.h"
 
 #include "SinglePlot.h"
+#include <boost/foreach.hpp>
 
 /// a cointainer for gological plots!
 class PlotsContainer: public QCPLayoutGrid
@@ -31,8 +32,10 @@ public:
 
     void setDepthRangeForAllPlots(const float lower, const float upper)
     {
-        for (SinglePlot * plot: m_plots)
+        BOOST_FOREACH(SinglePlot * plot, m_plots)
+        {
             plot->setDepthRange(lower, upper);
+        }
     }
 
 protected:

@@ -24,12 +24,15 @@ public:
 
     virtual void getPoint (const int id, float &x, float &y, float &z) const;
 
+    virtual void setPoint(const int id, const float x, const float y, const float z);
+
     virtual void getFieldValue(const int id, const std::string fieldname,  float &val);
 
-    virtual int getSize() const;
+    virtual int size() const;
 
     virtual bool hasField(const std::string fieldname);
 
+    virtual void resize(size_t s);
 
 protected:
     ccPointCloud * in_cloud;

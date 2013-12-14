@@ -3,13 +3,16 @@
 
 #include <QDialog>
 
-#include <ui_ComputeStratigraphicPositionDlg.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
+#include <ui_ComputeStratigraphicPositionDlg.h>
+
 
 class BaseFilter;
 class ccHObject;
 class ccPointCloud;
+
+
 
 
 class ComputeStratigraphicPositionDlg : public QDialog, public Ui::ComputeStratigraphicPositionDlg
@@ -32,15 +35,15 @@ public:
     void resetSelections() ;
 
     method_type getMethod() {return m_method;}
-    ccPointCloud * getSelectedCloud() {return m_selected_cloud;}
+    ccPointCloud * getSelectedCloud();
 
-    QString getNormalString () {return ui->normal_string->toPlainText();}
+    QString getNormalString ();
 
-    double getIntercept () {return ui->intercept->value();}
+    double getIntercept ();
 
-    double getSP () {return ui->force_sp->value();}
+    double getSP ();
 
-    bool getCrossSPCheckBox () {return ui->checkBoxNormalToStrata->isChecked();}
+    bool getCrossSPCheckBox ();
 
 private slots:
 

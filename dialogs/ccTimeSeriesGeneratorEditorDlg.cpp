@@ -1,7 +1,7 @@
 #include "ccTimeSeriesGeneratorEditorDlg.h"
 #include "ui_ccTimeSeriesGeneratorEditorDlg.h"
 
-#include <ccOutOfCore/ccTimeSeriesGenerator.h>
+#include <ccoutofcore/ccTimeSeriesGenerator.h>
 
 #include <vombat.h>
 

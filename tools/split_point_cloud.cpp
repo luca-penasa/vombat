@@ -3,7 +3,7 @@
 #include <spc/io/pointcloud2_reader.h>
 #include <spc/methods/cloud_slicer.h>
 
-
+#include <boost/foreach.hpp>
 
 SplitPointCloud::SplitPointCloud( ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Split Point Clouds",
                                                                    "Split the cloud in slices using a scalar field",
@@ -56,7 +56,7 @@ SplitPointCloud::compute()
     splitter.setSliceWidth(width);
     splitter.compute();
 
-    auto ids = splitter.getOutputIndices();
+   std::vector< std::vector<int> > ids = splitter.getOutputIndices();
 
     QString container_name = QString("splits_w:") + QString::number(width, 'g', 2) + QString("_s:") + QString::number(step, 'g', 2);
     ccHObject * container = new ccHObject(container_name);
@@ -68,7 +68,7 @@ SplitPointCloud::compute()
         return -1;
     }
 
-    for (auto id : ids)
+    BOOST_FOREACH (std::vector<int> id , ids)
     {
         if (id.size() > min_points)
         {

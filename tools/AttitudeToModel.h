@@ -6,7 +6,7 @@
 
 #include <spc/stratigraphy/single_attitude_model.h>
 
-#include <ccOutOfCore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 
 class AttitudeToModel : public BaseFilter

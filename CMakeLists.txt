@@ -4,7 +4,8 @@ project(vombat)
 include(cmake/macros.cmake)
 
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++11 -fopenmp -fPIC" )
+#set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++0x -fopenmp -fPIC" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
 
 add_definitions("")
 
@@ -36,10 +37,6 @@ include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 ##########################################################################
-
-
-
-
 
 
 ######################## CLOUDCOMPARE THINGS ###########################
@@ -93,11 +90,20 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_vombat_subdir(tools)
 add_vombat_subdir(visualization)
+add_vombat_subdir(ccoutofcore)
+add_vombat_subdir(dialogs)
+add_vombat_subdir(plotter2d)
+
 
 include_directories("${VOMBAT_INCLUDE_DIRS}")
 
 add_subdirectory(tools)
 add_subdirectory(visualization)
+add_subdirectory(ccoutofcore)
+add_subdirectory(dialogs)
+add_subdirectory(plotter2d)
+
+
 
 
 
@@ -117,3 +123,6 @@ add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${
 target_link_libraries(${PROJECT_NAME} PclUtils ${VOMBAT_MODULES} ${SPC_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${VOMBAT_INSTALL_DIR})
+
+
+message("${CMAKE_CXX_FLAGS}" )

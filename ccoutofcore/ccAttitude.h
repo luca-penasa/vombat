@@ -9,7 +9,7 @@
 #include "ccNormalVectors.h"
 
 
-#include <ccOutOfCore/ccMyBaseObject.h>
+#include <ccoutofcore/ccMyBaseObject.h>
 
 #include <boost/serialization/shared_ptr.hpp>
 
@@ -36,7 +36,6 @@ public:
     ccAttitude();
 
     //inherited methods (ccHObject)
-    virtual bool isSerializable() const { return true; }
     virtual bool hasColors() const { return true; }
     virtual ccBBox getMyOwnBB();
 
