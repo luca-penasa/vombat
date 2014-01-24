@@ -27,6 +27,7 @@ EvaluateStratigraphicPosition::EvaluateStratigraphicPosition(ccPluginInterface *
 int EvaluateStratigraphicPosition::compute()
 {
 
+
     m_model = static_cast <ccSingleAttitudeModel *> (m_dialog->getSelectedObject());
 
     //now get the selected cloud (we are sure at least one exists - see checkSelected)
@@ -86,13 +87,27 @@ int EvaluateStratigraphicPosition::compute()
 
 int EvaluateStratigraphicPosition::openInputDialog()
 {
+
+
+
     if( !m_dialog)
         m_dialog= new FastCloudSelectionDlg;
+
+
 
     ccHObject::Container selected;
     getAllEntitiesThatHaveMetaData(QString("[vombat][ccSinglePlaneStratigraphicModel]"), selected);
 
+    std::cout << selected.size() << "N: " <<std::endl;
+
+
+
     m_dialog->updateList(selected);
+
+    std::cout << "computing start" << std::endl;
+
+
+
 
     return m_dialog->exec() ? 1 : 0;
 }

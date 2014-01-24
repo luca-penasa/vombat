@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include <spcCCPointCloud.h>
-
+#include <ccoutofcore/ccTimeSeries.h>
 CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription(   "Estimate the parameters for device calibration",
                                                                                                     "Estimate the parameters for device calibration",
                                                                                                     "Estimate the parameters for device calibration",
@@ -40,9 +40,20 @@ int CalibrateDevice::compute()
     calibrator.setIntensityField(intensity_n);
     calibrator.compute();
 
+
+
     spc::DiscretePointsCalibrationModel::Ptr model= calibrator.getModel();
 
+    spc::GenericTimeSeries<float>::Ptr ts = model->getTS();
+
+
+    ccTimeSeries * serie = new ccTimeSeries(ts);
+    serie->setName("CorrectionTS");
+
     ccCalibrationModel *  mod = new ccCalibrationModel(model);
+
+    mod->addChild(serie);
+
 
     newEntity(mod);
 
@@ -62,10 +73,9 @@ int CalibrateDevice::checkSelected()
 
 int CalibrateDevice::openInputDialog()
 {
-    if (!m_dialog)
-    {
-        m_dialog = new ccCalibrateDeviceDlg(0);
-    }
+
+    m_dialog = new ccCalibrateDeviceDlg(0);
+
 
     ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
 

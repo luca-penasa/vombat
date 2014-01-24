@@ -17,11 +17,13 @@
 #include <spc/estimators/attitude_estimator.h>
 
 
+#include <spcCCPointCloud.h>
+
 ComputeStratigraphicPosition::ComputeStratigraphicPosition(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Compute Stratigraphic Position",
                                                                                               "Compute Stratigraphic Position",
                                                                                               "For each point of the cloud compute its stratigraphic position",
                                                                                               ":/toolbar/icons/strat_pos.png")
-                                                                                                          , parent_plugin)
+                                                                                                          , parent_plugin),  m_obj(0)
 {
     m_dialog = 0;
 }
@@ -30,22 +32,33 @@ int
 ComputeStratigraphicPosition::openInputDialog()
 {
     if (!m_dialog)
-        m_dialog = new ComputeStratigraphicPositionDlg(0, this);
+        m_dialog = new ComputeStratigraphicPositionDlg(0);
 
-    m_dialog->resetSelections();
+
+
+//    m_dialog->comboBox->clear(); //clean up
+
+
+    ccHObject::Container objCont;
+    this->getAllEntitiesThatHaveMetaData("[vombat][ccSingleAttitudeModel]", objCont);
+
+    std::cout << "at opening" << std::endl;
+
+
+    //now use these object to populate the combo
+    m_dialog->comboBox->updateObjects(objCont);
+
+
+
+
 
     return m_dialog->exec() ? 1 : 0;
 }
 
 void
 ComputeStratigraphicPosition::getParametersFromDialog()
-{
-    m_parameters.method =  m_dialog->getMethod();
-    m_parameters.normal_string = m_dialog->getNormalString();
-    m_parameters.model_intercept = (float) m_dialog->getIntercept();
-    m_parameters.sp_value = (float) m_dialog->getSP();
-    m_parameters.cloud = m_dialog->getSelectedCloud();
-
+{    
+    m_obj = m_dialog->comboBox->getSelected();
 }
 
 
@@ -53,107 +66,35 @@ int
 ComputeStratigraphicPosition::compute()
 {
 
-//    ccPointCloud * in_cloud = getSelectedEntityAsCCPointCloud();
-//    if (!in_cloud)
-//        return 0;
+    if (!m_obj)
+        return 0;
 
-
-//    if (!validateParameters())
-//    {
-//        ccConsole::Error("Invalid Parameters!");
-//        return 0;
-//    }
-
-
-//    spc::SingleAttitudeModel::Ptr model = spc::SingleAttitudeModel::Ptr( new spc::SingleAttitudeModel);
-
-////    spc::SinglePlaneModelFromOneCloudEstimator estimator;
-
-
-//    switch(m_parameters.method)
-//    {
-//    case (ComputeStratigraphicPositionDlg::GIVE_NORMAL):
-//    {
-
-
-////        Vector4f pars;
-////        pars(3) = m_parameters.model_intercept;
-
-//        float x,y,z;
-//        x= m_parameters.normal_vector.x;
-//        y= m_parameters.normal_vector.y;
-//        z= m_parameters.normal_vector.z;
-
-//        Vector3f pars(x,y,z);
-
-
-//        model->setNormal(pars);
-
-//        ccConsole::Print("Using normal: %f, %f, %f", pars(0), pars(1), pars(2));
-//        break;
-
-//    }
-
-//    case (ComputeStratigraphicPositionDlg::ESTIMATE_NORMAL_WITH_CLOUD):
-//    {
-
-//        cc2smReader conv;
-//        conv.setInputCloud(m_parameters.cloud);
-//        pcl::PCLPointCloud2 sm_cloud = conv.getXYZ();
-//        pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud  (new pcl::PointCloud<pcl::PointXYZ>);
-//        pcl::fromROSMsg(sm_cloud, *pcl_cloud);
+    ccPointCloud * in_cloud = getSelectedEntityAsCCPointCloud();
+    if (!in_cloud)
+        return 0;
 
 
 
-//        float rms;
-//        //get an estimate of the normal
-//        spc::AttitudeEstimator estimator;
-//        estimator.addInputCloud(pcl_cloud);
-//        estimator.estimate();
-//        spc::spcAttitude att = estimator.getEstimatedAttitude();
 
-//        Vector3f n = att->getUnitNormal();
-//        ccConsole::Print("Fitted normal: %f, %f, %f", n(0),n(1),n(2));
-
-//        break;
+    spcCCPointCloud::Ptr  spcCloud = boost::shared_ptr<spcCCPointCloud> (new spcCCPointCloud (in_cloud));
 
 
-//    }
-//    } //end sw
+    spc::spcStratigraphicModelBase * modelBase = dynamic_cast<spc::spcStratigraphicModelBase *> (m_obj);
 
-//    //if normal to strata checkbox is toggled, compute an alternative normal
-//    if (m_dialog->getCrossSPCheckBox())
-//    {
-//        Eigen::Vector3f normal = model->getUnitNormal(); //get back the normal from model
-//        //we need to compute the cloud's best fit
-//        ccPlane * plane = ccPlane::Fit( in_cloud );
-//        CCVector3 N(plane->getGLTransformation().getColumn(2));
-//        Eigen::Vector3f cloud_normal;
-//        cloud_normal(0) = N[0];
-//        cloud_normal(1) = N[1];
-//        cloud_normal(2) = N[2];
+    if (!modelBase)
+        return 0;
 
-//        //cross product between the two
-//        auto new_normal = cloud_normal.cross(normal);
+    std::vector<float> sps = modelBase->getStratigraphicPositions(spcCloud);
 
-//        model->setNormal(new_normal);
-//    }
+    ccScalarField * field =  new ccScalarField;
+    field->setName("SP");
 
-//    ///NOTE we should use here a stratigraphic evaluator class to evaluate the scalar field!
-//    ccScalarField * sp_field = new ccScalarField;
-//    sp_field->reserve(in_cloud->size());
-//    for (int i = 0; i < in_cloud->size(); ++i)
-//    {
-//        CCVector3 p;
-//        in_cloud->getPoint(i, p);
+    for (int i =0; i < sps.size(); ++i)
+        field->addElement(sps.at(i));
 
-//        Eigen::Vector3f eigp (p[0], p[1], p[2]);
+    field->computeMinAndMax();
 
-//        float pos = model->getStratigraphicPosition(eigp);
-
-//        sp_field->setValue(i, pos);
-//    }
-
+    in_cloud->addScalarField(field);
 
 
 //    QString def_name = "Stratigraphic Position";
@@ -191,25 +132,4 @@ ComputeStratigraphicPosition::compute()
 
 }
 
-int
-ComputeStratigraphicPosition::validateParameters()
-{
-    switch (m_parameters.method)
-    {
-    case (ComputeStratigraphicPositionDlg::GIVE_NORMAL):
-    {
-        if(!ccVector3fromQstring(m_parameters.normal_string, m_parameters.normal_vector))
-            return 0;        
 
-        return 1;
-    }
-
-    case (ComputeStratigraphicPositionDlg::ESTIMATE_NORMAL_WITH_CLOUD):
-    {
-        if (!m_parameters.cloud)
-            return 0;
-
-        return 1;
-    }
-    }
-}

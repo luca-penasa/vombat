@@ -1,0 +1,3 @@
+[submodule "external/spc"]
+	path = external/spc
+	url = git@github.com:luca-penasa/spc.git

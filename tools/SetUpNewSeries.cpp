@@ -82,6 +82,10 @@ int SetUpNewSeries::openOutputDialog()
     ccPointCloud * cloud = static_cast<ccPointCloud *> (cloud_obj);
     ccSingleAttitudeModel * model  = static_cast<ccSingleAttitudeModel *> (mod_obj);
 
+
+
+
+
     if (!model || !cloud)
     {
         ccLog::Warning("Some error occured retrieving model and cloud");
@@ -90,6 +94,27 @@ int SetUpNewSeries::openOutputDialog()
 
     //we wrap i in a nice container for SPC
     spcCCPointCloud::Ptr mycloud ( new spcCCPointCloud(cloud));
+
+    //////////////////////// to be moved somewhere elese
+    std::vector<float> sps = model->getModel()->getStratigraphicPositions(mycloud);
+
+    ccScalarField * field =  new ccScalarField;
+    field->setName("Stratigraphic Position");
+
+    field->resize(sps.size());
+
+    for (int i = 0 ; i < sps.size(); ++i)
+    {
+        field->setValue(i, sps.at(i));
+    }
+
+
+    field->computeMinAndMax();
+
+
+    cloud->addScalarField(field);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     //set up a ts generator
     spc::TimeSeriesGenerator generator;
