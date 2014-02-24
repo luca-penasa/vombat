@@ -10,9 +10,9 @@ class ccTimeSeriesGenerator: public ccMyBaseObject, public spc::TimeSeriesGenera
 public:
     ccTimeSeriesGenerator();
 
-    virtual QIcon * getIcon() const
+    virtual QIcon getIcon() const
     {
-        return new QIcon(QString::fromUtf8(":/toolbar/icons/tseries_generator.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/tseries_generator.png"));
     }
 
 protected:

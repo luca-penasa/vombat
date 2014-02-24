@@ -25,8 +25,6 @@ FastCloudSelectionDlg::~FastCloudSelectionDlg()
 void
 FastCloudSelectionDlg::updateList(ccHObject::Container list)
 {    
-//    ui->objects_list->reset();
-
     ui->objects_list->clear();
     for (int i = 0; i < list.size(); ++i)
     {

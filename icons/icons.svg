@@ -18,6 +18,34 @@
    sodipodi:docname="icons.svg">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6792">
+      <stop
+         style="stop-color:#dd2a2b;stop-opacity:1"
+         offset="0"
+         id="stop6794" />
+      <stop
+         id="stop6840"
+         offset="0.22505786"
+         style="stop-color:#9dde67;stop-opacity:1" />
+      <stop
+         id="stop6838"
+         offset="0.46832323"
+         style="stop-color:#dacf2f;stop-opacity:1" />
+      <stop
+         id="stop6836"
+         offset="0.70830631"
+         style="stop-color:#ca4436;stop-opacity:1" />
+      <stop
+         id="stop6800"
+         offset="0.88277066"
+         style="stop-color:#000000;stop-opacity:1" />
+      <stop
+         style="stop-color:#3139ae;stop-opacity:1"
+         offset="1"
+         id="stop6796" />
+    </linearGradient>
     <marker
        inkscape:stockid="Arrow1Mstart"
        orient="auto"
@@ -68,6 +96,221 @@
        x2="140.21603"
        y2="1034.1776"
        gradientUnits="userSpaceOnUse" />
+    <clipPath
+       id="cp21">
+      <polygon
+         points="73,190 73,204 88,204 88,190 73,190 "
+         id="polygon1999" />
+    </clipPath>
+    <clipPath
+       id="cp19">
+      <polygon
+         points="73,190 73,204 88,204 88,190 73,190 "
+         id="polygon1977" />
+    </clipPath>
+    <clipPath
+       id="cp17">
+      <polygon
+         points="73,190 73,204 88,204 88,190 73,190 "
+         id="polygon1955" />
+    </clipPath>
+    <clipPath
+       id="cp15">
+      <polygon
+         points="74,190 74,204 95,204 95,190 74,190 "
+         id="polygon1931" />
+    </clipPath>
+    <clipPath
+       id="cp13">
+      <polygon
+         points="74,190 74,204 95,204 95,190 74,190 "
+         id="polygon1907" />
+    </clipPath>
+    <clipPath
+       id="cp11">
+      <polygon
+         points="73,190 73,203.563 88,203.563 88,190 73,190 "
+         id="polygon1889" />
+    </clipPath>
+    <clipPath
+       id="cp10">
+      <polygon
+         points="74,13 74,364 434,364 434,13 74,13 "
+         id="polygon1874" />
+    </clipPath>
+    <clipPath
+       id="cp9">
+      <polygon
+         points="73,190 73,203.563 88,203.563 88,190 73,190 "
+         id="polygon1867" />
+    </clipPath>
+    <clipPath
+       id="cp7">
+      <polygon
+         points="73,190 73,203.563 88,203.563 88,190 73,190 "
+         id="polygon1845" />
+    </clipPath>
+    <clipPath
+       id="cp5">
+      <polygon
+         points="73,190 73,203.563 95,203.563 95,190 73,190 "
+         id="polygon1821" />
+    </clipPath>
+    <clipPath
+       id="cp3">
+      <polygon
+         points="73,190 73,203.563 95,203.563 95,190 73,190 "
+         id="polygon1797" />
+    </clipPath>
+    <inkscape:perspective
+       id="perspective289"
+       inkscape:persp3d-origin="360 : 153.33333 : 1"
+       inkscape:vp_z="720 : 230 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 230 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <clipPath
+       id="clipPath10614">
+      <polygon
+         points="87,140 87,126 73,126 73,126 73,140 "
+         id="polygon10348" />
+    </clipPath>
+    <clipPath
+       id="clipPath10599">
+      <polygon
+         points="87,140 87,126 73,126 73,126 73,140 "
+         id="polygon10324" />
+    </clipPath>
+    <clipPath
+       id="clipPath10584">
+      <polygon
+         points="87,140 87,126 73,126 73,126 73,140 "
+         id="polygon10300" />
+    </clipPath>
+    <clipPath
+       id="clipPath10569">
+      <polygon
+         points="80,140 80,126 73,126 73,126 73,140 "
+         id="polygon10276" />
+    </clipPath>
+    <clipPath
+       id="clipPath10555">
+      <polygon
+         points="80,140 80,126 73,126 73,126 73,140 "
+         id="polygon10254" />
+    </clipPath>
+    <clipPath
+       id="clipPath10541">
+      <polygon
+         points="80,140 80,126 73,126 73,126 73,140 "
+         id="polygon10232" />
+    </clipPath>
+    <clipPath
+       id="clipPath10523">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon10202" />
+    </clipPath>
+    <clipPath
+       id="clipPath10508">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon10178" />
+    </clipPath>
+    <clipPath
+       id="clipPath10493">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon10154" />
+    </clipPath>
+    <clipPath
+       id="clipPath10481">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon10136" />
+    </clipPath>
+    <clipPath
+       id="clipPath9331">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon9080" />
+    </clipPath>
+    <clipPath
+       id="clipPath9316">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon9056" />
+    </clipPath>
+    <clipPath
+       id="clipPath9301">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon9032" />
+    </clipPath>
+    <clipPath
+       id="clipPath9274">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon8990" />
+    </clipPath>
+    <clipPath
+       id="clipPath9260">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon8968" />
+    </clipPath>
+    <clipPath
+       id="clipPath9255">
+      <polygon
+         points="80,140 80,126 73,126 73,126 73,140 "
+         id="polygon8961" />
+    </clipPath>
+    <clipPath
+       id="clipPath9246">
+      <polygon
+         points="434,236 434,13 74,13 74,13 74,236 "
+         id="polygon8946" />
+    </clipPath>
+    <clipPath
+       id="clipPath9231">
+      <polygon
+         points="87,140 87,126 73,126 73,126 73,140 "
+         id="polygon8922" />
+    </clipPath>
+    <clipPath
+       id="clipPath9216">
+      <polygon
+         points="87,140 87,126 73,126 73,126 73,140 "
+         id="polygon8898" />
+    </clipPath>
+    <clipPath
+       id="clipPath9201">
+      <polygon
+         points="87,140 87,126 73,126 73,126 73,140 "
+         id="polygon8874" />
+    </clipPath>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6792"
+       id="linearGradient6798"
+       x1="228.90479"
+       y1="1083.963"
+       x2="222.98819"
+       y2="1068.359"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,0.07724782)" />
+    <filter
+       inkscape:collect="always"
+       id="filter6880"
+       x="-0.21413966"
+       width="1.4282793"
+       y="-0.2748882"
+       height="1.5497764">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.8628829"
+         id="feGaussianBlur6882" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -76,11 +319,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.2363372"
-     inkscape:cx="308.38611"
-     inkscape:cy="-24.939463"
+     inkscape:zoom="6.4726745"
+     inkscape:cx="235.21819"
+     inkscape:cy="-36.05089"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -92,9 +335,9 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:window-width="1920"
-     inkscape:window-height="1021"
+     inkscape:window-height="1048"
      inkscape:window-x="1600"
-     inkscape:window-y="27"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-global="false"
      inkscape:snap-bbox="true"
@@ -144,7 +387,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="squares"
-     style="display:inline"
+     style="display:none"
      transform="translate(-37.191444,-0.48156374)">
     <rect
        style="color:#000000;fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -267,12 +510,56 @@
        width="21"
        id="rect3464"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3527"
+       width="21"
+       height="21"
+       x="216.47792"
+       y="33.84568" />
   </g>
   <g
      inkscape:label="Livello 1"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-37.191444,-1031.8438)">
+    <path
+       style="fill:url(#linearGradient6798);fill-opacity:1;stroke:none"
+       d="m 222.96601,1084.616 -5.64839,-15.7839 18.32963,-2.8257 -1.22638,16.6208 z"
+       id="path6790"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/luca/Code/vombat/icons/gaussian.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199" />
+    <path
+       sodipodi:nodetypes="csssssc"
+       d="m 237.50228,1085.8125 c -3.16536,-0.018 -3.50787,-0.3657 -3.94035,-0.6938 -1.72678,-1.31 -2.23556,-3.5627 -3.2193,-6.9617 -1.0808,-3.7341 -1.82684,-8.6083 -3.14862,-8.6083 -1.07058,0 -1.9008,4.7267 -2.98158,8.4608 -0.98375,3.3991 -1.56954,5.8254 -3.2963,7.1354 -0.44414,0.3368 -0.88342,0.6683 -4.29237,0.6683"
+       style="fill:#eae385;stroke:none;stroke-width:0.59383028999999998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1;filter:url(#filter6880)"
+       id="path6850"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path2844"
+       style="fill:#eae385;stroke:#000000;stroke-width:0.59383028999999998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:0.41496599000000001;"
+       d="m 237.50228,1085.8125 c -3.16536,-0.018 -3.50787,-0.3657 -3.94035,-0.6938 -1.72678,-1.31 -2.23556,-3.5627 -3.2193,-6.9617 -1.0808,-3.7341 -1.82684,-8.6083 -3.14862,-8.6083 -1.07058,0 -1.9008,4.7267 -2.98158,8.4608 -0.98375,3.3991 -1.56954,5.8254 -3.2963,7.1354 -0.44414,0.3368 -0.88342,0.6683 -4.29237,0.6683"
+       sodipodi:nodetypes="csssssc"
+       inkscape:export-filename="/home/luca/Code/vombat/icons/gaussian.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199" />
+    <path
+       sodipodi:type="arc"
+       style="color:#000000;fill:#2b5d0a;fill-opacity:0.31764705999999998;fill-rule:nonzero;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3474"
+       sodipodi:cx="227.1086"
+       sodipodi:cy="43.679905"
+       sodipodi:rx="8.6517563"
+       sodipodi:ry="8.4972601"
+       d="m 235.76035,43.679905 a 8.6517563,8.4972601 0 1 1 -17.30351,0 8.6517563,8.4972601 0 1 1 17.30351,0 z"
+       transform="translate(37.191444,1031.8438)"
+       inkscape:export-filename="/home/luca/Code/vombat/icons/apply_correction.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199" />
     <path
        sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0"
@@ -4076,7 +4363,7 @@
     <g
        inkscape:export-ydpi="199"
        inkscape:export-xdpi="199"
-       inkscape:export-filename="/home/luca/Code/spc-git/qGEO/icons/save.png"
+       inkscape:export-filename="/home/luca/Code/vombat/icons/export_to_ascii.png"
        transform="translate(25.723525,-0.74031819)"
        id="g3440">
       <g
@@ -4173,7 +4460,7 @@
     <g
        id="g4671"
        transform="matrix(0.35317861,0,0,0.51920157,160.65996,499.30979)"
-       inkscape:export-filename="/home/luca/Code/vombat/icons/device.png"
+       inkscape:export-filename="/home/luca/Code/vombat/icons/apply_correction.png"
        inkscape:export-xdpi="199"
        inkscape:export-ydpi="199"
        style="fill:#eae385">
@@ -4249,7 +4536,7 @@
        sodipodi:end="12.527331"
        sodipodi:start="6.2485671"
        transform="matrix(0.34262668,0,0,0.35297409,306.62958,1076.7764)"
-       d="m 52.278833,-5.8334269 a 3.0357144,2.9464285 0 1 1 -4.94e-4,-0.013019"
+       d="m 52.278833,-5.8334269 c 0.05803,1.6262925 -1.253251,2.990321 -2.928825,3.0466429 -1.675574,0.056322 -3.080937,-1.2163909 -3.138966,-2.8426835 -0.05803,-1.6262926 1.253252,-2.9903211 2.928826,-3.0466429 1.670338,-0.056146 3.073239,1.2087186 3.138471,2.829665"
        sodipodi:ry="2.9464285"
        sodipodi:rx="3.0357144"
        sodipodi:cy="-5.7314472"
@@ -4265,7 +4552,7 @@
        sodipodi:end="12.527331"
        sodipodi:start="6.2485671"
        transform="matrix(0.34262668,0,0,0.35297409,298.30893,1075.6102)"
-       d="m 52.278833,-5.8334269 a 3.0357144,2.9464285 0 1 1 -4.94e-4,-0.013019"
+       d="m 52.278833,-5.8334269 c 0.05803,1.6262925 -1.253251,2.990321 -2.928825,3.0466429 -1.675574,0.056322 -3.080937,-1.2163909 -3.138966,-2.8426835 -0.05803,-1.6262926 1.253252,-2.9903211 2.928826,-3.0466429 1.670338,-0.056146 3.073239,1.2087186 3.138471,2.829665"
        sodipodi:ry="2.9464285"
        sodipodi:rx="3.0357144"
        sodipodi:cy="-5.7314472"
@@ -4284,7 +4571,7 @@
        sodipodi:cy="-5.7314472"
        sodipodi:rx="3.0357144"
        sodipodi:ry="2.9464285"
-       d="m 52.278833,-5.8334269 a 3.0357144,2.9464285 0 1 1 -4.94e-4,-0.013019"
+       d="m 52.278833,-5.8334269 c 0.05803,1.6262925 -1.253251,2.990321 -2.928825,3.0466429 -1.675574,0.056322 -3.080937,-1.2163909 -3.138966,-2.8426835 -0.05803,-1.6262926 1.253252,-2.9903211 2.928826,-3.0466429 1.670338,-0.056146 3.073239,1.2087186 3.138471,2.829665"
        transform="matrix(0.34262668,0,0,0.35297409,292.32315,1076.152)"
        sodipodi:start="6.2485671"
        sodipodi:end="12.527331"
@@ -4300,7 +4587,7 @@
        sodipodi:cy="-5.7314472"
        sodipodi:rx="3.0357144"
        sodipodi:ry="2.9464285"
-       d="m 52.278833,-5.8334269 a 3.0357144,2.9464285 0 1 1 -4.94e-4,-0.013019"
+       d="m 52.278833,-5.8334269 c 0.05803,1.6262925 -1.253251,2.990321 -2.928825,3.0466429 -1.675574,0.056322 -3.080937,-1.2163909 -3.138966,-2.8426835 -0.05803,-1.6262926 1.253252,-2.9903211 2.928826,-3.0466429 1.670338,-0.056146 3.073239,1.2087186 3.138471,2.829665"
        transform="matrix(-0.34262668,0,0,0.35297409,328.77036,1079.9681)"
        sodipodi:start="6.2485671"
        sodipodi:end="12.527331"
@@ -4313,7 +4600,7 @@
        sodipodi:end="12.527331"
        sodipodi:start="6.2485671"
        transform="matrix(-0.34262668,0,0,0.35297409,335.83972,1073.0619)"
-       d="m 52.278833,-5.8334269 a 3.0357144,2.9464285 0 1 1 -4.94e-4,-0.013019"
+       d="m 52.278833,-5.8334269 c 0.05803,1.6262925 -1.253251,2.990321 -2.928825,3.0466429 -1.675574,0.056322 -3.080937,-1.2163909 -3.138966,-2.8426835 -0.05803,-1.6262926 1.253252,-2.9903211 2.928826,-3.0466429 1.670338,-0.056146 3.073239,1.2087186 3.138471,2.829665"
        sodipodi:ry="2.9464285"
        sodipodi:rx="3.0357144"
        sodipodi:cy="-5.7314472"
@@ -4329,7 +4616,7 @@
        sodipodi:end="12.527331"
        sodipodi:start="6.2485671"
        transform="matrix(-0.34262668,0,0,0.35297409,343.93125,1073.1826)"
-       d="m 52.278833,-5.8334269 a 3.0357144,2.9464285 0 1 1 -4.94e-4,-0.013019"
+       d="m 52.278833,-5.8334269 c 0.05803,1.6262925 -1.253251,2.990321 -2.928825,3.0466429 -1.675574,0.056322 -3.080937,-1.2163909 -3.138966,-2.8426835 -0.05803,-1.6262926 1.253252,-2.9903211 2.928826,-3.0466429 1.670338,-0.056146 3.073239,1.2087186 3.138471,2.829665"
        sodipodi:ry="2.9464285"
        sodipodi:rx="3.0357144"
        sodipodi:cy="-5.7314472"
@@ -4337,5 +4624,20 @@
        id="path3489"
        style="color:#000000;fill:#93ba65;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        sodipodi:type="arc" />
+    <text
+       xml:space="preserve"
+       style="font-size:10.23348331px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#4e4e4b;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Bold"
+       x="664.51031"
+       y="740.18475"
+       id="text3472"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/luca/Code/vombat/icons/export_to_ascii.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199"
+       transform="scale(0.68223221,1.4657766)"><tspan
+         sodipodi:role="line"
+         id="tspan3474"
+         x="664.51031"
+         y="740.18475">TXT</tspan></text>
   </g>
 </svg>

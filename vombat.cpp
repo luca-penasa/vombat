@@ -18,6 +18,8 @@
 #include <split_point_cloud.h>
 #include <OpenPlotsDialog.h>
 #include <OpenPlots2DDialog.h>
+#include <ExportToAscii.h>
+#include <ApplyCorrection.h>
 #include <test.h>
 
 #include <SendTo2DPlot.h>
@@ -25,6 +27,10 @@
 #include <PlotterDlg.h>
 
 #include <CalibrateDevice.h>
+
+#include <GaussianFilter.h>
+
+
 
 
 #include <boost/foreach.hpp>
@@ -77,6 +83,7 @@ void vombat::getActions(QActionGroup& group)
         //ADD FILTERS
         addFilter(new FitAttitude(this));
         addFilter(new AttitudeToModel(this));
+        addFilter(new EvaluateStratigraphicPosition(this));
         addFilter(new Edit(this));
 
 
@@ -93,6 +100,8 @@ void vombat::getActions(QActionGroup& group)
         addFilter(new Test(this));
 
         addFilter(new CalibrateDevice(this));
+        addFilter(new ApplyCorrection(this));
+
 
         addFilter(new SendTo2DPlot(this));
 
@@ -103,6 +112,12 @@ void vombat::getActions(QActionGroup& group)
 //        addFilter(new EvaluateStratigraphicPosition(this));
 //        addFilter(new Properties(this));
         addFilter(new CloudToPlanarSelection(this));
+        addFilter(new ExportToAscii(this));
+        addFilter(new GaussianFilter(this));
+
+//        addFilter(new ApplyCorrection(this));
+
+
 
     }
 

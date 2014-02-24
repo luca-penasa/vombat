@@ -19,9 +19,9 @@ public:
     ccTimeSeries(spc::GenericTimeSeries<float>::Ptr series);
 
 
-    virtual QIcon * getIcon() const
+    virtual QIcon getIcon() const
     {
-        return new QIcon(QString::fromUtf8(":/toolbar/icons/tseries.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/tseries.png"));
     }
 
 

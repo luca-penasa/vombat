@@ -35,9 +35,9 @@ public:
     }
 
 
-    virtual QIcon * getIcon() const
+    virtual QIcon getIcon() const
     {
-        return new QIcon(QString::fromUtf8(":/toolbar/icons/selection.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/selection.png"));
     }
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context)

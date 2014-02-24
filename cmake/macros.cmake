@@ -51,7 +51,7 @@ macro(compile_vombat_submodule dependencies)
 
     add_library( ${mod_name} SHARED ${header_list} ${source_list} ${moc_list} ${generated_ui_list} ${generated_qrc_list} ${rc_list})
 
-    target_link_libraries(${mod_name} ${QT_LIBRARIES} ${SPC_LIBRARIES} PclUtils ${dependencies})
+    target_link_libraries(${mod_name} ${QT_LIBRARIES} ${SPC_LIBRARIES} QPCL_PLUGIN_UTILS_LIB ${dependencies})
 
     install(TARGETS ${mod_name} DESTINATION lib)
 endmacro()

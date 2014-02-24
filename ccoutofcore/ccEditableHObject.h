@@ -43,7 +43,7 @@ public:
             updateEditDlg(); // do the update
             if (m_edit_dlg_is_freezes_ui)
             {
-                    vombat::theInstance()->getMainAppInterface()->freezeUI(true);
+//                    vombat::theInstance()->getMainAppInterface()->freezeUI(true);
                     m_edit_dlg->show();
             }
             else

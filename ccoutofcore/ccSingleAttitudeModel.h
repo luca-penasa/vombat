@@ -50,15 +50,15 @@ public:
 
     virtual bool hasColors() const { return true; }
 
-    virtual ccBBox getMyOwnBB() {return ccBBox();}
+    virtual ccBBox getMyOwnBcB() {return ccBBox();}
 
     void updateInternals()
     {
         updateMajorBreaks();
     }
-    virtual QIcon * getIcon() const
+    virtual QIcon getIcon() const
     {
-        return new QIcon(QString::fromUtf8(":/toolbar/icons/AttitudeToModel.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/AttitudeToModel.png"));
     }
 
 
@@ -83,7 +83,7 @@ public slots:
 
     void setAdditionalShiftSlot(double additional_shift)
     {
-        std::cout << "alled with " << additional_shift << std::endl;
+        std::cout << "called with " << additional_shift << std::endl;
         m_attitude_model->setAdditionalShift((float) additional_shift);
         updateMajorBreaks();
     }

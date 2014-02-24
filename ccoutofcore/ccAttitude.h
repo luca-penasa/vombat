@@ -39,9 +39,9 @@ public:
     virtual bool hasColors() const { return true; }
     virtual ccBBox getMyOwnBB();
 
-    virtual QIcon * getIcon() const
+    virtual QIcon getIcon() const
     {
-        return new QIcon(QString::fromUtf8(":/toolbar/icons/attitude.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/attitude.png"));
     }
 
 

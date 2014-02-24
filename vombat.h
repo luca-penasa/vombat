@@ -52,6 +52,7 @@ public:
 
     QMainWindow * getMainWindow();
 
+
     PlotterDlg * getPlotterDlg();
 
     Plotter2DDlg * getPlotter2DDlg();

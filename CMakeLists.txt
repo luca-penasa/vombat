@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project(vombat)
 
 include(cmake/macros.cmake)
+include(ExternalProject)
+
 
 
 #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++0x -fopenmp -fPIC" )
@@ -9,14 +11,15 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
 
 add_definitions("")
 
-set(VOMBAT_MODULES) #this will collect all the modular libs needed by vombat
-set(VOMBAT_INCLUDE_DIRS)
+set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
+set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 
 
 ########################## USER-OPTIONS ############################
-set(CC_BUILD_DIR "/home/luca/Code/CC_git_clean/build" CACHE STRING "Dir with CloudCompare build")
-set(CC_SOURCE_DIR "/home/luca/Code/CC_git_clean" CACHE STRING "Dir with CloudCompare souces")
+set(CC_BUILD_DIR "/home/luca/Code/CloudCompare-git/build" CACHE STRING "Dir with CloudCompare build")
+set(CC_SOURCE_DIR "/home/luca/Code/CloudCompare-git" CACHE STRING "Dir with CloudCompare souces")
 set(VOMBAT_INSTALL_DIR "/home/luca/apps/bin/plugins" CACHE STRING "Where to intall the vombat plugin")
+set(SPC_USE_INTERNAL ON CACHE BOOL "If OFF vombat will expect to find the spc lib somewhere on your pc")
 ####################################################################
 
 
@@ -52,17 +55,18 @@ include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 
 
 set(CC_INCLUDE_DIRS    "${CC_SOURCE_DIR}/libs/qCC_db;
+                        ${CC_SOURCE_DIR}/libs/qCC_io;
                         ${CC_SOURCE_DIR}/CC/include;
                         ${CC_SOURCE_DIR}/qCC/db_tree;
                         ${CC_SOURCE_DIR}/qCC;
                         ${CC_SOURCE_DIR}/qCC/dialogs;
                         ${CC_BUILD_DIR}/qCC;
-                        ${CC_SOURCE_DIR}/qCC/plugins;
-                        ${CC_BUILD_DIR}/qCC/plugins"}
+                        ${CC_SOURCE_DIR}/plugins;
+                        ${CC_BUILD_DIR}/plugins"}
 )
 
 
-set(CC_LIBRARIES_DIR "${CC_BUILD_DIR}/qCC/plugins/qPCL/PclUtils/")
+set(CC_LIBRARIES_DIR "${CC_BUILD_DIR}/plugins/qPCL/PclUtils/")
 
 include_directories(${CC_INCLUDE_DIRS})
 link_directories(${CC_LIBRARIES_DIR})
@@ -104,7 +108,7 @@ add_subdirectory(dialogs)
 add_subdirectory(plotter2d)
 
 
-
+#add_subdirectory(external)
 
 
 ################ PLUGIN ITSELF ############################
@@ -120,7 +124,7 @@ message("modules: ${VOMBAT_MODULES}" )
 
 add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} PclUtils ${VOMBAT_MODULES} ${SPC_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
+target_link_libraries(${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB ${VOMBAT_MODULES} ${SPC_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${VOMBAT_INSTALL_DIR})
 

@@ -20,5 +20,8 @@
         <file>icons/save.png</file>
         <file>icons/device.png</file>
         <file>icons/2dplot.png</file>
+        <file>icons/export_to_ascii.png</file>
+        <file>icons/apply_correction.png</file>
+        <file>icons/gaussian.png</file>
     </qresource>
 </RCC>

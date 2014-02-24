@@ -6,7 +6,7 @@
 
 #include <vombat.h>
 
-#include <ccGLWindow.h>
+//#include <ccGLWindow.h>
 
 //#include <cc2DRubberbandLabel.h>
 
