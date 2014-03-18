@@ -106,7 +106,7 @@ void ComputeTimeSeriesDlg::updateScalarFields(int id)
 
 void ComputeTimeSeriesDlg::updateWithSelected(ccHObject::Container & selected)
 {
-    ccHObject::Container clouds  = vombat::theInstance()->getSelectedThatAre(CC_POINT_CLOUD);
+    ccHObject::Container clouds  = vombat::theInstance()->getSelectedThatAre(CC_TYPES::POINT_CLOUD);
     ccHObject::Container models  = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat][ccSingleAttitudeModel]");
 
     std::cout << clouds.size() << std::endl;
@@ -126,7 +126,7 @@ void ComputeTimeSeriesDlg::initWithTree()
 {
     vombat * qgeo = vombat::theInstance(); //get the plutign intself
 
-    ccHObject::Container clouds = qgeo->getAllObjectsInTreeThatAre(CC_POINT_CLOUD);
+    ccHObject::Container clouds = qgeo->getAllObjectsInTreeThatAre(CC_TYPES::POINT_CLOUD);
 
     std::cout << "found " << clouds.size() << " clouds" << std::endl;
     ccHObject::Container models  = qgeo->getAllObjectsInTreeThatHaveMetaData("[vombat][ccSingleAttitudeModel]");

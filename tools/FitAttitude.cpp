@@ -96,7 +96,7 @@ FitAttitude::compute()
 int FitAttitude::checkSelected()
 {
     ccHObject::Container ents, planes, polys;
-    getSelectedEntitiesThatAre(CC_POINT_CLOUD, ents);
+    getSelectedEntitiesThatAre(CC_TYPES::POINT_CLOUD, ents);
 
     if (ents.size() > 0)
         return 1;

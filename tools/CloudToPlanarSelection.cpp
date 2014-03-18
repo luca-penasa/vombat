@@ -40,7 +40,7 @@ int CloudToPlanarSelection::openInputDialog()
     this->setShowProgressBar(false);
 
 
-    ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_POINT_CLOUD);
+    ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_TYPES::POINT_CLOUD);
 
     if (cont.size() == 0)
         return -1;
@@ -141,7 +141,7 @@ int CloudToPlanarSelection::openInputDialog()
 
 int CloudToPlanarSelection::checkParameters()
 {
-    ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_POINT_CLOUD);
+    ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_TYPES::POINT_CLOUD);
 
     if (cont.size() == 0)
         return -1;

@@ -30,7 +30,7 @@
 
 #include <GaussianFilter.h>
 
-
+#include <spc/methods/time_series_generator.h>
 
 
 #include <boost/foreach.hpp>
@@ -41,6 +41,9 @@ static vombat * qgeo_instance = 0;
 vombat::vombat()
 {
     qgeo_instance = this;
+    spc::TimeSeriesGenerator gen;
+    std::cout << "generator created!" << std::endl;
+
 }
 
 vombat::~vombat()

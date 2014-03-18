@@ -4,10 +4,23 @@ project(vombat)
 include(cmake/macros.cmake)
 include(ExternalProject)
 
-
+option(BUILD_WITH_CLANG "Build vombat plugin using clang isntead of gcc." OFF)
+if(BUILD_WITH_CLANG)
+    message("Using Clang as compiler! This may not work properly")
+    set(CMAKE_C_COMPILER "clang")
+    set(CMAKE_CXX_COMPILER "clang++")
+endif()
 
 #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++0x -fopenmp -fPIC" )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC  -std=c++11" )
+
+FIND_PACKAGE( OpenMP REQUIRED)
+if(OPENMP_FOUND)
+    message("OPENMP FOUND")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 add_definitions("")
 
@@ -18,7 +31,7 @@ set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 ########################## USER-OPTIONS ############################
 set(CC_BUILD_DIR "/home/luca/Code/CloudCompare-git/build" CACHE STRING "Dir with CloudCompare build")
 set(CC_SOURCE_DIR "/home/luca/Code/CloudCompare-git" CACHE STRING "Dir with CloudCompare souces")
-set(VOMBAT_INSTALL_DIR "/home/luca/apps/bin/plugins" CACHE STRING "Where to intall the vombat plugin")
+set(VOMBAT_INSTALL_DIR "/home/luca/apps/lib/cloudcompare/plugins" CACHE STRING "Where to intall the vombat plugin")
 set(SPC_USE_INTERNAL ON CACHE BOOL "If OFF vombat will expect to find the spc lib somewhere on your pc")
 ####################################################################
 
@@ -46,8 +59,8 @@ include_directories(${QT_QTOPENGL_INCLUDE_DIR})
 # it would be better to write down a CloudCompareConfig.cmake file to be
 # integrated with the CC project
 
-#include(${CC_SOURCE_DIR}/CMakeInclude.cmake)
-#include(${CC_SOURCE_DIR}/CMakeExternalLibs.cmake)
+include(${CC_SOURCE_DIR}/CMakeInclude.cmake)
+include(${CC_SOURCE_DIR}/CMakeExternalLibs.cmake)
 
 
 #set(CC_PLUGINS_SOURCE_DIR "${CC_SOURCE_DIR}/qCC/plugins")
