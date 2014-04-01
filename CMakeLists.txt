@@ -1,39 +1,41 @@
 cmake_minimum_required(VERSION 2.8)
 project(vombat)
 
-include(cmake/macros.cmake)
-include(ExternalProject)
+include(cmake/macros.cmake) # load some macros
 
-option(BUILD_WITH_CLANG "Build vombat plugin using clang isntead of gcc." OFF)
+option(BUILD_WITH_CLANG "Build vombat plugin using clang isntead of gcc. it is EXPERIMENTAL stuff!" OFF)
 if(BUILD_WITH_CLANG)
     message("Using Clang as compiler! This may not work properly")
     set(CMAKE_C_COMPILER "clang")
     set(CMAKE_CXX_COMPILER "clang++")
 endif()
 
-#set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pipe -std=c++0x -fopenmp -fPIC" )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC  -std=c++11" )
 
-FIND_PACKAGE( OpenMP REQUIRED)
-if(OPENMP_FOUND)
-    message("OPENMP FOUND")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
+#FIND_PACKAGE( OpenMP REQUIRED)
+#if(OPENMP_FOUND)
+#    message("OPENMP FOUND")
+#    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+#endif()
 
-add_definitions("")
+#add_definitions("") # not needed for now
 
 set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
 set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 
+# finding cloudcompare things
+# set(CCP_DIR "/home/luca/Code/CloudCompare-git/build" CACHE STRING "Dir with CloudCompare config file")
+find_package(CCP REQUIRED) # CloudCompareProjects
+include_directories(${CCP_INCLUDE_DIRS})
 
-########################## USER-OPTIONS ############################
-set(CC_BUILD_DIR "/home/luca/Code/CloudCompare-git/build" CACHE STRING "Dir with CloudCompare build")
-set(CC_SOURCE_DIR "/home/luca/Code/CloudCompare-git" CACHE STRING "Dir with CloudCompare souces")
-set(VOMBAT_INSTALL_DIR "/home/luca/apps/lib/cloudcompare/plugins" CACHE STRING "Where to intall the vombat plugin")
-set(SPC_USE_INTERNAL ON CACHE BOOL "If OFF vombat will expect to find the spc lib somewhere on your pc")
-####################################################################
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS}"  )
+
+
+# verify if qPCL plugin was compiled or not
+if(NOT TARGET QPCL_PLUGIN)
+    message( FATAL_ERROR "CloudCompare must be compiled with qPCL plugin enabled for vombat to work")
+endif()
 
 
 #################### SPC ###########################################
@@ -45,84 +47,26 @@ link_directories(${SPC_LIBRARY_DIRS})
 add_definitions(${SPC_DEFINITIONS})
 ####################################################################
 
-
-################### QT4 ##################################################
-find_package(Qt4 REQUIRED)
-set(QT_USE_QTOPENGL TRUE)
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
-include_directories(${QT_QTOPENGL_INCLUDE_DIR})
-##########################################################################
-
-
-######################## CLOUDCOMPARE THINGS ###########################
-# it would be better to write down a CloudCompareConfig.cmake file to be
-# integrated with the CC project
-
-include(${CC_SOURCE_DIR}/CMakeInclude.cmake)
-include(${CC_SOURCE_DIR}/CMakeExternalLibs.cmake)
-
-
-#set(CC_PLUGINS_SOURCE_DIR "${CC_SOURCE_DIR}/qCC/plugins")
-#set(CC_PLUGINS_BUILD_DIR "${CC_BUILD_DIR}/qCC/plugins")
-
-
-set(CC_INCLUDE_DIRS    "${CC_SOURCE_DIR}/libs/qCC_db;
-                        ${CC_SOURCE_DIR}/libs/qCC_io;
-                        ${CC_SOURCE_DIR}/CC/include;
-                        ${CC_SOURCE_DIR}/qCC/db_tree;
-                        ${CC_SOURCE_DIR}/qCC;
-                        ${CC_SOURCE_DIR}/qCC/dialogs;
-                        ${CC_BUILD_DIR}/qCC;
-                        ${CC_SOURCE_DIR}/plugins;
-                        ${CC_BUILD_DIR}/plugins"}
-)
-
-
-set(CC_LIBRARIES_DIR "${CC_BUILD_DIR}/plugins/qPCL/PclUtils/")
-
-include_directories(${CC_INCLUDE_DIRS})
-link_directories(${CC_LIBRARIES_DIR})
-###########################################################################
-
-
-################## VOMBAT THINGS #################################
+# standard includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
-#for mocketized files
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-#################################################################
 
-#add_vombat_subdirectory(tools)
-#add_vombat_subdirectory(visualization)
-
-#message("** COMPILING WITH MODULES: ${VOMBAT_MODULES}")
-
-
-#compile_vombat_submodule(tools)
-#compile_vombat_submodule(visualization)
-
-#link_install_vombat_submodule(tools)
-#link_install_vombat_submodule(visualization)
-
+# make vombat aware of all the subdirs
 add_vombat_subdir(tools)
 add_vombat_subdir(visualization)
 add_vombat_subdir(ccoutofcore)
 add_vombat_subdir(dialogs)
 add_vombat_subdir(plotter2d)
 
-
+# now we can perform includes
 include_directories("${VOMBAT_INCLUDE_DIRS}")
 
+# and now also add-subdirectories
 add_subdirectory(tools)
 add_subdirectory(visualization)
 add_subdirectory(ccoutofcore)
 add_subdirectory(dialogs)
 add_subdirectory(plotter2d)
-
-
-#add_subdirectory(external)
-
 
 ################ PLUGIN ITSELF ############################
 set(header_list vombat.h)
@@ -133,13 +77,12 @@ qt4_wrap_cpp( moc_list ${header_list} )
 QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 ############################################################
 
-message("modules: ${VOMBAT_MODULES}" )
 
 add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB ${VOMBAT_MODULES} ${SPC_LIBRARIES} ${QT_LIBRARIES} boost_serialization)
+target_link_libraries(${PROJECT_NAME} ${CCP_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES} boost_serialization)
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${VOMBAT_INSTALL_DIR})
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CCP_PLUGIN_INSTALL_DIR})
 
 
 message("${CMAKE_CXX_FLAGS}" )
