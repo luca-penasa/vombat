@@ -3,7 +3,7 @@
 //#include <ccoutofcore/ccMyCCHObject.h>
 //#include <ccoutofcore/ccAdditionalCaster.h>
 
-#include <qPCL/PclUtils/utils/cc2sm.h>
+//#include <qPCL/PclUtils/cc2sm.h>
 
 #include <spc/geology/stratigraphic_evaluator.h>
 

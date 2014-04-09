@@ -5,7 +5,7 @@
 #include <QtGui>
 #include <mainwindow.h>
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <ccStdPluginInterface.h>
 
 class PlotterDlg;

@@ -10,7 +10,7 @@
 //#include <spc/geology/stratigraphic_normal_model.h>
 #include <spc/geology/stratigraphic_evaluator.h>
 
-#include <qPCL/PclUtils/utils/cc2sm.h>
+
 
 #include <pcl/io/pcd_io.h>
 

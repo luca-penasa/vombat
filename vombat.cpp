@@ -2,7 +2,7 @@
 
 
 #include <ccPointCloud.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 //#include <ComputeTimeSeries.h>
 #include <ComputeStratigraphicPosition.h>
 #include <FitAttitude.h>

@@ -1,7 +1,7 @@
 #ifndef ASSOCIATECLOUDTOMODEL_H
 #define ASSOCIATECLOUDTOMODEL_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <dialogs/ccTimeSeriesGeneratorEditorDlg.h>
 
 #include <ccoutofcore/ccTimeSeries.h>

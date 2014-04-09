@@ -49,7 +49,13 @@ macro(compile_vombat_submodule dependencies)
     QT4_WRAP_UI( generated_ui_list ${ui_list} )
     QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
-    add_library( ${mod_name} SHARED ${header_list} ${source_list} ${moc_list} ${generated_ui_list} ${generated_qrc_list} ${rc_list})
+    message(${BUILD_VOMBAT_MONOLITHIC})
+
+    if(BUILD_VOMBAT_MONOLITHIC)
+        add_library( ${mod_name} STATIC ${header_list} ${source_list} ${moc_list} ${generated_ui_list} ${generated_qrc_list} ${rc_list})
+    else()
+        add_library( ${mod_name} SHARED ${header_list} ${source_list} ${moc_list} ${generated_ui_list} ${generated_qrc_list} ${rc_list})
+    endif()
 
     target_link_libraries(${mod_name} ${QT_LIBRARIES} ${SPC_LIBRARIES} ${CCP_LIBRARIES} ${dependencies})
 

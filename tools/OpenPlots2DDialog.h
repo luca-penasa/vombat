@@ -1,7 +1,7 @@
 #ifndef VOMBAT_OPENPLOTS2D_H
 #define VOMBAT_OPENPLOTS2D_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <PlotterDlg.h>
 
 

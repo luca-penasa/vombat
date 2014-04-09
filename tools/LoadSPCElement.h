@@ -1,7 +1,7 @@
 #ifndef LOAD_SPC_ELEMENT_H
 #define LOAD_SPC_ELEMENT_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <vombat.h>
 #include <dialogs/Composer.h>
 #include <spc/elements/element_base.h>

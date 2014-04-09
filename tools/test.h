@@ -1,7 +1,7 @@
 #ifndef Q_GEO_PLUGIN_TEST_HEADER
 #define Q_GEO_PLUGIN_TEST_HEADER
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 
 #include <spc/common/common.h>
 
@@ -33,7 +33,7 @@ protected:
         for (int i =0 ; i < 100; ++i)
             x.at(i) = 0.2;
 
-        Flann1DSearcher<float> ecco(x);
+        spc::Flann1DSearcher<float> ecco(x);
 
 
           return 1;

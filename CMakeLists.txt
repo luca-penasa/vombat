@@ -10,14 +10,16 @@ if(BUILD_WITH_CLANG)
     set(CMAKE_CXX_COMPILER "clang++")
 endif()
 
+option(BUILD_VOMBAT_MONOLITHIC "Build vombat plugin all-in-one" OFF)
 
-#FIND_PACKAGE( OpenMP REQUIRED)
-#if(OPENMP_FOUND)
-#    message("OPENMP FOUND")
-#    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-#endif()
+
+FIND_PACKAGE( OpenMP REQUIRED)
+if(OPENMP_FOUND)
+    message("OPENMP FOUND")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 #add_definitions("") # not needed for now
 
@@ -25,11 +27,10 @@ set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by 
 set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 
 # finding cloudcompare things
-# set(CCP_DIR "/home/luca/Code/CloudCompare-git/build" CACHE STRING "Dir with CloudCompare config file")
 find_package(CCP REQUIRED) # CloudCompareProjects
 include_directories(${CCP_INCLUDE_DIRS})
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS}"  )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS} "  )
 
 
 # verify if qPCL plugin was compiled or not
@@ -46,6 +47,11 @@ message(${SPC_INCLUDE_DIRS})
 link_directories(${SPC_LIBRARY_DIRS})
 add_definitions(${SPC_DEFINITIONS})
 ####################################################################
+
+find_package(PCL 1.7 REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 # standard includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -78,9 +84,20 @@ QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 ############################################################
 
 
+if( NOT MSVC )
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread" )
+endif()
+
+
+
 add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} ${CCP_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES} boost_serialization)
+target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES} boost_serialization)
+
+target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
+target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
+
+target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CCP_PLUGIN_INSTALL_DIR})
 

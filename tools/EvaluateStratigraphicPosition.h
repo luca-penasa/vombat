@@ -1,7 +1,7 @@
 #ifndef EVALUATESTRATIGRAPHICPOSITION_H
 #define EVALUATESTRATIGRAPHICPOSITION_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <dialogs/FastCloudSelectionDlg.h>
 
 #include <spc/stratigraphy/single_attitude_model.h>

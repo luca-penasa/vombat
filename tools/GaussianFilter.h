@@ -4,7 +4,7 @@
 
 
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <dialogs/GaussianFilterDlg.h>
 
 #include <spc/stratigraphy/single_attitude_model.h>

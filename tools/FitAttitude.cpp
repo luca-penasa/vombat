@@ -1,5 +1,5 @@
 #include "FitAttitude.h"
-#include <qPCL/PclUtils/utils/cc2sm.h>
+#include <qPCL/PclUtils/cc2sm.h>
 
 
 #include <ccoutofcore/ccSingleAttitudeModel.h>

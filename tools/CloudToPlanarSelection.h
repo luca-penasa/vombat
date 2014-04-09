@@ -2,7 +2,7 @@
 #define CLOUDTOPLANARSELECTION_H
 
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <dialogs/ccProperties.h>
 #include <ccGraphicalSegmentationTool.h>
 

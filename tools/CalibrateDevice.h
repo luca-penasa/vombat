@@ -1,7 +1,7 @@
 #ifndef CALIBRATEDEVICE_H
 #define CALIBRATEDEVICE_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <BaseFilter.h>
 #include <dialogs/ccCalibrateDeviceDlg.h>
 
 class CalibrateDevice: public BaseFilter
