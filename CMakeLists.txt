@@ -1,4 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
+
+option( INSTALL_vombat_PLUGIN "Check to install vombat plugin" OFF )
+
+if (INSTALL_vombat_PLUGIN)
+
+
 project(vombat)
 
 include(cmake/macros.cmake) # load some macros
@@ -103,3 +109,6 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ${CCP_PLUGIN_INSTALL_DIR})
 
 
 message("${CMAKE_CXX_FLAGS}" )
+
+
+endif() #main if ends here
