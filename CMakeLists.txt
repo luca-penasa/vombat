@@ -13,15 +13,17 @@ endif()
 option(BUILD_VOMBAT_MONOLITHIC "Build vombat plugin all-in-one" OFF)
 
 
-FIND_PACKAGE( OpenMP REQUIRED)
-if(OPENMP_FOUND)
-    message("OPENMP FOUND")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
+#FIND_PACKAGE( OpenMP REQUIRED)
+#if(OPENMP_FOUND)
+#    message("OPENMP FOUND")
+#    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+#endif()
 
-#add_definitions("") # not needed for now
+
+	add_definitions("-DQCC_DB_USE_AS_DLL") 
+
 
 set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
 set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
@@ -48,7 +50,7 @@ link_directories(${SPC_LIBRARY_DIRS})
 add_definitions(${SPC_DEFINITIONS})
 ####################################################################
 
-find_package(PCL 1.7 REQUIRED)
+find_package(PCL 1.6 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
