@@ -16,7 +16,7 @@ public:
 
     spc::spcPlanarSelection::Ptr asSPCClass()
     {
-        spc::spcPlanarSelection * spcPtr =  static_cast<spc::spcPlanarSelection *> (this);
+        spc::spcPlanarSelection* spcPtr =  static_cast<spc::spcPlanarSelection*> (this);
         return boost::make_shared<spc::spcPlanarSelection>(*spcPtr);
     }
 
