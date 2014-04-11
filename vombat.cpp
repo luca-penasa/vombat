@@ -4,31 +4,31 @@
 #include <ccPointCloud.h>
 #include <BaseFilter.h>
 //#include <ComputeTimeSeries.h>
-//#include <ComputeStratigraphicPosition.h>
-//#include <FitAttitude.h>
-//#include <AttitudeToModel.h>
-//#include <Edit.h>
-//#include <SaveSPCElement.h>
-//#include <LoadSPCElement.h>
+#include <ComputeStratigraphicPosition.h>
+#include <FitAttitude.h>
+#include <AttitudeToModel.h>
+#include <Edit.h>
+#include <SaveSPCElement.h>
+#include <LoadSPCElement.h>
 
-//#include <EvaluateStratigraphicPosition.h>
-//#include <Properties.h>
-//#include <CloudToPlanarSelection.h>
-//#include <SetUpNewSeries.h>
-//#include <split_point_cloud.h>
+#include <EvaluateStratigraphicPosition.h>
+#include <Properties.h>
+#include <CloudToPlanarSelection.h>
+#include <SetUpNewSeries.h>
+#include <split_point_cloud.h>
 #include <OpenPlotsDialog.h>
-//#include <OpenPlots2DDialog.h>
-//#include <ExportToAscii.h>
-//#include <ApplyCorrection.h>
-//#include <test.h>
-//
-//#include <SendTo2DPlot.h>
-//
-//#include <PlotterDlg.h>
-//
-//#include <CalibrateDevice.h>
-//
-//#include <GaussianFilter.h>
+#include <OpenPlots2DDialog.h>
+#include <ExportToAscii.h>
+#include <ApplyCorrection.h>
+#include <test.h>
+
+#include <SendTo2DPlot.h>
+
+#include <PlotterDlg.h>
+
+#include <CalibrateDevice.h>
+
+#include <GaussianFilter.h>
 
 #include <spc/methods/time_series_generator.h>
 
@@ -84,44 +84,44 @@ void vombat::getActions(QActionGroup& group)
     if (m_filters.empty())
     {
         //ADD FILTERS
-//        addFilter(new FitAttitude(this));
-//        addFilter(new AttitudeToModel(this));
+        addFilter(new FitAttitude(this));
+        addFilter(new AttitudeToModel(this));
+        addFilter(new EvaluateStratigraphicPosition(this));
+        addFilter(new Edit(this));
+
+
+        addFilter(new OpenPlotsDialog(this));
+        addFilter(new OpenPlots2DDialog(this));
+
+//        m_plotter = openPlot->getPlotterDlg();
+
+
+
+        addFilter(new SetUpNewSeries(this));
+        addFilter(new SaveSPCElement(this));
+        addFilter(new LoadSPCElement(this));
+        addFilter(new Test(this));
+
+        addFilter(new CalibrateDevice(this));
+        addFilter(new ApplyCorrection(this));
+
+
+        addFilter(new SendTo2DPlot(this));
+
+//        addFilter( new ComputeStratigraphicPosition(this) );
+//        addFilter( new ComputeTimeSeries(this));
+//        addFilter(new SplitPointCloud(this));
+
 //        addFilter(new EvaluateStratigraphicPosition(this));
-//        addFilter(new Edit(this));
-//
-//
-//        addFilter(new OpenPlotsDialog(this));
-//        addFilter(new OpenPlots2DDialog(this));
-//
-////        m_plotter = openPlot->getPlotterDlg();
-//
-//
-//
-//        addFilter(new SetUpNewSeries(this));
-//        addFilter(new SaveSPCElement(this));
-//        addFilter(new LoadSPCElement(this));
-//        addFilter(new Test(this));
-//
-//        addFilter(new CalibrateDevice(this));
+//        addFilter(new Properties(this));
+        addFilter(new CloudToPlanarSelection(this));
+        addFilter(new ExportToAscii(this));
+        addFilter(new GaussianFilter(this));
+
 //        addFilter(new ApplyCorrection(this));
-//
-//
-//        addFilter(new SendTo2DPlot(this));
-//
-////        addFilter( new ComputeStratigraphicPosition(this) );
-////        addFilter( new ComputeTimeSeries(this));
-////        addFilter(new SplitPointCloud(this));
-//
-////        addFilter(new EvaluateStratigraphicPosition(this));
-////        addFilter(new Properties(this));
-//        addFilter(new CloudToPlanarSelection(this));
-//        addFilter(new ExportToAscii(this));
-//        addFilter(new GaussianFilter(this));
-//
-////        addFilter(new ApplyCorrection(this));
-//
-//
-//
+
+
+
     }
 
     for (std::vector<BaseFilter*>::const_iterator it = m_filters.begin(); it != m_filters.end(); ++it)
@@ -340,7 +340,7 @@ Plotter2DDlg *vombat::getPlotter2DDlg()
 {
     BOOST_FOREACH(BaseFilter * f, m_filters)
     {
-//        OpenPlotsDialog * open_plot_filter = dynamic_cast<OpenPlotsDialog *>(f);
+        OpenPlotsDialog * open_plot_filter = dynamic_cast<OpenPlotsDialog *>(f);
         if (typeid(*f) ==typeid(OpenPlots2DDialog))
         {
             std::cout << "found!"<<std::endl;

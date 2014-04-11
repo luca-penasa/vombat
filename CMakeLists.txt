@@ -16,6 +16,7 @@ include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 include_directories( ${CloudComparePlugins_SOURCE_DIR} )
 include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../qCC")
 include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../qCC")
+include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../")
 include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../qCC/db_tree")
 include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../qCC/db_tree")
 include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/qCC_io")
@@ -28,8 +29,9 @@ include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
 
 
 if( MSVC )
-include_directories( ${QCC_DB_LIB_SOURCE_DIR}/msvc )
+    include_directories( ${QCC_DB_LIB_SOURCE_DIR}/msvc )
 endif()
+
 include_directories( ${QCC_GL_LIB_SOURCE_DIR} )
 include_directories( ${EXTERNAL_LIBS_INCLUDE_DIR} )
 

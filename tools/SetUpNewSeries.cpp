@@ -12,7 +12,7 @@
 #include <spcCCPointCloud.h>
 
 #include <iostream>
-#include <qPCL/PclUtils/cc2sm.h>
+#include <qPCL/PclUtils/utils/cc2sm.h>
 
 #include <spc/elements/generic_cloud.h>
 

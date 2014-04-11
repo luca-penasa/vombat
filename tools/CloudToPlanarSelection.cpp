@@ -16,7 +16,7 @@
 #include <iostream>
 #include <cc2DViewportLabel.h>
 
-#include<qPCL/PclUtils/cc2sm.h>
+#include <qPCL/PclUtils/utils/cc2sm.h>
 
 
 CloudToPlanarSelection::CloudToPlanarSelection(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription("From a cloud representing a polygon create a selection",
