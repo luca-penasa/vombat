@@ -6,6 +6,7 @@
 #include <PlotterDlg.h>
 
 
+
 class OpenPlotsDialog : public BaseFilter
 {
 public:

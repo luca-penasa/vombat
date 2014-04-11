@@ -9,6 +9,31 @@ project(vombat)
 
 include(cmake/macros.cmake) # load some macros
 
+
+
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
+include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
+include_directories( ${CloudComparePlugins_SOURCE_DIR} )
+include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../qCC")
+include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../qCC")
+include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../qCC/db_tree")
+include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../qCC/db_tree")
+include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/qCC_io")
+include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../libs/qCC_io")
+include_directories( ${GLEW_LIB_SOURCE_DIR}/include )
+include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
+include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
+include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
+
+
+
+if( MSVC )
+include_directories( ${QCC_DB_LIB_SOURCE_DIR}/msvc )
+endif()
+include_directories( ${QCC_GL_LIB_SOURCE_DIR} )
+include_directories( ${EXTERNAL_LIBS_INCLUDE_DIR} )
+
+
 option(BUILD_WITH_CLANG "Build vombat plugin using clang isntead of gcc. it is EXPERIMENTAL stuff!" OFF)
 if(BUILD_WITH_CLANG)
     message("Using Clang as compiler! This may not work properly")
@@ -28,17 +53,19 @@ option(BUILD_VOMBAT_MONOLITHIC "Build vombat plugin all-in-one" OFF)
 #endif()
 
 
-	add_definitions("-DQCC_DB_USE_AS_DLL") 
+	#add_definitions("-DQCC_DB_USE_AS_DLL") 
 
 
 set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
 set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 
 # finding cloudcompare things
-find_package(CCP REQUIRED) # CloudCompareProjects
-include_directories(${CCP_INCLUDE_DIRS})
+#find_package(CCP REQUIRED) # CloudCompareProjects
+#include_directories(${CCP_INCLUDE_DIRS})
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS} "  )
+if (UNIX)
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS} "  )
+endif()
 
 
 # verify if qPCL plugin was compiled or not
@@ -53,7 +80,7 @@ find_package(SPC 0.1.0 REQUIRED)
 include_directories(${SPC_INCLUDE_DIRS})
 message(${SPC_INCLUDE_DIRS})
 link_directories(${SPC_LIBRARY_DIRS})
-add_definitions(${SPC_DEFINITIONS})
+#add_definitions(${SPC_DEFINITIONS})
 ####################################################################
 
 find_package(PCL 1.6 REQUIRED)
@@ -64,6 +91,8 @@ add_definitions(${PCL_DEFINITIONS})
 # standard includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+include_directories(tools) # TO BE REMOVED ONCE CMAKELIST IS CLEAN
 
 # make vombat aware of all the subdirs
 add_vombat_subdir(tools)
@@ -83,12 +112,12 @@ add_subdirectory(dialogs)
 add_subdirectory(plotter2d)
 
 ################ PLUGIN ITSELF ############################
-set(header_list vombat.h)
-set(source_list vombat.cpp)
-set(qrc_list vombat.qrc)
+#set(header_list vombat.h)
+#set(source_list vombat.cpp)
+#set(qrc_list vombat.qrc)
 
-qt4_wrap_cpp( moc_list ${header_list} )
-QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
+#qt4_wrap_cpp( moc_list ${header_list} )
+#QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 ############################################################
 
 
@@ -97,8 +126,9 @@ if( NOT MSVC )
 endif()
 
 
+include( ../CMakePluginTpl.cmake )
 
-add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
+#add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
 target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES} boost_serialization)
 
@@ -107,7 +137,7 @@ target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
 target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
 
-install(TARGETS ${PROJECT_NAME} DESTINATION ${CCP_PLUGIN_INSTALL_DIR})
+#install(TARGETS ${PROJECT_NAME} DESTINATION ${CCP_PLUGIN_INSTALL_DIR})
 
 
 message("${CMAKE_CXX_FLAGS}" )
