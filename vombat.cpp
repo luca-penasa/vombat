@@ -8,8 +8,8 @@
 #include <FitAttitude.h>
 #include <AttitudeToModel.h>
 #include <Edit.h>
-#include <SaveSPCElement.h>
-#include <LoadSPCElement.h>
+//#include <SaveSPCElement.h>
+//#include <LoadSPCElement.h>
 
 #include <EvaluateStratigraphicPosition.h>
 #include <Properties.h>
@@ -98,8 +98,8 @@ void vombat::getActions(QActionGroup& group)
 
 
         addFilter(new SetUpNewSeries(this));
-        addFilter(new SaveSPCElement(this));
-        addFilter(new LoadSPCElement(this));
+//        addFilter(new SaveSPCElement(this));
+//        addFilter(new LoadSPCElement(this));
         addFilter(new Test(this));
 
         addFilter(new CalibrateDevice(this));

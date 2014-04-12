@@ -31,14 +31,14 @@ public:
 protected:
     spc::CalibrationModelBase::Ptr model_;
 
-    friend class boost::serialization::access;
+//    friend class boost::serialization::access;
 
-    template <class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-        ar & BOOST_SERIALIZATION_NVP(model_);
-        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
-    }
+//    template <class Archive>
+//    void serialize(Archive &ar, const unsigned int version)
+//    {
+//        ar & BOOST_SERIALIZATION_NVP(model_);
+//        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
+//    }
 
 
 

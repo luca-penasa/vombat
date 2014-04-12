@@ -15,8 +15,8 @@
 #include <ccPointCloud.h>
 
 #include <spc/elements/salvable_object.h> //needed to serialize Vector3f
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/shared_ptr.hpp>
+//#include <boost/serialization/vector.hpp>
+//#include <boost/serialization/shared_ptr.hpp>
 
 #include <ccoutofcore/ccAttitude.h>
 
@@ -121,25 +121,25 @@ protected:
     void updateMajorBreaks() ;
 
 
-    friend class boost::serialization::access;
+//    friend class boost::serialization::access;
 
-    template <class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-        ar & BOOST_SERIALIZATION_NVP(m_min_sp);
-        ar & BOOST_SERIALIZATION_NVP(m_max_sp);
-        ar & BOOST_SERIALIZATION_NVP(m_step);
-        ar & BOOST_SERIALIZATION_NVP(m_line_width);
-        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_length);
-        ar & BOOST_SERIALIZATION_NVP(m_breaks);
-        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_positions);
-        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_vector);
-        ar & BOOST_SERIALIZATION_NVP(m_dynamic_scale);
-        ar & BOOST_SERIALIZATION_NVP(m_attitude_model);
+//    template <class Archive>
+//    void serialize(Archive &ar, const unsigned int version)
+//    {
+//        ar & BOOST_SERIALIZATION_NVP(m_min_sp);
+//        ar & BOOST_SERIALIZATION_NVP(m_max_sp);
+//        ar & BOOST_SERIALIZATION_NVP(m_step);
+//        ar & BOOST_SERIALIZATION_NVP(m_line_width);
+//        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_length);
+//        ar & BOOST_SERIALIZATION_NVP(m_breaks);
+//        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_positions);
+//        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_vector);
+//        ar & BOOST_SERIALIZATION_NVP(m_dynamic_scale);
+//        ar & BOOST_SERIALIZATION_NVP(m_attitude_model);
 
-        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
+//        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
 
-    }
+//    }
 
     ////// user accessible props ////////////////////
     float m_min_sp;
