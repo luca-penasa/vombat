@@ -1,9 +1,9 @@
 #ifndef VOMBAT_OPENPLOTS2D_H
 #define VOMBAT_OPENPLOTS2D_H
 
-#include <BaseFilter.h>
+//#include <BaseFilter.h>
 #include <PlotterDlg.h>
-
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 
 class OpenPlots2DDialog : public BaseFilter
 {

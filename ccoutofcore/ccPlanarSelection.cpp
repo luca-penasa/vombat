@@ -16,4 +16,4 @@ ccPlanarSelection::ccPlanarSelection()
 
 
 
-BOOST_CLASS_EXPORT_GUID(ccPlanarSelection, "ccPlanarSelection")
+//BOOST_CLASS_EXPORT_GUID(ccPlanarSelection, "ccPlanarSelection")

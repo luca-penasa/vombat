@@ -5,6 +5,7 @@
 
 #include <spc/methods/cloud_gaussian_convolver.h>
 
+#include <ccScalarField.h>
 
 GaussianFilter::GaussianFilter(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Apply Gaussian filter to scalar field ",
                                                                                                  "Apply Gaussian filter to scalar field",

@@ -1,6 +1,10 @@
+
+
 #include "ccSingleAttitudeModelEditorDlg.h"
 #include <ui_ccSingleAttitudeModelEditorDlg.h>
 #include <ccoutofcore/ccSingleAttitudeModel.h>
+
+
 
 ccSingleAttitudeModelEditorDlg::ccSingleAttitudeModelEditorDlg(ccSingleAttitudeModel * model, QWidget *parent) :
     QDialog(parent),

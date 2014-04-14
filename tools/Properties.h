@@ -1,8 +1,9 @@
 #ifndef PROPERTIES_H
 #define PROPERTIES_H
 
-#include <BaseFilter.h>
+//#include <BaseFilter.h>
 #include <dialogs/ccProperties.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 
 class Properties : public BaseFilter
 {

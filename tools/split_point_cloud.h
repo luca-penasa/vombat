@@ -1,9 +1,9 @@
 #ifndef SPLIT_POINT_CLOUD_H
 #define SPLIT_POINT_CLOUD_H
 
-#include <BaseFilter.h>
+//#include <BaseFilter.h>
 #include <dialogs/split_point_cloud_dlg.h>
-
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 class SplitPointCloud: public BaseFilter
 {
     Q_OBJECT

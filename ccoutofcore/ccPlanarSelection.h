@@ -103,7 +103,7 @@ protected:
     bool m_foreground;
 
 
-    friend class boost::serialization::access;
+  /*  friend class boost::serialization::access;
 
     template <class Archive>
     void serialize(Archive &ar, const unsigned int version)
@@ -116,7 +116,7 @@ protected:
         ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
 
     }
-
+*/
 
 };
 

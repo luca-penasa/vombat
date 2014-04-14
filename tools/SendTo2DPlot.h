@@ -1,6 +1,8 @@
 #ifndef SENDTO2DPLOT_H
 #define SENDTO2DPLOT_H
-#include <BaseFilter.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
+
+
 
 
 class SendTo2DPlot: public BaseFilter

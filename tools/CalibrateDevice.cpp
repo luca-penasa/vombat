@@ -1,11 +1,13 @@
 #include "CalibrateDevice.h"
+#include <spcCCPointCloud.h>
+#include <ccoutofcore/ccTimeSeries.h>
+
 #include <spc/devices/calibrate_discrete_points_model.h>
 #include <ccoutofcore/cccalibrationmodel.h>
 
 #include <iostream>
 
-#include <spcCCPointCloud.h>
-#include <ccoutofcore/ccTimeSeries.h>
+
 CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription(   "Estimate the parameters for device calibration",
                                                                                                     "Estimate the parameters for device calibration",
                                                                                                     "Estimate the parameters for device calibration",

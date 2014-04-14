@@ -1,6 +1,7 @@
 #ifndef ADDNEWSERIES_H
 #define ADDNEWSERIES_H
 
+
 #include <QDialog>
 #include <ccHObject.h>
 #include <QComboBox>

@@ -15,8 +15,8 @@
 #include <ccPointCloud.h>
 
 #include <spc/elements/salvable_object.h> //needed to serialize Vector3f
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/shared_ptr.hpp>
+//#include <boost/serialization/vector.hpp>
+//#include <boost/serialization/shared_ptr.hpp>
 
 #include <ccoutofcore/ccAttitude.h>
 
@@ -121,7 +121,7 @@ protected:
     void updateMajorBreaks() ;
 
 
-    friend class boost::serialization::access;
+   /* friend class boost::serialization::access;
 
     template <class Archive>
     void serialize(Archive &ar, const unsigned int version)
@@ -139,7 +139,7 @@ protected:
 
         ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
 
-    }
+    }*/
 
     ////// user accessible props ////////////////////
     float m_min_sp;

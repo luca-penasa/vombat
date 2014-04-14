@@ -1,7 +1,8 @@
 #ifndef PLOT_2D_H
 #define PLOT_2D_H
 
-#include <BaseFilter.h>
+//#include <BaseFilter.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 //#include <dialogs/ccCurvePlotterDlg.h>
 #include <PlotterDlg.h>
 

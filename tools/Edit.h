@@ -1,7 +1,8 @@
 #ifndef EDIT_H
 #define EDIT_H
 
-#include <BaseFilter.h>
+//#include <BaseFilter.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <dialogs/FastCloudSelectionDlg.h>
 
 

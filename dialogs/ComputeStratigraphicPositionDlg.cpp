@@ -6,7 +6,7 @@
 
 //temp include
 #include <iostream>
-#include <BaseFilter.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <ccHObjectCaster.h>
 #include <ccPointCloud.h>
 #include <ccConsole.h>

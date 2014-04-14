@@ -1,15 +1,15 @@
-#ifndef GAUSSIANFILTER_H
-#define GAUSSIANFILTER_H
+#ifndef VOMBAT_GAUSSIANFILTER_H
+#define VOMBAT_GAUSSIANFILTER_H
 
 
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 
-
-#include <BaseFilter.h>
+//#include <BaseFilter.h>
 #include <dialogs/GaussianFilterDlg.h>
 
-#include <spc/stratigraphy/single_attitude_model.h>
-
-#include <ccoutofcore/ccSingleAttitudeModel.h>
+//#include <spc/stratigraphy/single_attitude_model.h>
+//
+//#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 
 class GaussianFilter : public BaseFilter
@@ -33,4 +33,4 @@ private:
 
 
 
-#endif // GAUSSIANFILTER_H
+#endif // VOMBAT_GAUSSIANFILTER_H

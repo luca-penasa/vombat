@@ -1,3 +1,5 @@
+
+
 #include "ccTimeSeriesGeneratorEditorDlg.h"
 #include "ui_ccTimeSeriesGeneratorEditorDlg.h"
 

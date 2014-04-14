@@ -9,6 +9,10 @@ project(vombat)
 
 include(cmake/macros.cmake) # load some macros
 
+FIND_PACKAGE(Qt4 REQUIRED)
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+
 
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -54,9 +58,14 @@ option(BUILD_VOMBAT_MONOLITHIC "Build vombat plugin all-in-one" OFF)
 #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 #endif()
 
-
-	#add_definitions("-DQCC_DB_USE_AS_DLL") 
-
+if (WIN32)
+	add_definitions("-DNOMINMAX") 
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4996") #pcl::SHOOT warn
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4521") # pcl/eigen multiple copy constructors warn
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4305") # some conversion / possible data-loss
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")  #get rid of annoying warns
+endif()
 
 set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
 set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
@@ -82,13 +91,20 @@ find_package(SPC 0.1.0 REQUIRED)
 include_directories(${SPC_INCLUDE_DIRS})
 message(${SPC_INCLUDE_DIRS})
 link_directories(${SPC_LIBRARY_DIRS})
-#add_definitions(${SPC_DEFINITIONS})
+add_definitions(${SPC_DEFINITIONS})
 ####################################################################
 
 find_package(PCL 1.6 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
+
+# this is needed for being able to correctly include the pcl_plugin_utils_lib stuff
+if( NOT PCL_VERSION VERSION_GREATER  1.7 ) #from 1.7 the patch was merged
+	message(" PCL is ${PCL_VERSION} -> PCL is lower than 1.7")
+	add_definitions( "-D PCL_VER_1_6_OR_OLDER" )
+endif()
+
 
 # standard includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -132,10 +148,10 @@ include( ../CMakePluginTpl.cmake )
 
 #add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES} boost_serialization)
+target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES})
 
-target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
-target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
+#target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
+#target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
 target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
 

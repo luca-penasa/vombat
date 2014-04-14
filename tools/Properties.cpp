@@ -27,4 +27,6 @@ int Properties::openOutputDialog()
 
 
 //    segtool->linkWith(this->)
+
+	return 1;
 }

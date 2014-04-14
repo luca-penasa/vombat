@@ -2,8 +2,8 @@
 #define COMPUTESTRATIGRAPHICPOSITION_H
 
 
-#include <BaseFilter.h>
-
+//#include <BaseFilter.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <dialogs/ComputeStratigraphicPositionDlg.h>
 
 #include <Eigen/Dense>

@@ -43,14 +43,14 @@ ExportToAscii::compute()
 
         boost::filesystem::path const p(m_filename.toStdString().c_str());
 
-        std::string basename = p.stem().c_str();
-        std::string path = p.parent_path().c_str();
-        std::string ext = p.extension().c_str();
+        boost::filesystem::path basename ( p.stem());
+         boost::filesystem::path path = p.parent_path();
+        boost::filesystem::path  ext = p.extension();
 
         std::stringstream sstream;
 
-        sstream << path << "/";
-        sstream << basename ;
+		sstream << path.c_str() << "/";
+		sstream << basename.c_str() ;
         sstream << "_" << counter << "." << ext;
 
         std::cout << "saved to:" << sstream.str().c_str() << std::endl;

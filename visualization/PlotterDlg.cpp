@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include <time.h> //for win
+
 
 PlotterDlg::PlotterDlg(QWidget* parent): QDialog(parent), Ui::PlotterDlgUi()
 {

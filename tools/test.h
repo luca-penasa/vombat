@@ -1,7 +1,7 @@
 #ifndef Q_GEO_PLUGIN_TEST_HEADER
 #define Q_GEO_PLUGIN_TEST_HEADER
 
-#include <BaseFilter.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
 
 #include <spc/common/common.h>
 

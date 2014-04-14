@@ -1,3 +1,5 @@
+
+
 #include <ApplyCorrection.h>
 #include <vombat.h>
 #include <PlotterDlg.h>
@@ -8,6 +10,8 @@
 #include <cccalibrationmodel.h>
 
 #include <dialogs/ccapplycorrection.h>
+
+#include <boost/foreach.hpp>
 
 
 ApplyCorrection::ApplyCorrection(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Apply intensity calibration model ",
@@ -102,7 +106,7 @@ int ApplyCorrection::openInputDialog()
 
 //    dialog->layout()->addWidget(box);
 
-    BOOST_FOREACH(ccHObject * obj, cont)
+    BOOST_FOREACH(auto obj, cont)
     {
         combo->addItem(obj->getName());
     }

@@ -1,8 +1,11 @@
+
 #include "FastCloudSelectionDlg.h"
 #include "ui_FastCloudSelectionDlg.h"
 
 #include <ccHObject.h>
 #include <ccConsole.h>
+
+
 
 
 FastCloudSelectionDlg::FastCloudSelectionDlg(QWidget *parent) :
