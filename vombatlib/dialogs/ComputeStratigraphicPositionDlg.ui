@@ -44,7 +44,7 @@
   <customwidget>
    <class>ObjectSelectionComboBox</class>
    <extends>QComboBox</extends>
-   <header>qtHelper.h</header>
+   <header location="global">tools/qtHelper.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

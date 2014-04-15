@@ -88,7 +88,7 @@
   <customwidget>
    <class>ScalarFieldsComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global">qtHelper.h</header>
+   <header location="global">tools/qtHelper.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

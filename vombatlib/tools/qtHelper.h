@@ -1,5 +1,5 @@
-#ifndef Q_GEO_PLUGIN_QTHELPER_H
-#define Q_GEO_PLUGIN_QTHELPER_H
+#ifndef VOMBAT_PLUGIN_QTHELPER_H
+#define VOMBAT_PLUGIN_QTHELPER_H
 
 
 #include <QComboBox>

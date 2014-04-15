@@ -4,7 +4,7 @@
 //#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 //#include <dialogs/ccCurvePlotterDlg.h>
-#include <PlotterDlg.h>
+#include <visualization/PlotterDlg.h>
 
 
 class ApplyCorrection : public BaseFilter

@@ -2,7 +2,7 @@
 
 
 #include "Plotter2DDlg.h"
-#include <ui_Plotter2DDlg.h>
+#include <plotter2d/ui_Plotter2DDlg.h>
 
 #include <visualization/qcustomplot.h>
 #include <ccoutofcore/ccTimeSeries.h>

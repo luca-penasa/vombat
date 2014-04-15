@@ -30,6 +30,11 @@ include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
 include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
 include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
 
+include_directories("vombatlib/")
+include_directories( "${CMAKE_CURRENT_BINARY_DIR}/vombatlib")
+include_directories( "${CMAKE_CURRENT_BINARY_DIR}/vombatlib/dialogs")
+include_directories( "${CMAKE_CURRENT_BINARY_DIR}/vombatlib/tools")
+
 
 
 if( MSVC )
@@ -105,29 +110,27 @@ if( NOT PCL_VERSION VERSION_GREATER  1.7 ) #from 1.7 the patch was merged
 	add_definitions( "-D PCL_VER_1_6_OR_OLDER" )
 endif()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/ccoutofcore)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/dialogs)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/plotter2d)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/tools)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/visualization)
+
+#for mocked files and ui_
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib/ccoutofcore)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib/dialogs)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib/plotter2d)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib/tools)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib/visualization)
+
 
 # standard includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-include_directories(tools) # TO BE REMOVED ONCE CMAKELIST IS CLEAN
+include_directories(${VOMBATLIB_INCLUDE_DIRS})
 
-# make vombat aware of all the subdirs
-add_vombat_subdir(tools)
-add_vombat_subdir(visualization)
-add_vombat_subdir(ccoutofcore)
-add_vombat_subdir(dialogs)
-add_vombat_subdir(plotter2d)
 
-# now we can perform includes
-include_directories("${VOMBAT_INCLUDE_DIRS}")
-
-# and now also add-subdirectories
-add_subdirectory(tools)
-add_subdirectory(visualization)
-add_subdirectory(ccoutofcore)
-add_subdirectory(dialogs)
-add_subdirectory(plotter2d)
 
 ################ PLUGIN ITSELF ############################
 #set(header_list vombat.h)
@@ -144,19 +147,18 @@ if( NOT MSVC )
 endif()
 
 
+add_subdirectory(vombatlib)
+
 include( ../CMakePluginTpl.cmake )
 
 #add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} ${VOMBAT_MODULES} ${QT_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES})
 
 #target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
 #target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
 target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
-
-#install(TARGETS ${PROJECT_NAME} DESTINATION ${CCP_PLUGIN_INSTALL_DIR})
-
 
 message("${CMAKE_CXX_FLAGS}" )
 

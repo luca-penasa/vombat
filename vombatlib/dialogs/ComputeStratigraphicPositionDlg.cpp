@@ -1,4 +1,4 @@
-#include "ComputeStratigraphicPositionDlg.h"
+#include "dialogs/ComputeStratigraphicPositionDlg.h"
 #include "ui_ComputeStratigraphicPositionDlg.h"
 
 

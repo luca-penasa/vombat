@@ -5,7 +5,7 @@
 #include <QDialog>
 #include <ccHObject.h>
 #include <QComboBox>
-#include <qtHelper.h>
+#include <tools/qtHelper.h>
 
 class ccTimeSeriesGenerator;
 
