@@ -23,5 +23,6 @@
         <file>icons/export_to_ascii.png</file>
         <file>icons/apply_correction.png</file>
         <file>icons/gaussian.png</file>
+        <file>icons/XvsY.png</file>
     </qresource>
 </RCC>

@@ -23,7 +23,7 @@ protected:
 
     int openInputDialog();
 
-private:
+
     FastCloudSelectionDlg * m_dialog;
 
     ccSingleAttitudeModel * m_model;

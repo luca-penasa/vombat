@@ -5,11 +5,10 @@
 
 #include <ccHObject.h>
 
+#include <ui_FastCloudSelectionDlg.h>
+
 class ccHObject;
 
-namespace Ui {
-class FastCloudSelectionDlg;
-}
 
 class FastCloudSelectionDlg : public QDialog
 {
@@ -17,6 +16,7 @@ class FastCloudSelectionDlg : public QDialog
     
 public:
     explicit FastCloudSelectionDlg(QWidget *parent = 0);
+
     ~FastCloudSelectionDlg();
 
     void updateList(ccHObject::Container list);
@@ -27,6 +27,8 @@ public:
     {
         return m_current_list.at(m_selected_object_id);
     }
+
+    void clearList();
 
 private slots:
     void readSelection();

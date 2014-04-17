@@ -23,20 +23,23 @@ ComputeStratigraphicPosition::ComputeStratigraphicPosition(ccPluginInterface * p
                                                                                               "Compute Stratigraphic Position",
                                                                                               "For each point of the cloud compute its stratigraphic position",
                                                                                               ":/toolbar/icons/strat_pos.png")
-                                                                                                          , parent_plugin),  m_obj(0)
+                                                                                               , parent_plugin),  m_obj(NULL)
 {
-    m_dialog = 0;
+
+    std::cout << "created comp strat pos object tool" << std::endl;
+    m_dialog = NULL;
 }
 
 int
 ComputeStratigraphicPosition::openInputDialog()
 {
+
+    std::cout << "called OPEN INPUT DIALOG" << std::endl;
     if (!m_dialog)
         m_dialog = new ComputeStratigraphicPositionDlg(0);
 
 
-
-//    m_dialog->comboBox->clear(); //clean up
+    std::cout << "end of OPEN INPUT DIALOG" << std::endl;
 
 
     ccHObject::Container objCont;
@@ -76,7 +79,7 @@ ComputeStratigraphicPosition::compute()
 
 
 
-    spcCCPointCloud::Ptr  spcCloud = boost::shared_ptr<spcCCPointCloud> (new spcCCPointCloud (in_cloud));
+    spcCCPointCloud::Ptr  spcCloud = spcCCPointCloud::Ptr (new spcCCPointCloud (in_cloud));
 
 
     spc::spcStratigraphicModelBase * modelBase = dynamic_cast<spc::spcStratigraphicModelBase *> (m_obj);

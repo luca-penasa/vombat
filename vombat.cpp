@@ -22,6 +22,8 @@
 #include <ApplyCorrection.h>
 #include <test.h>
 
+#include <ComputeSmoothedTimeSeriesXY.h>
+
 #include <SendTo2DPlot.h>
 
 #include <PlotterDlg.h>
@@ -95,6 +97,7 @@ void vombat::getActions(QActionGroup& group)
 
 //        m_plotter = openPlot->getPlotterDlg();
 
+        addFilter(new ComputeSmoothedTimeSeriesXY(this));
 
 
         addFilter(new SetUpNewSeries(this));
