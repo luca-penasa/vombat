@@ -6,80 +6,141 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>445</width>
-    <height>189</height>
+    <width>684</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="labelDistance">
-       <property name="text">
-        <string>Distance Field</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="ScalarFieldsComboBox" name="comboDistance"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="labelIntesity">
-       <property name="text">
-        <string>Intensity Field</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="ScalarFieldsComboBox" name="comboIntensity"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="spinBandwidth">
-       <property name="decimals">
-        <number>3</number>
-       </property>
-       <property name="value">
-        <double>1.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="spinSamplingStep">
-       <property name="decimals">
-        <number>3</number>
-       </property>
-       <property name="value">
-        <double>0.100000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="labelBandWidth">
-       <property name="text">
-        <string>Bandwidth</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="labelSamplingStep">
-       <property name="text">
-        <string>Sampling Step</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QToolBox" name="toolBox">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
+     <widget class="QWidget" name="page">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>666</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Page 1</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QFormLayout" name="formLayout">
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="labelDistance">
+           <property name="text">
+            <string>Distance Field</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="ScalarFieldsComboBox" name="comboDistance"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelIntesity">
+           <property name="text">
+            <string>Intensity Field</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="ScalarFieldsComboBox" name="comboIntensity"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="labelBandWidth">
+           <property name="text">
+            <string>Bandwidth</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QDoubleSpinBox" name="spinBandwidth">
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="value">
+            <double>1.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="labelSamplingStep">
+           <property name="text">
+            <string>Sampling Step</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QDoubleSpinBox" name="spinSamplingStep">
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="value">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QDialogButtonBox" name="buttonBox">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="standardButtons">
+            <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>666</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Page 2</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="labelDistance_3">
+           <property name="text">
+            <string>Calibration PCD files</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Load Files</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

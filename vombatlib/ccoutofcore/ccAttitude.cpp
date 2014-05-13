@@ -39,9 +39,11 @@ ccAttitude::ccAttitude()
 
 ccBBox ccAttitude::getMyOwnBB()
 {
-    CCVector3 center (getAttitude()->getPosition().data());
-    CCVector3 min_corner(center - m_scale * 0.5 * m_scale_factor);
-    CCVector3 max_corner(center + m_scale * 0.5* m_scale_factor);
+    CCVector3 center = CCVector3::fromArray (getAttitude()->getPosition().data());
+    float s = m_scale * 0.5 * m_scale_factor;
+    CCVector3 scale_v (s,s,s);
+    CCVector3 min_corner(center - scale_v);
+    CCVector3 max_corner(center + scale_v);
     ccBBox box(min_corner, max_corner);
 
     return box;

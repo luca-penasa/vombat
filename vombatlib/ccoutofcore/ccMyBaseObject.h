@@ -8,6 +8,7 @@
 #include <spc/elements/element_base.h>
 //#include <boost/serialization/string.hpp>
 
+#include <ccCustomObject.h>
 
 /// teach boost how to serialize QString -  using a std::string
 //namespace boost
@@ -51,7 +52,7 @@
 
 
 
-class ccMyBaseObject: public ccEditableHObject, public ccHObject
+class ccMyBaseObject: public ccEditableHObject, public ccCustomHObject
 {
                                  public:
                                  ///
@@ -81,9 +82,9 @@ class ccMyBaseObject: public ccEditableHObject, public ccHObject
 //}
 
 
-virtual bool isSerializable() const { return false; }
+//virtual bool isSerializable() const { return false; }
 
-virtual bool hasColors() const { return false; }
+//virtual bool hasColors() const { return false; }
 
 
 

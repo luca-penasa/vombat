@@ -69,20 +69,20 @@ int CalibrateDevice::compute()
 
 int CalibrateDevice::checkSelected()
 {
-    return isFirstSelectedCcPointCloud();
+    return true;
 }
 
 
 int CalibrateDevice::openInputDialog()
 {
 
-    m_dialog = new ccCalibrateDeviceDlg(0);
+//    m_dialog = new ccCalibrateDeviceDlg(0);
 
 
-    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
+//    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
 
-    m_dialog->getUI()->comboDistance->addItemsFromFieldsCloud(cloud);
-    m_dialog->getUI()->comboIntensity->addItemsFromFieldsCloud(cloud);
+//    m_dialog->getUI()->comboDistance->addItemsFromFieldsCloud(cloud);
+//    m_dialog->getUI()->comboIntensity->addItemsFromFieldsCloud(cloud);
 
 
 

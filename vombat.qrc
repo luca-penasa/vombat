@@ -24,5 +24,6 @@
         <file>icons/apply_correction.png</file>
         <file>icons/gaussian.png</file>
         <file>icons/XvsY.png</file>
+        <file>icons/calibrationDB.png</file>
     </qresource>
 </RCC>

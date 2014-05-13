@@ -20,6 +20,8 @@
 #include <OpenPlots2DDialog.h>
 #include <ExportToAscii.h>
 #include <ApplyCorrection.h>
+
+#include <ComputeCalibrationDB.h>
 #include <test.h>
 
 #include <ComputeSmoothedTimeSeriesXY.h>
@@ -33,6 +35,7 @@
 #include <GaussianFilter.h>
 
 #include <spc/methods/time_series_generator.h>
+
 
 
 #include <boost/foreach.hpp>
@@ -105,6 +108,7 @@ void vombat::getActions(QActionGroup& group)
         //addFilter(new LoadSPCElement(this));
         addFilter(new Test(this));
 
+        addFilter(new ComputeCalibrationDB(this));
         addFilter(new CalibrateDevice(this));
         addFilter(new ApplyCorrection(this));
 

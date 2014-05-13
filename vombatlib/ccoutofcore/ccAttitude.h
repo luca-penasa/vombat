@@ -1,5 +1,5 @@
-#ifndef CC_GEOLOGIC_PLANE_H
-#define CC_GEOLOGIC_PLANE_H
+#ifndef CC_ATTITUDE_H
+#define CC_ATTITUDE_H
 
 
 #include <spc/elements/attitude.h>
@@ -43,6 +43,16 @@ public:
     {
         return QIcon(QString::fromUtf8(":/toolbar/icons/attitude.png"));
     }
+
+    //inherited from ccSerializableObject
+    virtual bool isSerializable() const
+    {
+        std::cout << "CALLED IF SERIALIZABLE" << std::endl;
+        return true;
+    }
+    virtual bool toFile(QFile& out) const {}
+    virtual bool fromFile(QFile& in, short dataVersion, int flags) {}
+
 
 
 
