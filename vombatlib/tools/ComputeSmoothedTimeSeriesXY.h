@@ -19,8 +19,6 @@ protected:
     virtual int openInputDialog();
 
     ccComputeSmoothedTimeSeriesXYDlg * m_dialog;
-
-
 };
 
 #endif // COMPUTESMOOTHEDTIMESERIESXY_H

@@ -22,42 +22,42 @@ CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin): BaseFilter(F
 int CalibrateDevice::compute()
 {
 
-    float bandwidth = m_dialog->getBandwidth();
-    float s_step = m_dialog->getSamplingStep();
+//    float bandwidth = m_dialog->getBandwidth();
+//    float s_step = m_dialog->getSamplingStep();
 
-    std::string distance_n = m_dialog->getDistanceField();
-    std::string intensity_n = m_dialog->getIntensityField();
+//    std::string distance_n = m_dialog->getDistanceField();
+//    std::string intensity_n = m_dialog->getIntensityField();
 
-    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
+//    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
 
-    spcCCPointCloud::Ptr spc_cloud (new spcCCPointCloud (cloud));
-
-
-
-    spc::CalibrateDiscretePointsModel calibrator;
-    calibrator.setInputCloud(spc_cloud);
-    calibrator.setBandwidth(bandwidth);
-    calibrator.setSamplingStep(s_step);
-    calibrator.setDistanceField(distance_n);
-    calibrator.setIntensityField(intensity_n);
-    calibrator.compute();
+//    spcCCPointCloud::Ptr spc_cloud (new spcCCPointCloud (cloud));
 
 
 
-    spc::DiscretePointsCalibrationModel::Ptr model= calibrator.getModel();
-
-    spc::GenericTimeSeries<float>::Ptr ts = model->getTS();
-
-
-    ccTimeSeries * serie = new ccTimeSeries(ts);
-    serie->setName("CorrectionTS");
-
-    ccCalibrationModel *  mod = new ccCalibrationModel(model);
-
-    mod->addChild(serie);
+//    spc::CalibrateDiscretePointsModel calibrator;
+//    calibrator.setInputCloud(spc_cloud);
+//    calibrator.setBandwidth(bandwidth);
+//    calibrator.setSamplingStep(s_step);
+//    calibrator.setDistanceField(distance_n);
+//    calibrator.setIntensityField(intensity_n);
+//    calibrator.compute();
 
 
-    newEntity(mod);
+
+//    spc::DiscretePointsCalibrationModel::Ptr model= calibrator.getModel();
+
+//    spc::GenericTimeSeries<float>::Ptr ts = model->getTS();
+
+
+//    ccTimeSeries * serie = new ccTimeSeries(ts);
+//    serie->setName("CorrectionTS");
+
+//    ccCalibrationModel *  mod = new ccCalibrationModel(model);
+
+//    mod->addChild(serie);
+
+
+//    newEntity(mod);
 
 
 
@@ -69,7 +69,12 @@ int CalibrateDevice::compute()
 
 int CalibrateDevice::checkSelected()
 {
-    return true;
+    ccHObject * selected = getSelectedEntityAsCCHObject();
+    if (selected && selected->hasMetaData("[vombat][ccCalibrationDB]"))
+        return 1;
+    else
+        return 0;
+
 }
 
 

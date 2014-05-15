@@ -15,8 +15,15 @@ class ComputeCalibrationDB: public BaseFilter
 public:
     ComputeCalibrationDB(ccPluginInterface * parent_plugin = 0);
 
+    ~ComputeCalibrationDB()
+    {
+        //we must delete parent-less dialogs ourselves!
+        if (m_dialog && m_dialog->parent() == 0)
+            delete m_dialog;
+    }
 
     virtual int compute() ;
+
 
 protected:
     virtual int checkSelected();
@@ -25,7 +32,7 @@ protected:
 
     ComputeCalibrationDBDlg * m_dialog;
 
-    static std::vector<ccPointCloud * > CalibrationDBAsPointClouds( const spc::CalibrationDataDB &db);
+
 
 };
 

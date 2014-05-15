@@ -43,6 +43,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="labelDistance_5">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>intensity field name</string>
        </property>
@@ -50,6 +53,9 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lneFieldName">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>intensity</string>
        </property>

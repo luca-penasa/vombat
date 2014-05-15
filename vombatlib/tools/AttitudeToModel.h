@@ -15,6 +15,13 @@ class AttitudeToModel : public BaseFilter
 public:    
     AttitudeToModel(ccPluginInterface * parent_plugin = 0);
 
+    ~AttitudeToModel()
+    {
+        //we must delete parent-less dialogs ourselves!
+        if (m_dialog && m_dialog->parent() == 0)
+            delete m_dialog;
+    }
+
 
     virtual int compute() ;
 

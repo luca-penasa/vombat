@@ -1,9 +1,8 @@
 #ifndef APPLYCORRECTION_H
 #define APPLYCORRECTION_H
 
-//#include <BaseFilter.h>
+
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-//#include <dialogs/ccCurvePlotterDlg.h>
 #include <visualization/PlotterDlg.h>
 
 

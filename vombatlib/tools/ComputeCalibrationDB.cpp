@@ -20,8 +20,8 @@ ComputeCalibrationDB::ComputeCalibrationDB(ccPluginInterface *parent_plugin): Ba
 
 int ComputeCalibrationDB::compute()
 {
-
-
+    if (m_dialog->checkInputValidity() == false)
+        return -21;
 
     spc::CalibrationDataEstimator calibrator;
     calibrator.setInputClouds(m_dialog->getPCDFiles());
@@ -51,21 +51,16 @@ int ComputeCalibrationDB::compute()
     calib_db->setName("CalibrationDB");
     calib_db->setVisible(true);
 
-    std::vector<ccPointCloud *> clouds = CalibrationDBAsPointClouds(*(calib_db->getAsSpc()));
+    calib_db->rebuildClouds();
 
-    BOOST_FOREACH(ccPointCloud * cloud, clouds)
-    {
-        calib_db->addChild(cloud);
-    }
+
 
     newEntity(calib_db);
 
 
-
-
-
     return 1;
 }
+
 
 
 
@@ -96,61 +91,4 @@ int ComputeCalibrationDB::openInputDialog()
 
 }
 
-std::vector<ccPointCloud *> ComputeCalibrationDB::CalibrationDBAsPointClouds(const spc::CalibrationDataDB &db)
-{
-    size_t n_clouds = db.getNumberOfDifferentClouds();
-    std::vector<ccPointCloud * > out(n_clouds);
-    BOOST_FOREACH(ccPointCloud * &cloud, out)
-    {
-        cloud = new ccPointCloud(); //we need them instantiated
 
-        ccScalarField * distance = new ccScalarField();
-        distance->setName("distance");
-
-        ccScalarField * angle = new ccScalarField();
-        angle->setName("angle");
-
-        ccScalarField * intensity = new ccScalarField();
-        intensity->setName("intensity");
-
-        cloud->addScalarField(distance);
-        cloud->addScalarField(angle);
-        cloud->addScalarField(intensity);
-    }
-
-
-
-    BOOST_FOREACH(spc::CorePointData::Ptr core, db.getDataDB())
-    {
-
-        Eigen::Vector3f center = core->value<Eigen::Vector3f>("centroid");
-        CCVector3 p (center(0), center(1), center(2));
-
-        ccPointCloud * cloud = out.at(core->value<size_t>("cloud_id"));
-
-        float distance, angle, intensity;
-        distance = core->value<float>("distance");
-        angle = core->value<float>("angle");
-        intensity = core->value<float>("intensity");
-
-        std::string name =core->value<std::string>("cloud_name");
-
-        cloud->setName(name.c_str());
-
-
-        cloud->reserve(cloud->size() + 1);
-
-        cloud->getScalarField(cloud->getScalarFieldIndexByName("distance"))->addElement(distance);
-        cloud->getScalarField(cloud->getScalarFieldIndexByName("angle"))->addElement(angle);
-        cloud->getScalarField(cloud->getScalarFieldIndexByName("intensity"))->addElement(intensity);
-
-        cloud->getScalarField(cloud->getScalarFieldIndexByName("distance"))->computeMinAndMax();
-        cloud->getScalarField(cloud->getScalarFieldIndexByName("angle"))->computeMinAndMax();
-        cloud->getScalarField(cloud->getScalarFieldIndexByName("intensity"))->computeMinAndMax();
-
-        cloud->addPoint(p);
-
-    }
-
-    return out;
-}

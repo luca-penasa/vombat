@@ -27,6 +27,8 @@ public:
     double getMaxDistanceForNormals() const;
 
     bool usePrecomputedNormals() const;
+
+    bool checkInputValidity() const;
 public slots:
     void setPCDFiles();
 
