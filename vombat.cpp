@@ -48,9 +48,6 @@ static vombat * qgeo_instance = 0;
 vombat::vombat()
 {
     qgeo_instance = this;
-    spc::TimeSeriesGenerator gen;
-    std::cout << "generator created!" << std::endl;
-
 }
 
 vombat::~vombat()
@@ -97,17 +94,19 @@ void vombat::getActions(QActionGroup& group)
         addFilter(new Edit(this));
 
 
-        addFilter(new OpenPlotsDialog(this));
+//        addFilter(new OpenPlotsDialog(this));
 
-        addFilter(new CreateTimeSeriesFromScalarFields(this));
+
         addFilter(new OpenPlots2DDialog(this));
+        addFilter(new CreateTimeSeriesFromScalarFields(this));
+        addFilter(new SendTo2DPlot(this));
 
 //        m_plotter = openPlot->getPlotterDlg();
 
-        addFilter(new ComputeSmoothedTimeSeriesXY(this));
+//        addFilter(new ComputeSmoothedTimeSeriesXY(this));
 
 
-        addFilter(new SetUpNewSeries(this));
+//        addFilter(new SetUpNewSeries(this));
         //addFilter(new SaveSPCElement(this));
         //addFilter(new LoadSPCElement(this));
 //        addFilter(new Test(this));
@@ -117,7 +116,7 @@ void vombat::getActions(QActionGroup& group)
         addFilter(new ApplyCorrection(this));
 
 
-        addFilter(new SendTo2DPlot(this));
+
 
 //        addFilter( new ComputeStratigraphicPosition(this) );
 //        addFilter( new ComputeTimeSeries(this));
@@ -319,7 +318,7 @@ void vombat::onNewSelection(const ccHObject::Container& selectedEntities)
 
 QIcon vombat::getIcon() const
 {
-    return QIcon(QString::fromUtf8(":/toolbar/vombat.png"));
+    return QIcon(QString::fromUtf8(":plugin/icons/vombat.png"));
 }
 
 vombat *vombat::theInstance()
@@ -336,11 +335,12 @@ PlotterDlg *vombat::getPlotterDlg()
 {
     BOOST_FOREACH(BaseFilter * f, m_filters)
     {
-//        OpenPlotsDialog * open_plot_filter = dynamic_cast<OpenPlotsDialog *>(f);
         if (typeid(*f) ==typeid(OpenPlotsDialog))
         {
-            std::cout << "found!"<<std::endl;
-            return static_cast<OpenPlotsDialog *> (f)->getPlotterDlg();
+
+            PlotterDlg * plotterdlg = static_cast<OpenPlotsDialog *> (f)->getPlotterDlg();
+
+            return plotterdlg;
         }
 
     }
@@ -351,11 +351,11 @@ Plotter2DDlg *vombat::getPlotter2DDlg()
 {
     BOOST_FOREACH(BaseFilter * f, m_filters)
     {
-        OpenPlotsDialog * open_plot_filter = dynamic_cast<OpenPlotsDialog *>(f);
-        if (typeid(*f) ==typeid(OpenPlots2DDialog))
+        if (typeid(*f) == typeid(OpenPlots2DDialog))
         {
-            std::cout << "found!"<<std::endl;
-            return static_cast<OpenPlots2DDialog *> (f)->getPlotterDlg();
+
+            Plotter2DDlg  * plotterdlg = static_cast<OpenPlots2DDialog *> (f)->getPlotterDlg();
+            return plotterdlg;
         }
 
     }

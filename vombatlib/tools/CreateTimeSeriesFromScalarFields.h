@@ -13,7 +13,11 @@
 #include <spc/time_series/sparse_time_series.h>
 
 #include <ccoutofcore/ccTimeSeries.h>
+
+#include <spc/methods/time_series_generator.h>
 #include <plotter2d/Plotter2DDlg.h>
+
+#include <spc/common/common.h>
 
 
 class CreateTimeSeriesFromScalarFields : public BaseFilter
@@ -37,7 +41,8 @@ public:
 
         bool doKS = m_dialog->getUi()->grpKS->isChecked();
 
-        spc::spcGenericCloud * cloud = new  spcCCPointCloud(getSelectedEntityAsCCPointCloud());
+        ccPointCloud * cccloud = getSelectedEntityAsCCPointCloud();
+        spc::spcGenericCloud::Ptr cloud = spc::spcGenericCloud::Ptr(new  spcCCPointCloud(cccloud));
 
         if (!cloud)
             return -1;
@@ -45,33 +50,51 @@ public:
         std::string x_field_name, y_field_name;
 
         x_field_name = m_dialog->getUi()->cmbX->getSelectedFiedName();
-        x_field_name = m_dialog->getUi()->cmbY->getSelectedFiedName();
+        y_field_name = m_dialog->getUi()->cmbY->getSelectedFiedName();
 
-        if (doKS)
+        std::string name = x_field_name + "_" + y_field_name;
+
+        spc::GenericTimeSeries<float>::Ptr serie;
+
+        if (!doKS)
         {
-
             std::vector<float>  x = cloud->getField(x_field_name);
             std::vector<float>  y = cloud->getField(y_field_name);
 
-
-            std::cout << x.size() << std::endl;
-            spc::SparseTimeSeries<float>::Ptr serie = spc::SparseTimeSeries<float>::Ptr (new spc::SparseTimeSeries<float>(x, y));
-
-            ccTimeSeries * ccserie =  new ccTimeSeries(serie);
-
-            QVector<double> qx = ccserie->getX();
-            QVector<double> qy = ccserie->getY();
-
-            Plotter2DDlg * plot = vombat::theInstance()->getPlotter2DDlg();
-
-            this->newEntity(ccserie);
-
-            plot->addPlot(ccserie);
-
-
+            // simply build up a scatters TS with the two scalar fields
+            serie = spc::SparseTimeSeries<float>::Ptr (new spc::SparseTimeSeries<float>(x, y));
         }
 
 
+        else // do KS
+        {
+
+            float ssx = m_dialog->getUi()->cmbSSX->value();
+            float ksx = m_dialog->getUi()->cmbKSX->value();
+
+            name += "_smoothed_" +  spc::asString(ssx) + "_" +spc::asString(ksx);
+
+            spc::TimeSeriesGenerator generator;
+            generator.setInputCloud(cloud);
+            generator.setXFieldName(x_field_name);
+            generator.setYFieldName(y_field_name);
+
+            generator.setSamplingStep(ssx);
+            generator.setBandwidth(ksx);
+            generator.compute();
+            serie = generator.getOutputSeries();
+            if (!serie)
+                return -1;
+
+        }
+
+        ccTimeSeries * ccserie = new ccTimeSeries(serie);
+
+        cccloud->addChild(ccserie);
+
+        ccserie->setName(name.c_str());
+
+        emit entityHasChanged(cccloud);
         return 1;
     }
 

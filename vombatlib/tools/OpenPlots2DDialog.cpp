@@ -5,10 +5,10 @@
 OpenPlots2DDialog::OpenPlots2DDialog(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Show 2d Plots ",
                                                      "Open the 2D plots dialog",
                                                      "Open the 2D plots dialog",
-                                                                                                     ":/toolbar/icons/2dplot.png" ), parent_plugin), m_plotter_dialog(0)
+                                                                                                     ":/toolbar/icons/plotter.png" ), parent_plugin), m_plotter_dialog(0)
 {
     this->setShowProgressBar(false);
-    m_plotter_dialog = new Plotter2DDlg();
+    m_plotter_dialog = new Plotter2DDlg(0);
     m_plotter_dialog->setVisible(false);
 }
 

@@ -10,7 +10,7 @@
 #include <ccStdPluginInterface.h>
 
 class PlotterDlg;
-class QToolBar;
+//class QToolBar;
 class QMenu;
 class OpenPlotsDialog;
 class Plotter2DDlg;

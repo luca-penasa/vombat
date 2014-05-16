@@ -11,7 +11,7 @@ class ccTimeSeries;
 
 namespace Ui
 {
-    class Plotter2DDlgUi;
+class Plotter2DDlgUi;
 }
 
 //// te dialog with the widgt collecting the plots
@@ -27,8 +27,10 @@ signals:
 
 public slots:
     void addPlot(ccTimeSeries * series);
+    // called when mouse wheel is wheeled :-)
+    void mouseWheel();
 
-
+    void clearPlots();
 
 
 protected:
@@ -41,12 +43,18 @@ protected:
 
     bool isYetPlotted(ccTimeSeries * ser);
 
+
+
+
+
     QCustomPlot * getPlotWidget() const;
 
 
     Ui::Plotter2DDlgUi * ui;
 
     std::vector<ccTimeSeries *> all_series_;
+
+
 
 
 };
