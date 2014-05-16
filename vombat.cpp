@@ -21,8 +21,10 @@
 #include <ExportToAscii.h>
 #include <ApplyCorrection.h>
 
+#include <CreateTimeSeriesFromScalarFields.h>
+
 #include <ComputeCalibrationDB.h>
-#include <test.h>
+//#include <test.h>
 
 #include <ComputeSmoothedTimeSeriesXY.h>
 
@@ -96,6 +98,8 @@ void vombat::getActions(QActionGroup& group)
 
 
         addFilter(new OpenPlotsDialog(this));
+
+        addFilter(new CreateTimeSeriesFromScalarFields(this));
         addFilter(new OpenPlots2DDialog(this));
 
 //        m_plotter = openPlot->getPlotterDlg();
@@ -106,7 +110,7 @@ void vombat::getActions(QActionGroup& group)
         addFilter(new SetUpNewSeries(this));
         //addFilter(new SaveSPCElement(this));
         //addFilter(new LoadSPCElement(this));
-        addFilter(new Test(this));
+//        addFilter(new Test(this));
 
         addFilter(new ComputeCalibrationDB(this));
         addFilter(new CalibrateDevice(this));

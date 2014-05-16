@@ -35,7 +35,7 @@
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>../visualization/qcustomplot.h</header>
+   <header>external/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -1,5 +1,5 @@
-#ifndef ATTITUDE_TO_MDOEL_H
-#define ATTITUDE_TO_MDOEL_H
+#ifndef ATTITUDE_TO_MODEL_H
+#define ATTITUDE_TO_MODEL_H
 
 //#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>

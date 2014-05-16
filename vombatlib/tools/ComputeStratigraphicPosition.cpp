@@ -2,7 +2,7 @@
 #include <dialogs/ComputeStratigraphicPositionDlg.h>
 
 //tmp
-#include <tools/qtHelper.h>
+#include <helpers/qtHelper.h>
 
 #include <ccConsole.h>
 #include <ccPlane.h>
@@ -17,7 +17,7 @@
 #include <spc/estimators/attitude_estimator.h>
 
 
-#include <tools/spcCCPointCloud.h>
+#include <helpers/spcCCPointCloud.h>
 
 ComputeStratigraphicPosition::ComputeStratigraphicPosition(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Compute Stratigraphic Position",
                                                                                               "Compute Stratigraphic Position",

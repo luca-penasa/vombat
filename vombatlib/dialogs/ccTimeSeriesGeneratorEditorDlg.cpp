@@ -143,14 +143,3 @@ void ComputeTimeSeriesDlg::initWithTree()
 
 }
 
-
-
-//void AddNewSeriesDlg::updateWithSelected(ccHObject::Container &objects)
-//{
-//    // clear everything
-//    this->ui->comboCloud->clear();
-//    this->ui->comboModel->clear();
-//    this->ui->comboScalar->clear();
-
-
-//}

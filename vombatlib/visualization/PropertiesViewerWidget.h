@@ -2,7 +2,7 @@
 #define PROPERTIESVIEWERWIDGET_H
 
 #include <QWidget>
-#include "qcustomplot.h"
+#include <external/qcustomplot.h>
 
 namespace Ui {
 class PropertiesViewerWidget;

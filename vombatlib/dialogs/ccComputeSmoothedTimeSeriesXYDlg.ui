@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>445</width>
-    <height>189</height>
+    <height>195</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,7 +88,7 @@
   <customwidget>
    <class>ScalarFieldsComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global">tools/qtHelper.h</header>
+   <header location="global">helpers/ScalarFieldsComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

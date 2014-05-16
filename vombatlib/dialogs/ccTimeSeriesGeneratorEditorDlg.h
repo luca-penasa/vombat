@@ -5,8 +5,8 @@
 #include <QDialog>
 #include <ccHObject.h>
 #include <QComboBox>
-#include <tools/qtHelper.h>
-
+#include <helpers/qtHelper.h>
+#include <helpers/ObjectSelectionComboBox.h>
 class ccTimeSeriesGenerator;
 
 namespace Ui {

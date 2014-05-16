@@ -94,9 +94,11 @@ endif()
 #it also automatically find PCL and other required libraries
 find_package(SPC 0.1.0 REQUIRED)
 include_directories(${SPC_INCLUDE_DIRS})
-message(${SPC_INCLUDE_DIRS})
+
 link_directories(${SPC_LIBRARY_DIRS})
 add_definitions(${SPC_DEFINITIONS})
+
+message("spc includes: ${SPC_INCLUDE_DIRS}")
 ####################################################################
 
 find_package(PCL 1.6 REQUIRED)

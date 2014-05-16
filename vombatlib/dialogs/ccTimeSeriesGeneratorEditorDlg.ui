@@ -170,7 +170,7 @@
   <customwidget>
    <class>ObjectSelectionComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global">tools/qtHelper.h</header>
+   <header location="global">helpers/qtHelper.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

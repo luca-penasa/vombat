@@ -1,6 +1,6 @@
 #ifndef SINGLEPLOT_H
 #define SINGLEPLOT_H
-#include "qcustomplot.h"
+#include <external/qcustomplot.h>
 #include <visualization/MainScale.h>
 
 #include <spc/elements/continous_values_stratigraphy.h>

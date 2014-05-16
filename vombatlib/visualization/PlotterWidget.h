@@ -1,7 +1,7 @@
 #ifndef VOMBAT_PLOTTER_H
 #define VOMBAT_PLOTTER_H
 
-#include "qcustomplot.h"
+#include <external/qcustomplot.h>
 #include "MainScale.h"
 #include "PlotsContainer.h"
 #include <ccoutofcore/ccTimeSeries.h>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>353</width>
-    <height>129</height>
+    <height>124</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
   <customwidget>
    <class>ObjectSelectionComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global">tools/qtHelper.h</header>
+   <header location="global">helpers/ObjectSelectionComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

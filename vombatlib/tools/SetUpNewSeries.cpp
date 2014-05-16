@@ -132,7 +132,7 @@ int SetUpNewSeries::openOutputDialog()
 
     generator.setInputCloud(mycloud);
     generator.setStratigraphicModel(model->getModel());
-    generator.setLogFieldName(m_dialog->getSelectedScalarFieldName());
+    generator.setYFieldName(m_dialog->getSelectedScalarFieldName());
     generator.setSamplingStep(m_dialog->getStep());
     generator.setBandwidth(m_dialog->getBandwidth());
 

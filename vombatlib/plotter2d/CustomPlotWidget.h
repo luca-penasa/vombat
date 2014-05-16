@@ -1,7 +1,7 @@
 #ifndef VOMBAT_CUSTOMPLOTWIDGET_H
 #define VOMBAT_CUSTOMPLOTWIDGET_H
 
-#include <visualization/qcustomplot.h>
+#include <external/qcustomplot.h>
 
 
 class QWidget;

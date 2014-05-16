@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QToolBox" name="toolBox">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="geometry">
@@ -149,7 +149,7 @@
   <customwidget>
    <class>ScalarFieldsComboBox</class>
    <extends>QComboBox</extends>
-   <header location="global">tools/qtHelper.h</header>
+   <header location="global">helpers/ScalarFieldsComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

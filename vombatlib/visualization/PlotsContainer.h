@@ -1,7 +1,7 @@
 #ifndef VOMBAT_PLOTSCONTAINER_H
 #define VOMBAT_PLOTSCONTAINER_H
 
-#include "qcustomplot.h"
+#include <external/qcustomplot.h>
 
 #include "SinglePlot.h"
 #include <boost/foreach.hpp>

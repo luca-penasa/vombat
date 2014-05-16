@@ -22,11 +22,10 @@ include_directories(${PCL_INCLUDE_DIRS})
 
 
 
-
-file( GLOB_RECURSE header_list ccoutofcore/*.h dialogs/*.h external/*.h plotter2d/*.h tools/*.h visualization/*.h )
-file( GLOB_RECURSE source_list ccoutofcore/*.cpp dialogs/*.cpp external/*.cpp plotter2d/*.cpp tools/*.cpp visualization/*.cpp)
-file( GLOB_RECURSE impl_list ccoutofcore/*.hpp dialogs/*.hpp external/*.hpp plotter2d/*.hpp tools/*.hpp visualization/*.hpp)
-file( GLOB_RECURSE ui_list dialogs/*.ui visualization/*.ui )
+file( GLOB_RECURSE header_list ccoutofcore/*.h external/*.h dialogs/*.h plotter2d/*.h tools/*.h visualization/*.h helpers/*.h)
+file( GLOB_RECURSE source_list ccoutofcore/*.cpp external/*.cpp dialogs/*.cpp plotter2d/*.cpp tools/*.cpp visualization/*.cpp helpers/*.cpp)
+file( GLOB_RECURSE impl_list ccoutofcore/*.hpp external/*.hpp dialogs/*.hpp  plotter2d/*.hpp tools/*.hpp visualization/*.hpp helpers/*.hpp)
+file( GLOB_RECURSE ui_list dialogs/*.ui visualization/*.ui helpers/*.ui)
 #file( GLOB qrc_list icons/*.qrc )
 #file( GLOB rc_list *.rc )
 
@@ -36,6 +35,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dialogs)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/plotter2d)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tools)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/visualization)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/helpers)
 
 #for mocked files and ui_
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/ccoutofcore)
@@ -43,6 +43,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/dialogs)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/plotter2d)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/tools)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
+
 
 # find Qt mocable files
 find_mocable_files( mocable_list ${header_list} )
