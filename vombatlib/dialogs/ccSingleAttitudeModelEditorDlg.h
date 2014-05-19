@@ -29,6 +29,7 @@ public slots:
     void maxSPChanged(double max_sp);
 
 
+
 private:
     Ui::ccSingleAttitudeModelEditorDlgUi *ui;
 

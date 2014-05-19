@@ -7,7 +7,7 @@
 //#include <BaseFilter.h>
 #include <dialogs/GaussianFilterDlg.h>
 
-//#include <spc/stratigraphy/single_attitude_model.h>
+//#include <spc/scalar_fields_generators/single_attitude_model.h>
 //
 //#include <ccoutofcore/ccSingleAttitudeModel.h>
 

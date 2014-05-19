@@ -11,20 +11,29 @@ SendTo2DPlot::SendTo2DPlot(ccPluginInterface *parent_plugin): BaseFilter(FilterD
     this->setShowProgressBar(false);
 }
 
+
+
 int SendTo2DPlot::compute()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
 
-//    selected->setLocked(true);
+    //    selected->setLocked(true);
 
     ccTimeSeries * serie = static_cast<ccTimeSeries *> (selected);
     if (!serie)
         return -1;
 
+    // now get line style
+    QCPGraph::LineStyle lstyle = m_dialog->getLineStyle();
+
+    QCPScatterStyle::ScatterShape scatterShape = m_dialog->getScatterShape();
+
 
     Plotter2DDlg * plot =  vombat::theInstance()->getPlotter2DDlg();
 
-    plot->addPlot(serie);
+
+
+    plot->addPlot(serie, lstyle, scatterShape);
 
     return 1;
 }

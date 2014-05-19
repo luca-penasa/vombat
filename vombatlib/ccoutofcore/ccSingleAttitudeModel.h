@@ -3,7 +3,7 @@
 
 #include <ccHObject.h>
 
-#include <spc/stratigraphy/single_attitude_model.h>
+#include <spc/scalar_fields_generators/single_attitude_model.h>
 
 #include <ccCylinder.h>
 #include <ccoutofcore/ccEditableHObject.h>
@@ -20,31 +20,25 @@
 
 #include <ccoutofcore/ccAttitude.h>
 
-class ccSingleAttitudeModel: public QObject,  public ccMyBaseObject
+#include "ccDynamicScalarFieldGenerator.h"
+
+/**
+ * @brief The ccSingleAttitudeModel class is a specialization of a ccDynamicScalarFieldGenerator that add some
+ * visualization capabilities in CloudCompare for the scalar field generator spc::SingleAttitudeModel
+ */
+class ccSingleAttitudeModel: public ccDynamicScalarFieldGenerator
 {
     Q_OBJECT
 
 public:
-
-
     ccSingleAttitudeModel();
 
     // copy const
     ccSingleAttitudeModel(const ccSingleAttitudeModel &model);
 
-
-    ccSingleAttitudeModel(const spc::spcAttitude & att);
+    ccSingleAttitudeModel(const spc::Attitude & att);
 
     ccSingleAttitudeModel(const ccAttitude & att);
-
-
-
-    spc::spcSingleAttitudeModel::Ptr getModel() const
-    {
-        return m_attitude_model;
-    }
-
-
 
     virtual bool isSerializable() const { return true; }
 
@@ -61,6 +55,16 @@ public:
         return QIcon(QString::fromUtf8(":/toolbar/icons/AttitudeToModel.png"));
     }
 
+    spc::SingleAttitudeModel::Ptr getModel() const
+    {
+        // we are sure it is of this type, arent we?
+        return boost::dynamic_pointer_cast<spc::SingleAttitudeModel> (m_generator_);
+    }
+
+    void setModel(spc::SingleAttitudeModel::Ptr model)
+    {
+        m_generator_ = boost::static_pointer_cast<spc::DynamicScalarFieldGenerator> (model);
+    }
 
 
 
@@ -83,8 +87,8 @@ public slots:
 
     void setAdditionalShiftSlot(double additional_shift)
     {
-        std::cout << "called with " << additional_shift << std::endl;
-        m_attitude_model->setAdditionalShift((float) additional_shift);
+        // we know this generator is a spc::SingleAttitudeModel
+        getModel()->setAdditionalShift((float) additional_shift);
         updateMajorBreaks();
     }
 
@@ -121,26 +125,6 @@ protected:
     void updateMajorBreaks() ;
 
 
-   /* friend class boost::serialization::access;
-
-    template <class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-        ar & BOOST_SERIALIZATION_NVP(m_min_sp);
-        ar & BOOST_SERIALIZATION_NVP(m_max_sp);
-        ar & BOOST_SERIALIZATION_NVP(m_step);
-        ar & BOOST_SERIALIZATION_NVP(m_line_width);
-        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_length);
-        ar & BOOST_SERIALIZATION_NVP(m_breaks);
-        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_positions);
-        ar & BOOST_SERIALIZATION_NVP(m_major_thicks_vector);
-        ar & BOOST_SERIALIZATION_NVP(m_dynamic_scale);
-        ar & BOOST_SERIALIZATION_NVP(m_attitude_model);
-
-        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
-
-    }*/
-
     ////// user accessible props ////////////////////
     float m_min_sp;
     float m_max_sp;
@@ -149,9 +133,6 @@ protected:
     int m_line_width;
 
     float m_major_thicks_length;
-
-    spc::spcSingleAttitudeModel::Ptr m_attitude_model;
-
 
     //// these for internal use only /////////////////
     std::vector<float> m_breaks;

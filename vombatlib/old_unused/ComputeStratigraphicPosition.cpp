@@ -1,6 +1,5 @@
 #include "ComputeStratigraphicPosition.h"
-#include <dialogs/ComputeStratigraphicPositionDlg.h>
-
+#include <dialogs/EvaluateDynamicScalarFieldGeneratorDlg.h>
 //tmp
 #include <helpers/qtHelper.h>
 
@@ -8,7 +7,7 @@
 #include <ccPlane.h>
 
 //#include <spc/geology/stratigraphic_normal_model.h>
-#include <spc/geology/stratigraphic_evaluator.h>
+#include <spc/scalar_fields_generators/DynamicScalarFieldEvaluator.h>
 
 
 
@@ -82,12 +81,12 @@ ComputeStratigraphicPosition::compute()
     spcCCPointCloud::Ptr  spcCloud = spcCCPointCloud::Ptr (new spcCCPointCloud (in_cloud));
 
 
-    spc::spcStratigraphicModelBase * modelBase = dynamic_cast<spc::spcStratigraphicModelBase *> (m_obj);
+    spc::DynamicScalarFieldGenerator * modelBase = dynamic_cast<spc::DynamicScalarFieldGenerator *> (m_obj);
 
     if (!modelBase)
         return 0;
 
-    std::vector<float> sps = modelBase->getStratigraphicPositions(spcCloud);
+    std::vector<float> sps = modelBase->getScalarFieldValues(spcCloud);
 
     ccScalarField * field =  new ccScalarField;
     field->setName("SP");

@@ -10,16 +10,15 @@ class OpenPlots2DDialog : public BaseFilter
 public:
     OpenPlots2DDialog(ccPluginInterface * parent_plugin = 0);
 
+    ~OpenPlots2DDialog();
+
     virtual int compute();
 
     virtual int openInputDialog();
 
     virtual int checkSelected() {return 1;}
 
-    Plotter2DDlg * getPlotterDlg()
-    {
-        return m_plotter_dialog;
-    }
+    Plotter2DDlg * getPlotterDlg();
 
 protected:
     Plotter2DDlg * m_plotter_dialog;

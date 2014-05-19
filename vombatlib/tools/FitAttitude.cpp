@@ -13,7 +13,7 @@
 #include <spc/estimators/attitude_estimator.h>
 #include <boost/foreach.hpp>
 
-
+#include <helpers/qtHelper.h>
 
 FitAttitude::FitAttitude(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Fit A geological orientation",
                                                                                               "Fit a geological orientation",
@@ -55,10 +55,10 @@ FitAttitude::compute()
     {
         estimator.addInputCloud(cloud);
 
-        std::cout << "adding cloud with points: " << cloud->size() << std::endl;
+//        std::cout << "adding cloud with points: " << cloud->size() << std::endl;
     }
 
-    std::cout << "starting opimization" << std::endl;
+//    std::cout << "starting opimization" << std::endl;
 
     int status = estimator.estimate();
 
@@ -68,24 +68,31 @@ FitAttitude::compute()
         return 0;
     }
 
-    std::cout << "ended optimizing" << std::endl;
+//    std::cout << "ended optimizing" << std::endl;
 
 
-    std::vector<spc::spcAttitude> atts;
-    atts =estimator.getEstimatedAttitudes();
+    std::vector<spc::Attitude> atts;
+    atts = estimator.getEstimatedAttitudes();
 
 
 
     //now for each entity we send back a ccOrientation for visualizing the result
-    BOOST_FOREACH(spc::spcAttitude att, atts)
+    int id = 0;
+    BOOST_FOREACH(spc::Attitude att, atts)
     {
         ccAttitude * ccAtt = new ccAttitude (att);
+//        std::cout <<"NORMAL: \n" << att.getUnitNormal() << std::endl;
+//        std::cout <<"CENTER: \n" << att.getPosition() << std::endl;
 
-        std::cout <<"NORMAL: \n" << att.getUnitNormal() << std::endl;
-        std::cout <<"CENTER: \n" << att.getPosition() << std::endl;
-
-        ccAtt->setName("spcAttitude");
         ccAtt->setVisible(true);
+
+        entities.at(id)->addChild(ccAtt);
+
+        QString name  = suggestHObjectIncrementalName(ccAtt, "Attitude");
+        ccAtt->setName(name);
+
+        entityHasChanged( entities.at(id++));
+
         newEntity(ccAtt);
     }
 

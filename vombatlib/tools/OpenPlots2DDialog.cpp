@@ -21,11 +21,21 @@ OpenPlots2DDialog::compute()
 int OpenPlots2DDialog::openInputDialog()
 {
     if (!m_plotter_dialog->isVisible())
-        m_plotter_dialog->show();
-
+        m_plotter_dialog->setVisible(true);
     else
         m_plotter_dialog->setVisible(false);
 
     return 1;
 }
 
+Plotter2DDlg *OpenPlots2DDialog::getPlotterDlg()
+{
+    return m_plotter_dialog;
+}
+
+
+
+OpenPlots2DDialog::~OpenPlots2DDialog()
+{
+    delete m_plotter_dialog;
+}

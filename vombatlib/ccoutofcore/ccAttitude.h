@@ -29,9 +29,9 @@ class ccAttitude:  public ccMyBaseObject
 public:
     ccAttitude(CCVector3 center, CCVector3 orientation);
 
-    ccAttitude(spc::spcAttitude att);
+    ccAttitude(spc::Attitude att);
 
-    ccAttitude(spc::spcAttitude::Ptr att_ptr);
+    ccAttitude(spc::Attitude::Ptr att_ptr);
 
     ccAttitude();
 
@@ -76,22 +76,22 @@ protected:
 
 
     /// the attitude itself
-    spc::spcAttitude::Ptr m_attitude;
+    spc::Attitude::Ptr m_attitude;
 
 public:
-    spc::spcAttitude::Ptr getAttitude() const
+    spc::Attitude::Ptr getAttitude() const
     {
         return m_attitude;
     }
 
-    void setAttitude(spc::spcAttitude::Ptr att)
+    void setAttitude(spc::Attitude::Ptr att)
     {
         m_attitude = att;
     }
 
-    void setAttitude(spc::spcAttitude att)
+    void setAttitude(spc::Attitude att)
     {
-        spc::spcAttitude::Ptr at_ptr = boost::make_shared<spc::spcAttitude> (att);
+        spc::Attitude::Ptr at_ptr = boost::make_shared<spc::Attitude> (att);
         setAttitude(at_ptr);
     }
 

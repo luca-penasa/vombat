@@ -94,7 +94,7 @@ public:
 
         ccserie->setName(name.c_str());
 
-        emit entityHasChanged(cccloud);
+        newEntity(cccloud);
         return 1;
     }
 

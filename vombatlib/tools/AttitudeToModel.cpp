@@ -8,17 +8,18 @@
 
 #include <vombat.h>
 
+#include <helpers/qtHelper.h>
 
 
 
 
 
 AttitudeToModel::AttitudeToModel(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Create Stratigraphic Model from one attitude",
-                                                                         "Create Stratigraphic Model from one attitude",
-                                                                         "Create Stratigraphic Model from one attitude",
-                                                                         ":/toolbar/icons/AttitudeToModel.png"), parent_plugin)
+                                                                                                     "Create Stratigraphic Model from one attitude",
+                                                                                                     "Create Stratigraphic Model from one attitude",
+                                                                                                     ":/toolbar/icons/AttitudeToModel.png"), parent_plugin)
 {
-this->setShowProgressBar(false);
+    this->setShowProgressBar(false);
 }
 
 
@@ -32,18 +33,18 @@ int AttitudeToModel::compute()
     ccAttitude * att =dynamic_cast<ccAttitude *> (selected);
 
     if (!att)
-    {
-        std::cout << "NOT DEFINED" << std::endl;
         return -1;
-    }
+
 
 
 
     ccSingleAttitudeModel * model = new ccSingleAttitudeModel (*att);
 
-//    selected->addChild(model);
+    selected->addChild(model);
 
-//    vombat::theInstance()->getMainAppInterface()->dbRootObject()->updateModificationTime();
+    QString def_name ("Single Attitude Model");
+    def_name = suggestHObjectIncrementalName(model, def_name);
+    model->setName(def_name);
     newEntity(model);
 
 

@@ -26,6 +26,8 @@
         <file>icons/calibrationDB.png</file>
         <file>icons/plotter.png</file>
         <file>icons/plot.png</file>
+        <file>icons/SFEvaluator.png</file>
+        <file>icons/SFGenerator.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

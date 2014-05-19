@@ -5,25 +5,22 @@
 ccSingleAttitudeModel::ccSingleAttitudeModel()
 {
 
-    m_attitude_model = spc::spcSingleAttitudeModel::Ptr(new spc::spcSingleAttitudeModel);
+    setModel( spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel));
     initMetadata();
     initParameters();
 }
 
-
-
-ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &model)
+ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &other)
 {
-    m_attitude_model = model.getModel(); //copy the model
+    setModel(other.getModel());
     initMetadata();
     initParameters();
 
 }
 
-ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::spcAttitude &att)
+ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::Attitude &att)
 {
-//    spc::spcAttitude::Ptr at_ptr =
-    m_attitude_model = spc::spcSingleAttitudeModel::Ptr(new spc::spcSingleAttitudeModel(att));
+    setModel( spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel(att)) );
 
     initMetadata();
     initParameters();
@@ -31,21 +28,11 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::spcAttitude &att)
 
 ccSingleAttitudeModel::ccSingleAttitudeModel(const ccAttitude & att)
 {
-    m_attitude_model = spc::spcSingleAttitudeModel::Ptr(new spc::spcSingleAttitudeModel(att.getAttitude()));
+    setModel(spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel(att.getAttitude())) );
 
     initMetadata();
     initParameters();
 }
-
-//ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::SingleAttitudeModel &model): spc::SingleAttitudeModel(model)
-//{
-//    initMetadata();
-//    initParameters();
-
-//}
-
-
-
 
 void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
@@ -198,7 +185,7 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 
 void ccSingleAttitudeModel::initMetadata()
 {
-    QVariant var(QString("A stratigrahic model"));
+    QVariant var(QString("A stratigrahic model which permits to evaluate stratigraphic positions for point clouds.\n It is based on only one normal."));
 
     setMetaData(QString("[vombat][ccSingleAttitudeModel]"), var);
 }
@@ -220,7 +207,8 @@ void ccSingleAttitudeModel::initParameters()
 
 void ccSingleAttitudeModel::updateMajorBreaks()
 {
-    assert(m_max_sp > m_min_sp);
+    if(m_max_sp <= m_min_sp)
+        return; // do nothing
 
     m_major_thicks_positions.clear(); //ensure is clean
     m_breaks.clear();
@@ -313,7 +301,3 @@ void ccSingleAttitudeModel::initEditDlg()
 {
     m_edit_dlg = new ccSingleAttitudeModelEditorDlg(this);
 }
-
-
-
-//BOOST_CLASS_EXPORT_GUID(ccSingleAttitudeModel, "ccSingleAttitudeModel")

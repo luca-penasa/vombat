@@ -12,6 +12,8 @@
 #include <dialogs/ccapplycorrection.h>
 
 #include <boost/foreach.hpp>
+#include <cccalibrationmodel.h>
+
 
 
 ApplyCorrection::ApplyCorrection(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Apply intensity calibration model ",
@@ -23,8 +25,7 @@ ApplyCorrection::ApplyCorrection(ccPluginInterface *parent_plugin) : BaseFilter(
 
 }
 
-int
-ApplyCorrection::compute()
+int ApplyCorrection::compute()
 {
 
 
@@ -69,9 +70,9 @@ ApplyCorrection::compute()
     for (int i = 0 ; i < cloud->size(); ++i)
     {
 
-       newfield->setValue(i, mod_spc->getDistanceCorrection(dis->getValue(i)) );
-       y.push_back(newfield->getValue(i));
-       x.push_back(dis->getValue(i));
+        newfield->setValue(i, mod_spc->getDistanceCorrection(dis->getValue(i)) );
+        y.push_back(newfield->getValue(i));
+        x.push_back(dis->getValue(i));
     }
 
 
@@ -91,6 +92,8 @@ ApplyCorrection::compute()
     return 1;
 }
 
+
+
 int ApplyCorrection::openInputDialog()
 {
     model_ = 0;
@@ -104,7 +107,7 @@ int ApplyCorrection::openInputDialog()
     QComboBox * combo = dialog->getModelCombo();
     combo->clear();
 
-//    dialog->layout()->addWidget(box);
+    //    dialog->layout()->addWidget(box);
 
     BOOST_FOREACH(auto obj, cont)
     {

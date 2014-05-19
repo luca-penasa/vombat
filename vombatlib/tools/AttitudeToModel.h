@@ -3,9 +3,9 @@
 
 //#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <dialogs/FastCloudSelectionDlg.h>
+#include <dialogs/ccHObjectSelectionDlgSimple.h>
 
-#include <spc/stratigraphy/single_attitude_model.h>
+#include <spc/scalar_fields_generators/single_attitude_model.h>
 
 #include <ccoutofcore/ccSingleAttitudeModel.h>
 
@@ -31,7 +31,7 @@ protected:
 //    int openInputDialog();
 
 private:
-    FastCloudSelectionDlg * m_dialog;
+    ccHObjectSelectionDlgSimple * m_dialog;
 
     ccSingleAttitudeModel * m_model;
 };

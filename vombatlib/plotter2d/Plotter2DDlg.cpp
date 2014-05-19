@@ -32,11 +32,8 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent): QDialog(parent), ui(new Ui::Plotter
     this->ui->plot->setAcceptDrops(true);
 }
 
-void Plotter2DDlg::addPlot(ccTimeSeries *series)
+int Plotter2DDlg::addPlot(ccTimeSeries *series, const QCPGraph::LineStyle &lstyle, const QCPScatterStyle::ScatterShape &scatterShape)
 {
-    if (isYetPlotted(series))
-        return;
-
     series->setLocked(true); // we lock the series so that the user cannot delete it!
 
     all_series_.push_back(series);
@@ -48,11 +45,22 @@ void Plotter2DDlg::addPlot(ccTimeSeries *series)
     QVector<double> y = series->getY();
 
     QCPGraph * graph = plot->addGraph();
+
+
+    QPen graphPen;
+    graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+    graph->setPen(graphPen);
+
+    graph->setLineStyle(lstyle);
+    graph->setScatterStyle(QCPScatterStyle(scatterShape));
+
     graph->setData(x, y);
     plot->rescaleAxes(true);
 
     plot->replot();
     emit seriesAdded(series);
+
+    return all_series_.size() - 1;
 }
 
 void Plotter2DDlg::mouseWheel()

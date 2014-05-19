@@ -6,7 +6,7 @@
 ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 {
 
-    spc::spcAttitude att = spc::spcAttitude(asEigenVector(orientation), asEigenVector(center));
+    spc::Attitude att = spc::Attitude(asEigenVector(orientation), asEigenVector(center));
     setAttitude(att);
 
     initMetadata();
@@ -15,14 +15,14 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 
 
 
-ccAttitude::ccAttitude(spc::spcAttitude att)
+ccAttitude::ccAttitude(spc::Attitude att)
 {    
     setAttitude(att);
     initMetadata();
     initParameters();
 }
 
-ccAttitude::ccAttitude(spc::spcAttitude::Ptr att_ptr)
+ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
 {
     setAttitude(att_ptr);
     initMetadata();
@@ -32,7 +32,7 @@ ccAttitude::ccAttitude(spc::spcAttitude::Ptr att_ptr)
 
 ccAttitude::ccAttitude()
 {
-    setAttitude(spc::spcAttitude::Ptr(new spc::spcAttitude));
+    setAttitude(spc::Attitude::Ptr(new spc::Attitude));
     initMetadata();
     initParameters();
 }

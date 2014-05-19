@@ -5,7 +5,7 @@
 //#include <ccoutofcore/ccMyCCHObject.h>
 //#include <ccoutofcore/ccAdditionalCaster.h>
 
-//#include <spc/geology/stratigraphic_model_base.h>
+//#include <spc/geology/DynamicScalarFieldGenerator.h>
 #include <ccoutofcore/ccSingleAttitudeModel.h>
 
 #include <ccHObjectCaster.h>
@@ -96,7 +96,7 @@ int SetUpNewSeries::openOutputDialog()
     spcCCPointCloud::Ptr mycloud ( new spcCCPointCloud(cloud));
 
     //////////////////////// to be moved somewhere elese
-    std::vector<float> sps = model->getModel()->getStratigraphicPositions(mycloud);
+    std::vector<float> sps = model->getModel()->getScalarFieldValues(mycloud);
 
     ccScalarField * field =  new ccScalarField;
     field->setName("Stratigraphic Position");

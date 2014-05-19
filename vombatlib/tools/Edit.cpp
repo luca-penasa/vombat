@@ -2,7 +2,7 @@
 #include <ccoutofcore/ccAttitude.h>
 #include <ccoutofcore/ccSingleAttitudeModel.h>
 
-#include <spc/stratigraphy/single_attitude_model.h>
+#include <spc/scalar_fields_generators/single_attitude_model.h>
 
 #include <iostream> // for debug
 

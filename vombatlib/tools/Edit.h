@@ -3,7 +3,7 @@
 
 //#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <dialogs/FastCloudSelectionDlg.h>
+#include <dialogs/ccHObjectSelectionDlgSimple.h>
 
 
 #include <ccoutofcore/ccSingleAttitudeModel.h>

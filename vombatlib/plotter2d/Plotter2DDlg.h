@@ -2,12 +2,15 @@
 #define VOMBAT_PLOTTER2D_HEADER
 
 #include <QDialog>
-
+#include <external/qcustomplot.h>
 
 
 class QCPAxis;
 class QCustomPlot;
 class ccTimeSeries;
+
+
+
 
 namespace Ui
 {
@@ -26,10 +29,16 @@ signals:
     void seriesAdded(ccTimeSeries * series);
 
 public slots:
-    void addPlot(ccTimeSeries * series);
-    // called when mouse wheel is wheeled :-)
+
+    //! it returns the index of the added series into the all_series_ vector
+    int addPlot(ccTimeSeries * series,
+                const QCPGraph::LineStyle & lstyle = QCPGraph::lsLine,
+                const QCPScatterStyle::ScatterShape &scatterShape = QCPScatterStyle::ssNone);
+
+    //! called when mouse wheel is wheeled :-)
     void mouseWheel();
 
+    //! clear everything into the plot
     void clearPlots();
 
 
@@ -40,7 +49,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
 
 
-
+    //! is this series yet present?
     bool isYetPlotted(ccTimeSeries * ser);
 
 

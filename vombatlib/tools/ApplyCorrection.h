@@ -4,6 +4,7 @@
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <visualization/PlotterDlg.h>
+#include <ccPointCloud.h>
 
 
 class ApplyCorrection : public BaseFilter

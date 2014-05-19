@@ -1,10 +1,8 @@
 #ifndef COMPUTESTRATIGRAPHICPOSITION_H
 #define COMPUTESTRATIGRAPHICPOSITION_H
 
-
-//#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <dialogs/ComputeStratigraphicPositionDlg.h>
+#include <dialogs/EvaluateDynamicScalarFieldGeneratorDlg.h>
 
 #include <Eigen/Dense>
 #include <pcl/point_cloud.h>

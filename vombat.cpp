@@ -4,14 +4,13 @@
 #include <ccPointCloud.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 //#include <ComputeTimeSeries.h>
-#include <ComputeStratigraphicPosition.h>
 #include <FitAttitude.h>
 #include <AttitudeToModel.h>
 #include <Edit.h>
 //#include <SaveSPCElement.h>
 //#include <LoadSPCElement.h>
 
-#include <EvaluateStratigraphicPosition.h>
+#include <EvaluateDynamicScalarFieldGenerator.h>
 #include <Properties.h>
 #include <CloudToPlanarSelection.h>
 #include <SetUpNewSeries.h>
@@ -61,7 +60,7 @@ vombat::~vombat()
 
 void vombat::handleNewEntity(ccHObject* entity)
 {
-	assert(entity && m_app);
+    assert(entity && m_app);
     entity->setSelected(true);
 	m_app->addToDB(entity);
 
@@ -90,7 +89,7 @@ void vombat::getActions(QActionGroup& group)
         //ADD FILTERS
         addFilter(new FitAttitude(this));
         addFilter(new AttitudeToModel(this));
-        addFilter(new EvaluateStratigraphicPosition(this));
+        addFilter(new EvaluateDynamicScalarFieldGenerator(this));
         addFilter(new Edit(this));
 
 
