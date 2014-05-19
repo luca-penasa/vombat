@@ -3,3 +3,4 @@ build*
 *.pyc
 CMakeCache.txt
 CMakeFiles
+*.*~

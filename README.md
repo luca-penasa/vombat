@@ -4,6 +4,8 @@ VOMBAT
 **Virtual Outcrop Models Basic Analysis Tool**
 
 
+** NOTE: VOMBAT is currently under high-refactoring so many of the informations here reported may not be right **
+
 Introduction
 ------------
 SPC Is a small project that puts together tools and methods for the extraction of stratigraphic information from point clouds, both from lidar and photogrammetry.
