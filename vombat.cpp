@@ -13,7 +13,7 @@
 #include <EvaluateDynamicScalarFieldGenerator.h>
 #include <Properties.h>
 #include <CloudToPlanarSelection.h>
-#include <SetUpNewSeries.h>
+//#include <SetUpNewSeries.h>
 #include <split_point_cloud.h>
 #include <OpenPlotsDialog.h>
 #include <OpenPlots2DDialog.h>
@@ -172,7 +172,7 @@ ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) cons
     ccHObject::Container sel = getSelected();
     ccHObject::Container new_sel;
 
-    BOOST_FOREACH(ccHObject * obj, sel)
+    spcForEachMacro(ccHObject * obj, sel)
     {
         if (obj->hasMetaData(key))
             new_sel.push_back(obj);
@@ -209,7 +209,7 @@ ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in,
         return in;
 
     ccHObject::Container out;
-    BOOST_FOREACH(ccHObject * obj, in)
+    spcForEachMacro(ccHObject * obj, in)
     {
         if (obj->isA(ThisType))
         {
@@ -226,7 +226,7 @@ ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in,
         return in;
 
     ccHObject::Container out;
-    BOOST_FOREACH (ccHObject * obj, in)
+    spcForEachMacro (ccHObject * obj, in)
     {
         if (obj->isKindOf(ThisType))
         {
@@ -266,7 +266,7 @@ ccHObject::Container vombat::getAllChildren(ccHObject *object)
 ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container &in, const QString key)
 {
     ccHObject::Container out;
-   BOOST_FOREACH (ccHObject * obj, in)
+   spcForEachMacro (ccHObject * obj, in)
     {
         if (obj->hasMetaData(key))
         {
@@ -296,7 +296,7 @@ ccHObject::Container vombat::getAllObjectsInTree()
 
         ccHObject::Container sons = getAllChildren(last);
 
-        BOOST_FOREACH (ccHObject * obj, sons)
+        spcForEachMacro (ccHObject * obj, sons)
         {
             tovisit.push_back(obj);
         }
@@ -332,7 +332,7 @@ QMainWindow *vombat::getMainWindow()
 
 PlotterDlg *vombat::getPlotterDlg()
 {
-    BOOST_FOREACH(BaseFilter * f, m_filters)
+    spcForEachMacro(BaseFilter * f, m_filters)
     {
         if (typeid(*f) ==typeid(OpenPlotsDialog))
         {
@@ -348,7 +348,7 @@ PlotterDlg *vombat::getPlotterDlg()
 
 Plotter2DDlg *vombat::getPlotter2DDlg()
 {
-    BOOST_FOREACH(BaseFilter * f, m_filters)
+    spcForEachMacro(BaseFilter * f, m_filters)
     {
         if (typeid(*f) == typeid(OpenPlots2DDialog))
         {

@@ -109,7 +109,7 @@ int ApplyCorrection::openInputDialog()
 
     //    dialog->layout()->addWidget(box);
 
-    BOOST_FOREACH(auto obj, cont)
+    spcForEachMacro(auto obj, cont)
     {
         combo->addItem(obj->getName());
     }

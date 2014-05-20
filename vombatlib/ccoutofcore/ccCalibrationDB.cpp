@@ -16,7 +16,7 @@ void ccCalibrationDB::rebuildClouds()
 {
     std::vector<ccPointCloud *> clouds = ccCalibrationDB::getAsPointClouds(*(this->getAsSpc()));
 
-    BOOST_FOREACH(ccPointCloud * cloud, clouds)
+    spcForEachMacro(ccPointCloud * cloud, clouds)
     {
         this->addChild(cloud);
         cloud->setLocked(true);
@@ -63,7 +63,7 @@ std::vector<ccPointCloud *> ccCalibrationDB::getAsPointClouds(const spc::Calibra
 {
     size_t n_clouds = db.getNumberOfDifferentClouds();
     std::vector<ccPointCloud * > out(n_clouds);
-    BOOST_FOREACH(ccPointCloud * &cloud, out)
+    spcForEachMacro(ccPointCloud * &cloud, out)
     {
         cloud = new ccPointCloud(); //we need them instantiated
 
@@ -83,7 +83,7 @@ std::vector<ccPointCloud *> ccCalibrationDB::getAsPointClouds(const spc::Calibra
 
 
 
-    BOOST_FOREACH(spc::CorePointData::Ptr core, db.getDataDB())
+    spcForEachMacro(spc::CorePointData::Ptr core, db.getDataDB())
     {
 
         Eigen::Vector3f center = core->value<Eigen::Vector3f>("centroid");

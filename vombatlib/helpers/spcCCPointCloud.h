@@ -14,8 +14,7 @@ class spcCCPointCloud: public spc::spcGenericCloud
 {
 public:
 
-    typedef boost::shared_ptr<spcCCPointCloud> Ptr;
-    typedef boost::shared_ptr<const spcCCPointCloud> ConstPtr;
+    spcTypedefSmartPointersMacro(spcCCPointCloud)
 
     spcCCPointCloud(ccPointCloud *cloud)
     {

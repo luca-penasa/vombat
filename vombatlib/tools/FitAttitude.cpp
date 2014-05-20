@@ -15,6 +15,8 @@
 
 #include <helpers/qtHelper.h>
 
+
+
 FitAttitude::FitAttitude(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Fit A geological orientation",
                                                                                               "Fit a geological orientation",
                                                                                               "Use a set of points to fit a geological orientation",
@@ -32,7 +34,7 @@ FitAttitude::compute()
 
     //convert them to pcl point clouds
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds;
-    BOOST_FOREACH( ccHObject * ent, entities)
+    spcForEachMacro( ccHObject * ent, entities)
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud( ent );
 
@@ -51,7 +53,7 @@ FitAttitude::compute()
     //set up an estimator
     spc::AttitudeEstimator estimator;
 
-    BOOST_FOREACH(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, clouds) //add the single clouds
+    spcForEachMacro(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, clouds) //add the single clouds
     {
         estimator.addInputCloud(cloud);
 
@@ -78,7 +80,7 @@ FitAttitude::compute()
 
     //now for each entity we send back a ccOrientation for visualizing the result
     int id = 0;
-    BOOST_FOREACH(spc::Attitude att, atts)
+    spcForEachMacro(spc::Attitude att, atts)
     {
         ccAttitude * ccAtt = new ccAttitude (att);
 //        std::cout <<"NORMAL: \n" << att.getUnitNormal() << std::endl;

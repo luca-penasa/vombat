@@ -32,7 +32,7 @@ public:
 
     void setDepthRangeForAllPlots(const float lower, const float upper)
     {
-        BOOST_FOREACH(SinglePlot * plot, m_plots)
+        spcForEachMacro(SinglePlot * plot, m_plots)
         {
             plot->setDepthRange(lower, upper);
         }

@@ -25,7 +25,7 @@ ExportToAscii::compute()
     std::cout << "here" << std::endl;
 
     int counter = 0 ;
-    BOOST_FOREACH(ccHObject * ts, ts_list)
+    spcForEachMacro(ccHObject * ts, ts_list)
     {
         ccTimeSeries * t  = dynamic_cast<ccTimeSeries *> (ts) ;
 

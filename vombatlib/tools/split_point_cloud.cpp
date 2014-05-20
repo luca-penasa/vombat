@@ -68,7 +68,7 @@ SplitPointCloud::compute()
         return -1;
     }
 
-    BOOST_FOREACH (std::vector<int> id , ids)
+    spcForEachMacro (std::vector<int> id , ids)
     {
         if (id.size() > min_points)
         {

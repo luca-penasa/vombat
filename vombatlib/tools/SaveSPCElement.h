@@ -38,7 +38,7 @@
 //        // get all qgeo-valid objects that are also selected
 //        ccHObject::Container all = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat]");
 //
-//        BOOST_FOREACH(ccHObject * obj, all)
+//        spcForEachMacro(ccHObject * obj, all)
 //        {
 //            std::cout << obj->getName().toStdString().c_str() << std::endl;
 //        }
@@ -47,7 +47,7 @@
 //
 //
 //
-//        BOOST_FOREACH (ccHObject * obj, all)
+//        spcForEachMacro (ccHObject * obj, all)
 //        {
 //
 //            spc::spcSerializableObject * element = dynamic_cast<spc::spcSerializableObject *> (obj);

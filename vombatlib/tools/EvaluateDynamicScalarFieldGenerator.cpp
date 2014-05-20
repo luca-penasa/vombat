@@ -13,6 +13,8 @@
 #include <spcCCPointCloud.h>
 #include <boost/foreach.hpp>
 
+#include <helpers/qtHelper.h>
+
 EvaluateDynamicScalarFieldGenerator::EvaluateDynamicScalarFieldGenerator(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",
                                                                          "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",
                                                                          "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",
@@ -29,7 +31,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
         return -1;
     }
 
-    m_generator = static_cast <ccDynamicScalarFieldGenerator *> (m_dialog->ui->cmbModelSelection->getSelected());
+    m_generator = dynamic_cast <ccDynamicScalarFieldGenerator *> (m_dialog->ui->cmbModelSelection->getSelected());
 
     if (!m_generator)
     {
@@ -40,7 +42,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
     getSelectedEntitiesThatAreCCPointCloud(clouds);
 
     //for each cloud compute a scalar field! and add it to the pertinent cloud
-    BOOST_FOREACH(ccHObject * obj, clouds)
+    spcForEachMacro(ccHObject * obj, clouds)
     {
 
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
@@ -51,7 +53,15 @@ int EvaluateDynamicScalarFieldGenerator::compute()
         evaluator.setGenerator(m_generator->getGenerator());
         evaluator.compute();
 
-        std::vector<float> scalars = evaluator.getOutput();
+        std::cout << "test " << m_generator->getGenerator()->getScalarFieldValue(Vector3f(0,0,0)) << std::endl;
+
+        std::vector<float> scalars = m_generator->getGenerator()->getScalarFieldValues(ptr);
+
+        for (int i = 0 ; i < 10; ++i)
+            std::cout << "val " << scalars.at(i) << std::endl;
+
+//        spcForEachMacro(auto s, scalars)
+//                std::cout << s << std::endl;
 
         std::string sf_name = m_dialog->ui->lneSFName->text().toStdString();
         if (sf_name.empty())
@@ -63,7 +73,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
         sf->reserve(cloud->size());
 
         int counter = 0;
-        BOOST_FOREACH(float f , scalars)
+        spcForEachMacro(float f , scalars)
         {
             sf->setValue(counter++, f);
         }

@@ -106,7 +106,7 @@ void Plotter2DDlg::dragEnterEvent(QDragEnterEvent *event)
 
 bool Plotter2DDlg::isYetPlotted(ccTimeSeries *ser)
 {
-    BOOST_FOREACH(ccTimeSeries * se,all_series_)
+    spcForEachMacro(ccTimeSeries * se,all_series_)
     {
         if (ser == se)
             return true;

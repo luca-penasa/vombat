@@ -91,7 +91,7 @@ public:
 
     void setAttitude(spc::Attitude att)
     {
-        spc::Attitude::Ptr at_ptr = boost::make_shared<spc::Attitude> (att);
+        spc::Attitude::Ptr at_ptr = spcMakeSharedPtrMacro<spc::Attitude> (att);
         setAttitude(at_ptr);
     }
 

@@ -14,12 +14,6 @@ class ccPlanarSelection: public ccMyBaseObject, public spc::spcPlanarSelection
 public:
     ccPlanarSelection();
 
-    spc::spcPlanarSelection::Ptr asSPCClass()
-    {
-        spc::spcPlanarSelection* spcPtr =  static_cast<spc::spcPlanarSelection*> (this);
-        return boost::make_shared<spc::spcPlanarSelection>(*spcPtr);
-    }
-
     virtual bool isSerializable() const { return true; }
     virtual bool hasColors() const { return true; }
     virtual ccBBox getMyOwnBB()
@@ -57,7 +51,7 @@ public:
 
         glBegin(GL_LINE_LOOP);
 
-        BOOST_FOREACH( pcl::PointXYZ p, *getVertices())
+        spcForEachMacro( pcl::PointXYZ p, *getVertices())
         {
             ccGL::Vertex3v(p.data);
         }

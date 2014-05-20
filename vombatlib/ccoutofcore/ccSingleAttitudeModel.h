@@ -58,12 +58,13 @@ public:
     spc::SingleAttitudeModel::Ptr getModel() const
     {
         // we are sure it is of this type, arent we?
-        return boost::dynamic_pointer_cast<spc::SingleAttitudeModel> (m_generator_);
+        spc::SingleAttitudeModel::Ptr qua  = spcDynamicPointerCast<spc::SingleAttitudeModel> (m_generator_);
+        return qua;
     }
 
     void setModel(spc::SingleAttitudeModel::Ptr model)
     {
-        m_generator_ = boost::static_pointer_cast<spc::DynamicScalarFieldGenerator> (model);
+        m_generator_ = spcStaticPointerCast<spc::DynamicScalarFieldGenerator> (model);
     }
 
 

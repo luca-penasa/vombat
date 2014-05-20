@@ -27,7 +27,7 @@ public:
 
     ccCalibrationDB(spc::CalibrationDataDB db)
     {
-        m_calibration_db_ = boost::make_shared<spc::CalibrationDataDB> (db);
+        m_calibration_db_ = spcMakeSharedPtrMacro<spc::CalibrationDataDB> (db);
         initMetadata();
     }
 

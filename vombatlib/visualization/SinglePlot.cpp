@@ -36,12 +36,12 @@ void SinglePlot::updateDataWith(ccTimeSeries * tserie)
 
     QVector<double> m_depth, m_values;
 
-    BOOST_FOREACH( float  d, depth)
+    spcForEachMacro( float  d, depth)
     {
         m_depth.append((double) d);
     }
 
-    BOOST_FOREACH( float v, val)
+    spcForEachMacro( float v, val)
     {
 
         m_values.append((double) v);
