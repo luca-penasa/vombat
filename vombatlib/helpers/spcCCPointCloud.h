@@ -14,7 +14,7 @@ class spcCCPointCloud: public spc::spcGenericCloud
 {
 public:
 
-    spcTypedefSmartPointersMacro(spcCCPointCloud)
+    SPC_OBJECT(spcCCPointCloud)
 
     spcCCPointCloud(ccPointCloud *cloud)
     {

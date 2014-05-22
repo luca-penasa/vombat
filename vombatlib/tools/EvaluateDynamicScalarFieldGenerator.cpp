@@ -14,6 +14,7 @@
 #include <boost/foreach.hpp>
 
 #include <helpers/qtHelper.h>
+#include <ccHObjectCaster.h>
 
 EvaluateDynamicScalarFieldGenerator::EvaluateDynamicScalarFieldGenerator(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",
                                                                          "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",

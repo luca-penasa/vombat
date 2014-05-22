@@ -20,6 +20,8 @@
 #include <ExportToAscii.h>
 #include <ApplyCorrection.h>
 
+#include <AddSample.h>
+
 #include <CreateTimeSeriesFromScalarFields.h>
 
 #include <ComputeCalibrationDB.h>
@@ -113,6 +115,8 @@ void vombat::getActions(QActionGroup& group)
         addFilter(new ComputeCalibrationDB(this));
         addFilter(new CalibrateDevice(this));
         addFilter(new ApplyCorrection(this));
+
+        addFilter(new AddSample(this));
 
 
 
@@ -354,7 +358,8 @@ Plotter2DDlg *vombat::getPlotter2DDlg()
         {
 
             Plotter2DDlg  * plotterdlg = static_cast<OpenPlots2DDialog *> (f)->getPlotterDlg();
-            return plotterdlg;
+            if (plotterdlg)
+                return plotterdlg;
         }
 
     }

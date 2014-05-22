@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtGui>
-#include <mainwindow.h>
+//#include <mainwindow.h>
 
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>

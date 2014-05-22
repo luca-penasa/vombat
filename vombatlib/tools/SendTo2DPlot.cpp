@@ -3,18 +3,24 @@
 #include <plotter2d/Plotter2DDlg.h>
 #include <ccoutofcore/ccTimeSeries.h>
 
+#include <plotter2d/CustomPlotWidget.h>
+
 SendTo2DPlot::SendTo2DPlot(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription(   "Send the TS to 2d Plotter",
                                                                                               "Send the TS to 2d Plotter",
                                                                                               "Send the TS to 2d Plotter",
                                                                                               ":/toolbar/icons/plot.png"), parent_plugin)
 {
     this->setShowProgressBar(false);
+
 }
 
 
 
 int SendTo2DPlot::compute()
 {
+    // ensure we are connected
+    this->connectToPlotter();
+
     ccHObject * selected = getSelectedEntityAsCCHObject();
 
     //    selected->setLocked(true);
@@ -31,9 +37,11 @@ int SendTo2DPlot::compute()
 
     Plotter2DDlg * plot =  vombat::theInstance()->getPlotter2DDlg();
 
+//    std::cout << plot->getCurrentPlotWidget() << std::endl;
 
+//    plot->getCurrentPlotWidget()->addPlot(serie, lstyle, scatterShape);
 
-    plot->addPlot(serie, lstyle, scatterShape);
+    emit handleNewPlot(serie);
 
     return 1;
 }
@@ -48,4 +56,9 @@ int SendTo2DPlot::checkSelected()
         return 1;
     else
         return 0;
+}
+
+void SendTo2DPlot::connectToPlotter()
+{
+    connect(this, SIGNAL(handleNewPlot(ccTimeSeries*)), (vombat::theInstance()->getPlotter2DDlg()), SLOT(handleNewPlot(ccTimeSeries * )));
 }

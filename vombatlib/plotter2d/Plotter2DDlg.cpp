@@ -2,122 +2,115 @@
 
 
 #include "Plotter2DDlg.h"
-#include <plotter2d/ui_Plotter2DDlg.h>
+#include <ui_maindialog.h>
 
 #include <external/qcustomplot.h>
 #include <ccoutofcore/ccTimeSeries.h>
 #include <boost/foreach.hpp>
 
+#include "PropertyInspector.h"
+#include <plotter2d/CustomPlotWidget.h>
+
 
 #include <QToolBar>
 
-Plotter2DDlg::Plotter2DDlg(QWidget *parent): QDialog(parent), ui(new Ui::Plotter2DDlgUi)
+Plotter2DDlg::Plotter2DDlg(QWidget *parent): QMainWindow(parent), ui(new Ui::maindialog), m_last_plot()
 {
+
+    std::cout << "new" << std::endl;
 
     ui->setupUi(this);
 
+//    this->addNewPlot(); // one by default
 
-    QToolBar *tbar  = new QToolBar(this);
-    this->ui->verticalLayout->addWidget(tbar);
+    QDockWidget *dock = new QDockWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
 
-//    tbar->addAction(this->ui->actionExport);
-//    tbar->addAction(this->ui->actionSaveTimeSeries);
-    tbar->addAction(this->ui->actionClearPlot);
+    propertyInspector = new PropertyInspector(dock);
 
 
-    ui->plot->setInteractions(QCP::iRangeZoom |QCP::iRangeDrag | QCP::iSelectPlottables | QCP::iSelectAxes );
-    connect(ui->plot, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
-    connect(ui->actionClearPlot, SIGNAL(triggered()), this, SLOT(clearPlots()));
+    connect (ui->actionNewPlot, SIGNAL(triggered()), this, SLOT(addNewPlot()));
+    connect (ui->actionClearPlot, SIGNAL(triggered()), this, SLOT(clearCurrentPlot()));
+//    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(setSelected(CustomPlotWidget*)));
 
-    this->ui->plot->setAcceptDrops(true);
 }
 
-int Plotter2DDlg::addPlot(ccTimeSeries *series, const QCPGraph::LineStyle &lstyle, const QCPScatterStyle::ScatterShape &scatterShape)
+
+
+
+
+
+CustomPlotWidget *Plotter2DDlg::addNewPlot()
 {
-    series->setLocked(true); // we lock the series so that the user cannot delete it!
-
-    all_series_.push_back(series);
-
-    //add the graph
-    QCustomPlot * plot = getPlotWidget();
-
-    QVector<double> x = series->getX();
-    QVector<double> y = series->getY();
-
-    QCPGraph * graph = plot->addGraph();
 
 
-    QPen graphPen;
-    graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
-    graph->setPen(graphPen);
+    CustomPlotWidget * plot = new CustomPlotWidget(this);
 
-    graph->setLineStyle(lstyle);
-    graph->setScatterStyle(QCPScatterStyle(scatterShape));
+    m_last_plot = plot;
+    QMdiSubWindow * swin = this->ui->mdiArea->addSubWindow(plot);
+    swin->setAttribute(Qt::WA_DeleteOnClose);
 
-    graph->setData(x, y);
-    plot->rescaleAxes(true);
+    swin->show();
 
-    plot->replot();
-    emit seriesAdded(series);
+    // each plot will notify when destroyed
+    connect(plot, SIGNAL(closed(CustomPlotWidget*)), this, SLOT(closedSubPlot(CustomPlotWidget*)));
 
-    return all_series_.size() - 1;
+    //subwindows must notify themselves when selected
+    connect(swin, SIGNAL(aboutToActivate()), plot, SLOT(imActive()));
+    connect(plot, SIGNAL(activated(CustomPlotWidget*)), this, SLOT(selected(CustomPlotWidget*)));
+
+    return plot;
 }
 
-void Plotter2DDlg::mouseWheel()
+void Plotter2DDlg::handleNewPlot(ccTimeSeries * serie)
 {
-    // if an axis is selected, only allow the direction of that axis to be zoomed
-    // if no axis is selected, both directions may be zoomed
-
-    if (ui->plot->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
-        ui->plot->axisRect()->setRangeZoom(ui->plot->xAxis->orientation());
-    else if (ui->plot->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
-        ui->plot->axisRect()->setRangeZoom(ui->plot->yAxis->orientation());
-    else
-        ui->plot->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
+    getCurrentPlotWidget()->addPlot(serie);
 }
 
-void Plotter2DDlg::clearPlots()
+void Plotter2DDlg::selected(CustomPlotWidget *plot)
 {
-    ui->plot->clearGraphs();
+    m_last_plot = plot;
+}
 
-    for (int i = 0 ; i < all_series_.size(); ++i)
+void Plotter2DDlg::clearCurrentPlot()
+{
+    if (m_last_plot)
     {
-        all_series_.at(i)->setLocked(false); //unlock series
+        m_last_plot->clearPlot();
     }
-    all_series_.clear();
-    ui->plot->replot();
 }
 
-void Plotter2DDlg::dropEvent(QDropEvent *de)
-{
-    ccLog::Print("Dropped object in 2d plot");
-}
+//void Plotter2DDlg::dropEvent(QDropEvent *de)
+//{
+//    ccLog::Print("Dropped object in 2d plot");
+//}
 
-void Plotter2DDlg::dragMoveEvent(QDragMoveEvent *de)
-{
-    // The event needs to be accepted here
-    de->accept();
-}
+//void Plotter2DDlg::dragMoveEvent(QDragMoveEvent *de)
+//{
+//    // The event needs to be accepted here
+//    de->accept();
+//}
 
-void Plotter2DDlg::dragEnterEvent(QDragEnterEvent *event)
-{
-    event->acceptProposedAction();
-}
+//void Plotter2DDlg::dragEnterEvent(QDragEnterEvent *event)
+//{
+//    event->acceptProposedAction();
+//}
 
-bool Plotter2DDlg::isYetPlotted(ccTimeSeries *ser)
+
+
+
+
+CustomPlotWidget * Plotter2DDlg::getCurrentPlotWidget()
 {
-    spcForEachMacro(ccTimeSeries * se,all_series_)
+    std::cout << "getting current plot" << m_last_plot << std::endl;
+
+    if (!m_last_plot)
     {
-        if (ser == se)
-            return true;
+        std::cout << "last plot not present , adding one" << std::endl;
+        CustomPlotWidget * plot = this->addNewPlot();
+        return plot;
     }
 
-    return false;
-}
 
-
-
-QCustomPlot *Plotter2DDlg::getPlotWidget() const
-{
-    return ui->plot;
+    return m_last_plot;
 }

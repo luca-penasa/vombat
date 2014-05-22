@@ -91,7 +91,7 @@ FitAttitude::compute()
         entities.at(id)->addChild(ccAtt);
 
         QString name  = suggestHObjectIncrementalName(ccAtt, "Attitude");
-        ccAtt->setName(name);
+        ccAtt->setName(ccAtt->getAttitude()->getDipAndDipAngleAsString().c_str());
 
         entityHasChanged( entities.at(id++));
 

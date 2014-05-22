@@ -28,6 +28,7 @@
         <file>icons/plot.png</file>
         <file>icons/SFEvaluator.png</file>
         <file>icons/SFGenerator.png</file>
+        <file>icons/sample.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

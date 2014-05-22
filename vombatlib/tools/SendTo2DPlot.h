@@ -3,19 +3,26 @@
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <dialogs/SendTo2DPlotDlg.h>
 
-
+class ccTimeSeries;
 
 class SendTo2DPlot: public BaseFilter
 {
+    Q_OBJECT // so we can have signals
 public:
     SendTo2DPlot(ccPluginInterface * parent_plugin = 0);
 
     virtual int compute();
 
+
+signals:
+    void handleNewPlot(ccTimeSeries *serie);
+
 protected:
     virtual int checkSelected();
 
     SendTo2DPlotDlg * m_dialog;
+
+    void connectToPlotter();
 
 
 

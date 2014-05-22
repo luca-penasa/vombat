@@ -5,7 +5,7 @@
 //#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <dialogs/ccProperties.h>
-#include <ccGraphicalSegmentationTool.h>
+//#include <ccGraphicalSegmentationTool.h>
 
 
 class CloudToPlanarSelection: public BaseFilter
@@ -22,8 +22,8 @@ protected:
 
     virtual int checkParameters();
 
-private:
-    ccGraphicalSegmentationTool * m_segtool;
+//private:
+//    ccGraphicalSegmentationTool * m_segtool;
 
 //public slots:
 //    void called();

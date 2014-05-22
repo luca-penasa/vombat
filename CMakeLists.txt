@@ -7,6 +7,7 @@ if (INSTALL_vombat_PLUGIN)
 
 project(vombat)
 
+
 include(cmake/macros.cmake) # load some macros
 
 FIND_PACKAGE(Qt4 REQUIRED)
@@ -132,6 +133,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${VOMBATLIB_INCLUDE_DIRS})
 
+find_package(QtPropertyBrowser)
+include_directories(${QtPropertyBrowser_INCLUDE_DIRS})
+link_directories(${QtPropertyBrowser_LIBRARY_DIRS})
 
 
 ################ PLUGIN ITSELF ############################
@@ -160,9 +164,10 @@ target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLI
 #target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
 #target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
-target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
+target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB  QtPropertyBrowser)
 
 message("${CMAKE_CXX_FLAGS}" )
+ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare)
 
 
 endif() #main if ends here
