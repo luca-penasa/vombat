@@ -26,7 +26,7 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent): QMainWindow(parent), ui(new Ui::mai
     QDockWidget *dock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
-    propertyInspector = new PropertyInspector(dock);
+    property_browser = new PropertyBrowser(dock);
 
 
     connect (ui->actionNewPlot, SIGNAL(triggered()), this, SLOT(addNewPlot()));

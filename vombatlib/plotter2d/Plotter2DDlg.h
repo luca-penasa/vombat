@@ -5,7 +5,7 @@ class ccTimeSeries;
 class CustomPlotWidget;
 
 #include <iostream>
-
+#include <PropertyInspector.h>
 #include <QMainWindow>
 #include <QMdiSubWindow>
 namespace Ui
@@ -18,12 +18,6 @@ class Plotter2DDlg : public QMainWindow
 {
     Q_OBJECT
 
-protected:
-    Ui::maindialog * ui;
-
-    class PropertyInspector *propertyInspector;
-
-    CustomPlotWidget * m_last_plot;
 
 public:
     Plotter2DDlg(QWidget *parent=0);
@@ -51,6 +45,12 @@ signals:
     void activated(CustomPlotWidget * plot);
 
 
+protected:
+    Ui::maindialog * ui;
+
+    PropertyBrowser *property_browser;
+
+    CustomPlotWidget * m_last_plot;
 
 
 
