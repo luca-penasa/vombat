@@ -5,7 +5,6 @@ CustomPlotWidget::CustomPlotWidget(QWidget *parent): QCustomPlot(parent)
     this->setInteractions(QCP::iRangeZoom |QCP::iRangeDrag | QCP::iSelectPlottables | QCP::iSelectAxes );
     connect(this, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
 
-
 }
 
 CustomPlotWidget::~CustomPlotWidget()

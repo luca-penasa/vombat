@@ -31,6 +31,8 @@ signals:
 
     void closed(CustomPlotWidget * plot);
 
+
+
 public slots:
     //! called when mouse wheel is wheeled :-)
     void mouseWheel();
@@ -41,6 +43,8 @@ public slots:
     }
 
 
+
+
     //! it keeps a ptr to the added series into the all_series_ vector
     int addPlot(ccTimeSeries * series,
                 const QCPGraph::LineStyle & lstyle = QCPGraph::lsLine,
@@ -48,6 +52,12 @@ public slots:
 
     //! clear everything into the plot
     void clearPlot();
+
+    QList<QCPGraph * > getCurrentlySelectedGraphs()
+    {
+        return this->selectedGraphs();
+    }
+
 
 
 };

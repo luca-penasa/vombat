@@ -4,6 +4,8 @@
 #include <spc/io/time_series_writer.h>
 #include <spc/time_series/base_time_series.h>
 
+#include <sstream>
+
 
 PlotterWidget::PlotterWidget(QWidget *parent): QCustomPlot(parent), m_main_scale(0), m_plots_container(0)
 {

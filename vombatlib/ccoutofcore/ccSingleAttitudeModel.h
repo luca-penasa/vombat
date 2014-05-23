@@ -14,7 +14,7 @@
 #include <QIcon>
 #include <ccPointCloud.h>
 
-#include <spc/elements/salvable_object.h> //needed to serialize Vector3f
+#include <spc/elements/SerializableObject.h> //needed to serialize Vector3f
 //#include <boost/serialization/vector.hpp>
 //#include <boost/serialization/shared_ptr.hpp>
 

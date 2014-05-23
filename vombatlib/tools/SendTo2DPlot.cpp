@@ -11,7 +11,6 @@ SendTo2DPlot::SendTo2DPlot(ccPluginInterface *parent_plugin): BaseFilter(FilterD
                                                                                               ":/toolbar/icons/plot.png"), parent_plugin)
 {
     this->setShowProgressBar(false);
-
 }
 
 
@@ -29,17 +28,7 @@ int SendTo2DPlot::compute()
     if (!serie)
         return -1;
 
-    // now get line style
-    QCPGraph::LineStyle lstyle = m_dialog->getLineStyle();
-
-    QCPScatterStyle::ScatterShape scatterShape = m_dialog->getScatterShape();
-
-
     Plotter2DDlg * plot =  vombat::theInstance()->getPlotter2DDlg();
-
-//    std::cout << plot->getCurrentPlotWidget() << std::endl;
-
-//    plot->getCurrentPlotWidget()->addPlot(serie, lstyle, scatterShape);
 
     emit handleNewPlot(serie);
 

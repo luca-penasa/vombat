@@ -21,17 +21,30 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent): QMainWindow(parent), ui(new Ui::mai
 
     ui->setupUi(this);
 
-//    this->addNewPlot(); // one by default
+    connect (ui->actionNewPlot, SIGNAL(triggered()), this, SLOT(addNewPlot()));
+    connect (ui->actionClearPlot, SIGNAL(triggered()), this, SLOT(clearCurrentPlot()));
+    //    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(setSelected(CustomPlotWidget*)));
+
+
+    // properties brower
+    variantManager =  new QtVariantPropertyManager(this);
+
+    connect(variantManager, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
+            this, SLOT(valueChanged(QtProperty *, const QVariant &)));
+
+    QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory(this);
 
     QDockWidget *dock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
-    property_browser = new PropertyBrowser(dock);
+    propertyEditor = new PropertyBrowser(dock);
+
+    propertyEditor->setFactoryForManager(variantManager, variantFactory);
+    dock->setWidget(propertyEditor);
+
+    currentItem = 0;
 
 
-    connect (ui->actionNewPlot, SIGNAL(triggered()), this, SLOT(addNewPlot()));
-    connect (ui->actionClearPlot, SIGNAL(triggered()), this, SLOT(clearCurrentPlot()));
-//    connect(ui->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow*)), this, SLOT(setSelected(CustomPlotWidget*)));
 
 }
 
@@ -42,7 +55,6 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent): QMainWindow(parent), ui(new Ui::mai
 
 CustomPlotWidget *Plotter2DDlg::addNewPlot()
 {
-
 
     CustomPlotWidget * plot = new CustomPlotWidget(this);
 
@@ -58,7 +70,7 @@ CustomPlotWidget *Plotter2DDlg::addNewPlot()
     //subwindows must notify themselves when selected
     connect(swin, SIGNAL(aboutToActivate()), plot, SLOT(imActive()));
     connect(plot, SIGNAL(activated(CustomPlotWidget*)), this, SLOT(selected(CustomPlotWidget*)));
-
+    connect(plot, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
     return plot;
 }
 
@@ -70,6 +82,13 @@ void Plotter2DDlg::handleNewPlot(ccTimeSeries * serie)
 void Plotter2DDlg::selected(CustomPlotWidget *plot)
 {
     m_last_plot = plot;
+    selectionChanged();
+}
+
+QList<QCPGraph *> Plotter2DDlg::getCurrentlySelectedGraphs()
+{
+    if (m_last_plot)
+        return m_last_plot->getCurrentlySelectedGraphs();
 }
 
 void Plotter2DDlg::clearCurrentPlot()
@@ -80,24 +99,120 @@ void Plotter2DDlg::clearCurrentPlot()
     }
 }
 
-//void Plotter2DDlg::dropEvent(QDropEvent *de)
-//{
-//    ccLog::Print("Dropped object in 2d plot");
-//}
+void Plotter2DDlg::selectionChanged()
+{
 
-//void Plotter2DDlg::dragMoveEvent(QDragMoveEvent *de)
-//{
-//    // The event needs to be accepted here
-//    de->accept();
-//}
+    updateProperties(getCurrentlySelectedGraphs());
+}
 
-//void Plotter2DDlg::dragEnterEvent(QDragEnterEvent *event)
-//{
-//    event->acceptProposedAction();
-//}
+void Plotter2DDlg::updateProperties(QList<QCPGraph *> graphs)
+{
+    //    QMap<QtProperty *, QString>::ConstIterator itProp = propertyToId.constBegin(   );
+
+    std::cout << "started updting props" << std::endl;
+    // delete all the props
+
+    propertyEditor->clear();
+    QMap<QtProperty *, QString>::ConstIterator itProp = propertyToId.constBegin();
+    while (itProp != propertyToId.constEnd())
+    {
+        delete itProp.key();
+        itProp++;
+    }
+
+    if (graphs.empty())
+    {
+        propertyToId.clear();
+        idToProperty.clear();
+        currentItem = 0;
+        return;
+    }
+
+    std::cout << "going ahead updting props" << std::endl;
+
+    QCPGraph * graph = graphs.at(0); // only the first one for now
+
+    propertyToId.clear();
+    idToProperty.clear();
+
+    currentItem = graph;
+
+    QtVariantProperty *property;
+
+    property = variantManager->addProperty(QtVariantPropertyManager::enumTypeId(), tr("Line Style"));
+
+    QMetaObject meta = QCPGraph::staticMetaObject;
+    int index = meta.indexOfEnumerator("LineStyle");
+
+    QMetaEnum metaEnum = meta.enumerator(index);
+    QStringList names;
+    for (int i = 0 ; i < metaEnum.keyCount() ; ++i)
+    {
+        QString name  = metaEnum.valueToKey( i );
+        names.push_back(name);
+    }
+
+    property->setAttribute("enumNames", names);
+    property->setValue(1); // "Suggestion"
+
+    addProperty(property, "Line Style");
 
 
+   ///////////////////////////////////////
 
+    QtVariantProperty *property2;
+
+    property2 = variantManager->addProperty(QtVariantPropertyManager::enumTypeId(), tr("Scatter Shape"));
+
+    meta = QCPScatterStyle::staticMetaObject;
+    index = meta.indexOfEnumerator("ScatterShape");
+
+    metaEnum = meta.enumerator(index);
+    names.clear();
+    for (int i = 0 ; i < metaEnum.keyCount() ; ++i)
+    {
+        QString name  = metaEnum.valueToKey( i );
+        names.push_back(name);
+    }
+
+    property2->setAttribute("enumNames", names);
+    property2->setValue(0); // "Suggestion"
+
+    addProperty(property2, "Scatter Shape");
+
+}
+
+void Plotter2DDlg::addProperty(QtVariantProperty *property, const QString &id)
+{
+    propertyToId[property] = id;
+    idToProperty[id] = property;
+    QtBrowserItem *item = propertyEditor->addProperty(property);
+//    if (idToExpanded.contains(id))
+//        propertyEditor->setExpanded(item, idToExpanded[id]);
+}
+
+void Plotter2DDlg::valueChanged(QtProperty *property, const QVariant &value)
+{
+    if (!propertyToId.contains(property))
+        return;
+
+    if (!currentItem)
+        return;
+
+    QString id = propertyToId[property];
+    if (id == "Line Style")
+    {
+        currentItem->setLineStyle((QCPGraph::LineStyle) value.toInt());
+        this->getCurrentPlotWidget()->replot();
+    }
+    if (id == "Scatter Shape")
+    {
+        currentItem->scatterStyle().setShape((QCPScatterStyle::ScatterShape) value.toInt());
+        std::cout << value.toInt() << std::endl;
+        this->getCurrentPlotWidget()->replot();
+    }
+
+}
 
 
 CustomPlotWidget * Plotter2DDlg::getCurrentPlotWidget()

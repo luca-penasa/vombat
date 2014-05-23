@@ -8,6 +8,11 @@ class CustomPlotWidget;
 #include <PropertyInspector.h>
 #include <QMainWindow>
 #include <QMdiSubWindow>
+#include <QtVariantProperty>
+
+
+
+
 namespace Ui
 {
 class maindialog;
@@ -23,38 +28,50 @@ public:
     Plotter2DDlg(QWidget *parent=0);
 
     CustomPlotWidget *getCurrentPlotWidget();
+    void addProperty(QtVariantProperty *property, const QString &id);
 public slots:
     CustomPlotWidget *addNewPlot();
 
     void handleNewPlot(ccTimeSeries * serie);
 
-
     void closedSubPlot(CustomPlotWidget * plot)
     {
         if (m_last_plot == plot)
-            m_last_plot =0;
+            m_last_plot = 0;
     }
 
     void selected(CustomPlotWidget * plot);
 
-
+    QList<class QCPGraph *> getCurrentlySelectedGraphs();
 
     void clearCurrentPlot();
 
+    void selectionChanged();
+
+    void updateProperties(QList<QCPGraph *> graph);
+
 signals:
     void activated(CustomPlotWidget * plot);
+
+private slots:
+    void itemClicked(ccTimeSeries *item);
+    void valueChanged(QtProperty *property, const QVariant &value);
 
 
 protected:
     Ui::maindialog * ui;
 
-    PropertyBrowser *property_browser;
+    PropertyBrowser *propertyEditor;
 
     CustomPlotWidget * m_last_plot;
 
+    class QtVariantPropertyManager *variantManager;
 
+    QMap<QtProperty *, QString> propertyToId;
+    QMap<QString, QtVariantProperty *> idToProperty;
+    QMap<QString, bool> idToExpanded;
 
-
+    class QCPGraph * currentItem;
 
 };
 
