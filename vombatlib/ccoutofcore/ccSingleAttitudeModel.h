@@ -3,8 +3,7 @@
 
 #include <ccHObject.h>
 
-#include <spc/scalar_fields_generators/single_attitude_model.h>
-
+#include <spc/elements/StratigraphicModelSingleAttitude.h>
 #include <ccCylinder.h>
 #include <ccoutofcore/ccEditableHObject.h>
 
@@ -13,10 +12,6 @@
 #include <ccoutofcore/ccMyBaseObject.h>
 #include <QIcon>
 #include <ccPointCloud.h>
-
-#include <spc/elements/SerializableObject.h> //needed to serialize Vector3f
-//#include <boost/serialization/vector.hpp>
-//#include <boost/serialization/shared_ptr.hpp>
 
 #include <ccoutofcore/ccAttitude.h>
 
@@ -31,7 +26,7 @@ class ccSingleAttitudeModel: public ccDynamicScalarFieldGenerator
     Q_OBJECT
 
 public:
-    ccSingleAttitudeModel();
+    ccSingleAttitudeModel(const char * name = 0);
 
     // copy const
     ccSingleAttitudeModel(const ccSingleAttitudeModel &model);
@@ -65,6 +60,11 @@ public:
     void setModel(spc::SingleAttitudeModel::Ptr model)
     {
         m_generator_ = spcStaticPointerCast<spc::DynamicScalarFieldGenerator> (model);
+    }
+
+    virtual QString getSPCClassName() const
+    {
+        return "ccSingleAttitudeModel";
     }
 
 
@@ -115,7 +115,6 @@ protected:
 
 //    ccCylinder getScalePiece( const colorType *color,const float min_sp, const float max_sp);
 
-    void initMetadata();
 
     void initParameters();
 

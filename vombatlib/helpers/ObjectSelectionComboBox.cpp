@@ -2,7 +2,7 @@
 #include <boost/graph/graph_concepts.hpp>
 #include <ObjectSelectionComboBox.h>
 
-#include <spc/common/macros.h>
+#include <spc/elements/macros.h>
 
 
 

@@ -19,7 +19,7 @@
 //        return 1;
 //
 //    spc::spcElementSerializer serializer;
-//    spc::spcSerializableObject::Ptr all_objects = spc::spcSerializableObject::Ptr(new spc::spcSerializableObject);
+//    spc::spcObject::Ptr all_objects = spc::spcObject::Ptr(new spc::spcSerializableObject);
 //
 //    bool status;
 //    status = serializer.load(m_filename.toStdString(), all_objects);

@@ -2,6 +2,22 @@
 
 ccMyBaseObject::ccMyBaseObject()
 {
-    QVariant var(QString("VOMBAT plugin object"));
-    setMetaData(QString("[vombat]"), var);
+    setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
+
 }
+
+
+ccMyBaseObject::ccMyBaseObject(QString name): ccCustomHObject(name)
+{
+    setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
+}
+
+QString ccMyBaseObject::getSPCClassName() const
+{
+    return "ccMyBaseObject";
+}
+
+
+
+
+

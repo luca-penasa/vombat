@@ -5,7 +5,7 @@
 #include <ccoutofcore/ccMyBaseObject.h>
 
 
-#include <spc/calibration/CalibrationDataDB.h>
+#include <spc/elements/IntensityCalibration/DataDB.h>
 #include <ccPointCloud.h>
 
 #include <QIcon>
@@ -28,7 +28,7 @@ public:
     ccCalibrationDB(spc::CalibrationDataDB db)
     {
         m_calibration_db_ = spcMakeSharedPtrMacro<spc::CalibrationDataDB> (db);
-        initMetadata();
+
     }
 
     //inherited methods (ccHObject)
@@ -59,6 +59,11 @@ public:
 
 
     void rebuildClouds();
+
+    virtual QString getSPCClassName() const
+    {
+        return "ccCalibrationDB";
+    }
 protected:
 
     //    void setAttitudeAsMetadata();
@@ -68,8 +73,8 @@ protected:
     virtual void setGLTransformation(const ccGLMatrix& trans);
 
 
-    //    void initParameters();
-    void initMetadata();
+
+
 
 
     spc::CalibrationDataDB::Ptr m_calibration_db_;

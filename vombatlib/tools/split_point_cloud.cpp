@@ -1,7 +1,7 @@
 #include "split_point_cloud.h"
 
 #include <spc/io/pointcloud2_reader.h>
-#include <spc/methods/cloud_slicer.h>
+#include <spc/methods/PointCloudSlicer.h>
 
 #include <boost/foreach.hpp>
 

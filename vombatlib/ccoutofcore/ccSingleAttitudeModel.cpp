@@ -2,19 +2,19 @@
 #include <ccPointCloud.h>
 #include <dialogs/ccSingleAttitudeModelEditorDlg.h>
 
-ccSingleAttitudeModel::ccSingleAttitudeModel()
+ccSingleAttitudeModel::ccSingleAttitudeModel(const char * name): ccDynamicScalarFieldGenerator(name)
 {
 
     setModel( spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel));
-    initMetadata();
     initParameters();
+
 }
 
 ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &other)
 {
     setModel(other.getModel());
-    initMetadata();
     initParameters();
+
 
 }
 
@@ -22,16 +22,16 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::Attitude &att)
 {
     setModel( spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel(att)) );
 
-    initMetadata();
     initParameters();
+
 }
 
 ccSingleAttitudeModel::ccSingleAttitudeModel(const ccAttitude & att)
 {
     setModel(spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel(att.getAttitude())) );
 
-    initMetadata();
     initParameters();
+
 }
 
 void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
@@ -182,14 +182,6 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 //    return cyl;
 //}
 
-
-void ccSingleAttitudeModel::initMetadata()
-{
-    QVariant var(QString("A stratigrahic model which permits to evaluate stratigraphic positions for point clouds.\n It is based on only one normal."));
-
-    setMetaData(QString("[vombat][ccSingleAttitudeModel]"), var);
-}
-
 void ccSingleAttitudeModel::initParameters()
 {
     setEditDlgsFreezesUi(false); //it have a non-modal edit dlg
@@ -228,7 +220,7 @@ void ccSingleAttitudeModel::updateMajorBreaks()
     }
 
     // also update the vector representing a major thick
-    m_major_thicks_vector = getModel()->getAttitude()->getDipVector() * m_major_thicks_length;
+    m_major_thicks_vector = getModel()->getAttitude().getDipVector() * m_major_thicks_length;
 
 }
 

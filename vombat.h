@@ -9,6 +9,8 @@
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <ccStdPluginInterface.h>
 
+//#include <ccVombatObjectsFactory.h>
+
 class PlotterDlg;
 //class QToolBar;
 class QMenu;
@@ -63,6 +65,10 @@ public:
 
 
     ///////// ACCESS TO DBTREE ///////////////////////////////
+    /// \brief getSelected
+    /// \return
+    /// NOTE these implementation ahre always late!!!
+    ///  so notice that you got the "previously selected stuff - I must find what is wrong
     ccHObject::Container getSelected() const;
 
 
@@ -108,6 +114,14 @@ protected:
 
     ccHObject::Container m_selected;
 
+    ccExternalFactory * m_factory;
+
+     ccPluginInterface * interface;
+public:
+    ccExternalFactory *getCustomObjectsFactory() const
+    {
+        return m_factory;
+    }
 };
 
 

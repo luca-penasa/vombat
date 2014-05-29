@@ -12,6 +12,8 @@ ccPlanarSelection::ccPlanarSelection()
 
     setVisible(true);
 
+
+
 }
 
 

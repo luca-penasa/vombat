@@ -10,7 +10,7 @@
 
 #include <ccoutofcore/ccAttitude.h>
 
-#include <spc/estimators/attitude_estimator.h>
+#include <spc/methods/EstimatorAttitude.h>
 #include <boost/foreach.hpp>
 
 #include <helpers/qtHelper.h>

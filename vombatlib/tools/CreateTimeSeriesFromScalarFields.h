@@ -10,14 +10,14 @@
 
 #include "ui_CreateTimeSeriesFromScalarFieldsDlg.h"
 
-#include <spc/time_series/sparse_time_series.h>
+#include <spc/elements/TimeSeriesBase.h>
 
 #include <ccoutofcore/ccTimeSeries.h>
 
-#include <spc/methods/time_series_generator.h>
+#include <spc/methods/TimeSeriesGenerator.h>
 #include <plotter2d/Plotter2DDlg.h>
 
-#include <spc/common/common.h>
+#include <spc/methods/common.h>
 
 
 class CreateTimeSeriesFromScalarFields : public BaseFilter

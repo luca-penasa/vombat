@@ -10,24 +10,24 @@ SinglePlot::SinglePlot(QCustomPlot *parentPlot): QCPAxisRect(parentPlot, false)
 
 }
 
-SinglePlot::SinglePlot(QCustomPlot *parentPlot, spc::ContinousValuesLog *log): QCPAxisRect(parentPlot, false)
-{
-    init();
-    updateDataWith(log);
-}
+//SinglePlot::SinglePlot(QCustomPlot *parentPlot, spc::ContinousValuesLog *log): QCPAxisRect(parentPlot, false)
+//{
+//    init();
+//    updateDataWith(log);
+//}
 
-void SinglePlot::updateDataWith(const spc::ContinousValuesLog *log)
-{
-    //data are copied!
-    QVector<double> m_depth = QVector<double>::fromStdVector(log->getStratigraphicPositions<double>());
-    QVector<double> m_values = QVector<double>::fromStdVector(log->getValues<double>());
+//void SinglePlot::updateDataWith(const spc::ContinousValuesLog *log)
+//{
+//    //data are copied!
+//    QVector<double> m_depth = QVector<double>::fromStdVector(log->getStratigraphicPositions<double>());
+//    QVector<double> m_values = QVector<double>::fromStdVector(log->getValues<double>());
 
-    // set these data into the graph
-    updateGraphData( m_depth,m_values);
+//    // set these data into the graph
+//    updateGraphData( m_depth,m_values);
 
 
 
-}
+//}
 
 void SinglePlot::updateDataWith(ccTimeSeries * tserie)
 {

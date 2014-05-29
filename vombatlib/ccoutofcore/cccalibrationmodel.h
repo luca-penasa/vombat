@@ -2,7 +2,7 @@
 #define CCCALIBRATIONMODEL_H
 
 #include <ccoutofcore/ccMyBaseObject.h>
-#include <spc/devices/calibration_model_base.h>
+#include <spc/elements/IntensityCalibration/ModelBase.h>
 
 class ccCalibrationModel: public ccMyBaseObject
 {
@@ -26,30 +26,15 @@ public:
         return model_;
     }
 
-
-
-protected:
-    spc::CalibrationModelBase::Ptr model_;
-
-   /* friend class boost::serialization::access;
-
-    template <class Archive>
-    void serialize(Archive &ar, const unsigned int version)
+    virtual QString getSPCClassName() const
     {
-        ar & BOOST_SERIALIZATION_NVP(model_);
-        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
-    }*/
-
-
-
-    void initMetadata()
-    {
-        QVariant var("A calibration model");
-        setMetaData(QString("[vombat][ccCalibrationModel]"), var);
+        return "ccCalibrationModel";
     }
 
 
 
+protected:
+    spc::CalibrationModelBase::Ptr model_;
 
 };
 

@@ -4,7 +4,7 @@
 
 //#include <qPCL/PclUtils/utils/cc2sm.h>
 
-#include <spc/scalar_fields_generators/DynamicScalarFieldEvaluator.h>
+#include <spc/methods/DynamicScalarFieldEvaluator.h>
 
 #include <iostream> // for debug
 

@@ -73,3 +73,4 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
     if (pushName)
         glPopName();
 }
+

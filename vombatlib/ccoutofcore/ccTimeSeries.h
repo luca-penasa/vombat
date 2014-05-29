@@ -6,7 +6,7 @@
 
 class QIcon;
 
-#include <spc/time_series/base_time_series.h>
+#include <spc/elements/TimeSeriesBase.h>
 
 
 ///
@@ -61,9 +61,15 @@ public:
 
 
 protected:
-    void initMetaData();
 
     spc::GenericTimeSeries<float>::Ptr series_;
+
+public:
+
+    virtual QString getSPCClassName() const
+    {
+        return "ccTimeSeries";
+    }
 };
 
 #endif // CCTIMESERIES_H

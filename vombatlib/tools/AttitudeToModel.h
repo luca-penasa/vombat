@@ -5,7 +5,7 @@
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <dialogs/ccHObjectSelectionDlgSimple.h>
 
-#include <spc/scalar_fields_generators/single_attitude_model.h>
+#include <spc/elements/StratigraphicModelSingleAttitude.h>
 
 #include <ccoutofcore/ccSingleAttitudeModel.h>
 

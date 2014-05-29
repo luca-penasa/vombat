@@ -3,8 +3,7 @@
 #include <external/qcustomplot.h>
 #include <visualization/MainScale.h>
 
-#include <spc/elements/continous_values_stratigraphy.h>
-#include <spc/time_series/base_time_series.h>
+#include <spc/elements/TimeSeriesBase.h>
 #include <ccoutofcore/ccTimeSeries.h>
 
 class SinglePlot : public QCPAxisRect
@@ -13,10 +12,9 @@ public:
     SinglePlot(QCustomPlot *parentPlot);
 
     /// DEPRECATED
-    SinglePlot(QCustomPlot *parentPlot , spc::ContinousValuesLog *log);
+//    SinglePlot(QCustomPlot *parentPlot , spc::ContinousValuesLog *log);
 
     /// DEPRECATED
-    void updateDataWith(const spc::ContinousValuesLog * log);
 
     void updateDataWith(ccTimeSeries * tserie);
 

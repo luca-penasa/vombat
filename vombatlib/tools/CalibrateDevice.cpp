@@ -2,7 +2,7 @@
 #include <spcCCPointCloud.h>
 #include <ccoutofcore/ccTimeSeries.h>
 
-#include <spc/devices/calibrate_discrete_points_model.h>
+#include <spc/methods/IntensityCalibrationDiscretePointsModel.h>
 #include <ccoutofcore/cccalibrationmodel.h>
 
 #include <iostream>

@@ -1,9 +1,9 @@
 #include "GaussianFilter.h"
 #include <qPCL/PclUtils/utils/cc2sm.h>
 
-#include <spc/common/point_types.h>
+#include <spc/elements/point_types.h>
 
-#include <spc/methods/cloud_gaussian_convolver.h>
+#include <spc/methods/ScalarFieldGaussianConvolver.h>
 
 #include <ccScalarField.h>
 

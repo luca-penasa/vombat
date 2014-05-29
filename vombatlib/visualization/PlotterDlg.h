@@ -24,8 +24,7 @@
 
 #include <visualization/ui_PlotterDlg.h>
 
-#include <spc/time_series/equally_spaced_time_series.h>
-#include <spc/elements/continous_values_stratigraphy.h>
+#include <spc/elements/TimeSeriesEquallySpaced.h>
 
 
 
@@ -36,9 +35,8 @@ class PlotterDlg : public QDialog, Ui::PlotterDlgUi
 public:
     PlotterDlg(QWidget *parent=0);
 
-    void addContinousValuesLog(spc::ContinousValuesLog * log);
 
-    void addRandomContinousValuesLog();
+//    void addRandomContinousValuesLog();
 
 
     PlotterWidget * getPlotterWidget()
@@ -61,7 +59,7 @@ public slots:
 
 protected:
 
-    std::vector<spc::ContinousValuesLog * >   m_continous_logs;
+//    std::vector<spc::ContinousValuesLog * >   m_continous_logs;
 
     QCPAxis * m_main_axis;
 

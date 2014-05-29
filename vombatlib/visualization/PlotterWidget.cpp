@@ -2,7 +2,7 @@
 #include "PlotsContainer.h"
 #include "SinglePlot.h"
 #include <spc/io/time_series_writer.h>
-#include <spc/time_series/base_time_series.h>
+#include <spc/elements/TimeSeriesBase.h>
 
 #include <sstream>
 

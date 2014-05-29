@@ -1,7 +1,7 @@
 #include "ComputeSmoothedTimeSeriesXY.h"
 #include <spcCCPointCloud.h>
-#include <spc/methods/kernelsmoothing2.h>
-#include <spc/time_series/sparse_time_series.h>
+#include <spc/methods/KernelSmoothing2.h>
+#include <spc/elements/TimeSeriesEquallySpaced.h>
 #include <ccTimeSeries.h>
 
 ComputeSmoothedTimeSeriesXY::ComputeSmoothedTimeSeriesXY(ccPluginInterface * parent_plugin) : BaseFilter(FilterDescription(   "Compute XY time series, as a running gaussian-weighted moving average",

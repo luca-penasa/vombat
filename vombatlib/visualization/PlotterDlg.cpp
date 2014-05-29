@@ -114,87 +114,87 @@ PlotterDlg::PlotterDlg(QWidget* parent): QDialog(parent), Ui::PlotterDlgUi()
 //    m_plot->replot();
 //}
 
-void PlotterDlg::addContinousValuesLog(spc::ContinousValuesLog *log)
-{
-    m_continous_logs.push_back(log); //add to the list
-    //a sublayout
+//void PlotterDlg::addContinousValuesLog(spc::ContinousValuesLog *log)
+//{
+//    m_continous_logs.push_back(log); //add to the list
+//    //a sublayout
 
-//    QCPLayoutGrid *subLayout = new QCPLayoutGrid();
-//    plot->plotLayout()->addElement(0, 1, subLayout);
-
-
-    QCPAxisRect *defaultAxisRect = new QCPAxisRect(plot, false);
-
-    QCPAxis * main = defaultAxisRect->addAxis(QCPAxis::atBottom);
-    QCPAxis * other = defaultAxisRect->addAxis(QCPAxis::atLeft);
-
-    defaultAxisRect->setMaximumSize(QSize(100,1000000));
-
-    main->setLabel("values");
-
-    plot->plotLayout()->addElement(0,1,defaultAxisRect);
+////    QCPLayoutGrid *subLayout = new QCPLayoutGrid();
+////    plot->plotLayout()->addElement(0, 1, subLayout);
 
 
+//    QCPAxisRect *defaultAxisRect = new QCPAxisRect(plot, false);
 
+//    QCPAxis * main = defaultAxisRect->addAxis(QCPAxis::atBottom);
+//    QCPAxis * other = defaultAxisRect->addAxis(QCPAxis::atLeft);
 
-    QCPGraph * graph = plot->addGraph(other, main);
-//    other->setVisible(false);
+//    defaultAxisRect->setMaximumSize(QSize(100,1000000));
 
-    connect(other, SIGNAL(rangeChanged(QCPRange)), m_main_axis, SLOT(setRange(QCPRange)));
+//    main->setLabel("values");
+
+//    plot->plotLayout()->addElement(0,1,defaultAxisRect);
 
 
 
-    std::vector<double> sps = log->getStratigraphicPositions<double>();
-    std::vector<double> values = log->getValues<double>();
 
-    std::cout << sps.size() << std::endl;
-    std::cout << values.size() << std::endl;
+//    QCPGraph * graph = plot->addGraph(other, main);
+////    other->setVisible(false);
 
-    QVector<double> z = QVector<double>::fromStdVector(sps);
-    QVector<double> v = QVector<double>::fromStdVector(values);
-
-//    for (int i = 0; i < z.size(); ++i)
-//        std::cout << z.at(i) << std::endl;
-
-//    for (int i = 0; i < v.size(); ++i)
-//        std::cout << v.at(i) << std::endl;
+//    connect(other, SIGNAL(rangeChanged(QCPRange)), m_main_axis, SLOT(setRange(QCPRange)));
 
 
-//    m_main_axis->setRangeLower(log->getStratigraphicStart());
-//    m_main_axis->setRangeUpper(log->getMaxStratigraphicPosition());
-    graph->addData(z, v);
-    graph->rescaleAxes();
-    graph->setPen(QPen(Qt::blue)); // line color blue for first graph
-    graph->setLineStyle(QCPGraph::lsLine);
-    graph->setBrush(QBrush(QColor(0, 0, 255, 20)));
 
-    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables| QCP::iSelectAxes);
+//    std::vector<double> sps = log->getStratigraphicPositions<double>();
+//    std::vector<double> values = log->getValues<double>();
 
-    graph->setVisible(true);
-    plot->replot();
+//    std::cout << sps.size() << std::endl;
+//    std::cout << values.size() << std::endl;
+
+//    QVector<double> z = QVector<double>::fromStdVector(sps);
+//    QVector<double> v = QVector<double>::fromStdVector(values);
+
+////    for (int i = 0; i < z.size(); ++i)
+////        std::cout << z.at(i) << std::endl;
+
+////    for (int i = 0; i < v.size(); ++i)
+////        std::cout << v.at(i) << std::endl;
 
 
-}
+////    m_main_axis->setRangeLower(log->getStratigraphicStart());
+////    m_main_axis->setRangeUpper(log->getMaxStratigraphicPosition());
+//    graph->addData(z, v);
+//    graph->rescaleAxes();
+//    graph->setPen(QPen(Qt::blue)); // line color blue for first graph
+//    graph->setLineStyle(QCPGraph::lsLine);
+//    graph->setBrush(QBrush(QColor(0, 0, 255, 20)));
 
-void PlotterDlg::addRandomContinousValuesLog()
-{
-    spc::ContinousValuesLog * log = new spc::ContinousValuesLog;
-    log->resize(100);
+//    plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables| QCP::iSelectAxes);
 
-    srand (time(NULL));
+//    graph->setVisible(true);
+//    plot->replot();
 
-    for (int i = 0; i < log->size(); ++i)
-    {
-        int r = rand() % 1000; //range 0-1000
 
-        float n = (r - 500) / 500.0f;
+//}
 
-        log->setValue(i, n);
-    }
+//void PlotterDlg::addRandomContinousValuesLog()
+//{
+//    spc::ContinousValuesLog * log = new spc::ContinousValuesLog;
+//    log->resize(100);
 
-    addContinousValuesLog(log);
+//    srand (time(NULL));
 
-}
+//    for (int i = 0; i < log->size(); ++i)
+//    {
+//        int r = rand() % 1000; //range 0-1000
+
+//        float n = (r - 500) / 500.0f;
+
+//        log->setValue(i, n);
+//    }
+
+//    addContinousValuesLog(log);
+
+//}
 
 
 //void

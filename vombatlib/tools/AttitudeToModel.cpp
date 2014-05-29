@@ -58,7 +58,7 @@ int AttitudeToModel::compute()
 int AttitudeToModel::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->hasMetaData("[vombat][ccAttitude]"))
+    if (selected && selected->getMetaData("class_name") == "ccAttitude")
         return 1;
     else
         return 0;

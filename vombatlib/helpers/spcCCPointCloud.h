@@ -6,7 +6,7 @@
 
 #include <ccPointCloud.h>
 
-#include <spc/elements/generic_cloud.h>
+#include <spc/elements/PointCloudBase.h>
 
 
 

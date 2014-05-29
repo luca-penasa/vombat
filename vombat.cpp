@@ -7,7 +7,7 @@
 #include <FitAttitude.h>
 #include <AttitudeToModel.h>
 #include <Edit.h>
-//#include <SaveSPCElement.h>
+#include <SaveSPCElement.h>
 //#include <LoadSPCElement.h>
 
 #include <EvaluateDynamicScalarFieldGenerator.h>
@@ -37,9 +37,9 @@
 
 #include <GaussianFilter.h>
 
-#include <spc/methods/time_series_generator.h>
+#include <spc/methods/TimeSeriesGenerator.h>
 
-
+#include <ccVombatObjectsFactory.h>
 
 #include <boost/foreach.hpp>
 
@@ -49,6 +49,7 @@ static vombat * qgeo_instance = 0;
 vombat::vombat()
 {
     qgeo_instance = this;
+    m_factory = new ccVombatObjectsFactory("vombat");
 }
 
 vombat::~vombat()
@@ -108,7 +109,7 @@ void vombat::getActions(QActionGroup& group)
 
 
 //        addFilter(new SetUpNewSeries(this));
-        //addFilter(new SaveSPCElement(this));
+//        addFilter(new SaveSPCElement(this));
         //addFilter(new LoadSPCElement(this));
 //        addFilter(new Test(this));
 
@@ -173,10 +174,10 @@ ccHObject::Container vombat::getSelected() const
 
 ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) const
 {
-    ccHObject::Container sel = getSelected();
+
     ccHObject::Container new_sel;
 
-    spcForEachMacro(ccHObject * obj, sel)
+    spcForEachMacro(ccHObject * obj, m_selected)
     {
         if (obj->hasMetaData(key))
             new_sel.push_back(obj);
@@ -187,9 +188,11 @@ ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) cons
 
 }
 
+
+
 ccHObject::Container vombat::getSelectedThatAre(CC_CLASS_ENUM ThisType) const
 {
-    ccHObject::Container sel = getSelected(); // all selected  
+    ccHObject::Container sel = getSelected(); // all selected
 
     ccHObject::Container out = vombat::filterObjectsByType(sel, ThisType);
 

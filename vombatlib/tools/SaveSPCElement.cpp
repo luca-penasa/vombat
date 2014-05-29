@@ -7,7 +7,7 @@
 //                                                                                                   ":/toolbar/icons/save.png")
 //                                                                              , parent_plugin)
 //{
-//
+
 //    setShowProgressBar(false);
-//
+
 //}

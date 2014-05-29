@@ -16,6 +16,7 @@ public:
     ccSample()
     {
         m_sample = spc::Sample::Ptr(new spc::Sample(0.0,0.0,0.0));
+
     }
     ccSample(const cc2DLabel * label)
     {
@@ -26,12 +27,8 @@ public:
         picked_point.cloud->getPoint(picked_point.index, point);
 
         this->m_sample->setPosition(Eigen::Vector3f(point.x,point.y,point.z));
-    }
 
-    //    virtual bool acceptClick(int x, int y, Qt::MouseButton button)
-    //    {
-    //        //do nothing
-    //    }
+    }
 
     virtual ccBBox getMyOwnBB()
     {
@@ -57,6 +54,10 @@ public:
 
     virtual bool hasColors() const { return false; }
 
+    virtual QString getSPCClassName() const
+    {
+        return "ccSample";
+    }
 
 protected:
 

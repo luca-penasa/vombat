@@ -3,7 +3,7 @@
 
 #include <ccHObject.h>
 
-#include <spc/scalar_fields_generators/DynamicScalarFieldGenerator.h>
+#include <spc/elements/VariableScalarFieldBase.h>
 
 #include <ccCylinder.h>
 #include <ccoutofcore/ccEditableHObject.h>
@@ -14,7 +14,6 @@
 #include <QIcon>
 #include <ccPointCloud.h>
 
-#include <spc/elements/SerializableObject.h> //needed to serialize Vector3f
 
 #include <ccoutofcore/ccAttitude.h>
 
@@ -25,25 +24,22 @@ class ccDynamicScalarFieldGenerator: public QObject,  public ccMyBaseObject
 public:
 
 
-    ccDynamicScalarFieldGenerator()
+    ccDynamicScalarFieldGenerator(const char * name =0): ccMyBaseObject(name)
     {
-        initMetadata();
+
+
     }
 
     // copy const
     ccDynamicScalarFieldGenerator(const ccDynamicScalarFieldGenerator &other)
     {
         m_generator_ = other.getGenerator();
-        initMetadata();
-
     }
 
     // construct passing an spc::DynamicScalarFieldgenerator pointer
     ccDynamicScalarFieldGenerator(const spc::DynamicScalarFieldGenerator::Ptr &other)
     {
         m_generator_ = other;
-        initMetadata();
-
     }
 
     spc::DynamicScalarFieldGenerator::Ptr getGenerator() const
@@ -51,13 +47,17 @@ public:
         return m_generator_;
     }
 
+    virtual QString getSPCClassName() const
+    {
+        return "ccDynamicScalarFieldGenerator";
+    }
 
 
     virtual bool isSerializable() const { return true; }
 
 //    virtual bool hasColors() const { return true; }
 
-    virtual ccBBox getMyOwnBcB() {return ccBBox();}
+    virtual ccBBox getMyOwnBB() {return ccBBox();}
 
     virtual QIcon getIcon() const
     {
@@ -65,15 +65,6 @@ public:
     }
 
 protected:
-    void initMetadata()
-    {
-        QVariant var(QString("Generic Scalar Field Generator"));
-
-        setMetaData(QString("[vombat][ccDynamicScalarFieldGenerator]"), var);
-    }
-
-
-
     spc::DynamicScalarFieldGenerator::Ptr m_generator_;
 
 

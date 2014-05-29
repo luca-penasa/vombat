@@ -1,6 +1,7 @@
 #include "ccAttitude.h"
 #include <iostream>
 
+#include <helpers/ccSPCObjectsStreamer.h>
 
 
 ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
@@ -8,8 +9,7 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 
     spc::Attitude att = spc::Attitude(asEigenVector(orientation), asEigenVector(center));
     setAttitude(att);
-
-    initMetadata();
+    writeSPCClassNameToMetadata();
     initParameters();
 }
 
@@ -18,23 +18,39 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 ccAttitude::ccAttitude(spc::Attitude att)
 {    
     setAttitude(att);
-    initMetadata();
     initParameters();
+
+    writeSPCClassNameToMetadata();
+
 }
 
 ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
 {
     setAttitude(att_ptr);
-    initMetadata();
     initParameters();
+
+    writeSPCClassNameToMetadata();
+
 }
 
 
 ccAttitude::ccAttitude()
 {
     setAttitude(spc::Attitude::Ptr(new spc::Attitude));
-    initMetadata();
     initParameters();
+
+    writeSPCClassNameToMetadata();
+
+}
+
+ccAttitude::ccAttitude(QString name): ccMyBaseObject(name)
+{
+    setAttitude(spc::Attitude::Ptr(new spc::Attitude));
+    initParameters();
+
+    writeSPCClassNameToMetadata();
+
+
 }
 
 ccBBox ccAttitude::getMyOwnBB()
@@ -49,6 +65,39 @@ ccBBox ccAttitude::getMyOwnBB()
     return box;
 }
 
+bool ccAttitude::toFile_MeOnly(QFile &out) const
+{
+    ccCustomHObject::toFile_MeOnly(out);
+
+    std::cout << "called toFile" << std::endl;
+    QDataStream outs(&out);
+    outs << m_scale;
+    outs << m_scale_factor;
+    outs << m_width;
+
+    ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
+    return true;
+
+}
+
+bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+{
+    ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
+
+    std::cout << "called fromFile" << std::endl;
+
+
+    QDataStream ins(&in);
+    ins >> m_scale;
+    ins >> m_scale_factor;
+    ins >> m_width;
+
+    spc::spcObject::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
+    m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
+
+    return true;
+}
+
 void ccAttitude::initParameters()
 {
     m_scale_factor = 20;
@@ -57,11 +106,7 @@ void ccAttitude::initParameters()
     //    m_oldTransform.toIdentity();
 }
 
-void ccAttitude::initMetadata()
-{
-    QVariant var("An attitude of a geologic plane in space");
-    setMetaData(QString("[vombat][ccAttitude]"), var);
-}
+
 
 void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 {

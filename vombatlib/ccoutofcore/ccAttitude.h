@@ -2,7 +2,7 @@
 #define CC_ATTITUDE_H
 
 
-#include <spc/elements/attitude.h>
+#include <spc/elements/Attitude.h>
 
 //#include "DistanceComputationTools.h"
 #include "ccPointCloud.h"
@@ -13,7 +13,7 @@
 
 //#include <boost/serialization/shared_ptr.hpp>
 
-
+#include <spc/io/element_io.h>
 
 #include <QIcon>
 
@@ -24,7 +24,6 @@
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
 class ccAttitude:  public ccMyBaseObject
-
 {
 public:
     ccAttitude(CCVector3 center, CCVector3 orientation);
@@ -34,6 +33,8 @@ public:
     ccAttitude(spc::Attitude::Ptr att_ptr);
 
     ccAttitude();
+
+    ccAttitude(QString name);
 
     //inherited methods (ccHObject)
     virtual bool hasColors() const { return true; }
@@ -50,10 +51,8 @@ public:
         std::cout << "CALLED IF SERIALIZABLE" << std::endl;
         return true;
     }
-    virtual bool toFile(QFile& out) const {}
-    virtual bool fromFile(QFile& in, short dataVersion, int flags) {}
-
-
+//    virtual bool toFile(QFile& out) const;
+//    virtual bool fromFile(QFile& in, short dataVersion, int flags);
 
 
 
@@ -67,7 +66,11 @@ protected:
 
 
     void initParameters();
-    void initMetadata();
+
+    virtual QString getSPCClassName() const
+    {
+        return "ccAttitude";
+    }
 
     float m_scale;
     float m_scale_factor;
@@ -95,8 +98,6 @@ public:
         setAttitude(at_ptr);
     }
 
-    //    ccGLMatrix m_oldTransform;
-
 protected:
     static Eigen::Vector3f asEigenVector(CCVector3 v)
     {
@@ -109,18 +110,11 @@ protected:
     }
 
 
-  /*  friend class boost::serialization::access;
 
-    template <class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-        ar & BOOST_SERIALIZATION_NVP(m_scale);
-        ar & BOOST_SERIALIZATION_NVP(m_width);
-        ar & BOOST_SERIALIZATION_NVP(m_attitude);
-        ar & boost::serialization::make_nvp("ccMyBaseObject", boost::serialization::base_object<ccMyBaseObject> (*this));
-
-    }*/
-
+    // ccHObject interface
+protected:
+    virtual bool toFile_MeOnly(QFile &out) const;
+    virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags);
 
 
 };//end class

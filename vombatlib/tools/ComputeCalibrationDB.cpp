@@ -2,7 +2,7 @@
 //#include <spcCCPointCloud.h>
 
 #include <ccoutofcore/ccCalibrationDB.h>
-#include <spc/calibration/CalibrationDataEstimator.h>
+#include <spc/methods/IntensityCalibrationDataEstimator.h>
 
 #include <iostream>
 

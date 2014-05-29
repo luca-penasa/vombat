@@ -21,14 +21,6 @@ protected:
     virtual int openInputDialog();
 
     virtual int checkParameters();
-
-//private:
-//    ccGraphicalSegmentationTool * m_segtool;
-
-//public slots:
-//    void called();
-
-
 };
 
 #endif // DEFINE2DSELECTION_H
