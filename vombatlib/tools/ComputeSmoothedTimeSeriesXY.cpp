@@ -30,7 +30,7 @@ int ComputeSmoothedTimeSeriesXY::compute()
     std::vector<float> f1 = spc_cloud->getField(x_name);
     std::vector<float> f2 = spc_cloud->getField(y_name);
 
-    spc::SparseTimeSeries<float>::Ptr ser_in (new spc::SparseTimeSeries<float> (f1, f2));
+    spc::TimeSeriesSparse<float>::Ptr ser_in (new spc::TimeSeriesSparse<float> (f1, f2));
 
     spc::KernelSmoothing2<float> ks;
     ks.setInputSeries(ser_in);
@@ -39,7 +39,7 @@ int ComputeSmoothedTimeSeriesXY::compute()
 
     ks.compute();
 
-    spc::EquallySpacedTimeSeries<float>::Ptr out = ks.getOutputSeries();
+    spc::TimeSeriesEquallySpaced<float>::Ptr out = ks.getOutputSeries();
 
     ccTimeSeries * out_ts = new ccTimeSeries(out);
 

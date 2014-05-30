@@ -2,7 +2,7 @@
 #define CCCALIBRATIONMODEL_H
 
 #include <ccoutofcore/ccMyBaseObject.h>
-#include <spc/elements/IntensityCalibration/ModelBase.h>
+#include <spc/elements/ICalModelBase.h>
 
 class ccCalibrationModel: public ccMyBaseObject
 {

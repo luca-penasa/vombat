@@ -2,7 +2,7 @@
 #include <QIcon>
 #include <spc/elements/TimeSeriesBase.h>
 
-ccTimeSeries::ccTimeSeries(spc::GenericTimeSeries<float>::Ptr series)
+ccTimeSeries::ccTimeSeries(spc::TimeSeriesBase<float>::Ptr series)
 {
     series_ = series;
 

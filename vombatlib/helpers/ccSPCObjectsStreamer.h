@@ -9,9 +9,9 @@ class ccSPCObjectsStreamer
 public:
 
 
-    static void WriteToQFile(const spc::spcObject::Ptr obj, QFile & file);
+    static void WriteToQFile(const spc::ElementBase::Ptr obj, QFile & file);
 
-    static spc::spcObject::Ptr ReadFromQFile( QFile & file);
+    static spc::ElementBase::Ptr ReadFromQFile( QFile & file);
 };
 
 #endif // CCSPCOBJECTSSTREAMER_H

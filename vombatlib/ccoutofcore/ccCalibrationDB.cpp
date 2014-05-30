@@ -52,7 +52,7 @@ void ccCalibrationDB::setGLTransformation(const ccGLMatrix &trans)
 
 
 
-std::vector<ccPointCloud *> ccCalibrationDB::getAsPointClouds(const spc::CalibrationDataDB &db)
+std::vector<ccPointCloud *> ccCalibrationDB::getAsPointClouds(const spc::DataDB &db)
 {
     size_t n_clouds = db.getNumberOfDifferentClouds();
     std::vector<ccPointCloud * > out(n_clouds);
@@ -76,7 +76,7 @@ std::vector<ccPointCloud *> ccCalibrationDB::getAsPointClouds(const spc::Calibra
 
 
 
-    spcForEachMacro(spc::CorePointData::Ptr core, db.getDataDB())
+    spcForEachMacro(spc::CorePoint::Ptr core, db.getDataDB())
     {
 
         Eigen::Vector3f center = core->value<Eigen::Vector3f>("centroid");

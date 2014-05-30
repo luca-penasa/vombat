@@ -37,7 +37,7 @@ ExportToAscii::compute()
         std::cout << m_filename.toStdString().c_str() << std::endl;
 
 
-        spc::GenericTimeSeries<float>::Ptr spct = t->getTimeSeries();
+        spc::TimeSeriesBase<float>::Ptr spct = t->getTimeSeries();
 
         spc::TimeSeriesWriter<float> w;
 

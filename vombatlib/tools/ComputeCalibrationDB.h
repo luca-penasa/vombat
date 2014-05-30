@@ -7,7 +7,7 @@
 
 #include <dialogs/ComputeCalibrationDBDlg.h>
 
-#include <spc/elements/IntensityCalibration/DataDB.h>
+#include <spc/elements/ICalDataDB.h>
 
 
 class ComputeCalibrationDB: public BaseFilter

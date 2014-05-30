@@ -4,19 +4,15 @@
 //#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 
-class FitAttitude: public BaseFilter
+class FitAttitude : public BaseFilter
 {
 public:
-    FitAttitude(ccPluginInterface * parent_plugin = 0);
-
+    FitAttitude(ccPluginInterface *parent_plugin = 0);
 
     virtual int compute();
 
 protected:
     virtual int checkSelected();
-
-
-
 };
 
 #endif // FITGEOLOGICALORIENTATION_H

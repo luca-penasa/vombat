@@ -22,10 +22,10 @@ include_directories(${PCL_INCLUDE_DIRS})
 
 
 
-file( GLOB_RECURSE header_list ccoutofcore/*.h external/*.h dialogs/*.h plotter2d/*.h tools/*.h visualization/*.h helpers/*.h)
-file( GLOB_RECURSE source_list ccoutofcore/*.cpp external/*.cpp dialogs/*.cpp plotter2d/*.cpp tools/*.cpp visualization/*.cpp helpers/*.cpp)
-file( GLOB_RECURSE impl_list ccoutofcore/*.hpp external/*.hpp dialogs/*.hpp  plotter2d/*.hpp tools/*.hpp visualization/*.hpp helpers/*.hpp)
-file( GLOB_RECURSE ui_list dialogs/*.ui visualization/*.ui plotter2d/*.ui helpers/*.ui)
+file( GLOB_RECURSE header_list *.h)
+file( GLOB_RECURSE source_list *.cpp)
+file( GLOB_RECURSE impl_list *.hpp)
+file( GLOB_RECURSE ui_list *.ui)
 #file( GLOB qrc_list icons/*.qrc )
 #file( GLOB rc_list *.rc )
 

@@ -37,12 +37,12 @@ public:
     }
 
     // construct passing an spc::DynamicScalarFieldgenerator pointer
-    ccDynamicScalarFieldGenerator(const spc::DynamicScalarFieldGenerator::Ptr &other)
+    ccDynamicScalarFieldGenerator(const spc::VariableScalarFieldBase::Ptr &other)
     {
         m_generator_ = other;
     }
 
-    spc::DynamicScalarFieldGenerator::Ptr getGenerator() const
+    spc::VariableScalarFieldBase::Ptr getGenerator() const
     {
         return m_generator_;
     }
@@ -65,7 +65,7 @@ public:
     }
 
 protected:
-    spc::DynamicScalarFieldGenerator::Ptr m_generator_;
+    spc::VariableScalarFieldBase::Ptr m_generator_;
 
 
 

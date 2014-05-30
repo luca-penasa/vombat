@@ -5,7 +5,7 @@
 #include <ccoutofcore/ccMyBaseObject.h>
 
 
-#include <spc/elements/IntensityCalibration/DataDB.h>
+#include <spc/elements/ICalDataDB.h>
 #include <ccPointCloud.h>
 
 #include <QIcon>
@@ -25,9 +25,9 @@ public:
 
     ccCalibrationDB();
 
-    ccCalibrationDB(spc::CalibrationDataDB db)
+    ccCalibrationDB(spc::DataDB db)
     {
-        m_calibration_db_ = spcMakeSharedPtrMacro<spc::CalibrationDataDB> (db);
+        m_calibration_db_ = spcMakeSharedPtrMacro<spc::DataDB> (db);
 
     }
 
@@ -40,7 +40,7 @@ public:
         return QIcon(QString::fromUtf8(":/toolbar/icons/calibrationDB.png"));
     }
 
-    spc::CalibrationDataDB::Ptr getAsSpc() const
+    spc::DataDB::Ptr getAsSpc() const
     {
         return m_calibration_db_;
     }
@@ -55,7 +55,7 @@ public:
     virtual bool toFile(QFile& out) const {}
     virtual bool fromFile(QFile& in, short dataVersion, int flags) {}
 
-    static std::vector<ccPointCloud * > getAsPointClouds( const spc::CalibrationDataDB &db);
+    static std::vector<ccPointCloud * > getAsPointClouds( const spc::DataDB &db);
 
 
     void rebuildClouds();
@@ -77,7 +77,7 @@ protected:
 
 
 
-    spc::CalibrationDataDB::Ptr m_calibration_db_;
+    spc::DataDB::Ptr m_calibration_db_;
 
 
     ccBBox box;

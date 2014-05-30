@@ -42,7 +42,7 @@ public:
         bool doKS = m_dialog->getUi()->grpKS->isChecked();
 
         ccPointCloud * cccloud = getSelectedEntityAsCCPointCloud();
-        spc::spcGenericCloud::Ptr cloud = spc::spcGenericCloud::Ptr(new  spcCCPointCloud(cccloud));
+        spc::PointCloudBase::Ptr cloud = spc::PointCloudBase::Ptr(new  spcCCPointCloud(cccloud));
 
         if (!cloud)
             return -1;
@@ -54,7 +54,7 @@ public:
 
         std::string name = x_field_name + "_" + y_field_name;
 
-        spc::GenericTimeSeries<float>::Ptr serie;
+        spc::TimeSeriesBase<float>::Ptr serie;
 
         if (!doKS)
         {
@@ -62,7 +62,7 @@ public:
             std::vector<float>  y = cloud->getField(y_field_name);
 
             // simply build up a scatters TS with the two scalar fields
-            serie = spc::SparseTimeSeries<float>::Ptr (new spc::SparseTimeSeries<float>(x, y));
+            serie = spc::TimeSeriesSparse<float>::Ptr (new spc::TimeSeriesSparse<float>(x, y));
         }
 
 

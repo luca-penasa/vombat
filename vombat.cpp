@@ -1,6 +1,5 @@
 #include "vombat.h"
 
-
 #include <ccPointCloud.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 //#include <ComputeTimeSeries.h>
@@ -43,8 +42,7 @@
 
 #include <boost/foreach.hpp>
 
-
-static vombat * qgeo_instance = 0;
+static vombat *qgeo_instance = 0;
 
 vombat::vombat()
 {
@@ -54,64 +52,58 @@ vombat::vombat()
 
 vombat::~vombat()
 {
-	while (!m_filters.empty())
-	{
-		delete m_filters.back();
-		m_filters.pop_back();
-	}
+    while (!m_filters.empty()) {
+        delete m_filters.back();
+        m_filters.pop_back();
+    }
 }
 
-void vombat::handleNewEntity(ccHObject* entity)
+void vombat::handleNewEntity(ccHObject *entity)
 {
     assert(entity && m_app);
     entity->setSelected(true);
-	m_app->addToDB(entity);
-
-
+    m_app->addToDB(entity);
 }
 
-void vombat::handleEntityChange(ccHObject* entity)
+void vombat::handleEntityChange(ccHObject *entity)
 {
-	assert(entity && m_app);
-	entity->prepareDisplayForRefresh_recursive();
-	m_app->refreshAll();
-	m_app->updateUI();
+    assert(entity && m_app);
+    entity->prepareDisplayForRefresh_recursive();
+    m_app->refreshAll();
+    m_app->updateUI();
 }
 
 void vombat::handleErrorMessage(QString message)
 {
-	assert(m_app);
+    assert(m_app);
 
-	m_app->dispToConsole(qPrintable(message),ccMainAppInterface::ERR_CONSOLE_MESSAGE);
+    m_app->dispToConsole(qPrintable(message),
+                         ccMainAppInterface::ERR_CONSOLE_MESSAGE);
 }
 
-void vombat::getActions(QActionGroup& group)
+void vombat::getActions(QActionGroup &group)
 {
-    if (m_filters.empty())
-    {
-        //ADD FILTERS
+    if (m_filters.empty()) {
+        // ADD FILTERS
         addFilter(new FitAttitude(this));
         addFilter(new AttitudeToModel(this));
         addFilter(new EvaluateDynamicScalarFieldGenerator(this));
         addFilter(new Edit(this));
 
-
-//        addFilter(new OpenPlotsDialog(this));
-
+        //        addFilter(new OpenPlotsDialog(this));
 
         addFilter(new OpenPlots2DDialog(this));
         addFilter(new CreateTimeSeriesFromScalarFields(this));
         addFilter(new SendTo2DPlot(this));
 
-//        m_plotter = openPlot->getPlotterDlg();
+        //        m_plotter = openPlot->getPlotterDlg();
 
-//        addFilter(new ComputeSmoothedTimeSeriesXY(this));
+        //        addFilter(new ComputeSmoothedTimeSeriesXY(this));
 
-
-//        addFilter(new SetUpNewSeries(this));
-//        addFilter(new SaveSPCElement(this));
-        //addFilter(new LoadSPCElement(this));
-//        addFilter(new Test(this));
+        //        addFilter(new SetUpNewSeries(this));
+        //        addFilter(new SaveSPCElement(this));
+        // addFilter(new LoadSPCElement(this));
+        //        addFilter(new Test(this));
 
         addFilter(new ComputeCalibrationDB(this));
         addFilter(new CalibrateDevice(this));
@@ -119,30 +111,25 @@ void vombat::getActions(QActionGroup& group)
 
         addFilter(new AddSample(this));
 
+        //        addFilter( new ComputeStratigraphicPosition(this) );
+        //        addFilter( new ComputeTimeSeries(this));
+        //        addFilter(new SplitPointCloud(this));
 
-
-
-//        addFilter( new ComputeStratigraphicPosition(this) );
-//        addFilter( new ComputeTimeSeries(this));
-//        addFilter(new SplitPointCloud(this));
-
-//        addFilter(new EvaluateStratigraphicPosition(this));
-//        addFilter(new Properties(this));
+        //        addFilter(new EvaluateStratigraphicPosition(this));
+        //        addFilter(new Properties(this));
         addFilter(new CloudToPlanarSelection(this));
         addFilter(new ExportToAscii(this));
         addFilter(new GaussianFilter(this));
 
-//        addFilter(new ApplyCorrection(this));
-
-
-
+        //        addFilter(new ApplyCorrection(this));
     }
 
-    for (std::vector<BaseFilter*>::const_iterator it = m_filters.begin(); it != m_filters.end(); ++it)
+    for (std::vector<BaseFilter *>::const_iterator it = m_filters.begin();
+         it != m_filters.end(); ++it)
         group.addAction((*it)->getAction());
 }
 
-int vombat::addFilter(BaseFilter * filter)
+int vombat::addFilter(BaseFilter *filter)
 {
     assert(filter);
     filter->setMainAppInterface(m_app);
@@ -151,28 +138,31 @@ int vombat::addFilter(BaseFilter * filter)
     if (!action)
         return 0;
 
-    //filter already inserted?
-    if (std::find(m_filters.begin(),m_filters.end(),filter) != m_filters.end())
+    // filter already inserted?
+    if (std::find(m_filters.begin(), m_filters.end(), filter)
+        != m_filters.end())
         return 0;
 
     m_filters.push_back(filter);
 
-    //connect signals
-    connect(filter, SIGNAL(newEntity(ccHObject*)),          this,   SLOT(handleNewEntity(ccHObject*)));
-    connect(filter, SIGNAL(entityHasChanged(ccHObject*)),   this,   SLOT(handleEntityChange(ccHObject*)));
-    connect(filter, SIGNAL(newErrorMessage(QString)),       this,   SLOT(handleErrorMessage(QString)));
+    // connect signals
+    connect(filter, SIGNAL(newEntity(ccHObject *)), this,
+            SLOT(handleNewEntity(ccHObject *)));
+    connect(filter, SIGNAL(entityHasChanged(ccHObject *)), this,
+            SLOT(handleEntityChange(ccHObject *)));
+    connect(filter, SIGNAL(newErrorMessage(QString)), this,
+            SLOT(handleErrorMessage(QString)));
 
     return 1;
 }
-
-
 
 ccHObject::Container vombat::getSelected() const
 {
     return m_selected;
 }
 
-ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) const
+ccHObject::Container
+vombat::getSelectedThatHaveMetaData(const QString key) const
 {
 
     ccHObject::Container new_sel;
@@ -181,14 +171,10 @@ ccHObject::Container vombat::getSelectedThatHaveMetaData(const QString key) cons
     {
         if (obj->hasMetaData(key))
             new_sel.push_back(obj);
-
     }
 
     return new_sel;
-
 }
-
-
 
 ccHObject::Container vombat::getSelectedThatAre(CC_CLASS_ENUM ThisType) const
 {
@@ -197,7 +183,6 @@ ccHObject::Container vombat::getSelectedThatAre(CC_CLASS_ENUM ThisType) const
     ccHObject::Container out = vombat::filterObjectsByType(sel, ThisType);
 
     return out;
-
 }
 
 ccHObject::Container vombat::getSelectedKindOf(CC_CLASS_ENUM ThisType)
@@ -207,10 +192,10 @@ ccHObject::Container vombat::getSelectedKindOf(CC_CLASS_ENUM ThisType)
     ccHObject::Container out = vombat::filterObjectsByKind(sel, ThisType);
 
     return out;
-
 }
 
-ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType)
+ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in,
+                                                 const CC_CLASS_ENUM ThisType)
 {
     if (in.empty())
         return in;
@@ -218,8 +203,7 @@ ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in,
     ccHObject::Container out;
     spcForEachMacro(ccHObject * obj, in)
     {
-        if (obj->isA(ThisType))
-        {
+        if (obj->isA(ThisType)) {
             out.push_back(obj);
         }
     }
@@ -227,16 +211,16 @@ ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in,
     return out;
 }
 
-ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType)
+ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in,
+                                                 const CC_CLASS_ENUM ThisType)
 {
     if (in.empty())
         return in;
 
     ccHObject::Container out;
-    spcForEachMacro (ccHObject * obj, in)
+    spcForEachMacro(ccHObject * obj, in)
     {
-        if (obj->isKindOf(ThisType))
-        {
+        if (obj->isKindOf(ThisType)) {
             out.push_back(obj);
         }
     }
@@ -244,7 +228,8 @@ ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in,
     return out;
 }
 
-ccHObject::Container vombat::getAllObjectsInTreeThatHaveMetaData( const QString key)
+ccHObject::Container
+vombat::getAllObjectsInTreeThatHaveMetaData(const QString key)
 {
 
     ccHObject::Container all = this->getAllObjectsInTree();
@@ -255,7 +240,7 @@ ccHObject::Container vombat::getAllObjectsInTreeThatHaveMetaData( const QString 
 ccHObject::Container vombat::getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType)
 {
     ccHObject::Container all = getAllObjectsInTree();
-    std::cout << "in tree " <<  all.size() << std::endl;
+    std::cout << "in tree " << all.size() << std::endl;
     return vombat::filterObjectsByType(all, ThisType);
 }
 
@@ -263,20 +248,20 @@ ccHObject::Container vombat::getAllChildren(ccHObject *object)
 {
     int n = object->getChildrenNumber();
     ccHObject::Container cont;
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i = 0; i < n; ++i) {
         cont.push_back(object->getChild(i));
     }
     return cont;
 }
 
-ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container &in, const QString key)
+ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container
+                                                     &in,
+                                                     const QString key)
 {
     ccHObject::Container out;
-   spcForEachMacro (ccHObject * obj, in)
+    spcForEachMacro(ccHObject * obj, in)
     {
-        if (obj->hasMetaData(key))
-        {
+        if (obj->hasMetaData(key)) {
             out.push_back(obj);
         }
     }
@@ -286,24 +271,23 @@ ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container 
 
 ccHObject::Container vombat::getAllObjectsInTree()
 {
-//    ccHObject::Container cont;
+    //    ccHObject::Container cont;
 
-    ccHObject* dbroot = this->getMainAppInterface()->dbRootObject();
+    ccHObject *dbroot = this->getMainAppInterface()->dbRootObject();
     ccHObject::Container tovisit;
     tovisit.push_back(dbroot);
 
     ccHObject::Container out;
 
-    while (!tovisit.empty())
-    {
-        ccHObject  * last = tovisit.back();
+    while (!tovisit.empty()) {
+        ccHObject *last = tovisit.back();
         tovisit.pop_back();
 
         out.push_back(last);
 
         ccHObject::Container sons = getAllChildren(last);
 
-        spcForEachMacro (ccHObject * obj, sons)
+        spcForEachMacro(ccHObject * obj, sons)
         {
             tovisit.push_back(obj);
         }
@@ -311,10 +295,9 @@ ccHObject::Container vombat::getAllObjectsInTree()
     return out;
 }
 
-
-void vombat::onNewSelection(const ccHObject::Container& selectedEntities)
+void vombat::onNewSelection(const ccHObject::Container &selectedEntities)
 {
-    for (unsigned i=0;i<m_filters.size();++i)
+    for (unsigned i = 0; i < m_filters.size(); ++i)
         m_filters[i]->updateSelectedEntities(selectedEntities);
 
     m_selected = selectedEntities;
@@ -341,14 +324,13 @@ PlotterDlg *vombat::getPlotterDlg()
 {
     spcForEachMacro(BaseFilter * f, m_filters)
     {
-        if (typeid(*f) ==typeid(OpenPlotsDialog))
-        {
+        if (typeid(*f) == typeid(OpenPlotsDialog)) {
 
-            PlotterDlg * plotterdlg = static_cast<OpenPlotsDialog *> (f)->getPlotterDlg();
+            PlotterDlg *plotterdlg = static_cast
+                                     <OpenPlotsDialog *>(f)->getPlotterDlg();
 
             return plotterdlg;
         }
-
     }
     return 0;
 }
@@ -357,18 +339,16 @@ Plotter2DDlg *vombat::getPlotter2DDlg()
 {
     spcForEachMacro(BaseFilter * f, m_filters)
     {
-        if (typeid(*f) == typeid(OpenPlots2DDialog))
-        {
+        if (typeid(*f) == typeid(OpenPlots2DDialog)) {
 
-            Plotter2DDlg  * plotterdlg = static_cast<OpenPlots2DDialog *> (f)->getPlotterDlg();
+            Plotter2DDlg *plotterdlg
+                = static_cast<OpenPlots2DDialog *>(f)->getPlotterDlg();
             if (plotterdlg)
                 return plotterdlg;
         }
-
     }
     return 0;
 }
 
-//plugin export
-Q_EXPORT_PLUGIN2
-(vombat,vombat)
+// plugin export
+Q_EXPORT_PLUGIN2(vombat, vombat)

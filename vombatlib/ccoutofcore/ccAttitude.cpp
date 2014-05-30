@@ -92,7 +92,7 @@ bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
     ins >> m_scale_factor;
     ins >> m_width;
 
-    spc::spcObject::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
+    spc::ElementBase::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
     m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
 
     return true;

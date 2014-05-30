@@ -9,7 +9,7 @@
 #include <pcl/filters/extract_indices.h>
 #include <boost/foreach.hpp>
 
-class ccPlanarSelection: public ccMyBaseObject, public spc::spcPlanarSelection
+class ccPlanarSelection: public ccMyBaseObject, public spc::SelectionRubberband
 {
 public:
     ccPlanarSelection();

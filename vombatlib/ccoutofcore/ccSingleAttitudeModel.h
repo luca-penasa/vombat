@@ -50,16 +50,16 @@ public:
         return QIcon(QString::fromUtf8(":/toolbar/icons/AttitudeToModel.png"));
     }
 
-    spc::SingleAttitudeModel::Ptr getModel() const
+    spc::StratigraphicModelSingleAttitude::Ptr getModel() const
     {
         // we are sure it is of this type, arent we?
-        spc::SingleAttitudeModel::Ptr qua  = spcDynamicPointerCast<spc::SingleAttitudeModel> (m_generator_);
+        spc::StratigraphicModelSingleAttitude::Ptr qua  = spcDynamicPointerCast<spc::StratigraphicModelSingleAttitude> (m_generator_);
         return qua;
     }
 
-    void setModel(spc::SingleAttitudeModel::Ptr model)
+    void setModel(spc::StratigraphicModelSingleAttitude::Ptr model)
     {
-        m_generator_ = spcStaticPointerCast<spc::DynamicScalarFieldGenerator> (model);
+        m_generator_ = spcStaticPointerCast<spc::VariableScalarFieldBase> (model);
     }
 
     virtual QString getSPCClassName() const

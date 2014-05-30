@@ -16,7 +16,7 @@ class ccTimeSeries:  public ccMyBaseObject
 {
 public:
 
-    ccTimeSeries(spc::GenericTimeSeries<float>::Ptr series);
+    ccTimeSeries(spc::TimeSeriesBase<float>::Ptr series);
 
 
     virtual QIcon getIcon() const
@@ -26,7 +26,7 @@ public:
 
 
 
-    spc::GenericTimeSeries<float>::Ptr getTimeSeries() const
+    spc::TimeSeriesBase<float>::Ptr getTimeSeries() const
     {
         return series_;
     }
@@ -62,7 +62,7 @@ public:
 
 protected:
 
-    spc::GenericTimeSeries<float>::Ptr series_;
+    spc::TimeSeriesBase<float>::Ptr series_;
 
 public:
 

@@ -5,7 +5,7 @@
 ccSingleAttitudeModel::ccSingleAttitudeModel(const char * name): ccDynamicScalarFieldGenerator(name)
 {
 
-    setModel( spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel));
+    setModel( spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude));
     initParameters();
 
 }
@@ -20,7 +20,7 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &other)
 
 ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::Attitude &att)
 {
-    setModel( spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel(att)) );
+    setModel( spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude(att)) );
 
     initParameters();
 
@@ -28,7 +28,7 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::Attitude &att)
 
 ccSingleAttitudeModel::ccSingleAttitudeModel(const ccAttitude & att)
 {
-    setModel(spc::SingleAttitudeModel::Ptr(new spc::SingleAttitudeModel(att.getAttitude())) );
+    setModel(spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude(att.getAttitude())) );
 
     initParameters();
 

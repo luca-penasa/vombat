@@ -10,7 +10,7 @@
 
 
 
-class spcCCPointCloud: public spc::spcGenericCloud
+class spcCCPointCloud: public spc::PointCloudBase
 {
 public:
 

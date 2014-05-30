@@ -4,19 +4,17 @@
 //#include <BaseFilter.h>
 #include <dialogs/split_point_cloud_dlg.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-class SplitPointCloud: public BaseFilter
+class SplitPointCloud : public BaseFilter
 {
     Q_OBJECT
 public:
-    SplitPointCloud( ccPluginInterface * parent_plugin = 0);
+    SplitPointCloud(ccPluginInterface *parent_plugin = 0);
 
 protected:
-    virtual int compute() ;
+    virtual int compute();
     virtual int openInputDialog();
 
-    SplitPointCloudDlg * m_dialog;
-
-
+    SplitPointCloudDlg *m_dialog;
 };
 
 #endif // SPLIT_POINT_CLOUD_H
