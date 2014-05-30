@@ -1,6 +1,6 @@
-[submodule "external/spc"]
-	path = external/spc
-	url = git@github.com:luca-penasa/spc.git
 [submodule "external/QtPropertyBrowser"]
 	path = external/QtPropertyBrowser
 	url = git@github.com:commontk/QtPropertyBrowser.git
+[submodule "external/spc"]
+	path = external/spc
+	url = git@github.com:luca-penasa/spc.git
