@@ -11,16 +11,8 @@ project(vombat)
 
 
 include(cmake/macros.cmake) # load some macros
-#include(ExternalProject)
-##include(cmake/ExternalProjects.cmake)
-#ExternalProject_Add (
-#        QtPropertyBrowser
-#       GIT_REPOSITORY "git@github.com:luca-penasa/QtPropertyBrowser.git"
-#       GIT_TAG "master"
-#       UPDATE_COMMAND ""
-#       INSTALL_COMMAND "" )
+
 add_subdirectory(external/QtPropertyBrowser)
-#set(QtPropertyBrowser_DIR "${CMAKE_CURRENT_BINARY_DIR}/external/QtPropertyBrowser")
 
 
 #find_package(QtPropertyBrowser)
@@ -28,6 +20,11 @@ add_subdirectory(external/QtPropertyBrowser)
 include_directories("${QtPropertyBrowser_SOURCE_DIR}/src")
 link_directories(${QtPropertyBrowser_BINARY_DIR})
 
+
+add_subdirectory(external/spc)
+include_directories(external/spc)
+include_directories(external/spc/submodules/cereal/include)
+link_directories(${SPC_BINARY_DIR}/lib)
 
 
 FIND_PACKAGE(Qt4 REQUIRED)
@@ -112,14 +109,14 @@ endif()
 
 
 #################### SPC ###########################################
-#it also automatically find PCL and other required libraries
-find_package(SPC 0.1.0 REQUIRED)
-include_directories(${SPC_INCLUDE_DIRS})
+##it also automatically find PCL and other required libraries
+#find_package(SPC 0.1.0 REQUIRED)
+#include_directories(${SPC_INCLUDE_DIRS})
 
-link_directories(${SPC_LIBRARY_DIRS})
-add_definitions(${SPC_DEFINITIONS})
+#link_directories(${SPC_LIBRARY_DIRS})
+#add_definitions(${SPC_DEFINITIONS})
 
-message("spc includes: ${SPC_INCLUDE_DIRS}")
+#message("spc includes: ${SPC_INCLUDE_DIRS}")
 ####################################################################
 
 find_package(PCL 1.6 REQUIRED)
