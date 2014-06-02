@@ -62,6 +62,7 @@ public:
         m_generator_ = spcStaticPointerCast<spc::VariableScalarFieldBase> (model);
     }
 
+protected:
     virtual QString getSPCClassName() const
     {
         return "ccSingleAttitudeModel";
@@ -143,6 +144,39 @@ protected:
 
     float m_dynamic_scale;
 
+protected:
+    virtual bool toFile_MeOnly(QFile &out) const
+    {
+
+        ccDynamicScalarFieldGenerator::toFile_MeOnly(out);
+
+        QDataStream outs(&out);
+        outs << m_min_sp;
+        outs << m_max_sp;
+        outs << m_step;
+        outs << m_line_width;
+        outs << m_major_thicks_length;
+        return 1;
+    }
+    virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+    {
+        ccDynamicScalarFieldGenerator::fromFile_MeOnly(in, dataVersion, flags);
+
+        QDataStream ins(&in);
+        ins >> m_min_sp;
+        ins >> m_max_sp;
+        ins >> m_step;
+        ins >> m_line_width;
+        ins >> m_major_thicks_length;
+
+        updateMajorBreaks();
+
+        return 1;
+    }
+
+    // ccDrawableObject interface
+
+    // ccSerializableObject interface
 };
 
 

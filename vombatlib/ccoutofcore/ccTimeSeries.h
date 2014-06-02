@@ -7,7 +7,7 @@
 class QIcon;
 
 #include <spc/elements/TimeSeriesBase.h>
-
+#include <helpers/ccSPCObjectsStreamer.h>
 
 ///
 /// \brief The ccTimeSeries class contains any kind of spc-based time-series
@@ -17,6 +17,11 @@ class ccTimeSeries:  public ccMyBaseObject
 public:
 
     ccTimeSeries(spc::TimeSeriesBase<float>::Ptr series);
+
+    ccTimeSeries()
+    {
+        writeSPCClassNameToMetadata();
+    }
 
 
     virtual QIcon getIcon() const
@@ -69,6 +74,23 @@ public:
     virtual QString getSPCClassName() const
     {
         return "ccTimeSeries";
+    }
+
+
+    // ccHObject interface
+protected:
+    virtual bool toFile_MeOnly(QFile &out) const
+    {
+        ccCustomHObject::toFile_MeOnly(out);
+        ccSPCObjectsStreamer::WriteToQFile(series_, out);
+        return true;
+    }
+    virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+    {
+        ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
+        spc::ElementBase::Ptr el =ccSPCObjectsStreamer::ReadFromQFile(in);
+        series_ = spcDynamicPointerCast<spc::TimeSeriesBase<float>>(el);
+        return true;
     }
 };
 

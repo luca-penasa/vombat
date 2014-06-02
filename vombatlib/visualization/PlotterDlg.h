@@ -22,7 +22,7 @@
 
 
 
-#include <visualization/ui_PlotterDlg.h>
+#include <ui_PlotterDlg.h>
 
 #include <spc/elements/TimeSeriesEquallySpaced.h>
 

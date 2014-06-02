@@ -41,7 +41,7 @@ int SendTo2DPlot::compute()
 int SendTo2DPlot::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->hasMetaData("[vombat][ccTimeSeries]"))
+    if (selected && selected->getMetaData("class_name") == "ccTimeSeries")
         return 1;
     else
         return 0;

@@ -48,7 +48,7 @@ public slots:
     //! it keeps a ptr to the added series into the all_series_ vector
     int addPlot(ccTimeSeries * series,
                 const QCPGraph::LineStyle & lstyle = QCPGraph::lsLine,
-                const QCPScatterStyle::ScatterShape &scatterShape = QCPScatterStyle::ssNone);
+                const QCPScatterStyle::ScatterShape &scatterShape = QCPScatterStyle::ssCrossCircle);
 
     //! clear everything into the plot
     void clearPlot();

@@ -14,6 +14,7 @@
 #include <QIcon>
 #include <ccPointCloud.h>
 
+#include <helpers/ccSPCObjectsStreamer.h>
 
 #include <ccoutofcore/ccAttitude.h>
 
@@ -27,6 +28,7 @@ public:
     ccDynamicScalarFieldGenerator(const char * name =0): ccMyBaseObject(name)
     {
 
+        writeSPCClassNameToMetadata();
 
     }
 
@@ -34,12 +36,16 @@ public:
     ccDynamicScalarFieldGenerator(const ccDynamicScalarFieldGenerator &other)
     {
         m_generator_ = other.getGenerator();
+        writeSPCClassNameToMetadata();
+
     }
 
     // construct passing an spc::DynamicScalarFieldgenerator pointer
     ccDynamicScalarFieldGenerator(const spc::VariableScalarFieldBase::Ptr &other)
     {
         m_generator_ = other;
+        writeSPCClassNameToMetadata();
+
     }
 
     spc::VariableScalarFieldBase::Ptr getGenerator() const
@@ -69,6 +75,26 @@ protected:
 
 
 
+
+    // ccMyBaseObject interface
+
+    // ccHObject interface
+protected:
+    virtual bool toFile_MeOnly(QFile &out) const
+    {
+        ccCustomHObject::toFile_MeOnly(out);
+        ccSPCObjectsStreamer::WriteToQFile(m_generator_, out);
+        return true;
+    }
+    virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+    {
+        ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
+        spc::ElementBase::Ptr el = ccSPCObjectsStreamer::ReadFromQFile( in );
+        m_generator_ = spcDynamicPointerCast<spc::VariableScalarFieldBase>(el);
+        return true;
+    }
+
+    // ccSerializableObject interface
 };
 
 

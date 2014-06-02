@@ -21,10 +21,10 @@ include_directories("${QtPropertyBrowser_SOURCE_DIR}/src")
 link_directories(${QtPropertyBrowser_BINARY_DIR})
 
 
-add_subdirectory(external/spc)
-include_directories(external/spc)
-include_directories(external/spc/submodules/cereal/include)
-link_directories(${SPC_BINARY_DIR}/lib)
+#add_subdirectory(external/spc)
+#include_directories(external/spc)
+#include_directories(external/spc/submodules/cereal/include)
+#link_directories(${SPC_BINARY_DIR}/lib)
 
 
 FIND_PACKAGE(Qt4 REQUIRED)
@@ -109,14 +109,15 @@ endif()
 
 
 #################### SPC ###########################################
-##it also automatically find PCL and other required libraries
-#find_package(SPC 0.1.0 REQUIRED)
-#include_directories(${SPC_INCLUDE_DIRS})
+#it also automatically find PCL and other required libraries
+find_package(SPC 0.1.0 REQUIRED)
+include_directories(${SPC_INCLUDE_DIRS})
 
-#link_directories(${SPC_LIBRARY_DIRS})
-#add_definitions(${SPC_DEFINITIONS})
+link_directories(${SPC_LIBRARY_DIRS})
+add_definitions(${SPC_DEFINITIONS})
 
-#message("spc includes: ${SPC_INCLUDE_DIRS}")
+message("spc includes: ${SPC_INCLUDE_DIRS}")
+message("spc libs: ${SPC_LIBRARIES}")
 ####################################################################
 
 find_package(PCL 1.6 REQUIRED)

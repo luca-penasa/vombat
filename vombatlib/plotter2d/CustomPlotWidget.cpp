@@ -40,7 +40,10 @@ int CustomPlotWidget::addPlot(ccTimeSeries *series, const QCPGraph::LineStyle &l
 
 
     QPen graphPen;
+
+
     graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+    graphPen.setWidthF(1);
     graph->setPen(graphPen);
 
     graph->setLineStyle(lstyle);

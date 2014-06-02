@@ -5,6 +5,7 @@
 ccTimeSeries::ccTimeSeries(spc::TimeSeriesBase<float>::Ptr series)
 {
     series_ = series;
+    writeSPCClassNameToMetadata();
 
 }
 

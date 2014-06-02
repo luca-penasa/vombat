@@ -207,8 +207,10 @@ void Plotter2DDlg::valueChanged(QtProperty *property, const QVariant &value)
     }
     if (id == "Scatter Shape")
     {
-        currentItem->scatterStyle().setShape((QCPScatterStyle::ScatterShape) value.toInt());
-        std::cout << value.toInt() << std::endl;
+        QCPScatterStyle prev_style = currentItem->scatterStyle();
+        prev_style.setShape((QCPScatterStyle::ScatterShape) value.toInt());
+        currentItem->setScatterStyle(prev_style);
+
         this->getCurrentPlotWidget()->replot();
     }
 

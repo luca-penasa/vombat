@@ -7,6 +7,8 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const char * name): ccDynamicScalar
 
     setModel( spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude));
     initParameters();
+    writeSPCClassNameToMetadata();
+
 
 }
 
@@ -14,6 +16,8 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &other)
 {
     setModel(other.getModel());
     initParameters();
+    writeSPCClassNameToMetadata();
+
 
 
 }
@@ -23,6 +27,8 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::Attitude &att)
     setModel( spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude(att)) );
 
     initParameters();
+    writeSPCClassNameToMetadata();
+
 
 }
 
@@ -31,6 +37,8 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(const ccAttitude & att)
     setModel(spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude(att.getAttitude())) );
 
     initParameters();
+    writeSPCClassNameToMetadata();
+
 
 }
 
