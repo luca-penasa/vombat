@@ -68,7 +68,7 @@ void PlotterWidget::saveAllSeries()
 
         fname += stream.str() + ".txt";
 
-        spc::TimeSeriesWriter<float> writer;
+        spc::TimeSeriesWriter writer;
         SinglePlot * plot = getPlotContainer()->getSinglePlot(i);
 
         ccTimeSeries * ts = plot->getTimeSeries();

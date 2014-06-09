@@ -36,6 +36,8 @@
 
 #include <GaussianFilter.h>
 
+#include <Properties.h>
+
 #include <spc/methods/TimeSeriesGenerator.h>
 
 #include <ccVombatObjectsFactory.h>
@@ -60,8 +62,7 @@ vombat::~vombat()
 
 void vombat::handleNewEntity(ccHObject *entity)
 {
-    assert(entity && m_app);
-    entity->setSelected(true);
+    assert(entity && m_app);    
     m_app->addToDB(entity);
 }
 
@@ -120,6 +121,9 @@ void vombat::getActions(QActionGroup &group)
         addFilter(new CloudToPlanarSelection(this));
         addFilter(new ExportToAscii(this));
         addFilter(new GaussianFilter(this));
+        addFilter(new Properties(this));
+
+
 
         //        addFilter(new ApplyCorrection(this));
     }

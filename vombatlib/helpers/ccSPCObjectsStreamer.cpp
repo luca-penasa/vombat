@@ -2,7 +2,7 @@
 
 
 
-void ccSPCObjectsStreamer::WriteToQFile(const spc::ElementBase::Ptr obj, QFile &file)
+void ccSPCObjectsStreamer::WriteToQFile(const spc::ISerializable::Ptr obj, QFile &file)
 {
     std::cout << "writing to file" << std::endl;
     std::stringstream stream;
@@ -13,7 +13,7 @@ void ccSPCObjectsStreamer::WriteToQFile(const spc::ElementBase::Ptr obj, QFile &
         std::cout << "written to file" << std::endl;
 }
 
-spc::ElementBase::Ptr ccSPCObjectsStreamer::ReadFromQFile(QFile &file)
+spc::ISerializable::Ptr ccSPCObjectsStreamer::ReadFromQFile(QFile &file)
 {
     u_int64_t obj_size;
     file.read((char *)&obj_size, sizeof(u_int64_t));

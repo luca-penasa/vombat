@@ -20,6 +20,11 @@ public:
         return QIcon(QString::fromUtf8(":/toolbar/icons/device.png"));
     }
 
+    virtual spc::ElementBase::Ptr getSPCElement() const
+    {
+        return model_;
+    }
+
 
     spc::CalibrationModelBase::Ptr getModel() const
     {

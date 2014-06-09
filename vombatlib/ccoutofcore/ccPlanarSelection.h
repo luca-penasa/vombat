@@ -100,6 +100,12 @@ protected:
     bool m_foreground;
 
 
+    virtual spc::ElementBase::Ptr getSPCElement() const
+    {
+        return spc::ElementBase::Ptr();
+    }
+
+
 
 
 };

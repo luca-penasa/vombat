@@ -4,6 +4,7 @@
 #include <ccSingleAttitudeModel.h>
 #include <ccSample.h>
 #include <ccTimeSeries.h>
+#include <ccCalibrationDB.h>
 
 ccVombatObjectsFactory::ccVombatObjectsFactory(QString name): ccExternalFactory(name)
 {
@@ -26,6 +27,9 @@ ccHObject *ccVombatObjectsFactory::buildObject(const QString metaname)
 
     else if (metaname == "ccTimeSeries")
         return new ccTimeSeries();
+
+    else if (metaname == "ccCalibrationDB")
+        return new ccCalibrationDB();
 
     else
         return 0;

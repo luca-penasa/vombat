@@ -4,15 +4,20 @@
 #include <spc/elements/TimeSeriesEquallySpaced.h>
 #include <ccTimeSeries.h>
 
-ComputeSmoothedTimeSeriesXY::ComputeSmoothedTimeSeriesXY(ccPluginInterface * parent_plugin) : BaseFilter(FilterDescription(   "Compute XY time series, as a running gaussian-weighted moving average",
-                                                                                                                              "Compute XY time series, as a running gaussian-weighted moving average",
-                                                                                                                              "Compute XY time series, as a running gaussian-weighted moving average",
-                                                                                                                              ":/toolbar/icons/XvsY.png") , parent_plugin), m_dialog(NULL)
+ComputeSmoothedTimeSeriesXY::ComputeSmoothedTimeSeriesXY(ccPluginInterface
+                                                         *parent_plugin)
+    : BaseFilter(FilterDescription("Compute XY time series, as a running "
+                                   "gaussian-weighted moving average",
+                                   "Compute XY time series, as a running "
+                                   "gaussian-weighted moving average",
+                                   "Compute XY time series, as a running "
+                                   "gaussian-weighted moving average",
+                                   ":/toolbar/icons/XvsY.png"),
+                 parent_plugin),
+      m_dialog(NULL)
 {
     this->setShowProgressBar(false);
 }
-
-
 
 int ComputeSmoothedTimeSeriesXY::compute()
 {
@@ -23,59 +28,49 @@ int ComputeSmoothedTimeSeriesXY::compute()
     std::string x_name = m_dialog->getXField();
     std::string y_name = m_dialog->getYField();
 
-    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
+    ccPointCloud *cloud = getSelectedEntityAsCCPointCloud();
 
-    spcCCPointCloud::Ptr spc_cloud (new spcCCPointCloud (cloud));
+    spcCCPointCloud::Ptr spc_cloud(new spcCCPointCloud(cloud));
 
     std::vector<float> f1 = spc_cloud->getField(x_name);
     std::vector<float> f2 = spc_cloud->getField(y_name);
 
-    spc::TimeSeriesSparse<float>::Ptr ser_in (new spc::TimeSeriesSparse<float> (f1, f2));
+    spc::TimeSeriesSparse::Ptr ser_in(new spc::TimeSeriesSparse(f1, f2));
 
-    spc::KernelSmoothing2<float> ks;
+    spc::KernelSmoothing2 ks;
     ks.setInputSeries(ser_in);
     ks.setBandwidth(bandwidth);
     ks.setStep(s_step);
 
     ks.compute();
 
-    spc::TimeSeriesEquallySpaced<float>::Ptr out = ks.getOutputSeries();
+    spc::TimeSeriesEquallySpaced::Ptr out = ks.getOutputSeries();
 
-    ccTimeSeries * out_ts = new ccTimeSeries(out);
+    ccTimeSeries *out_ts = new ccTimeSeries(out);
 
     out_ts->setName("XY smoothed Time Series");
 
     newEntity(out_ts);
 
-
-
     return 1;
 }
-
-
-
 
 int ComputeSmoothedTimeSeriesXY::checkSelected()
 {
     return isFirstSelectedCcPointCloud();
 }
 
-
 int ComputeSmoothedTimeSeriesXY::openInputDialog()
 {
 
     m_dialog = new ccComputeSmoothedTimeSeriesXYDlg(0);
 
-
-    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
+    ccPointCloud *cloud = getSelectedEntityAsCCPointCloud();
 
     m_dialog->getUI()->comboX->addItemsFromFieldsCloud(cloud);
     m_dialog->getUI()->comboY->addItemsFromFieldsCloud(cloud);
 
-
-
     /// we need to init the dialog
 
     return m_dialog->exec() ? 1 : 0;
-
 }

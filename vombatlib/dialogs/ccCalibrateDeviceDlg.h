@@ -14,12 +14,12 @@ public:
     explicit ccCalibrateDeviceDlg(QWidget *parent = 0);
     ~ccCalibrateDeviceDlg();
 
-    float getBandwidth() const;
+//    float getBandwidth() const;
 
-    float getSamplingStep() const;
+//    float getSamplingStep() const;
 
-    std::string getDistanceField () const;
-    std::string getIntensityField () const;
+//    std::string getDistanceField () const;
+//    std::string getIntensityField () const;
 
 
     Ui::ccCalibrateDeviceDlg * getUI() const;

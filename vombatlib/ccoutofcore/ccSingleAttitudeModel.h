@@ -174,6 +174,8 @@ protected:
         return 1;
     }
 
+
+
     // ccDrawableObject interface
 
     // ccSerializableObject interface

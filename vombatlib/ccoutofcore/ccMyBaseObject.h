@@ -5,9 +5,9 @@
 #include <ccHObject.h>
 
 #include <ccCustomObject.h>
+#include <spc/elements/ElementBase.h>
 
-
-class ccMyBaseObject: public ccEditableHObject, public ccCustomHObject
+class ccMyBaseObject : public ccEditableHObject, public ccCustomHObject
 {
 public:
     ///
@@ -17,16 +17,12 @@ public:
 
     ccMyBaseObject(QString name);
 
-    //each derived object should implement one
+    virtual spc::ElementBase::Ptr getSPCElement() const = 0;
+
+    // each derived object should implement one
     virtual QString getSPCClassName() const;
 
-    virtual void writeSPCClassNameToMetadata()
-    {
-        QString name =  this->getSPCClassName();
-        setMetaData(QString("class_name"), QVariant(QString(name)));
-    }
-
-
+    virtual void writeSPCClassNameToMetadata();
 
 
 

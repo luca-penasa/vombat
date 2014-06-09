@@ -1,12 +1,7 @@
 #ifndef CLOUDTOPLANARSELECTION_H
 #define CLOUDTOPLANARSELECTION_H
 
-
-//#include <BaseFilter.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <dialogs/ccProperties.h>
-//#include <ccGraphicalSegmentationTool.h>
-
 
 class CloudToPlanarSelection: public BaseFilter
 {

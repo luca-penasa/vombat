@@ -37,9 +37,9 @@ ExportToAscii::compute()
         std::cout << m_filename.toStdString().c_str() << std::endl;
 
 
-        spc::TimeSeriesBase<float>::Ptr spct = t->getTimeSeries();
+        spc::TimeSeriesBase::Ptr spct = t->getTimeSeries();
 
-        spc::TimeSeriesWriter<float> w;
+        spc::TimeSeriesWriter w;
 
         boost::filesystem::path const p(m_filename.toStdString().c_str());
 

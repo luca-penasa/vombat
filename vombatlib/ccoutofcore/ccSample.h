@@ -11,15 +11,15 @@
 #include <ccInteractor.h>
 #include <helpers/ccSPCObjectsStreamer.h>
 
-class ccSample : public ccMyBaseObject
+class ccSample : public ccMyBaseObject, public ccInteractor
 {
 public:
-    ccSample()
+    ccSample(): m_radius_(1)
     {
         m_sample = spc::Sample::Ptr(new spc::Sample(0.0, 0.0, 0.0));
         writeSPCClassNameToMetadata();
     }
-    ccSample(const cc2DLabel *label)
+    ccSample(const cc2DLabel *label): m_radius_(1)
     {
         m_sample = spc::Sample::Ptr(new spc::Sample);
 
@@ -32,22 +32,19 @@ public:
         writeSPCClassNameToMetadata();
     }
 
-    virtual ccBBox getMyOwnBB()
-    {
-        CCVector3 center = CCVector3(m_sample->getPosition().data());
-        float s = 0.5;
-        CCVector3 scale_v(s, s, s);
-        CCVector3 min_corner(center - scale_v);
-        CCVector3 max_corner(center + scale_v);
-        ccBBox box(min_corner, max_corner);
-
-        return box;
-    }
-
-    ccSample(const CCVector3 &v)
+    ccSample(const CCVector3 &v): m_radius_(1)
     {
         m_sample = spc::Sample::Ptr(new spc::Sample(v.x, v.y, v.z));
+        writeSPCClassNameToMetadata();
     }
+
+    ccSample(const spc::Sample::Ptr s): m_radius_(1)
+    {
+        m_sample = s;
+        writeSPCClassNameToMetadata();
+    }
+
+//    virtual ccBBox getMyOwnBB();
 
     virtual QIcon getIcon() const
     {
@@ -56,7 +53,7 @@ public:
 
     virtual bool hasColors() const
     {
-        return false;
+        return true;
     }
 
     virtual QString getSPCClassName() const
@@ -64,27 +61,38 @@ public:
         return "ccSample";
     }
 
+    spc::Sample::Ptr getSample() const
+    {
+        return m_sample;
+    }
+
+    virtual spc::ElementBase::Ptr getSPCElement() const
+    {
+        return m_sample;
+    }
+
 protected:
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
 
     spc::Sample::Ptr m_sample;
 
-    // ccHObject interface
 protected:
     virtual bool toFile_MeOnly(QFile &out) const
     {
         ccCustomHObject::toFile_MeOnly(out);
         ccSPCObjectsStreamer::WriteToQFile(m_sample, out);
         return true;
-
     }
     virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
     {
         ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
-        spc::ElementBase::Ptr el = ccSPCObjectsStreamer::ReadFromQFile(in);
+        spc::ISerializable::Ptr el = ccSPCObjectsStreamer::ReadFromQFile(in);
         m_sample = spcDynamicPointerCast<spc::Sample>(el);
         return true;
     }
+
+    int m_radius_;
+    float m_current_scaling_;
 
 };
 

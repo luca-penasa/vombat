@@ -89,9 +89,14 @@ protected:
     virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
     {
         ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
-        spc::ElementBase::Ptr el = ccSPCObjectsStreamer::ReadFromQFile( in );
+        spc::ISerializable::Ptr el = ccSPCObjectsStreamer::ReadFromQFile( in );
         m_generator_ = spcDynamicPointerCast<spc::VariableScalarFieldBase>(el);
         return true;
+    }
+
+    virtual spc::ElementBase::Ptr getSPCElement() const
+    {
+        return m_generator_;
     }
 
     // ccSerializableObject interface

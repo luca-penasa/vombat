@@ -78,7 +78,7 @@ int ApplyCorrection::compute()
 
     newfield->computeMinAndMax();
 
-    spc::TimeSeriesSparse<float>::Ptr ecco (new spc::TimeSeriesSparse<float>(x, y));
+    spc::TimeSeriesSparse::Ptr ecco (new spc::TimeSeriesSparse(x, y));
     ccTimeSeries * its_ts = new ccTimeSeries(ecco);
 
     its_ts->setName("Correction TS");

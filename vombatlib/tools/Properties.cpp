@@ -8,7 +8,10 @@ Properties::Properties(ccPluginInterface *parent_plugin): BaseFilter(FilterDescr
 {
     this->setShowProgressBar(false);
 
-    m_dialog = new ccProperties();
+    m_dialog = new ccPropertiesTree();
+
+    connect (this, SIGNAL(selectionChanged(ccHObject::Container)), m_dialog, SLOT(selectionChanged(ccHObject::Container)));
+    connect (m_dialog, SIGNAL(objectChanged(ccHObject*)), this, SIGNAL(entityHasChanged(ccHObject*)));
 }
 
 

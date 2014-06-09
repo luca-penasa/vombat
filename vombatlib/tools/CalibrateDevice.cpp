@@ -70,7 +70,7 @@ int CalibrateDevice::compute()
 int CalibrateDevice::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->hasMetaData("[vombat][ccCalibrationDB]"))
+    if (selected && selected->getMetaData("class_name") == "ccCalibrationDB")
         return 1;
     else
         return 0;
@@ -81,7 +81,7 @@ int CalibrateDevice::checkSelected()
 int CalibrateDevice::openInputDialog()
 {
 
-//    m_dialog = new ccCalibrateDeviceDlg(0);
+    m_dialog = new ccCalibrateDeviceDlg(0);
 
 
 //    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();

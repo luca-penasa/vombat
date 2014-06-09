@@ -98,6 +98,12 @@ public:
         setAttitude(at_ptr);
     }
 
+    virtual spc::ElementBase::Ptr getSPCElement() const
+    {
+        return m_attitude;
+    }
+
+
 protected:
     static Eigen::Vector3f asEigenVector(CCVector3 v)
     {
@@ -108,6 +114,7 @@ protected:
     {
         return CCVector3(v(0),v(1), v(2));
     }
+
 
 
 

@@ -3,7 +3,7 @@
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <ccSample.h>
-
+#include <ccPointCloud.h>
 #include <ccHObjectCaster.h>
 class AddSample : public BaseFilter
 {
@@ -20,12 +20,25 @@ public:
 
         spcForEachMacro(ccHObject * obj, clouds)
         {
-            ccGenericPointCloud * cloud = ccHObjectCaster::ToGenericPointCloud(obj);
+            ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
+            size_t n_scalars = cloud->getNumberOfScalarFields();
+
+
             for (int i = 0; i < cloud->size(); ++i)
             {
                 CCVector3 p;
                 cloud->getPoint(i, p);
                 ccSample * sample = new ccSample(p);
+
+                for (int j =0 ; j < n_scalars; ++j)
+                {
+                    CCLib::ScalarField * sf = cloud->getScalarField(j);
+                    float value = sf->getValue(i);
+                    QString sf_name = sf->getName();
+
+                    sample->getSample()->getVariantPropertiesRecord().property(sf_name.toStdString()) = value;
+                }
+
                 sample->setVisible(true);
                 emit newEntity(sample);
             }

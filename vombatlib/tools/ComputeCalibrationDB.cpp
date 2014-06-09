@@ -25,7 +25,7 @@ int ComputeCalibrationDB::compute()
 
     spc::CalibrationDataEstimator calibrator;
     calibrator.setInputClouds(m_dialog->getPCDFiles());
-    calibrator.setInputCorePoints(m_dialog->getKeypointsFile());
+    calibrator.setInputSamples(m_dialog->getKeypointsFile());
 
 
     if (m_dialog->usePrecomputedNormals())
@@ -45,13 +45,13 @@ int ComputeCalibrationDB::compute()
     calibrator.compute();
 
 
-    ccCalibrationDB * calib_db = new ccCalibrationDB(calibrator.getCalibrationDB().getValidDataOnly());
+    ccCalibrationDB * calib_db = new ccCalibrationDB(calibrator.getCalibrationDB());
 
 
     calib_db->setName("CalibrationDB");
     calib_db->setVisible(true);
 
-    calib_db->rebuildClouds();
+//    calib_db->exposeSamples();
 
 
 

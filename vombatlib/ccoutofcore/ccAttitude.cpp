@@ -69,7 +69,6 @@ bool ccAttitude::toFile_MeOnly(QFile &out) const
 {
     ccCustomHObject::toFile_MeOnly(out);
 
-    std::cout << "called toFile" << std::endl;
     QDataStream outs(&out);
     outs << m_scale;
     outs << m_scale_factor;
@@ -84,15 +83,13 @@ bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
 {
     ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
 
-    std::cout << "called fromFile" << std::endl;
-
 
     QDataStream ins(&in);
     ins >> m_scale;
     ins >> m_scale_factor;
     ins >> m_width;
 
-    spc::ElementBase::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
+    spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
     m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
 
     return true;
