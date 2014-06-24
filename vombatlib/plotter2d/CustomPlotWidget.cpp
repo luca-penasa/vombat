@@ -1,10 +1,10 @@
 #include "plotter2d/CustomPlotWidget.h"
 #include <ccoutofcore/ccTimeSeries.h>
-CustomPlotWidget::CustomPlotWidget(QWidget *parent): QCustomPlot(parent)
+CustomPlotWidget::CustomPlotWidget(QWidget *parent) : QCustomPlot(parent)
 {
-    this->setInteractions(QCP::iRangeZoom |QCP::iRangeDrag | QCP::iSelectPlottables | QCP::iSelectAxes );
-    connect(this, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
-
+    this->setInteractions(QCP::iRangeZoom | QCP::iRangeDrag
+                          | QCP::iSelectPlottables | QCP::iSelectAxes);
+    connect(this, SIGNAL(mouseWheel(QWheelEvent *)), this, SLOT(mouseWheel()));
 }
 
 CustomPlotWidget::~CustomPlotWidget()
@@ -14,65 +14,61 @@ CustomPlotWidget::~CustomPlotWidget()
 
 bool CustomPlotWidget::isYetPlotted(ccTimeSeries *ser)
 {
-    spcForEachMacro(ccTimeSeries * se,all_series_)
-    {
-        if (ser == se)
-            return true;
-    }
-
-    return false;
+    return (cc_to_graph_.find(ser) != cc_to_graph_.end());
 }
 
-int CustomPlotWidget::addPlot(ccTimeSeries *series, const QCPGraph::LineStyle &lstyle, const QCPScatterStyle::ScatterShape &scatterShape)
+int CustomPlotWidget::addPlot(ccTimeSeries *series)
 {
+    if (isYetPlotted(series))
+        return -1;
 
-    std::cout << "beginning" << std::endl;
+    series->setLocked(
+        true); // we lock the series so that the user cannot delete it!
 
-        std::cout << "serie: " << series << std::endl;
-    series->setLocked(true); // we lock the series so that the user cannot delete it!
+    QVector<double> x = series->getX(true);
+    QVector<double> y = series->getY(true);
 
-    all_series_.push_back(series);
-
-    QVector<double> x = series->getX();
-    QVector<double> y = series->getY();
-
-    QCPGraph * graph = this->addGraph();
-
+    QCPGraph *graph = this->addGraph();
 
     QPen graphPen;
 
-
-    graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+    graphPen.setColor(
+        QColor(rand() % 245 + 10, rand() % 245 + 10, rand() % 245 + 10));
     graphPen.setWidthF(1);
     graph->setPen(graphPen);
 
-    graph->setLineStyle(lstyle);
-    graph->setScatterStyle(QCPScatterStyle(scatterShape));
-
     graph->setData(x, y);
     this->rescaleAxes(true);
-
     this->replot();
     emit seriesAdded(series);
 
-    return all_series_.size() - 1;
+    graph_to_cc_[graph] = series;
+    cc_to_graph_[series] = graph;
+
+    return 1;
 }
 
 void CustomPlotWidget::clearPlot()
 {
-    this->clearGraphs();
 
-    for (int i = 0 ; i < all_series_.size(); ++i)
-    {
-        all_series_.at(i)->setLocked(false); //unlock series
-    }
-    all_series_.clear();
+    QList<ccTimeSeries *> ser = cc_to_graph_.keys();
+
+    for (ccTimeSeries *s : ser)
+        s->setLocked(false); // unlock series
+
+
+    // clear the maps
+    this->clearGraphs();
     this->replot();
+
+    graph_to_cc_.clear();
+    cc_to_graph_.clear();
 }
 
 void CustomPlotWidget::mouseWheel()
 {
-    // if an axis is selected, only allow the direction of that axis to be zoomed
+    // if an axis is selected, only allow the direction of that axis to be
+    // zoomed
     // if no axis is selected, both directions may be zoomed
 
     if (this->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
@@ -80,5 +76,5 @@ void CustomPlotWidget::mouseWheel()
     else if (this->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
         this->axisRect()->setRangeZoom(this->yAxis->orientation());
     else
-        this->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
+        this->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
 }

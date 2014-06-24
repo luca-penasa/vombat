@@ -3,6 +3,7 @@
 
 #include <ccoutofcore/ccCalibrationDB.h>
 #include <spc/methods/IntensityCalibrationDataEstimator.h>
+#include <spc/methods/IntensityCalibrationDataFilter.h>
 
 #include <iostream>
 
@@ -44,9 +45,16 @@ int ComputeCalibrationDB::compute()
 
     calibrator.compute();
 
+    // now filter out data that are not good and add weights for the other
+//    spc::IntensityCalibrationDataFilter filter;
+//    filter.setData(calibrator.getCalibrationDB());
+//    filter.setMinNNeighbors(10);
+
+//    spc::EigenTable::Ptr data = filter.applyFilter();
 
     ccCalibrationDB * calib_db = new ccCalibrationDB(calibrator.getCalibrationDB());
 
+//    std::cout << calibrator.getCalibrationDB()->mat() << std::endl;
 
     calib_db->setName("CalibrationDB");
     calib_db->setVisible(true);

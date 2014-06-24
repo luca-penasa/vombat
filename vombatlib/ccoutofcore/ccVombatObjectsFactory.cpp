@@ -10,7 +10,7 @@ ccVombatObjectsFactory::ccVombatObjectsFactory(QString name): ccExternalFactory(
 {
 }
 
-ccHObject *ccVombatObjectsFactory::buildObject(const QString metaname)
+ccHObject *ccVombatObjectsFactory::buildObject(const QString &metaname)
 {
 
     if (metaname == "ccAttitude")

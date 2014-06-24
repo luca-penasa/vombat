@@ -82,6 +82,7 @@ FitAttitude::compute()
     int id = 0;
     spcForEachMacro(spc::Attitude att, atts)
     {
+
         ccAttitude * ccAtt = new ccAttitude (att);
 //        std::cout <<"NORMAL: \n" << att.getUnitNormal() << std::endl;
 //        std::cout <<"CENTER: \n" << att.getPosition() << std::endl;

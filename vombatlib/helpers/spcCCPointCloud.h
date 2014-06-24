@@ -35,6 +35,18 @@ public:
 
 protected:
     ccPointCloud * in_cloud;
+
+    // PointCloudBase interface
+public:
+    virtual std::vector<std::string> getFieldNames()
+    {
+        std::vector<std::string> out;
+        int n = in_cloud->getNumberOfScalarFields();
+        for (int i = 0; i < n; ++i)
+            out.push_back(in_cloud->getScalarFieldName(i));
+
+        return out;
+    }
 };
 
 

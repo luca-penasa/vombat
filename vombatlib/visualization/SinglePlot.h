@@ -1,6 +1,6 @@
 #ifndef SINGLEPLOT_H
 #define SINGLEPLOT_H
-#include <external/qcustomplot.h>
+#include <qcustomplot.h>
 #include <visualization/MainScale.h>
 
 #include <spc/elements/TimeSeriesBase.h>

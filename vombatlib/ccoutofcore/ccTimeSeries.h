@@ -30,24 +30,45 @@ public:
         return series_;
     }
 
-    QVector<double> getX() const
+    QVector<double> getX(const bool only_finite=false) const
     {
         std::vector<float> x = getTimeSeries()->getX();
+        std::vector<float> y = getTimeSeries()->getY();
+
         QVector<double> x_d;
 
         for (int i = 0; i < x.size(); ++i)
-            x_d.push_back(x.at(i));
+        {
+            if (only_finite)
+            {
+                if (std::isfinite(y.at(i)) && std::isfinite(x.at(i)))
+                    x_d.push_back(x.at(i));
+            }
+            else
+                x_d.push_back(x.at(i));
+        }
 
         return x_d;
     }
 
-    QVector<double> getY() const
+    QVector<double> getY(const bool only_finite=false) const
     {
         std::vector<float> y = getTimeSeries()->getY();
+        std::vector<float> x = getTimeSeries()->getX();
+
+
         QVector<double> y_d;
 
         for (int i = 0; i < y.size(); ++i)
-            y_d.push_back(y.at(i));
+        {
+            if (only_finite)
+            {
+                if (std::isfinite(y.at(i)) && std::isfinite(x.at(i)))
+                    y_d.push_back(y.at(i));
+            }
+            else
+                y_d.push_back(y.at(i));
+        }
 
         return y_d;
     }

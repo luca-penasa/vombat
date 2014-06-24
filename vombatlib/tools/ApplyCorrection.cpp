@@ -4,7 +4,7 @@
 #include <vombat.h>
 #include <PlotterDlg.h>
 
-#include <spc/io/time_series_writer.h>
+#include <spc/io/AsciiEigenTableWriter.h>
 
 #include <boost/filesystem.hpp>
 #include <cccalibrationmodel.h>
@@ -13,7 +13,7 @@
 
 #include <boost/foreach.hpp>
 #include <cccalibrationmodel.h>
-
+#include <ccScalarField.h>
 
 
 ApplyCorrection::ApplyCorrection(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Apply intensity calibration model ",
@@ -29,64 +29,64 @@ int ApplyCorrection::compute()
 {
 
 
-    if (!model_)
-    {
-        return -1;
-    }
+//    if (!model_)
+//    {
+//        return -1;
+//    }
 
 
-    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
-
-
-
-    if (!cloud)
-        return -1;
-
-
-    ccCalibrationModel * mod = dynamic_cast<ccCalibrationModel *> (model_);
-
-    if (!mod)
-        return -1;
-
-    spc::CalibrationModelBase::Ptr mod_spc = mod->getModel();
-
-
-    CCLib::ScalarField * dis = cloud->getScalarField(cloud->getScalarFieldIndexByName("distance"));
-
-
-    if ((!dis))
-        return -1;
-
-
-    ccScalarField * newfield = new ccScalarField;
-    newfield->resize(cloud->size());
-    newfield->setName("correction intensity");
-
-    std::vector<float> x, y;
+//    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
 
 
 
-
-    for (int i = 0 ; i < cloud->size(); ++i)
-    {
-
-        newfield->setValue(i, mod_spc->getDistanceCorrection(dis->getValue(i)) );
-        y.push_back(newfield->getValue(i));
-        x.push_back(dis->getValue(i));
-    }
+//    if (!cloud)
+//        return -1;
 
 
-    newfield->computeMinAndMax();
+//    ccCalibrationModel * mod = dynamic_cast<ccCalibrationModel *> (model_);
 
-    spc::TimeSeriesSparse::Ptr ecco (new spc::TimeSeriesSparse(x, y));
-    ccTimeSeries * its_ts = new ccTimeSeries(ecco);
+//    if (!mod)
+//        return -1;
 
-    its_ts->setName("Correction TS");
-    cloud->addScalarField(newfield);
+//    spc::CalibrationModelBase::Ptr mod_spc = mod->getModel();
 
 
-    newEntity(its_ts);
-    entityHasChanged(cloud);
+//    CCLib::ScalarField * dis = cloud->getScalarField(cloud->getScalarFieldIndexByName("distance"));
+
+
+//    if ((!dis))
+//        return -1;
+
+
+//    ccScalarField * newfield = new ccScalarField;
+//    newfield->resize(cloud->size());
+//    newfield->setName("correction intensity");
+
+//    std::vector<float> x, y;
+
+
+
+
+//    for (int i = 0 ; i < cloud->size(); ++i)
+//    {
+
+//        newfield->setValue(i, mod_spc->getDistanceCorrection(dis->getValue(i)) );
+//        y.push_back(newfield->getValue(i));
+//        x.push_back(dis->getValue(i));
+//    }
+
+
+//    newfield->computeMinAndMax();
+
+//    spc::TimeSeriesSparse::Ptr ecco (new spc::TimeSeriesSparse(x, y));
+//    ccTimeSeries * its_ts = new ccTimeSeries(ecco);
+
+//    its_ts->setName("Correction TS");
+//    cloud->addScalarField(newfield);
+
+
+//    newEntity(its_ts);
+//    entityHasChanged(cloud);
 
 
     return 1;

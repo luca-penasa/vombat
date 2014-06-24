@@ -1,7 +1,6 @@
 #ifndef CREATE_TIME_SERIES_FROM_SCALAR_FIELDS_H
 #define CREATE_TIME_SERIES_FROM_SCALAR_FIELDS_H
 
-
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 
 #include <helpers/spcCCPointCloud.h>
@@ -18,20 +17,20 @@
 #include <plotter2d/Plotter2DDlg.h>
 
 #include <spc/methods/common.h>
-
+//#include <spc/elements/Fields.h>
+#include <spc/elements/PointCloudSpc.h>
+#include <spc/elements/EigenTable.h>
 
 class CreateTimeSeriesFromScalarFields : public BaseFilter
 {
 public:
-    CreateTimeSeriesFromScalarFields(ccPluginInterface * parent_plugin = 0);
+    CreateTimeSeriesFromScalarFields(ccPluginInterface *parent_plugin = 0);
 
     ~CreateTimeSeriesFromScalarFields()
     {
         if (m_dialog && m_dialog->parent() == 0)
-            delete(m_dialog);
+            delete (m_dialog);
     }
-
-
 
     // BaseFilter interface
 public:
@@ -39,12 +38,11 @@ public:
     int compute()
     {
 
+        ccHObject * obj = getSelectedEntityAsCCHObject();
+
         bool doKS = m_dialog->getUi()->grpKS->isChecked();
 
-        ccPointCloud * cccloud = getSelectedEntityAsCCPointCloud();
-        spc::PointCloudBase::Ptr cloud = spc::PointCloudBase::Ptr(new  spcCCPointCloud(cccloud));
-
-        if (!cloud)
+        if (!cloud_)
             return -1;
 
         std::string x_field_name, y_field_name;
@@ -56,85 +54,110 @@ public:
 
         spc::TimeSeriesBase::Ptr serie;
 
-        if (!doKS)
-        {
-            std::vector<float>  x = cloud->getField(x_field_name);
-            std::vector<float>  y = cloud->getField(y_field_name);
+        if (!doKS) {
+            std::vector<float> x = cloud_->getField(x_field_name);
+            std::vector<float> y = cloud_->getField(y_field_name);
 
             // simply build up a scatters TS with the two scalar fields
-            serie = spc::TimeSeriesSparse::Ptr (new spc::TimeSeriesSparse(x, y));
-        }
-
-
-        else // do KS
+            serie = spc::TimeSeriesSparse::Ptr(new spc::TimeSeriesSparse(x, y));
+        } else // do KS
         {
 
             float ssx = m_dialog->getUi()->cmbSSX->value();
             float ksx = m_dialog->getUi()->cmbKSX->value();
 
-            name += "_smoothed_" +  spc::asString(ssx) + "_" +spc::asString(ksx);
+            name += "_smoothed_" + spc::asString(ssx) + "_"
+                    + spc::asString(ksx);
 
+            std::cout << "init generator" << std::endl;
             spc::TimeSeriesGenerator generator;
-            generator.setInputCloud(cloud);
+            std::cout << "done init generator" << std::endl;
+            generator.setInputCloud(cloud_);
             generator.setXFieldName(x_field_name);
             generator.setYFieldName(y_field_name);
 
             generator.setSamplingStep(ssx);
             generator.setBandwidth(ksx);
+            std::cout << "starting computing - compute()" << std::endl;
+
             generator.compute();
+            std::cout << "ended computing - compute()" << std::endl;
+
             serie = generator.getOutputSeries();
             if (!serie)
                 return -1;
-
         }
 
-        ccTimeSeries * ccserie = new ccTimeSeries(serie);
+        ccTimeSeries *ccserie = new ccTimeSeries(serie);
 
-        cccloud->addChild(ccserie);
+        obj->addChild(ccserie);
 
         ccserie->setName(name.c_str());
 
-        newEntity(cccloud);
+        newEntity(ccserie);
         return 1;
     }
-
 
 protected:
     ///// virtuals from BaseFilters
     int checkSelected()
     {
-        return isFirstSelectedCcPointCloud();
+
+        ccHObject *obj = this->getSelectedEntityAsCCHObject();
+        if (obj && obj->isA(CC_TYPES::POINT_CLOUD)) {
+            return true;
+        } else {
+            ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(obj);
+            if (!myobj)
+                return false;
+            else {
+                if (myobj->getSPCElement()->getType()->isA(
+                        &spc::EigenTable::Type))
+                    return true;
+            }
+        }
     }
 
     int openInputDialog()
     {
         if (!m_dialog)
-            m_dialog =  new CreateTimeSeriesFromScalarFieldsDlg(0);
+            m_dialog = new CreateTimeSeriesFromScalarFieldsDlg(0);
 
-        // populate the right way the dialog
-        ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
 
+
+        ccHObject *obj = getSelectedEntityAsCCHObject();
+        if (obj && obj->isA(CC_TYPES::POINT_CLOUD))
+            cloud_ = spc::PointCloudBase::Ptr(
+                new spcCCPointCloud(getSelectedEntityAsCCPointCloud()));
+
+        // maybe is another spc type field-enabled
+        ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(obj);
+        if (myobj && myobj->getSPCElement()->getType()->isA(
+                         &spc::EigenTable::Type)) {
+            spc::EigenTable::Ptr man = spcDynamicPointerCast
+                <spc::EigenTable>(myobj->getSPCElement());
+            spc::PointCloudSpc::Ptr spcc(new spc::PointCloudSpc);
+            spcc->setFieldsManager(man);
+            cloud_ = spcc;
+        }
+
+        std::vector<std::string> names = cloud_->getFieldNames();
         m_dialog->getUi()->cmbX->clear();
-        m_dialog->getUi()->cmbX->addItemsFromFieldsCloud(cloud);
-
         m_dialog->getUi()->cmbY->clear();
-        m_dialog->getUi()->cmbY->addItemsFromFieldsCloud(cloud);
 
+        for (const std::string a : names) {
+            m_dialog->getUi()->cmbX->addItem(a.c_str());
 
-
-
+            m_dialog->getUi()->cmbY->addItem(a.c_str());
+        }
 
         return m_dialog->exec() ? 1 : 0;
     }
 
-
-    //    int openOutputDialog() {}
-    //    void getParametersFromDialog() {}
-    //    int checkParameters() {}
-
-
 protected:
-    CreateTimeSeriesFromScalarFieldsDlg * m_dialog;
+    CreateTimeSeriesFromScalarFieldsDlg *m_dialog;
+
+    spc::PointCloudBase::Ptr cloud_;
 };
 
 #endif // PLOT2DDATA_H

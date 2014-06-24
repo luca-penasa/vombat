@@ -43,6 +43,7 @@ include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../qCC/db_tree")
 include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../qCC/db_tree")
 include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/qCC_io")
 include_directories( "${CMAKE_CURRENT_BINARY_DIR}/../../libs/qCC_io")
+include_directories( "${CMAKE_CURRENT_SOURCE_DIR}/../../libs/qcustomplot")
 include_directories( ${GLEW_LIB_SOURCE_DIR}/include )
 include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
 include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
@@ -183,7 +184,7 @@ target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLI
 target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB  QtPropertyBrowser)
 
 message( "${CMAKE_CXX_FLAGS}" )
-ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare)
+ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare qcustomplot)
 
 
 endif() #main if ends here

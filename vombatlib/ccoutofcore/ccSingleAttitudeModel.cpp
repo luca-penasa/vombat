@@ -1,7 +1,7 @@
 #include "ccSingleAttitudeModel.h"
 #include <ccPointCloud.h>
 #include <dialogs/ccSingleAttitudeModelEditorDlg.h>
-
+#include <ccGenericGLDisplay.h>
 ccSingleAttitudeModel::ccSingleAttitudeModel(const char * name): ccDynamicScalarFieldGenerator(name)
 {
 

@@ -15,7 +15,7 @@
 
 #include <helpers/qtHelper.h>
 #include <ccHObjectCaster.h>
-
+#include <ccScalarField.h>
 EvaluateDynamicScalarFieldGenerator::EvaluateDynamicScalarFieldGenerator(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",
                                                                          "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",
                                                                          "Compute a new scalar field evaluating a Dynamic Scalar Field Generator object",

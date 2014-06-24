@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <helpers/ccSPCObjectsStreamer.h>
-
+#include <ccGenericGLDisplay.h>
 
 ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 {

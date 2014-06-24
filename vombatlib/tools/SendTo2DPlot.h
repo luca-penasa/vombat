@@ -1,6 +1,8 @@
 #ifndef SENDTO2DPLOT_H
 #define SENDTO2DPLOT_H
 #include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <vombat.h>
+
 
 class ccTimeSeries;
 
@@ -9,6 +11,11 @@ class SendTo2DPlot: public BaseFilter
     Q_OBJECT // so we can have signals
 public:
     SendTo2DPlot(ccPluginInterface * parent_plugin = 0);
+
+    ~SendTo2DPlot()
+    {
+
+    }
 
     virtual int compute();
 

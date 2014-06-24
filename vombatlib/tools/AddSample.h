@@ -5,6 +5,7 @@
 #include <ccSample.h>
 #include <ccPointCloud.h>
 #include <ccHObjectCaster.h>
+#include <ScalarField.h>
 class AddSample : public BaseFilter
 {
 public:

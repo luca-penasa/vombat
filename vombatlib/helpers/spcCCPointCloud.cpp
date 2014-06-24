@@ -1,5 +1,5 @@
 #include "spcCCPointCloud.h"
-
+#include <ScalarField.h>
 
 void spcCCPointCloud::getPoint(int id, float &x, float &y, float &z) const
 {

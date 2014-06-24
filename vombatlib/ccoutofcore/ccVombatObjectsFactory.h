@@ -12,7 +12,7 @@ public:
 
     ccVombatObjectsFactory(QString name) ;
 
-    virtual ccHObject * buildObject(const QString metaname);
+    virtual ccHObject * buildObject(const QString &metaname);
 };
 
 #endif // CCVOMBATOBJECTSFACTORY_H

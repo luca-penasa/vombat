@@ -226,18 +226,19 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
 
     spc::ElementBase::Ptr element = test->getSPCElement();
 
-    DtiClassType *  type = element->getType();
 
-    while (type->hasParent())
+
+    DtiClassType * type = element->getType();
+
+
+    while (type->getParent())
     {
-        std::cout << type->getClassName().c_str() << std::endl;
 
         if (*type == spc::MovableElement::Type)
             addPropertyFromMovableElement(spcDynamicPointerCast<spc::MovableElement> (element), m_topProperty);
 
-        type = element->getType()->getParent();
+        type = type->getParent();
 
-        std::cout << element->getType()->getParent()->getClassName().c_str() << std::endl;
     }
 
     // now infos coming from interfaces
@@ -320,8 +321,7 @@ void ccPropertiesTree::addNewVariantProperty()
             value = 0.0f;
         else if (typ == 2)
             value = std::string("");
-        else if (typ == 3)
-            value = Eigen::Vector3f(0, 0, 0);
+
 
         spc_sample->getVariantPropertiesRecord().property(name.toStdString()) = value;
     }

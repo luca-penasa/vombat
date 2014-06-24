@@ -16,7 +16,8 @@
 #include <ccoutofcore/ccAttitude.h>
 
 #include "ccDynamicScalarFieldGenerator.h"
-
+//#define EIGEN_USE_NEW_STDVECTOR
+#include <Eigen/StdVector>
 /**
  * @brief The ccSingleAttitudeModel class is a specialization of a ccDynamicScalarFieldGenerator that add some
  * visualization capabilities in CloudCompare for the scalar field generator spc::SingleAttitudeModel
@@ -138,7 +139,7 @@ protected:
     //// these for internal use only /////////////////
     std::vector<float> m_breaks;
 
-    std::vector<Eigen::Vector3f> m_major_thicks_positions;
+    std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f>> m_major_thicks_positions;
 
     Eigen::Vector3f m_major_thicks_vector;
 

@@ -1,7 +1,7 @@
 #include "PlotterWidget.h"
 #include "PlotsContainer.h"
 #include "SinglePlot.h"
-#include <spc/io/time_series_writer.h>
+#include <spc/io/AsciiEigenTableWriter.h>
 #include <spc/elements/TimeSeriesBase.h>
 
 #include <sstream>
@@ -53,48 +53,48 @@ void PlotterWidget::handleNewTimeSeries(ccTimeSeries * series)
 void PlotterWidget::saveAllSeries()
 {
 
-    QString dir = QFileDialog::getExistingDirectory();
+//    QString dir = QFileDialog::getExistingDirectory();
 
-    if (dir.isEmpty())
-        return;
+//    if (dir.isEmpty())
+//        return;
 
-    for (int i = 0 ; i < (getPlotContainer()->getNumberOfPlots() ); ++i)
-    {
+//    for (int i = 0 ; i < (getPlotContainer()->getNumberOfPlots() ); ++i)
+//    {
 
-        std::string fname = dir.toStdString() + std::string("/TimeSeries_");
+//        std::string fname = dir.toStdString() + std::string("/TimeSeries_");
 
-        std::ostringstream stream;
-        stream << i ;
+//        std::ostringstream stream;
+//        stream << i ;
 
-        fname += stream.str() + ".txt";
+//        fname += stream.str() + ".txt";
 
-        spc::TimeSeriesWriter writer;
-        SinglePlot * plot = getPlotContainer()->getSinglePlot(i);
+//        spc::TimeSeriesWriter writer;
+//        SinglePlot * plot = getPlotContainer()->getSinglePlot(i);
 
-        ccTimeSeries * ts = plot->getTimeSeries();
+//        ccTimeSeries * ts = plot->getTimeSeries();
 
-        if (!ts)
-        {
-            std::cout << "NULL POINTER" << std::endl;
-            return;
-        }
+//        if (!ts)
+//        {
+//            std::cout << "NULL POINTER" << std::endl;
+//            return;
+//        }
 
 
-        std::vector<float> x = ts->getTimeSeries()->getX();
-        std::vector<float> y = ts->getTimeSeries()->getY();
+//        std::vector<float> x = ts->getTimeSeries()->getX();
+//        std::vector<float> y = ts->getTimeSeries()->getY();
 
-        for (int i = 0 ; i < ts->getTimeSeries()->getNumberOfSamples(); ++i)
-        {
-            std::cout << x.at(i) << " " << y.at(i) << std::endl;
-        }
+//        for (int i = 0 ; i < ts->getTimeSeries()->getNumberOfSamples(); ++i)
+//        {
+//            std::cout << x.at(i) << " " << y.at(i) << std::endl;
+//        }
 
-        std::cout << "saving time series" << std::endl;
+//        std::cout << "saving time series" << std::endl;
 
-        writer.setInputSeries(ts->getTimeSeries());
+//        writer.setInputSeries(ts->getTimeSeries());
 
-        writer.setFilename(fname);
+//        writer.setFilename(fname);
 
-        writer.writeAsciiAsSparse();
+//        writer.writeAsciiAsSparse();
 
-    }
+//}
 }

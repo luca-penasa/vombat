@@ -1,6 +1,7 @@
 #include "ScalarFieldsComboBox.h"
 #include <boost/graph/graph_concepts.hpp>
 #include <boost/foreach.hpp>
+#include <ScalarField.h>
 
 std::ostream&  operator<<(std::ostream& stream,ComboItemDescriptor ob)
 {

@@ -9,6 +9,10 @@ class Properties : public BaseFilter
 {
 public:
     Properties(ccPluginInterface *parent_plugin = 0);
+    ~Properties()
+    {
+        delete m_dialog;
+    }
 
     virtual int compute()
     {

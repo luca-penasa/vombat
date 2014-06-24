@@ -8,7 +8,7 @@ OpenPlotsDialog::OpenPlotsDialog(ccPluginInterface *parent_plugin) : BaseFilter(
                                                                                                      ":/toolbar/icons/plot_dlg.png" ), parent_plugin), m_plotter_dialog(0)
 {
     this->setShowProgressBar(false);
-    m_plotter_dialog = new PlotterDlg();
+    m_plotter_dialog = new PlotterDlg(vombat::theInstance()->getMainWindow());
     m_plotter_dialog->setVisible(false);
 }
 

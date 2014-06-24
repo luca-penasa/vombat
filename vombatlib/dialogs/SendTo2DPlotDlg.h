@@ -5,7 +5,7 @@
 
 #include <QDialog>
 
-#include <external/qcustomplot.h>
+#include <qcustomplot.h>
 namespace Ui {
 class SendTo2DPlotDlg;
 }

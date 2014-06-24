@@ -3,7 +3,7 @@
 
 #include <vombat.h>
 
-#include <external/qcustomplot.h>
+#include <qcustomplot.h>
 
 SendTo2DPlotDlg::SendTo2DPlotDlg(QWidget *parent) :
     QDialog(parent),

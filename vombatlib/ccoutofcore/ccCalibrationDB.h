@@ -4,7 +4,7 @@
 #include <ccoutofcore/ccMyBaseObject.h>
 
 #include <helpers/ccSPCObjectsStreamer.h>
-#include <spc/elements/SamplesDB.h>
+//#include <spc/elements/SamplesDB.h>
 #include <ccPointCloud.h>
 
 #include <QIcon>
@@ -12,20 +12,19 @@
 #include <ccBox.h>
 
 #include <ccPointCloud.h>
+//#include <spc/elements/Fields.h>
+#include <spc/elements/EigenTable.h>
 
-///
-/// \brief The ccAttitude class gives a qCC-valid representation of a geological
-/// attitude
-///
+
 class ccCalibrationDB : public ccMyBaseObject
 
 {
 public:
     ccCalibrationDB();
 
-    ccCalibrationDB(spc::SamplesDB db)
+    ccCalibrationDB(spc::EigenTable::Ptr db)
     {
-        m_calibration_db_ = spcMakeSharedPtrMacro<spc::SamplesDB>(db);
+        m_calibration_db_ = db;
         writeSPCClassNameToMetadata();
     }
 
@@ -39,7 +38,7 @@ public:
         return QIcon(QString::fromUtf8(":/toolbar/icons/calibrationDB.png"));
     }
 
-    spc::SamplesDB::Ptr getAsSpc() const
+    spc::ElementBase::Ptr getAsSpc() const
     {
         return m_calibration_db_;
     }
@@ -61,7 +60,7 @@ public:
 protected:
 
 
-    spc::SamplesDB::Ptr m_calibration_db_;
+    spc::EigenTable::Ptr m_calibration_db_;
     // ccHObject interface
 protected:
     virtual bool toFile_MeOnly(QFile &out) const
@@ -75,7 +74,7 @@ protected:
         ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
 
         spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
-        m_calibration_db_ = spcStaticPointerCast<spc::SamplesDB>(ptr);
+        m_calibration_db_ = spcStaticPointerCast<spc::EigenTable>(ptr);
 
         return true;
     }
@@ -96,9 +95,11 @@ public:
                             std::numeric_limits<float>::min(),
                             std::numeric_limits<float>::min());
 
-        for (spc::Sample::Ptr sample : this->m_calibration_db_->getSamplesDB()) {
+        Eigen::MatrixXf centroids = m_calibration_db_->getVectorField("position");
 
-            Eigen::Vector3f pos = sample->getPosition();
+
+        for (int i = 0 ; i < centroids.rows(); ++i) {
+            Eigen::Vector3f pos =centroids.row(i);
 
             for (int i = 0 ; i < 3; ++i)
             {
@@ -108,7 +109,6 @@ public:
                 if (pos(i) > max(i))
                     max(i) = pos(i);
             }
-
         }
 
         ccBBox box  = ccBBox(CCVector3(min.data()), CCVector3(max.data()));

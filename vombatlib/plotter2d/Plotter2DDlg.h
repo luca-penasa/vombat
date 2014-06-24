@@ -27,6 +27,11 @@ class Plotter2DDlg : public QMainWindow
 public:
     Plotter2DDlg(QWidget *parent=0);
 
+    ~Plotter2DDlg()
+    {
+
+    }
+
     CustomPlotWidget *getCurrentPlotWidget();
     void addProperty(QtVariantProperty *property, const QString &id);
 public slots:

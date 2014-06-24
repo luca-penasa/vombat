@@ -1,5 +1,5 @@
 #include "ccSample.h"
-
+#include <ccGenericGLDisplay.h>
 // unit point marker
 static QSharedPointer<ccSphere> c_unitPointMarker(0);
 

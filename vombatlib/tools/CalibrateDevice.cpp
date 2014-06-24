@@ -6,93 +6,76 @@
 #include <ccoutofcore/cccalibrationmodel.h>
 
 #include <iostream>
+#include <ccoutofcore/ccCalibrationDB.h>
 
+#include <spc/methods/IntensityCalibration.h>
 
-CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription(   "Estimate the parameters for device calibration",
-                                                                                                    "Estimate the parameters for device calibration",
-                                                                                                    "Estimate the parameters for device calibration",
-                                                                                                    ":/toolbar/icons/device.png"), parent_plugin),
-    m_dialog(0)
+CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin)
+    : BaseFilter(
+          FilterDescription("Estimate the parameters for device calibration",
+                            "Estimate the parameters for device calibration",
+                            "Estimate the parameters for device calibration",
+                            ":/toolbar/icons/device.png"),
+          parent_plugin),
+      m_dialog(0)
 {
     this->setShowProgressBar(false);
 }
 
-
-
 int CalibrateDevice::compute()
 {
 
-//    float bandwidth = m_dialog->getBandwidth();
-//    float s_step = m_dialog->getSamplingStep();
+    ccMyBaseObject *myobj = dynamic_cast
+        <ccMyBaseObject *>(getSelectedEntityAsCCHObject());
+    spc::IntensityCalibrator calibrator;
 
-//    std::string distance_n = m_dialog->getDistanceField();
-//    std::string intensity_n = m_dialog->getIntensityField();
+    spc::SamplesDB::Ptr db = spcDynamicPointerCast
+        <spc::SamplesDB>(myobj->getSPCElement());
 
-//    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
+    spc::SamplesDB gooddb =  db->getNotNanEntries<float>("intensity").getNotNanEntries<float>("angle").getNotNanEntries<float>("distance");
 
-//    spcCCPointCloud::Ptr spc_cloud (new spcCCPointCloud (cloud));
+    db = spcMakeSharedPtrMacro<spc::SamplesDB> (gooddb);
 
-
-
-//    spc::CalibrateDiscretePointsModel calibrator;
-//    calibrator.setInputCloud(spc_cloud);
-//    calibrator.setBandwidth(bandwidth);
-//    calibrator.setSamplingStep(s_step);
-//    calibrator.setDistanceField(distance_n);
-//    calibrator.setIntensityField(intensity_n);
-//    calibrator.compute();
+//    calibrator.setCalibrationSamplesDB(db);
+    std::cout << "set the db" << std::endl;
 
 
+    bool multiple_constants = m_dialog->getUI()->chkDifferent->isChecked();
 
-//    spc::DiscretePointsCalibrationModel::Ptr model= calibrator.getModel();
+    std::cout << "creating the model" << std::endl;
+//    spc::JutzyModel::Ptr jutzy  (new spc::JutzyModel(db, !multiple_constants));
 
-//    spc::GenericTimeSeries<float>::Ptr ts = model->getTS();
-
-
-//    ccTimeSeries * serie = new ccTimeSeries(ts);
-//    serie->setName("CorrectionTS");
-
-//    ccCalibrationModel *  mod = new ccCalibrationModel(model);
-
-//    mod->addChild(serie);
+    std::cout << "before set the model" << std::endl;
 
 
-//    newEntity(mod);
+//    calibrator.setModel(jutzy);
 
+    std::cout << "set the model" << std::endl;
+
+//    calibrator.optimize();
+
+    std::cout << "optimized" << std::endl;
 
 
     return 1;
 }
 
-
-
-
 int CalibrateDevice::checkSelected()
 {
-    ccHObject * selected = getSelectedEntityAsCCHObject();
+    ccHObject *selected = getSelectedEntityAsCCHObject();
     if (selected && selected->getMetaData("class_name") == "ccCalibrationDB")
         return 1;
     else
         return 0;
-
 }
-
 
 int CalibrateDevice::openInputDialog()
 {
 
-    m_dialog = new ccCalibrateDeviceDlg(0);
-
-
-//    ccPointCloud * cloud = getSelectedEntityAsCCPointCloud();
-
-//    m_dialog->getUI()->comboDistance->addItemsFromFieldsCloud(cloud);
-//    m_dialog->getUI()->comboIntensity->addItemsFromFieldsCloud(cloud);
-
-
+    if (!m_dialog)
+        m_dialog = new ccCalibrateDeviceDlg(0);
 
     /// we need to init the dialog
 
     return m_dialog->exec() ? 1 : 0;
-
 }

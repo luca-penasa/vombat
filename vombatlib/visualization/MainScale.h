@@ -1,7 +1,7 @@
 #ifndef VOMBAT_MAINSCALE_H
 #define VOMBAT_MAINSCALE_H
 
-#include <external/qcustomplot.h>
+#include <qcustomplot.h>
 
 //// every plot will be conncted witht this main scale
 class MainScale: public QCPAxisRect

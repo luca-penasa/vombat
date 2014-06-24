@@ -15,6 +15,8 @@ SendTo2DPlot::SendTo2DPlot(ccPluginInterface *parent_plugin): BaseFilter(FilterD
 
 
 
+
+
 int SendTo2DPlot::compute()
 {
     // ensure we are connected
@@ -28,7 +30,7 @@ int SendTo2DPlot::compute()
     if (!serie)
         return -1;
 
-    Plotter2DDlg * plot =  vombat::theInstance()->getPlotter2DDlg();
+//    Plotter2DDlg * plot =  vombat::theInstance()->getPlotter2DDlg();
 
     emit handleNewPlot(serie);
 

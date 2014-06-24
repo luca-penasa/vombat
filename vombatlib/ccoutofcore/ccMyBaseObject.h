@@ -7,6 +7,7 @@
 #include <ccCustomObject.h>
 #include <spc/elements/ElementBase.h>
 
+
 class ccMyBaseObject : public ccEditableHObject, public ccCustomHObject
 {
 public:
@@ -23,6 +24,11 @@ public:
     virtual QString getSPCClassName() const;
 
     virtual void writeSPCClassNameToMetadata();
+
+    virtual bool isASPC(DtiClassType * type)
+    {
+        return this->getSPCElement()->isA(type);
+    }
 
 
 
