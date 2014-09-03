@@ -10,7 +10,6 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
     spc::Attitude att = spc::Attitude(asEigenVector(orientation), asEigenVector(center));
     setAttitude(att);
     writeSPCClassNameToMetadata();
-    initParameters();
 }
 
 
@@ -18,7 +17,6 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 ccAttitude::ccAttitude(spc::Attitude att)
 {    
     setAttitude(att);
-    initParameters();
 
     writeSPCClassNameToMetadata();
 
@@ -27,9 +25,9 @@ ccAttitude::ccAttitude(spc::Attitude att)
 ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
 {
     setAttitude(att_ptr);
-    initParameters();
-
+    setName(att_ptr->getDipAndDipAngleAsString().c_str());
     writeSPCClassNameToMetadata();
+
 
 }
 
@@ -37,8 +35,6 @@ ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
 ccAttitude::ccAttitude()
 {
     setAttitude(spc::Attitude::Ptr(new spc::Attitude));
-    initParameters();
-
     writeSPCClassNameToMetadata();
 
 }
@@ -46,8 +42,6 @@ ccAttitude::ccAttitude()
 ccAttitude::ccAttitude(QString name): ccMyBaseObject(name)
 {
     setAttitude(spc::Attitude::Ptr(new spc::Attitude));
-    initParameters();
-
     writeSPCClassNameToMetadata();
 
 
@@ -56,7 +50,8 @@ ccAttitude::ccAttitude(QString name): ccMyBaseObject(name)
 ccBBox ccAttitude::getMyOwnBB()
 {
     CCVector3 center = CCVector3::fromArray (getAttitude()->getPosition().data());
-    float s = m_scale * 0.5 * m_scale_factor;
+    float s = m_scale * 0.5;
+
     CCVector3 scale_v (s,s,s);
     CCVector3 min_corner(center - scale_v);
     CCVector3 max_corner(center + scale_v);
@@ -71,7 +66,6 @@ bool ccAttitude::toFile_MeOnly(QFile &out) const
 
     QDataStream outs(&out);
     outs << m_scale;
-    outs << m_scale_factor;
     outs << m_width;
 
     ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
@@ -86,7 +80,6 @@ bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
 
     QDataStream ins(&in);
     ins >> m_scale;
-    ins >> m_scale_factor;
     ins >> m_width;
 
     spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
@@ -95,20 +88,11 @@ bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
     return true;
 }
 
-void ccAttitude::initParameters()
-{
-    m_scale_factor = 20;
-    m_width = 4;
-    m_scale = 0.0;
-    //    m_oldTransform.toIdentity();
-}
-
-
 
 void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
-    m_scale = context.pickedPointsRadius;
-    //we draw here a little 3d representation of the sensor
+
+    std::cout << "calling" << std::endl;
     if (MACRO_Draw3D(context))
     {
         bool pushName = MACRO_DrawEntityNames(context);
@@ -138,9 +122,9 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
         Vector3f strike_v = getAttitude()->getStrikeVector();
 
 
-        Vector3f arr_shaft = pos + dip_v * m_scale * m_scale_factor ;
-        Vector3f strike_dir = pos + strike_v * m_scale * 0.5 * m_scale_factor ;
-        Vector3f s_opp = pos - strike_v * m_scale * 0.5* m_scale_factor;
+        Vector3f arr_shaft = pos + dip_v * m_scale * context.pickedPointsRadius;
+        Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.pickedPointsRadius;
+        Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.pickedPointsRadius;
 
         context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
 
@@ -170,39 +154,5 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
     }
 }
 
-void ccAttitude::applyGLTransformation(const ccGLMatrix &trans)
-{
-
-    //    std::cout << " called apply gl trans" << std::endl;
-    //    Vector3f p = getPosition();
-    //    Vector3f n = getNormal();
-
-
-    //    CCVector3 position (p(0), p(1), p(2));
-    //    CCVector3 normal (n(0), n(1), n(2));
-
-    //    trans.apply(position);
-    //    trans.transposed().applyRotation(normal);
-
-    //    this->setNormal(Vector3f(normal.x, normal.y, normal.z));
-    //    this->setPosition(Vector3f(position.x, position.y, position.z ));
-
-
-
-}
-
-void ccAttitude::setGLTransformation(const ccGLMatrix &trans)
-{
-    //    ccGLMatrix oldmatrix = m_oldTransform;
-    //    ccGLMatrix newmatrix =  oldmatrix.inverse() * trans ;
-
-    //    applyGLTransformation(newmatrix);
-    //    m_oldTransform = trans;
-
-}
-
-
-
-//BOOST_CLASS_EXPORT_GUID(ccAttitude, "ccAttitude")
 
 

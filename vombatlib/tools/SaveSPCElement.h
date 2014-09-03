@@ -1,105 +1,74 @@
-//#ifndef SAVE_SPC_ELEMENT_H
-//#define SAVE_SPC_ELEMENT_H
+#ifndef SAVE_SPC_ELEMENT_H
+#define SAVE_SPC_ELEMENT_H
 
-//#include <qPCL/PclUtils/filters/BaseFilter.h>
-//#include <vombat.h>
-//#include <spc/elements/ElementBase.h>
+#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include <vombat.h>
+#include <spc/elements/ElementBase.h>
 
+#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccAttitude.h>
+//#include <boost/typeof/typeof.hpp>
 
-//#include <ccoutofcore/ccMyBaseObject.h>
-//#include<ccoutofcore/ccAttitude.h>
-////#include <boost/typeof/typeof.hpp>
+#include <spc/io/element_io.h>
 
+#include <iostream>
 
+class SaveSPCElement : public BaseFilter
+{
+public:
+    SaveSPCElement(ccPluginInterface *parent_plugin);
 
-//#include <spc/io/element_io.h>
+    virtual int compute()
+    {
 
+        ccHObject *qua = getSelectedThatHaveMetaData("plugin_name", "vombat").at(0);
 
-//#include <iostream>
+        ccMyBaseObject *my = dynamic_cast<ccMyBaseObject *>(qua);
 
-//class SaveSPCElement: public BaseFilter
-//{
-//public:
-//    SaveSPCElement(ccPluginInterface * parent_plugin);
+        if (!my)
+        {
+            return -1;
+        }
 
-//    virtual int compute ()
-//    {
-//        return 1;
-//    }
+        spc::ElementBase::Ptr element = my->getSPCElement();
 
+        if (!element)
+        {
+            return -1;
+        }
 
-//    virtual int openOutputDialog()
-//    {
-//        if (m_filename.isEmpty())
-//            return 1;
+        spc::io::serializeToFile(element, m_filename.toStdString(), spc::io::XML);
 
-//        // get all vombat-valid objects that are also selected
-//        ccHObject::Container all = vombat::theInstance()->getSelectedThatHaveMetaData("[vombat]");
+        return 1;
+    }
 
-//        spcForEachMacro(ccHObject * obj, all)
-//        {
-//            std::cout << obj->getName().toStdString().c_str() << std::endl;
-//        }
+    virtual int openInputDialog()
+    {
+        m_filename.clear();
+        m_filename = QFileDialog::getSaveFileName(0, tr("Save To XML File"), "",
+                                                  tr("XML Documents (*.xml)"));
 
-//        spc::spcSerializableContainer::Ptr all_objects =  spc::spcSerializableContainer::Ptr(new spc::spcSerializableContainer);
+        if (m_filename.isEmpty())
+            return -1;
 
+        return 1;
+    }
 
+    virtual int checkSelected()
+    {
 
-//        spcForEachMacro (ccHObject * obj, all)
-//        {
+        ccHObject::Container all = getSelectedThatHaveMetaData("plugin_name", "vombat");
 
-//            spc::spcSerializableObject * element = dynamic_cast<spc::spcSerializableObject *> (obj);
+        if (all.size() != 1) // one at a time for now
+            return -1;
 
-//            if (!element)
-//            {
-//                std::cout << "skipped element!" << std::endl;
-//                continue;
-//            }
+        else
+            return 1;
 
+    }
 
+protected:
+    QString m_filename;
+};
 
-//            all_objects->push_back(spcMakeSharedPtrMacro<spc::spcSerializableObject> (*element));
-//        }
-
-
-//        //now serialize everything!
-
-//        spc::ElementsIO serializer;
-//        bool status = serializer.serializeToFile(all_objects, m_filename.toStdString());
-
-//        if (!status)
-//        {
-//            ccLog::Error("Some error eccured trying to save the objects!");
-//            return -1;
-//        }
-
-
-
-//        return 1;
-//    }
-
-//    virtual int openInputDialog()
-//    {
-//        m_filename.clear();
-//        m_filename =  QFileDialog::getSaveFileName(0, tr("Save To XML File"),
-//                                                   "",
-//                                                   tr("XML Documents (*.xml)"));
-
-//        return 1;
-//    }
-
-//    virtual int checkSelected()
-//    {
-
-//        ccHObject::Container qua = getSelectedThatHaveMetaData("vombat");
-//        return qua.size();
-//    }
-
-
-//protected:
-//    QString m_filename;
-
-
-//};
-
-//#endif // SAVE_SPC_ELEMENT_H
+#endif // SAVE_SPC_ELEMENT_H

@@ -7,12 +7,10 @@
 #include <spc/io/AsciiEigenTableWriter.h>
 
 #include <boost/filesystem.hpp>
-#include <cccalibrationmodel.h>
-
+    
 #include <dialogs/ccapplycorrection.h>
 
 #include <boost/foreach.hpp>
-#include <cccalibrationmodel.h>
 #include <ccScalarField.h>
 
 

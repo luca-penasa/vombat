@@ -12,17 +12,16 @@
 #include <ccBox.h>
 
 #include <ccPointCloud.h>
-//#include <spc/elements/Fields.h>
 #include <spc/elements/EigenTable.h>
 
 
-class ccCalibrationDB : public ccMyBaseObject
+class ccEigenTable : public ccMyBaseObject
 
 {
 public:
-    ccCalibrationDB();
+    ccEigenTable();
 
-    ccCalibrationDB(spc::EigenTable::Ptr db)
+    ccEigenTable(spc::EigenTable::Ptr db)
     {
         m_calibration_db_ = db;
         writeSPCClassNameToMetadata();
@@ -54,7 +53,7 @@ public:
 
     virtual QString getSPCClassName() const
     {
-        return "ccCalibrationDB";
+        return "ccEigenTable";
     }
 
 protected:
@@ -84,38 +83,7 @@ protected:
         return m_calibration_db_;
     }
 
-public:
-    virtual ccBBox getMyOwnBB()
-    {
-        Eigen::Vector3f min(std::numeric_limits<float>::max(),
-                            std::numeric_limits<float>::max(),
-                            std::numeric_limits<float>::max());
 
-        Eigen::Vector3f max(std::numeric_limits<float>::min(),
-                            std::numeric_limits<float>::min(),
-                            std::numeric_limits<float>::min());
-
-        Eigen::MatrixXf centroids = m_calibration_db_->getVectorField("position");
-
-
-        for (int i = 0 ; i < centroids.rows(); ++i) {
-            Eigen::Vector3f pos =centroids.row(i);
-
-            for (int i = 0 ; i < 3; ++i)
-            {
-                if (pos(i) < min(i))
-                    min(i) = pos(i);
-
-                if (pos(i) > max(i))
-                    max(i) = pos(i);
-            }
-        }
-
-        ccBBox box  = ccBBox(CCVector3(min.data()), CCVector3(max.data()));
-        return box;
-    }
-
-    // ccDrawableObject interface
 }; // end class
 
 #endif // CC_CALIBRATION_DB_H

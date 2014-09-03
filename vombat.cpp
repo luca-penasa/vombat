@@ -7,7 +7,7 @@
 #include <AttitudeToModel.h>
 #include <Edit.h>
 #include <SaveSPCElement.h>
-//#include <LoadSPCElement.h>
+#include <LoadSPCElement.h>
 
 #include <EvaluateDynamicScalarFieldGenerator.h>
 #include <Properties.h>
@@ -102,8 +102,7 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new ComputeSmoothedTimeSeriesXY(this));
 
         //        addFilter(new SetUpNewSeries(this));
-        //        addFilter(new SaveSPCElement(this));
-        // addFilter(new LoadSPCElement(this));
+
         //        addFilter(new Test(this));
 
         addFilter(new ComputeCalibrationDB(this));
@@ -119,9 +118,15 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new EvaluateStratigraphicPosition(this));
         //        addFilter(new Properties(this));
         addFilter(new CloudToPlanarSelection(this));
-        addFilter(new ExportToAscii(this));
         addFilter(new GaussianFilter(this));
         addFilter(new Properties(this));
+
+        addFilter(new ExportToAscii(this));
+        addFilter(new SaveSPCElement(this));
+        addFilter(new LoadSPCElement(this));
+
+
+
 
 
 

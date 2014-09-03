@@ -1,7 +1,7 @@
 #include "ComputeCalibrationDB.h"
 //#include <spcCCPointCloud.h>
 
-#include <ccoutofcore/ccCalibrationDB.h>
+#include <ccoutofcore/ccEigenTable.h>
 #include <spc/methods/IntensityCalibrationDataEstimator.h>
 #include <spc/methods/IntensityCalibrationDataFilter.h>
 
@@ -52,7 +52,7 @@ int ComputeCalibrationDB::compute()
 
 //    spc::EigenTable::Ptr data = filter.applyFilter();
 
-    ccCalibrationDB * calib_db = new ccCalibrationDB(calibrator.getCalibrationDB());
+    ccEigenTable * calib_db = new ccEigenTable(calibrator.getCalibrationDB());
 
 //    std::cout << calibrator.getCalibrationDB()->mat() << std::endl;
 

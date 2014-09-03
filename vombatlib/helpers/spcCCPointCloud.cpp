@@ -24,33 +24,17 @@ void spcCCPointCloud::setPoint(const int id, const float x, const float y, const
 }
 
 
-void spcCCPointCloud::getFieldValue(const int id, const std::string fieldname, float &val)
-{
-    if (fieldname == "x")
-        val = in_cloud->getPoint(id)->x;
-
-    if (fieldname == "y")
-        val = in_cloud->getPoint(id)->y;
-
-    if (fieldname == "z")
-        val = in_cloud->getPoint(id)->z;
-
-    int field_id = in_cloud->getScalarFieldIndexByName(fieldname.c_str());
-
-    if (field_id != -1)
-    {
-        CCLib::ScalarField * field = in_cloud->getScalarField(field_id);
-        val = field->getValue(id);
-    }
-}
-
-
-bool spcCCPointCloud::hasField(const std::string fieldname)
+bool spcCCPointCloud::hasField(const std::string fieldname) const
 {
 
     if ((fieldname == "x") | (fieldname == "y") | (fieldname == "z")) // every ccpoint cloud have geometric infos
     {
             return true;
+    }
+
+    else if (fieldname == "normal_x" | fieldname == "normal_y" | fieldname == "normal_z")
+    {
+        return in_cloud->hasNormals();
     }
 
     int id =  in_cloud->getScalarFieldIndexByName(fieldname.c_str());

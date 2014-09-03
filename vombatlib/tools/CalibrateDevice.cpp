@@ -3,10 +3,10 @@
 #include <ccoutofcore/ccTimeSeries.h>
 
 #include <spc/methods/IntensityCalibrationDiscretePointsModel.h>
-#include <ccoutofcore/cccalibrationmodel.h>
+
 
 #include <iostream>
-#include <ccoutofcore/ccCalibrationDB.h>
+
 
 #include <spc/methods/IntensityCalibration.h>
 

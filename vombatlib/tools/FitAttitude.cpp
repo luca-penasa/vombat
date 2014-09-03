@@ -78,7 +78,7 @@ FitAttitude::compute()
 
 
 
-    //now for each entity we send back a ccOrientation for visualizing the result
+    //now for each entity we send back an object for visualizing the result
     int id = 0;
     spcForEachMacro(spc::Attitude att, atts)
     {
@@ -91,7 +91,7 @@ FitAttitude::compute()
 
         entities.at(id)->addChild(ccAtt);
 
-        QString name  = suggestHObjectIncrementalName(ccAtt, "Attitude");
+//        QString name  = suggestHObjectIncrementalName(ccAtt, "Attitude");
         ccAtt->setName(ccAtt->getAttitude()->getDipAndDipAngleAsString().c_str());
 
         entityHasChanged( entities.at(id++));

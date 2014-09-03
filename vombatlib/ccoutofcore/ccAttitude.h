@@ -48,38 +48,8 @@ public:
     //inherited from ccSerializableObject
     virtual bool isSerializable() const
     {
-        std::cout << "CALLED IF SERIALIZABLE" << std::endl;
         return true;
     }
-//    virtual bool toFile(QFile& out) const;
-//    virtual bool fromFile(QFile& in, short dataVersion, int flags);
-
-
-
-protected:
-
-    //    void setAttitudeAsMetadata();
-
-    virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
-    virtual void applyGLTransformation(const ccGLMatrix& trans);
-    virtual void setGLTransformation(const ccGLMatrix& trans);
-
-
-    void initParameters();
-
-    virtual QString getSPCClassName() const
-    {
-        return "ccAttitude";
-    }
-
-    float m_scale;
-    float m_scale_factor;
-
-    int m_width;
-
-
-    /// the attitude itself
-    spc::Attitude::Ptr m_attitude;
 
 public:
     spc::Attitude::Ptr getAttitude() const
@@ -103,7 +73,6 @@ public:
         return m_attitude;
     }
 
-
 protected:
     static Eigen::Vector3f asEigenVector(CCVector3 v)
     {
@@ -115,14 +84,23 @@ protected:
         return CCVector3(v(0),v(1), v(2));
     }
 
-
-
-
-    // ccHObject interface
-protected:
     virtual bool toFile_MeOnly(QFile &out) const;
     virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags);
 
+
+    virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
+
+    virtual QString getSPCClassName() const
+    {
+        return "ccAttitude";
+    }
+
+    float m_scale = 10;
+    int m_width = 4;
+
+
+    /// the attitude itself
+    spc::Attitude::Ptr m_attitude;
 
 };//end class
 

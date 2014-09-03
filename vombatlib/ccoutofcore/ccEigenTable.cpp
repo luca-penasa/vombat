@@ -1,4 +1,4 @@
-#include "ccCalibrationDB.h"
+#include "ccEigenTable.h"
 #include <iostream>
 
 #include <Eigen/Dense>
@@ -7,7 +7,8 @@
 #include <spc/elements/SamplesDB.h>
 
 
-ccCalibrationDB::ccCalibrationDB()
+
+ccEigenTable::ccEigenTable()
 {
         writeSPCClassNameToMetadata();
 }
