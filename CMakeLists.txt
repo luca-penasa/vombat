@@ -7,18 +7,18 @@ if (INSTALL_vombat_PLUGIN)
 
 project(vombat)
 
-
+set( CMAKE_VERBOSE_MAKEFILE on )
 
 
 include(cmake/macros.cmake) # load some macros
 
-add_subdirectory(external/QtPropertyBrowser)
+add_subdirectory(external/qtpropertybrowser)
 
 
 #find_package(QtPropertyBrowser)
 #message("INCLUDE: ${QtPropertyBrowser_SOURCE_DIR}")
-include_directories("${QtPropertyBrowser_SOURCE_DIR}/src")
-link_directories(${QtPropertyBrowser_BINARY_DIR})
+include_directories("external/qtpropertybrowser")
+#link_directories(${QtPropertyBrowser_BINARY_DIR})
 
 
 #add_subdirectory(external/spc)
@@ -88,7 +88,7 @@ if (WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4521") # pcl/eigen multiple copy constructors warn
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4305") # some conversion / possible data-loss
 else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")  #get rid of annoying warns
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")  #get rid of annoying warns
 endif()
 
 set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
@@ -176,15 +176,19 @@ include( ../CMakePluginTpl.cmake )
 
 #add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
-target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES})
+#target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES})
+
+target_link_libraries(${PROJECT_NAME} VOMBATLIB )
 
 #target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
 #target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
-target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB  QtPropertyBrowser)
+target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
 
 message( "${CMAKE_CXX_FLAGS}" )
 ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare qcustomplot)
 
+
+add_subdirectory(tests)
 
 endif() #main if ends here

@@ -55,7 +55,7 @@ ccPropertiesTree::addPropertyFromMovableElement(spc::MovableElement::Ptr el,
 
     // named position, with code position
     property->setPropertyName("Position");
-    property->setPropertyId("Position");
+//    property->setPropertyId("Position");
 
     // write the eigen vector
     Eigen::Vector3f p = el->getPosition();
@@ -89,15 +89,15 @@ ccPropertiesTree::addPropertyFromEigenVector(const Eigen::Vector3f &v,
 
     QtVariantProperty *x
         = man->addProperty(QVariant::Double, QLatin1String("x"));
-    x->setPropertyId("x");
+//    x->setPropertyId("x");
 
     QtVariantProperty *y
         = man->addProperty(QVariant::Double, QLatin1String("y"));
-    y->setPropertyId("y");
+//    y->setPropertyId("y");
 
     QtVariantProperty *z
         = man->addProperty(QVariant::Double, QLatin1String("z"));
-    z->setPropertyId("z");
+//    z->setPropertyId("z");
 
     x->setValue(v(0));
 
@@ -123,11 +123,11 @@ void ccPropertiesTree::fromPropertyToEigenVector(QtVariantProperty *property,
         QtVariantProperty *cur_prop = dynamic_cast
             <QtVariantProperty *>(list.at(i));
 
-        if (cur_prop->propertyId() == "x")
+        if (cur_prop->propertyName() == "x")
             p(0) = cur_prop->value().toDouble();
-        else if (cur_prop->propertyId() == "y")
+        else if (cur_prop->propertyName() == "y")
             p(1) = cur_prop->value().toDouble();
-        else if (cur_prop->propertyId() == "z")
+        else if (cur_prop->propertyName() == "z")
             p(2) = cur_prop->value().toDouble();
     }
 }
@@ -155,7 +155,6 @@ void ccPropertiesTree::addPropertyFromVariantDataRecord(
 
     // named position, with code position
     property->setPropertyName("Variant Proprieties");
-    property->setPropertyId("Variant Properties");
 
 
     spcForEachMacro(std::string k, klist)
@@ -193,7 +192,7 @@ void ccPropertiesTree::addPropertyFromVariantDataRecord(
             continue; // and do nothing
 
 
-        prop->setPropertyId(k.c_str());
+
         prop->setPropertyName(k.c_str());
         property->addSubProperty(prop);
     }
@@ -260,7 +259,7 @@ void ccPropertiesTree::updateObjectWithProperties(QtProperty *property,
         QtProperty *prop = current_props.at(i);
         QtVariantProperty *varProp = dynamic_cast<QtVariantProperty *>(prop);
 
-        if (varProp->propertyId() == "Position") {
+        if (varProp->propertyName() == "Position") {
             ccSample *sample = dynamic_cast<ccSample *>(m_currentItem);
             spc::MovableElement::Ptr spcsample = sample->getSample();
 

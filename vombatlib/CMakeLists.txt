@@ -75,4 +75,6 @@ endif()
 
 link_directories( ${PCL_LIBRARY_DIRS} )
 add_definitions( ${PCL_DEFINITIONS} )
-target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES} ${PCL_LIBRARIES} ${EXTERNAL_LIBS_LIBRARIES} )
+
+
+target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser)

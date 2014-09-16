@@ -1,6 +1,6 @@
 #include "CloudToPlanarSelection.h"
 
-#include <ccGraphicalSegmentationTool.h>
+//#include <ccGraphicalSegmentationTool.h>
 
 #include <ccPointCloud.h>
 
