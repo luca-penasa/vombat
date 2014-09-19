@@ -121,10 +121,10 @@ message("spc includes: ${SPC_INCLUDE_DIRS}")
 message("spc libs: ${SPC_LIBRARIES}")
 ####################################################################
 
-#find_package(PCL 1.6 REQUIRED)
-#include_directories(${PCL_INCLUDE_DIRS})
-#link_directories(${PCL_LIBRARY_DIRS})
-#add_definitions(${PCL_DEFINITIONS})
+find_package(PCL 1.6 REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 # this is needed for being able to correctly include the pcl_plugin_utils_lib stuff
 if( NOT PCL_VERSION VERSION_GREATER  1.7 ) #from 1.7 the patch was merged
