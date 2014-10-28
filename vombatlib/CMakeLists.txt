@@ -5,7 +5,7 @@ project( VOMBATLIB )
 find_package(PCL REQUIRED)
 
 if( NOT MSVC )
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread" )
+        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread " )
 endif()
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )

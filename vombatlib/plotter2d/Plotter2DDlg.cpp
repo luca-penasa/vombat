@@ -181,6 +181,11 @@ void Plotter2DDlg::updateProperties(QList<QCPGraph *> graphs)
     addProperty(property3, "Scatter Shape");
 }
 
+void Plotter2DDlg::itemClicked(ccTimeSeries *item)
+{
+    std::cout << "item clicked" << std::endl;
+}
+
 void Plotter2DDlg::addProperty(QtVariantProperty *property, const QString &id)
 {
     propertyToId[property] = id;
