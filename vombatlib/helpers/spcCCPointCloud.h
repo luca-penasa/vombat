@@ -35,7 +35,7 @@ protected:
 
     // PointCloudBase interface
 public:
-    virtual std::vector<std::string> getFieldNames()
+    virtual std::vector<std::string> getFieldNames() const
     {
         std::vector<std::string> out;
         int n = in_cloud->getNumberOfScalarFields();
@@ -106,6 +106,23 @@ public:
         in_cloud->addScalarField(f);
     }
     virtual bool hasField(const std::string fieldname) const;
+
+
+    // PointCloudBase interface
+public:
+    /** \todo IMPLEMENT THIS METHOD **/
+    virtual spc::OrientedSensor getSensor() const
+    {
+        spc::OrientedSensor sensor;
+        std::cout << "WARNING!!! getSensor in spcCCPointCloud is only a fake virtual function!!!!!!!"<< std::endl;
+        return sensor;
+    }
+    /** \todo IMPLEMENT THIS METHOD **/
+    virtual void setSensor(const spc::OrientedSensor &sensor) const
+    {
+        std::cout << "WARNING!!! setSensor in spcCCPointCloud is only a fake virtual function!!!!!!!"<< std::endl;
+
+    }
 
 };
 

@@ -14,6 +14,7 @@
 #include <boost/foreach.hpp>
 
 #include <helpers/qtHelper.h>
+#include <ccPointCloud.h>
 
 
 
@@ -38,13 +39,13 @@ FitAttitude::compute()
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud( ent );
 
-        cc2smReader reader;
-        reader.setInputCloud(cloud);
-        pcl::PCLPointCloud2 sm_cloud = reader.getXYZ();
+        cc2smReader reader(cloud);
+//        reader.setInputCloud(cloud);
+        pcl::PCLPointCloud2::Ptr sm_cloud = reader.getXYZ();
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
-        pcl::fromPCLPointCloud2(sm_cloud, *pcl_cloud);
+        pcl::fromPCLPointCloud2(*sm_cloud, *pcl_cloud);
 
         clouds.push_back(pcl_cloud);
 

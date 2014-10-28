@@ -50,10 +50,10 @@ int CloudToPlanarSelection::openInputDialog()
 
     ccPlanarSelection * selection =  new ccPlanarSelection;
 
-    cc2smReader reader;
-    reader.setInputCloud((ccPointCloud *)verts);
+    cc2smReader reader((ccPointCloud *)verts);
+//    reader.setInputCloud();
     pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_verts (new pcl::PointCloud<pcl::PointXYZ>);
-    reader.getXYZ(*pcl_verts);
+    pcl_verts =reader.getXYZ2();
 
     pcl::console::setVerbosityLevel(pcl::console::L_DEBUG);
 
