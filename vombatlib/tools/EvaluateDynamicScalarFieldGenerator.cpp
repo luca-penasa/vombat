@@ -56,7 +56,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
 
         std::cout << "test " << m_generator->getGenerator()->getScalarFieldValue(Vector3f(0,0,0)) << std::endl;
 
-        std::vector<float> scalars = m_generator->getGenerator()->getScalarFieldValues(ptr);
+        Eigen::VectorXf scalars = m_generator->getGenerator()->getScalarFieldValues(ptr);
 
         for (int i = 0 ; i < 10; ++i)
             std::cout << "val " << scalars.at(i) << std::endl;
@@ -73,11 +73,11 @@ int EvaluateDynamicScalarFieldGenerator::compute()
         ccScalarField * sf = new ccScalarField(sf_name.c_str());
         sf->reserve(cloud->size());
 
-        int counter = 0;
-        spcForEachMacro(float f , scalars)
+        for (int i = 0 ; i < scalars.size(); ++i)
         {
-            sf->setValue(counter++, f);
+            sf->setValue(i, scalars.at(i));
         }
+
         sf->computeMinAndMax();
 
         int index = cloud->getScalarFieldIndexByName(sf->getName());

@@ -32,8 +32,8 @@ public:
 
     QVector<double> getX(const bool only_finite=false) const
     {
-        std::vector<float> x = getTimeSeries()->getX();
-        std::vector<float> y = getTimeSeries()->getY();
+        Eigen::VectorXf x = getTimeSeries()->getX();
+        Eigen::VectorXf y = getTimeSeries()->getY();
 
         QVector<double> x_d;
 
@@ -41,11 +41,11 @@ public:
         {
             if (only_finite)
             {
-                if (std::isfinite(y.at(i)) && std::isfinite(x.at(i)))
-                    x_d.push_back(x.at(i));
+                if (std::isfinite(y(i)) && std::isfinite(x(i)))
+                    x_d.push_back(x(i));
             }
             else
-                x_d.push_back(x.at(i));
+                x_d.push_back(x(i));
         }
 
         return x_d;
@@ -53,8 +53,8 @@ public:
 
     QVector<double> getY(const bool only_finite=false) const
     {
-        std::vector<float> y = getTimeSeries()->getY();
-        std::vector<float> x = getTimeSeries()->getX();
+        Eigen::VectorXf y = getTimeSeries()->getY();
+        Eigen::VectorXf x = getTimeSeries()->getX();
 
 
         QVector<double> y_d;
@@ -63,11 +63,11 @@ public:
         {
             if (only_finite)
             {
-                if (std::isfinite(y.at(i)) && std::isfinite(x.at(i)))
-                    y_d.push_back(y.at(i));
+                if (std::isfinite(y(i)) && std::isfinite(x(i)))
+                    y_d.push_back(y(i));
             }
             else
-                y_d.push_back(y.at(i));
+                y_d.push_back(y(i));
         }
 
         return y_d;

@@ -4,6 +4,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/foreach.hpp>
 
+#include <spc/elements/TimeSeriesBase.h>
+
 SinglePlot::SinglePlot(QCustomPlot *parentPlot): QCPAxisRect(parentPlot, false)
 {
     init();
@@ -31,21 +33,19 @@ SinglePlot::SinglePlot(QCustomPlot *parentPlot): QCPAxisRect(parentPlot, false)
 
 void SinglePlot::updateDataWith(ccTimeSeries * tserie)
 {
-    std::vector<float> depth = tserie->getTimeSeries()->getX();
-    std::vector<float> val = tserie->getTimeSeries()->getY();
+//    std::vector<double> depth;
+//    tserie->getTimeSeries()->getX<std::vector, double>(depth);
 
-    QVector<double> m_depth, m_values;
 
-    spcForEachMacro( float  d, depth)
-    {
-        m_depth.append((double) d);
-    }
+////            = tserie->getTimeSeries()->getX().cast<double>();
+//    std::vector<double> val = tserie->getTimeSeries()->getY().cast<double>();
 
-    spcForEachMacro( float v, val)
-    {
+    QVector<double> m_depth ;
+    QVector<double> m_values ;
 
-        m_values.append((double) v);
-    }
+    tserie->getTimeSeries()->getX(m_depth);
+   tserie->getTimeSeries()->getY(m_values);
+
 
     updateGraphData(m_depth, m_values);
 
