@@ -22,7 +22,7 @@
 #include <ccHObjectCaster.h>
 
 //qCC_db
-#include <ccPlatform.h>
+//#include <ccPlatform.h>
 
 //qCC
 #include <ccMainAppInterface.h>

@@ -50,6 +50,8 @@ vombat::vombat()
 {
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
+
+    google::InitGoogleLogging("vombat");
 }
 
 vombat::~vombat()

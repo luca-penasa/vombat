@@ -46,6 +46,11 @@ int ComputeSmoothedTimeSeriesXY::compute()
 
     spc::TimeSeriesEquallySpaced::Ptr out = ks.getOutputSeries();
 
+    if (out == NULL)
+    {
+        DLOG(WARNING) << "out series is empty, something went wrong";
+    }
+
     ccTimeSeries *out_ts = new ccTimeSeries(out);
 
     out_ts->setName("XY smoothed Time Series");
