@@ -6,32 +6,6 @@
 #include <ccTimeSeries.h>
 #include <ccEigenTable.h>
 
-ccVombatObjectsFactory::ccVombatObjectsFactory(QString name): ccExternalFactory(name)
-{
-}
 
-ccHObject *ccVombatObjectsFactory::buildObject(const QString &metaname)
-{
 
-    if (metaname == "ccAttitude")
-        return new ccAttitude();
 
-    else if (metaname == "ccSingleAttitudeModel")
-        return new ccSingleAttitudeModel();
-
-    else if (metaname == "ccDynamicScalarFieldGenerator")
-        return new ccDynamicScalarFieldGenerator();
-
-    else if (metaname == "ccSample")
-        return new ccSample();
-
-    else if (metaname == "ccTimeSeries")
-        return new ccTimeSeries();
-
-    else if (metaname == "ccEigenTable")
-        return new ccEigenTable();
-
-    else
-        return 0;
-
-}

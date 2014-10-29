@@ -6,7 +6,7 @@
 //#include <mainwindow.h>
 
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "VombarBaseFilter.h"
 #include <ccStdPluginInterface.h>
 
 //#include <ccVombatObjectsFactory.h>
@@ -45,7 +45,7 @@ public:
     virtual void getActions(QActionGroup& group);
 
 	//! Adds a filter
-    int addFilter(BaseFilter* filter);
+    int addFilter(VombatBaseFilter* filter);
 
     //! Return a plotter object for plotting things
     //! for now only one plotter at a time is possible!
@@ -56,9 +56,9 @@ public:
     QMainWindow * getMainWindow();
 
 
-    PlotterDlg * getPlotterDlg();
+//    PlotterDlg * getPlotterDlg();
 
-    Plotter2DDlg * getPlotter2DDlg();
+//    Plotter2DDlg * getPlotter2DDlg();
 
 
 
@@ -110,7 +110,7 @@ public slots:
 
 protected:
 	//! Loaded filters
-	std::vector<BaseFilter*> m_filters;
+    std::vector<VombatBaseFilter*> m_filters;
 
     ccHObject::Container m_selected;
 

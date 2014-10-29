@@ -1,48 +1,35 @@
 #include "vombat.h"
 
 #include <ccPointCloud.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
-//#include <ComputeTimeSeries.h>
-#include <FitAttitude.h>
-#include <AttitudeToModel.h>
-#include <Edit.h>
-#include <SaveSPCElement.h>
-#include <LoadSPCElement.h>
+#include "VombarBaseFilter.h"
 
-#include <EvaluateDynamicScalarFieldGenerator.h>
-#include <Properties.h>
-#include <CloudToPlanarSelection.h>
-//#include <SetUpNewSeries.h>
-#include <split_point_cloud.h>
-#include <OpenPlotsDialog.h>
-#include <OpenPlots2DDialog.h>
-#include <ExportToAscii.h>
-#include <ApplyCorrection.h>
-
-#include <AddSample.h>
-
-#include <CreateTimeSeriesFromScalarFields.h>
-
-#include <ComputeCalibrationDB.h>
-//#include <test.h>
-
-#include <ComputeSmoothedTimeSeriesXY.h>
-
-#include <SendTo2DPlot.h>
-
-#include <PlotterDlg.h>
-
-#include <CalibrateDevice.h>
-
-#include <GaussianFilter.h>
-
-#include <Properties.h>
-
-#include <spc/methods/TimeSeriesGenerator.h>
-
-#include <ccVombatObjectsFactory.h>
 
 #include <boost/foreach.hpp>
+#include <spc/elements/macros.h>
+
+#include <ccExternalFactory.h>
+
+#include <flann/flann.h>
+
+class ccVombatObjectsFactory : public ccExternalFactory
+{
+public:
+
+    ccVombatObjectsFactory(QString name) : ccExternalFactory(name)
+    {
+    }
+
+    virtual ccHObject * buildObject(const QString &metaname)
+    {
+
+
+            return 0;
+
+    }
+};
+
+
+
 
 static vombat *qgeo_instance = 0;
 
@@ -51,7 +38,11 @@ vombat::vombat()
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
 
+
     google::InitGoogleLogging("vombat");
+
+
+
 }
 
 vombat::~vombat()
@@ -88,44 +79,44 @@ void vombat::getActions(QActionGroup &group)
 {
     if (m_filters.empty()) {
         // ADD FILTERS
-        addFilter(new FitAttitude(this));
-        addFilter(new AttitudeToModel(this));
-        addFilter(new EvaluateDynamicScalarFieldGenerator(this));
-        addFilter(new Edit(this));
+//        addFilter(new FitAttitude(this));
+//        addFilter(new AttitudeToModel(this));
+//        addFilter(new EvaluateDynamicScalarFieldGenerator(this));
+//        addFilter(new Edit(this));
 
-        //        addFilter(new OpenPlotsDialog(this));
+//        //        addFilter(new OpenPlotsDialog(this));
 
-        addFilter(new OpenPlots2DDialog(this));
-        addFilter(new CreateTimeSeriesFromScalarFields(this));
-        addFilter(new SendTo2DPlot(this));
+//        addFilter(new OpenPlots2DDialog(this));
+//        addFilter(new CreateTimeSeriesFromScalarFields(this));
+//        addFilter(new SendTo2DPlot(this));
 
-        //        m_plotter = openPlot->getPlotterDlg();
+//        //        m_plotter = openPlot->getPlotterDlg();
 
-        //        addFilter(new ComputeSmoothedTimeSeriesXY(this));
+//        //        addFilter(new ComputeSmoothedTimeSeriesXY(this));
 
-        //        addFilter(new SetUpNewSeries(this));
+//        //        addFilter(new SetUpNewSeries(this));
 
-        //        addFilter(new Test(this));
+//        //        addFilter(new Test(this));
 
-        addFilter(new ComputeCalibrationDB(this));
-        addFilter(new CalibrateDevice(this));
-        addFilter(new ApplyCorrection(this));
+//        addFilter(new ComputeCalibrationDB(this));
+//        addFilter(new CalibrateDevice(this));
+//        addFilter(new ApplyCorrection(this));
 
-        addFilter(new AddSample(this));
+//        addFilter(new AddSample(this));
 
-        //        addFilter( new ComputeStratigraphicPosition(this) );
-        //        addFilter( new ComputeTimeSeries(this));
-        //        addFilter(new SplitPointCloud(this));
+//        //        addFilter( new ComputeStratigraphicPosition(this) );
+//        //        addFilter( new ComputeTimeSeries(this));
+//        //        addFilter(new SplitPointCloud(this));
 
-        //        addFilter(new EvaluateStratigraphicPosition(this));
-        //        addFilter(new Properties(this));
-        addFilter(new CloudToPlanarSelection(this));
-        addFilter(new GaussianFilter(this));
-        addFilter(new Properties(this));
+//        //        addFilter(new EvaluateStratigraphicPosition(this));
+//        //        addFilter(new Properties(this));
+//        addFilter(new CloudToPlanarSelection(this));
+//        addFilter(new GaussianFilter(this));
+//        addFilter(new Properties(this));
 
-        addFilter(new ExportToAscii(this));
-        addFilter(new SaveSPCElement(this));
-        addFilter(new LoadSPCElement(this));
+//        addFilter(new ExportToAscii(this));
+//        addFilter(new SaveSPCElement(this));
+//        addFilter(new LoadSPCElement(this));
 
 
 
@@ -135,12 +126,12 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new ApplyCorrection(this));
     }
 
-    for (std::vector<BaseFilter *>::const_iterator it = m_filters.begin();
+    for (std::vector<VombatBaseFilter *>::const_iterator it = m_filters.begin();
          it != m_filters.end(); ++it)
         group.addAction((*it)->getAction());
 }
 
-int vombat::addFilter(BaseFilter *filter)
+int vombat::addFilter(VombatBaseFilter *filter)
 {
     assert(filter);
     filter->setMainAppInterface(m_app);
@@ -331,35 +322,36 @@ QMainWindow *vombat::getMainWindow()
     return getMainAppInterface()->getMainWindow();
 }
 
-PlotterDlg *vombat::getPlotterDlg()
-{
-    spcForEachMacro(BaseFilter * f, m_filters)
-    {
-        if (typeid(*f) == typeid(OpenPlotsDialog)) {
+//PlotterDlg *vombat::getPlotterDlg()
+//{
+//    spcForEachMacro(BaseFilter * f, m_filters)
+//    {
+//        if (typeid(*f) == typeid(OpenPlotsDialog)) {
 
-            PlotterDlg *plotterdlg = static_cast
-                                     <OpenPlotsDialog *>(f)->getPlotterDlg();
+//            PlotterDlg *plotterdlg = static_cast
+//                                     <OpenPlotsDialog *>(f)->getPlotterDlg();
 
-            return plotterdlg;
-        }
-    }
-    return 0;
-}
+//            return plotterdlg;
+//        }
+//    }
+//    return 0;
+//}
 
-Plotter2DDlg *vombat::getPlotter2DDlg()
-{
-    spcForEachMacro(BaseFilter * f, m_filters)
-    {
-        if (typeid(*f) == typeid(OpenPlots2DDialog)) {
+//Plotter2DDlg *vombat::getPlotter2DDlg()
+//{
+//    spcForEachMacro(BaseFilter * f, m_filters)
+//    {
+//        if (typeid(*f) == typeid(OpenPlots2DDialog)) {
 
-            Plotter2DDlg *plotterdlg
-                = static_cast<OpenPlots2DDialog *>(f)->getPlotterDlg();
-            if (plotterdlg)
-                return plotterdlg;
-        }
-    }
-    return 0;
-}
+//            Plotter2DDlg *plotterdlg
+//                = static_cast<OpenPlots2DDialog *>(f)->getPlotterDlg();
+//            if (plotterdlg)
+//                return plotterdlg;
+//        }
+//    }
+//    return 0;
+//}
 
-// plugin export
-Q_EXPORT_PLUGIN2(vombat, vombat)
+#ifndef CC_QT5
+Q_EXPORT_PLUGIN2(vombat,vombat);
+#endif
