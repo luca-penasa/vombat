@@ -1,7 +1,7 @@
 #include "qtHelper.h"
 #include <boost/graph/graph_concepts.hpp>
 #include <boost/foreach.hpp>
-#include <spc/methods/common.h>
+#include <spc/core/common.h>
 
 int
 ccVector3fromQstring(QString &string, CCVector3 &vector_output, QString separator)

@@ -16,7 +16,7 @@
 #include <spc/methods/TimeSeriesGenerator.h>
 #include <plotter2d/Plotter2DDlg.h>
 
-#include <spc/methods/common.h>
+#include <spc/core/common.h>
 //#include <spc/elements/Fields.h>
 #include <spc/elements/PointCloudSpc.h>
 #include <spc/elements/EigenTable.h>
@@ -66,8 +66,8 @@ public:
             float ssx = m_dialog->getUi()->cmbSSX->value();
             float ksx = m_dialog->getUi()->cmbKSX->value();
 
-            name += "_smoothed_" + spc::asString(ssx) + "_"
-                    + spc::asString(ksx);
+            name += "_smoothed_" + boost::lexical_cast<std::string> (ssx) + "_"
+                    + boost::lexical_cast<std::string>(ksx);
 
             std::cout << "init generator" << std::endl;
             spc::TimeSeriesGenerator generator;

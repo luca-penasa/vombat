@@ -35,7 +35,7 @@ FitAttitude::compute()
 
     //convert them to pcl point clouds
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds;
-    spcForEachMacro( ccHObject * ent, entities)
+    for( ccHObject * ent: entities)
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud( ent );
 
@@ -54,7 +54,7 @@ FitAttitude::compute()
     //set up an estimator
     spc::AttitudeEstimator estimator;
 
-    spcForEachMacro(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, clouds) //add the single clouds
+    for(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud: clouds) //add the single clouds
     {
         estimator.addInputCloud(cloud);
 
@@ -81,7 +81,7 @@ FitAttitude::compute()
 
     //now for each entity we send back an object for visualizing the result
     int id = 0;
-    spcForEachMacro(spc::Attitude att, atts)
+    for(spc::Attitude att: atts)
     {
 
         ccAttitude * ccAtt = new ccAttitude (att);

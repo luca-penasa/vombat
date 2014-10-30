@@ -11,7 +11,7 @@
 
 #include <ccoutofcore/ccMyBaseObject.h>
 
-#include <spc/elements/ICalPHFunction.h>
+#include <spc/experimental/ICalPHFunction.h>
 
 //#include <boost/serialization/shared_ptr.hpp>
 

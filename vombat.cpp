@@ -176,7 +176,7 @@ vombat::getSelectedThatHaveMetaData(const QString key) const
 
     ccHObject::Container new_sel;
 
-    spcForEachMacro(ccHObject * obj, m_selected)
+    for(ccHObject * obj: m_selected)
     {
         if (obj->hasMetaData(key))
             new_sel.push_back(obj);
@@ -210,7 +210,7 @@ ccHObject::Container vombat::filterObjectsByType(const ccHObject::Container &in,
         return in;
 
     ccHObject::Container out;
-    spcForEachMacro(ccHObject * obj, in)
+    for(ccHObject * obj: in)
     {
         if (obj->isA(ThisType)) {
             out.push_back(obj);
@@ -227,7 +227,7 @@ ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in,
         return in;
 
     ccHObject::Container out;
-    spcForEachMacro(ccHObject * obj, in)
+    for(ccHObject * obj: in)
     {
         if (obj->isKindOf(ThisType)) {
             out.push_back(obj);
@@ -268,7 +268,7 @@ ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container
                                                      const QString key)
 {
     ccHObject::Container out;
-    spcForEachMacro(ccHObject * obj, in)
+    for(ccHObject * obj: in)
     {
         if (obj->hasMetaData(key)) {
             out.push_back(obj);
@@ -296,7 +296,7 @@ ccHObject::Container vombat::getAllObjectsInTree()
 
         ccHObject::Container sons = getAllChildren(last);
 
-        spcForEachMacro(ccHObject * obj, sons)
+        for(ccHObject * obj: sons)
         {
             tovisit.push_back(obj);
         }
@@ -331,7 +331,7 @@ QMainWindow *vombat::getMainWindow()
 
 PlotterDlg *vombat::getPlotterDlg()
 {
-    spcForEachMacro(BaseFilter * f, m_filters)
+    for(BaseFilter * f: m_filters)
     {
         if (typeid(*f) == typeid(OpenPlotsDialog)) {
 
@@ -346,7 +346,7 @@ PlotterDlg *vombat::getPlotterDlg()
 
 Plotter2DDlg *vombat::getPlotter2DDlg()
 {
-    spcForEachMacro(BaseFilter * f, m_filters)
+    for(BaseFilter * f: m_filters)
     {
         if (typeid(*f) == typeid(OpenPlots2DDialog)) {
 

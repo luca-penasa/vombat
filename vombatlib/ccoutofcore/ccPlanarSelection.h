@@ -51,7 +51,7 @@ public:
 
         glBegin(GL_LINE_LOOP);
 
-        spcForEachMacro( pcl::PointXYZ p, *getVertices())
+        for( pcl::PointXYZ p: *getVertices())
         {
             ccGL::Vertex3v(p.data);
         }

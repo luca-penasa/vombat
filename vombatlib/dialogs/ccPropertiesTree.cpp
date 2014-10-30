@@ -157,7 +157,7 @@ void ccPropertiesTree::addPropertyFromVariantDataRecord(
     property->setPropertyName("Variant Proprieties");
 
 
-    spcForEachMacro(std::string k, klist)
+    for(std::string k: klist)
     {
         QtVariantProperty *prop(0);
 

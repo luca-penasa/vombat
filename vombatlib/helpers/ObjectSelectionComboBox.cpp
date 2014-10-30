@@ -2,7 +2,7 @@
 #include <boost/graph/graph_concepts.hpp>
 #include <ObjectSelectionComboBox.h>
 
-#include <spc/elements/macros.h>
+#include <spc/core/macros.h>
 
 
 
@@ -22,7 +22,7 @@ void ObjectSelectionComboBox::updateObjects(ccHObject::Container &cont)
 
     m_container = cont;
 
-    spcForEachMacro(ccHObject * obj , cont)
+    for(ccHObject * obj : cont)
     {
         QString name = obj->getName();
         this->addItem(name);
@@ -42,7 +42,7 @@ void ObjectSelectionComboBox::updateObjects(ccHObject::Container &cont)
 bool ObjectSelectionComboBox::isPresentObjectWithID(const int id, int &position) const
 {
     position = 0;
-    spcForEachMacro (ccHObject * obj, m_container)
+    for (ccHObject * obj: m_container)
     {
         if (obj->getUniqueID() == id)
         {

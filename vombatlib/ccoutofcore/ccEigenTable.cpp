@@ -27,7 +27,7 @@ ccEigenTable::ccEigenTable()
 //        stream << "Cloud id: " << i;
 //        ccHObject * obj  = new ccHObject (QString(stream.str().c_str()) );
 
-//        spcForEachMacro(spc::Sample::Ptr s, v)
+//        for(spc::Sample::Ptr s, v)
 //        {
 //            ccSample * sample = new ccSample(s);
 //            sample->setLocked(true);
@@ -44,7 +44,7 @@ ccEigenTable::ccEigenTable()
 //{
 //    size_t n_clouds = db.getNumberOfDifferentClouds();
 //    std::vector<ccPointCloud * > out(n_clouds);
-//    spcForEachMacro(ccPointCloud * &cloud, out)
+//    for(ccPointCloud * &cloud, out)
 //    {
 //        cloud = new ccPointCloud(); //we need them instantiated
 
@@ -64,7 +64,7 @@ ccEigenTable::ccEigenTable()
 
 
 
-//    spcForEachMacro(spc::Sample::Ptr core, db.getSamplesDB())
+//    for(spc::Sample::Ptr core, db.getSamplesDB())
 //    {
 
 //        Eigen::Vector3f center = core->value<Eigen::Vector3f>("centroid");

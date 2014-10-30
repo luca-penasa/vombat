@@ -2,13 +2,13 @@
 #include <spcCCPointCloud.h>
 #include <ccoutofcore/ccTimeSeries.h>
 
-#include <spc/methods/IntensityCalibrationDiscretePointsModel.h>
+#include <spc/experimental/IntensityCalibrationDiscretePointsModel.h>
 
 
 #include <iostream>
 
 
-#include <spc/methods/IntensityCalibration.h>
+#include <spc/experimental/IntensityCalibration.h>
 
 CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin)
     : BaseFilter(

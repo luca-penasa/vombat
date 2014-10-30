@@ -27,7 +27,7 @@ int ExportToAscii::compute()
     ccHObject::Container ts_list = vombat::theInstance()->getSelected();
 
     int counter = 0;
-    spcForEachMacro(ccHObject * ts, ts_list)
+    for(ccHObject * ts: ts_list)
     {
         ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(ts);
 

@@ -19,7 +19,7 @@ public:
         ccHObject::Container clouds;
         getSelectedEntitiesThatAre(CC_TYPES::POINT_CLOUD, clouds);
 
-        spcForEachMacro(ccHObject * obj, clouds)
+        for(ccHObject * obj: clouds)
         {
             ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
             size_t n_scalars = cloud->getNumberOfScalarFields();
@@ -52,7 +52,7 @@ public:
         getSelectedEntitiesThatAre(CC_TYPES::LABEL_2D, labels);
 
 
-        spcForEachMacro(ccHObject * obj, labels)
+        for(ccHObject * obj: labels)
         {
             cc2DLabel * label = ccHObjectCaster::To2DLabel(obj);
 

@@ -43,7 +43,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
     getSelectedEntitiesThatAreCCPointCloud(clouds);
 
     //for each cloud compute a scalar field! and add it to the pertinent cloud
-    spcForEachMacro(ccHObject * obj, clouds)
+    for(ccHObject * obj: clouds)
     {
 
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
@@ -61,7 +61,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
         for (int i = 0 ; i < 10; ++i)
             std::cout << "val " << scalars.at(i) << std::endl;
 
-//        spcForEachMacro(auto s, scalars)
+//        for(auto s, scalars)
 //                std::cout << s << std::endl;
 
         std::string sf_name = m_dialog->ui->lneSFName->text().toStdString();
