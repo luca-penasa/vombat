@@ -48,8 +48,14 @@ static vombat *qgeo_instance = 0;
 
 vombat::vombat()
 {
+    google::InitGoogleLogging("vombat");
+    LOG(INFO) << "Logging started";
+
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
+
+
+    LOG(INFO) << "Vombat plugin created";
 }
 
 vombat::~vombat()
@@ -238,12 +244,12 @@ ccHObject::Container vombat::filterObjectsByKind(const ccHObject::Container &in,
 }
 
 ccHObject::Container
-vombat::getAllObjectsInTreeThatHaveMetaData(const QString key)
+vombat::getAllObjectsInTreeThatHaveMetaData(const QString key,
+                                            const QString value /*= QString() */)
 {
 
     ccHObject::Container all = this->getAllObjectsInTree();
-
-    return vombat::filterObjectsByMetaData(all, key);
+    return vombat::filterObjectsByMetaData(all, key, value);
 }
 
 ccHObject::Container vombat::getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType)
@@ -263,17 +269,25 @@ ccHObject::Container vombat::getAllChildren(ccHObject *object)
     return cont;
 }
 
-ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container
-                                                     &in,
-                                                     const QString key)
+ccHObject::Container vombat::filterObjectsByMetaData(const ccHObject::Container &in,
+                                                     const QString key,
+                                                     const QString value /*= QString()*/)
 {
     ccHObject::Container out;
     for(ccHObject * obj: in)
     {
-        if (obj->hasMetaData(key)) {
-            out.push_back(obj);
+        if (obj->hasMetaData(key))
+        {
+            if (value.isEmpty())
+                out.push_back(obj);
+            else
+            {
+                if (obj->getMetaData(key) == value)
+                    out.push_back(obj);
+            }
         }
     }
+
 
     return out;
 }
@@ -301,6 +315,24 @@ ccHObject::Container vombat::getAllObjectsInTree()
             tovisit.push_back(obj);
         }
     }
+    return out;
+}
+
+ccHObject::Container vombat::getAllObjectsInTreeBySPCDti(const DtiClassType *dti)
+{
+    ccHObject::Container all = getAllObjectsInTree();
+    ccHObject::Container out;
+    for (ccHObject * obj: all)
+    {
+        ccMyBaseObject * asvombat = dynamic_cast<ccMyBaseObject *> (obj);
+        if (asvombat!= NULL)
+        {
+            // isa  vomabt object
+            if(asvombat->getSPCElement()->isA(dti))
+                out.push_back(obj);
+        }
+    }
+
     return out;
 }
 

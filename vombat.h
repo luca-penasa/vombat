@@ -8,7 +8,7 @@
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <ccStdPluginInterface.h>
-
+#include <spc/core/DtiClass.h>
 //#include <ccVombatObjectsFactory.h>
 
 class PlotterDlg;
@@ -70,28 +70,36 @@ public:
     /// NOTE these implementation ahre always late!!!
     ///  so notice that you got the "previously selected stuff - I must find what is wrong
     ccHObject::Container getSelected() const;
-
-
     ccHObject::Container getSelectedThatHaveMetaData(const QString key) const;
-
     ccHObject::Container getSelectedThatAre(CC_CLASS_ENUM ThisType) const;
+    ccHObject::Container getSelectedKindOf(CC_CLASS_ENUM ThisType);
+
 
     ccHObject::Container getAllObjectsInTree();
-    ccHObject::Container getAllObjectsInTreeThatHaveMetaData(const QString key );
+    ccHObject::Container getAllObjectsInTreeBySPCDti(const DtiClassType * dti);
+
+    ccHObject::Container getAllObjectsInTreeThatHaveMetaData(const QString key,
+                                                             const QString value = QString() );
     ccHObject::Container getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType);
 
     static ccHObject::Container getAllChildren(ccHObject * object);
 
 
+
+
     ///////// STATIC FILTERS //////////////////////////////////
     static ccHObject::Container filterObjectsByType(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType);
 
-    static ccHObject::Container filterObjectsByMetaData (const ccHObject::Container &in, const QString key);
+    /** if value is not set ALL the objects which has the key will be returned,
+     * while if a value is set the metadata at key should be == value
+     **/
+    static ccHObject::Container filterObjectsByMetaData (const ccHObject::Container &in,
+                                                         const QString key,
+                                                         const QString value = QString());
 
 
-    ccHObject::Container filterObjectsByKind(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType);
+    static ccHObject::Container filterObjectsByKind(const ccHObject::Container &in, const CC_CLASS_ENUM ThisType);
 
-    ccHObject::Container getSelectedKindOf(CC_CLASS_ENUM ThisType);
 
 
 signals:

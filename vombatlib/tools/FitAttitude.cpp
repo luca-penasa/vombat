@@ -14,8 +14,7 @@
 #include <boost/foreach.hpp>
 
 #include <helpers/qtHelper.h>
-#include <ccPointCloud.h>
-
+#include <helpers/spcCCPointCloud.h>
 
 
 FitAttitude::FitAttitude(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Fit A geological orientation",
@@ -33,32 +32,23 @@ FitAttitude::compute()
     ccHObject::Container entities;
     this->getSelectedEntitiesThatAreCCPointCloud(entities);
 
+    DLOG(INFO) << "found " << entities.size() << " point clouds";
+
     //convert them to pcl point clouds
-    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds;
+    std::vector<ccPointCloud *> clouds;
     for( ccHObject * ent: entities)
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud( ent );
-
-        cc2smReader reader(cloud);
-//        reader.setInputCloud(cloud);
-        pcl::PCLPointCloud2::Ptr sm_cloud = reader.getXYZ();
-
-        pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud (new pcl::PointCloud<pcl::PointXYZ>);
-
-        pcl::fromPCLPointCloud2(*sm_cloud, *pcl_cloud);
-
-        clouds.push_back(pcl_cloud);
-
+        clouds.push_back(cloud);
     }
 
     //set up an estimator
-    spc::AttitudeEstimator estimator;
+    spc::AttitudeEstimator<float> estimator;
 
-    for(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud: clouds) //add the single clouds
+    for(ccPointCloud* cloud: clouds) //add the single clouds
     {
-        estimator.addInputCloud(cloud);
-
-//        std::cout << "adding cloud with points: " << cloud->size() << std::endl;
+        spcCCPointCloud::Ptr c (new spcCCPointCloud(cloud));
+        estimator.addInputCloud(c);
     }
 
 //    std::cout << "starting opimization" << std::endl;

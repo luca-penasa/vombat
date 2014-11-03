@@ -92,7 +92,6 @@ bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
 void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
 
-    std::cout << "calling" << std::endl;
     if (MACRO_Draw3D(context))
     {
         bool pushName = MACRO_DrawEntityNames(context);

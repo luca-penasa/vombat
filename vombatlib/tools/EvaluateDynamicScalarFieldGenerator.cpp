@@ -29,6 +29,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
 {
     if (!m_dialog)
     {
+        DLOG(ERROR) << "no dialog found";
         return -1;
     }
 
@@ -36,6 +37,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
 
     if (!m_generator)
     {
+        DLOG(ERROR) << "no generator found";
         return -1;
     }
 
@@ -45,29 +47,20 @@ int EvaluateDynamicScalarFieldGenerator::compute()
     //for each cloud compute a scalar field! and add it to the pertinent cloud
     for(ccHObject * obj: clouds)
     {
-
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
         spcCCPointCloud::Ptr ptr (new spcCCPointCloud  (cloud) );
 
-        spc::DynamicScalarFieldEvaluator evaluator;
-        evaluator.setInputCloud(ptr);
-        evaluator.setGenerator(m_generator->getGenerator());
-        evaluator.compute();
 
-        std::cout << "test " << m_generator->getGenerator()->getScalarFieldValue(Vector3f(0,0,0)) << std::endl;
 
-        Eigen::VectorXf scalars = m_generator->getGenerator()->getScalarFieldValues(ptr);
+        Eigen::VectorXf scalars = spc::evaluate_dynamic_scalar_field_generator<float>(ptr, m_generator->getGenerator());
 
-        for (int i = 0 ; i < 10; ++i)
-            std::cout << "val " << scalars.at(i) << std::endl;
-
-//        for(auto s, scalars)
-//                std::cout << s << std::endl;
+//                m_generator->getGenerator()->getScalarFieldValues(ptr);
 
         std::string sf_name = m_dialog->ui->lneSFName->text().toStdString();
         if (sf_name.empty())
         {
             sf_name = "Scalar Field"; // to a default
+            DLOG(WARNING) << "scalar field name to default: " << sf_name;
         }
 
         ccScalarField * sf = new ccScalarField(sf_name.c_str());
@@ -94,18 +87,13 @@ int EvaluateDynamicScalarFieldGenerator::compute()
                 QString new_name = suggestScalarFieldIncrementalName(cloud, sf_name.c_str() );
                 sf->setName(new_name.toStdString().c_str());
             }
-
         }
-
-
 
         int n = cloud->addScalarField(sf);
         cloud->setCurrentDisplayedScalarField(n);
         cloud->showSF(true);
 
         emit entityHasChanged(cloud);
-
-
     }
 
     return 1;
@@ -120,10 +108,13 @@ int EvaluateDynamicScalarFieldGenerator::openInputDialog()
 
 
     ccHObject::Container selected;
-    getAllEntitiesThatHaveMetaData(QString("[vombat][ccDynamicScalarFieldGenerator]"), selected);
+    selected = vombat::theInstance()->getAllObjectsInTreeBySPCDti(&spc::VariableScalarFieldBase::Type);
 
     if (selected.size() <= 0)
+    {
+        LOG(ERROR) << "no dynamic scalar field generator found";
         return -1;
+    }
 
     m_dialog->ui->cmbModelSelection->updateObjects(selected);
 
