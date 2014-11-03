@@ -48,7 +48,7 @@ int CloudToPlanarSelection::openInputDialog()
     if (!verts)
         return -1;
 
-    ccPlanarSelection * selection =  new ccPlanarSelection;
+//    ccPlanarSelection * selection =  new ccPlanarSelection;
 
     cc2smReader reader((ccPointCloud *)verts);
 //    reader.setInputCloud();
@@ -56,11 +56,12 @@ int CloudToPlanarSelection::openInputDialog()
     pcl_verts =reader.getXYZ2();
 
     pcl::console::setVerbosityLevel(pcl::console::L_DEBUG);
+    spc::SelectionRubberband::Ptr sel (new spc::SelectionRubberband);
+    sel->setVertices(pcl_verts);
 
 
-    selection->setVertices(pcl_verts);
 
-    newEntity(selection);
+    newEntity(new ccPlanarSelection(sel));
 
 
 //    sele
