@@ -9,19 +9,25 @@
 #include <pcl/filters/extract_indices.h>
 #include <boost/foreach.hpp>
 
-class ccPlanarSelection: public ccMyBaseObject, public spc::SelectionRubberband
+class ccPlanarSelection: public ccMyBaseObject
 {
 public:
     ccPlanarSelection();
 
+    ccPlanarSelection(spc::SelectionRubberband::Ptr sel)
+    {
+        rubberband_ = sel;
+    }
+
     virtual bool isSerializable() const { return true; }
     virtual bool hasColors() const { return true; }
     virtual ccBBox getMyOwnBB()
-    {
+    {                
+        DCHECK(rubberband_ != NULL);
         Vector4f mincorner;
         Vector4f maxcorner;
 
-        pcl::getMinMax3D(*getVertices(), mincorner, maxcorner);
+        pcl::getMinMax3D(*rubberband_->getVertices(), mincorner, maxcorner);
 
         CCVector3 min = CCVector3(mincorner.data());
         CCVector3 max = CCVector3(maxcorner.data());
@@ -36,7 +42,7 @@ public:
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context)
     {
-        unsigned vertCount = getVertices()->size();
+        unsigned vertCount = this->rubberband_->getVertices()->size();
         if (vertCount < 2)
             return;
 
@@ -51,7 +57,7 @@ public:
 
         glBegin(GL_LINE_LOOP);
 
-        for( pcl::PointXYZ p: *getVertices())
+        for( const pcl::PointXYZ &p: *this->rubberband_->getVertices())
         {
             ccGL::Vertex3v(p.data);
         }
@@ -94,7 +100,9 @@ protected:
 
     //! Width of the line
     PointCoordinateType m_width;
-
+public:
+    spc::SelectionRubberband::Ptr rubberband_;
+protected:
 
     //! Whether poyline should draws itself in background (false) or foreground (true)
     bool m_foreground;
@@ -102,7 +110,8 @@ protected:
 
     virtual spc::ElementBase::Ptr getSPCElement() const
     {
-        return spc::ElementBase::Ptr();
+        DCHECK(rubberband_!=NULL);
+        return rubberband_;
     }
 
 

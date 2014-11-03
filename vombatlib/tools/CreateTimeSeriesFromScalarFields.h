@@ -111,11 +111,18 @@ protected:
             if (!myobj)
                 return false;
             else {
-                if (myobj->getSPCElement()->getType()->isA(
+                    spc::ElementBase::Ptr el = myobj->getSPCElement();
+
+                    DCHECK(el != NULL);
+
+                if (el->getType()->isA(
                         &spc::EigenTable::Type))
                     return true;
             }
         }
+
+
+        return false;
     }
 
     int openInputDialog()
