@@ -1,6 +1,6 @@
 #include "ccSPCObjectsStreamer.h"
 
-
+#include <iostream>
 
 void ccSPCObjectsStreamer::WriteToQFile(const spc::ISerializable::Ptr obj, QFile &file)
 {
