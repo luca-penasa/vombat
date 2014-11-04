@@ -1,7 +1,7 @@
 #include "spcCCPointCloud.h"
 #include <ScalarField.h>
 
-void spcCCPointCloud::getPoint(int id, float &x, float &y, float &z) const
+void spcCCPointCloud::getPoint(const IndexT id, float &x, float &y, float &z) const
 {
     assert(id < in_cloud->size());
     CCVector3 point;
@@ -11,7 +11,7 @@ void spcCCPointCloud::getPoint(int id, float &x, float &y, float &z) const
     z = point.z;
 }
 
-void spcCCPointCloud::setPoint(const int id, const float x, const float y, const float z)
+void spcCCPointCloud::setPoint(const IndexT id, const float x, const float y, const float z)
 {
      const CCVector3 * p = in_cloud->getPointPersistentPtr(id);
 
@@ -44,16 +44,82 @@ bool spcCCPointCloud::hasField(const std::string fieldname) const
         return -1;
 }
 
-void spcCCPointCloud::resize(size_t s)
+void spcCCPointCloud::resize(const IndexT s)
 {
     in_cloud->resize(s);
 }
 
+std::vector<std::string> spcCCPointCloud::getFieldNames() const
+{
+    std::vector<std::string> out;
+    int n = in_cloud->getNumberOfScalarFields();
+    for (int i = 0; i < n; ++i)
+        out.push_back(in_cloud->getScalarFieldName(i));
 
+    return out;
+}
 
+void spcCCPointCloud::getFieldValue(const spcCCPointCloud::IndexT id, const std::string fieldname, float &val) const
+{
+    if (fieldname == "x" ||fieldname == "y" ||fieldname == "z")
+    {
+        int component = nameToComponent(fieldname);
+        val = in_cloud->getPoint(id)->operator [](component);
+    }
+    else if (fieldname == "normal_x" ||fieldname == "normal_y" ||fieldname == "normal_z")
+    {
+        int component = nameToComponent(fieldname);
+        val = in_cloud->getPointNormal(id)[component];
+    }
+    else
+    {
+        int i = in_cloud->getScalarFieldIndexByName(fieldname.c_str());
+        ccScalarField * sf = static_cast<ccScalarField*>(in_cloud->getScalarField(i));
+        val  = sf->getValue(id);
+    }
+}
 
+int spcCCPointCloud::nameToComponent(const std::string &name) const
+{
+    if (name == "x" || name == "normal_x")
+        return 0;
+    else if (name == "y"|| name == "normal_y")
+        return 1;
+    else if (name == "z"|| name == "normal_z")
+        return 2;
+}
 
-int spcCCPointCloud::size() const
+void spcCCPointCloud::setFieldValue(const spcCCPointCloud::IndexT id, const std::string fieldname, const float &val)
+{
+    if (fieldname == "x" ||fieldname == "y" ||fieldname == "z")
+    {
+        PCL_ERROR("Cannot modify x, y, z values in ccPointCloud!\n");
+    }
+    else if (fieldname == "normal_x" ||fieldname == "normal_y" ||fieldname == "normal_z")
+    {
+        PCL_ERROR("Cannot modify normals values in ccPointCloud!\n");
+    }
+    else
+    {
+        int i = in_cloud->getScalarFieldIndexByName(fieldname.c_str());
+        ccScalarField * sf = static_cast<ccScalarField*>(in_cloud->getScalarField(i));
+        sf->setValue(id, val);
+    }
+}
+
+void spcCCPointCloud::addField(const std::string &name)
+{
+    if (name  == "normal_x" ||name  == "normal_y" ||name  == "normal_z" )
+    {
+        in_cloud->reserveTheNormsTable();
+    }
+
+    ccScalarField * f = new ccScalarField(name.c_str());
+    f->resize(in_cloud->resize(in_cloud->size()));
+    in_cloud->addScalarField(f);
+}
+
+spcCCPointCloud::IndexT spcCCPointCloud::getNumberOfPoints() const
 {
     return in_cloud->size();
 }

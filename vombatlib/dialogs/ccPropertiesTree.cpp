@@ -42,7 +42,7 @@ void ccPropertiesTree::addProperty(QtProperty *property, const QString &id)
 }
 
 void
-ccPropertiesTree::addPropertyFromMovableElement(spc::MovableElement::Ptr el,
+ccPropertiesTree::addPropertyFromMovableElement(spc::Point3D::Ptr el,
                                             QtVariantProperty *parent)
 {
 
@@ -67,7 +67,7 @@ ccPropertiesTree::addPropertyFromMovableElement(spc::MovableElement::Ptr el,
 
 void
 ccPropertiesTree::setPropertyMovableElement(QtVariantProperty *property,
-                                            const spc::MovableElement::Ptr obj)
+                                            const spc::Point3D::Ptr obj)
 {
     // managing position
     Eigen::Vector3f p = obj->getPosition();
@@ -233,8 +233,8 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
     while (type->getParent())
     {
 
-        if (*type == spc::MovableElement::Type)
-            addPropertyFromMovableElement(spcDynamicPointerCast<spc::MovableElement> (element), m_topProperty);
+        if (*type == spc::Point3D::Type)
+            addPropertyFromMovableElement(spcDynamicPointerCast<spc::Point3D> (element), m_topProperty);
 
         type = type->getParent();
 
@@ -261,7 +261,7 @@ void ccPropertiesTree::updateObjectWithProperties(QtProperty *property,
 
         if (varProp->propertyName() == "Position") {
             ccSample *sample = dynamic_cast<ccSample *>(m_currentItem);
-            spc::MovableElement::Ptr spcsample = sample->getSample();
+            spc::Point3D::Ptr spcsample = sample->getSample();
 
             //           setPropertyMovableElement(property, varProp->value(),
             // spcsample);

@@ -30,11 +30,11 @@ public:
     /// so keep them static
 
     //! MOVABLE ELEMENT
-    static void addPropertyFromMovableElement(spc::MovableElement::Ptr el,
+    static void addPropertyFromMovableElement(spc::Point3D::Ptr el,
                                                  QtVariantProperty *parent);
 
     static void setPropertyMovableElement(QtVariantProperty *property,
-                                          const spc::MovableElement::Ptr obj);
+                                          const spc::Point3D::Ptr obj);
 
     static void addPropertyFromEigenVector(const Eigen::Vector3f &v,
                                                      QtVariantProperty *parent);

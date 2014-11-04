@@ -17,6 +17,9 @@
 #include <cc2DViewportLabel.h>
 
 #include <qPCL/PclUtils/utils/cc2sm.h>
+#include <helpers/spcCCPointCloud.h>
+
+#include <ccHObjectCaster.h>
 
 
 CloudToPlanarSelection::CloudToPlanarSelection(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription("From a cloud representing a polygon create a selection",
@@ -43,21 +46,21 @@ int CloudToPlanarSelection::openInputDialog()
     if (cont.size() == 0)
         return -1;
 
-    ccGenericPointCloud * verts = dynamic_cast<ccGenericPointCloud *> (cont.at(0));
+    ccPointCloud * verts = ccHObjectCaster::ToPointCloud(cont.at(0) );
 
     if (!verts)
         return -1;
 
+
+
+
 //    ccPlanarSelection * selection =  new ccPlanarSelection;
 
-    cc2smReader reader((ccPointCloud *)verts);
-//    reader.setInputCloud();
-    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_verts (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl_verts =reader.getXYZ2();
+  spcCCPointCloud::Ptr c (new spcCCPointCloud(verts));
 
-    pcl::console::setVerbosityLevel(pcl::console::L_DEBUG);
-    spc::SelectionRubberband::Ptr sel (new spc::SelectionRubberband);
-    sel->setVertices(pcl_verts);
+
+    spc::SelectionRubberband::Ptr sel (new spc::SelectionRubberband(*c));
+//    sel->setVertices(pcl_verts);
 
 
 

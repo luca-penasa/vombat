@@ -26,8 +26,8 @@ public:
         DCHECK(rubberband_ != NULL);
         Vector4f mincorner;
         Vector4f maxcorner;
-
-        pcl::getMinMax3D(*rubberband_->getVertices(), mincorner, maxcorner);
+//!\todo to fix
+//        pcl::getMinMax3D(*rubberband_->getVertices(), mincorner, maxcorner);
 
         CCVector3 min = CCVector3(mincorner.data());
         CCVector3 max = CCVector3(maxcorner.data());
@@ -42,7 +42,7 @@ public:
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context)
     {
-        unsigned vertCount = this->rubberband_->getVertices()->size();
+        size_t vertCount = this->rubberband_->getVertices().getNumberOfPoints();
         if (vertCount < 2)
             return;
 
@@ -57,10 +57,11 @@ public:
 
         glBegin(GL_LINE_LOOP);
 
-        for( const pcl::PointXYZ &p: *this->rubberband_->getVertices())
-        {
-            ccGL::Vertex3v(p.data);
-        }
+        ///! \todo fix this
+//        for( const pcl::PointXYZ &p: *this->rubberband_->getVertices())
+//        {
+//            ccGL::Vertex3v(p.data);
+//        }
 
         glEnd();
 
