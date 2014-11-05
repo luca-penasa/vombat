@@ -11,6 +11,8 @@
 #include <ccoutofcore/ccSample.h>
 //#include <ccoutofcore/ccSingleAttitudeModel.h>
 
+#include <ccPlanarSelection.h>
+
 
 
 
@@ -21,6 +23,39 @@ public:
 
     virtual int compute ()
     {
+
+
+
+//{
+
+//    Eigen::Vector3f normal, position;
+//    normal = Eigen::Vector3f::Random();
+//    position = Eigen::Vector3f::Random();
+//    spc::Attitude::Ptr att(new spc::Attitude);
+//    att->setNormal(normal);
+//    att->setPosition(position);
+
+//    std::cout << att->getNormal() << std::endl;
+//    std::cout << att->getPosition() << std::endl;
+
+//    spc::io::serializeToFile(att, "/home/luca/attitude", spc::io::JSON);
+
+//}
+
+//    {
+//    spc::ISerializable::Ptr reloaded =  spc::io::deserializeFromFile("/home/luca/attitude.json");
+//    spc::Attitude::Ptr newatt = spcDynamicPointerCast<spc::Attitude> (reloaded);
+
+//    std::cout << newatt->getNormal() << std::endl;
+//    std::cout << newatt->getPosition() << std::endl;
+
+//    spc::io::serializeToFile(newatt, "/home/luca/attitude2", spc::io::JSON);
+//    }
+
+
+
+
+
         spc::ISerializable::Ptr obj = spc::io::deserializeFromFile(m_filename.toStdString());
 
         if (!obj)
@@ -46,6 +81,11 @@ public:
         {
             spc::Sample::Ptr att = spcDynamicPointerCast<spc::Sample>(el);
             newobj = new ccSample(att);
+        }
+        else if (el->getType() ==&spc::SelectionRubberband::Type)
+        {
+            spc::SelectionRubberband::Ptr att = spcDynamicPointerCast<spc::SelectionRubberband> (el);
+            newobj = new ccPlanarSelection(att);
         }
         else
         {

@@ -52,93 +52,21 @@ int CloudToPlanarSelection::openInputDialog()
         return -1;
 
 
+    LOG(INFO) << "get as spc point cloud";
+    spcCCPointCloud::Ptr c (new spcCCPointCloud(verts));
 
 
-//    ccPlanarSelection * selection =  new ccPlanarSelection;
 
-  spcCCPointCloud::Ptr c (new spcCCPointCloud(verts));
-
-
+    LOG(INFO) << "now create rubberband";
     spc::SelectionRubberband::Ptr sel (new spc::SelectionRubberband(*c));
-//    sel->setVertices(pcl_verts);
+    ccPlanarSelection * pl = new ccPlanarSelection(sel);
+    pl->setVisible(true);
+    LOG(INFO) << "now call newEntity";
+    newEntity(pl);
 
 
 
-    newEntity(new ccPlanarSelection(sel));
-
-
-//    sele
-
-
-
-
-
-
-//    ccPointCloud * cloud =  this->getSelectedEntityAsCCPointCloud();
-
-//    if(!cloud)
-//        return -1;
-
-//    vombat * interface = static_cast<vombat *> (this->getParentPlugin());
-
-//    MainWindow * mainw = static_cast<MainWindow *> (interface->getMainAppInterface());
-
-//    ccGLWindow * win = interface->getMainAppInterface()->getActiveGLWindow();
-
-//    ccViewportParameters pars = win->getViewportParameters();
-
-//    cc2DViewportLabel * label = new cc2DViewportLabel("test labels");
-
-//    float roi[] = {0, 0, 100, 80};
-
-//    label->setRoi(roi);
-//    label->setParameters(pars);
-
-//    label->setVisible(true);
-
-//    newEntity(label);
-
-
-
-
-//    vombat * interface = static_cast<vombat *> (this->getParentPlugin());
-
-
-//    MainWindow * mainw = static_cast<MainWindow *> (interface->getMainAppInterface());
-
-//    ccGLWindow * win = interface->getMainAppInterface()->getActiveGLWindow();
-
-//    ccViewportParameters pars = win->getViewportParameters();
-
-
-
-//    m_segtool = new ccGraphicalSegmentationTool(mainw);
-
-//    connect(  m_segtool->validButton, SIGNAL( clicked() ), this, SLOT( called() )  );
-
-////    segtool->pauseButton->setEnabled(false);
-//    m_segtool->inButton->setEnabled(false);
-//    m_segtool->outButton->setEnabled(false);
-
-//    m_segtool->linkWith(win);
-//    m_segtool->start();
-
-//    m_segtool->validButton->setEnabled(true);
-//    segtool->validAndDeleteButton->setEnabled(true);
-//    ccPointCloud * cloud = this->getSelectedEntityAsCCPointCloud();
-
-//    connect(m_segtool, SIGNAL(processFinished(bool)), mainw, SLOT(deactivateSegmentationMode(bool)));
-
-//    mainw->registerMDIDialog(m_segtool,Qt::TopRightCorner);
-
-
-
-
-
-
-
-
-
+    return 1;
 }
 
 int CloudToPlanarSelection::checkParameters()
@@ -151,35 +79,5 @@ int CloudToPlanarSelection::checkParameters()
         return 1;
 }
 
-//void CloudToPlanarSelection::called()
-//{
 
-
-//    vombat * interface = static_cast<vombat *> (this->getParentPlugin());
-
-
-//    MainWindow * mainw = static_cast<MainWindow *> (interface->getMainAppInterface());
-
-//    ccGLWindow * win = interface->getMainAppInterface()->getActiveGLWindow();
-
-//    ccViewportParameters pars = win->getViewportParameters();
-
-//    cc2DRubberbandLabel * rubberband = new cc2DRubberbandLabel("Floating Rubberband Selection");
-//    rubberband->setParameters(pars);
-
-//    ccPolyline * pline = m_segtool->getPolyLine();
-
-//    ccPointCloud * cloud  = ccPointCloud::From(pline);
-
-//    std::cout << "cloud have " << cloud->size() << " points" << std::endl;
-
-
-
-//    rubberband->setVerticesFromCloud(*cloud);
-//    rubberband->setVisible(true);
-
-//    newEntity(rubberband);
-
-//    m_segtool->close();
-//}
 

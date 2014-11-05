@@ -17,7 +17,6 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
 ccAttitude::ccAttitude(spc::Attitude att)
 {    
     setAttitude(att);
-
     writeSPCClassNameToMetadata();
 
 }

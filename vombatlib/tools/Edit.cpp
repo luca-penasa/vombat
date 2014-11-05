@@ -36,14 +36,14 @@ int Edit::compute()
 int Edit::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->hasMetaData("[vombat]"))
+    if (selected && selected->getMetaData("class_name").isValid())
     {
 
         ccMyBaseObject * mobj = static_cast<ccMyBaseObject * >(selected);
 
         if (!mobj)
         {
-            std::cout << "problem casting!" << std::endl;
+            DLOG(WARNING) << "problem casting!";
             return 0;
         }
 

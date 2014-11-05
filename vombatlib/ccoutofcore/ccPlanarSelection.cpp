@@ -16,6 +16,14 @@ ccPlanarSelection::ccPlanarSelection()
 
 }
 
+ccBBox ccPlanarSelection::getMyOwnBB()
+{
+    CHECK(rubberband_ != NULL);
 
+    spc::BoundingBox<float, 3> bb= rubberband_->getVertices().getBB();
 
-//BOOST_CLASS_EXPORT_GUID(ccPlanarSelection, "ccPlanarSelection")
+    CCVector3 min (bb.min_.data());
+    CCVector3 max (bb.max_.data());
+
+    return ccBBox(min, max);
+}

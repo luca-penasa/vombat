@@ -17,60 +17,96 @@ public:
     ccPlanarSelection(spc::SelectionRubberband::Ptr sel)
     {
         rubberband_ = sel;
+        LOG(INFO) << "ccPlanarSelection created";
     }
 
-    virtual bool isSerializable() const { return true; }
-    virtual bool hasColors() const { return true; }
-    virtual ccBBox getMyOwnBB()
-    {                
-        DCHECK(rubberband_ != NULL);
-        Vector4f mincorner;
-        Vector4f maxcorner;
-//!\todo to fix
-//        pcl::getMinMax3D(*rubberband_->getVertices(), mincorner, maxcorner);
+    virtual bool isSerializable() const override
+    { return true; }
 
-        CCVector3 min = CCVector3(mincorner.data());
-        CCVector3 max = CCVector3(maxcorner.data());
-        return ccBBox(min, max);
-    }
+    virtual bool hasColors() const override
+    { return true; }
 
 
-    virtual QIcon getIcon() const
+    virtual ccBBox getMyOwnBB() override;
+
+
+    virtual QIcon getIcon() const override
     {
         return QIcon(QString::fromUtf8(":/toolbar/icons/selection.png"));
     }
 
-    virtual void drawMeOnly(CC_DRAW_CONTEXT &context)
+protected:
+    virtual void drawMeOnly(CC_DRAW_CONTEXT &context) override
     {
-        size_t vertCount = this->rubberband_->getVertices().getNumberOfPoints();
-        if (vertCount < 2)
-            return;
 
-        if (colorsShown())
-            glColor3ubv(m_rgbColor);
-
-        if (m_width != 0)
+        //we draw here a little 3d representation of the sensor and some of its attributes
+        if (MACRO_Draw3D(context))
         {
-            glPushAttrib(GL_LINE_BIT);
-            glLineWidth(static_cast<GLfloat>(m_width));
-        }
+            bool pushName = MACRO_DrawEntityNames(context);
 
-        glBegin(GL_LINE_LOOP);
+            if (pushName)
+            {
+                //not particulary fast
+                if (MACRO_DrawFastNamesOnly(context))
+                    return;
+                glPushName(getUniqueID());
+            }
 
-        ///! \todo fix this
-//        for( const pcl::PointXYZ &p: *this->rubberband_->getVertices())
-//        {
-//            ccGL::Vertex3v(p.data);
-//        }
+            size_t vertCount = this->rubberband_->getVertices().getNumberOfPoints();
+            if (vertCount < 2)
+                return;
 
-        glEnd();
+            if (m_width != 0)
+            {
+                glPushAttrib(GL_LINE_BIT);
+                glLineWidth(static_cast<GLfloat>(m_width));
+            }
 
-        if (m_width != 0)
-        {
-            glPopAttrib();
+//            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+            for (int i = -1; i <= 1; ++i)
+            {
+                if (i == 0)
+                    continue;
+                Eigen::Vector3f n =  rubberband_->getProjectionPlane().getUnitNormal() * (float) i * rubberband_->getMaxDistance();
+                glBegin(GL_LINE_LOOP);
+                for( int i = 0 ; i < rubberband_->getVertices().getNumberOfPoints(); ++i)
+                {
+                    Eigen::Vector3f p = rubberband_->getVertices().getPoint(i) + n;
+                    ccGL::Vertex3v( p.data() );
+                }
+                glEnd();
+            }
+
+
+            glBegin(GL_LINES);
+            for( int i = 0 ; i < rubberband_->getVertices().getNumberOfPoints(); ++i)
+            {
+                Eigen::Vector3f in =  rubberband_->getProjectionPlane().getUnitNormal() * rubberband_->getMaxDistance();
+//                Eigen::Vector3f out = -in;
+
+                Eigen::Vector3f p1 = rubberband_->getVertices().getPoint(i) + in;
+                Eigen::Vector3f p2 = rubberband_->getVertices().getPoint(i) - in;
+                //            LOG(INFO) << rubberband_->getVertices().getPoint(i).transpose();
+                ccGL::Vertex3v(p1.data());
+                ccGL::Vertex3v(p2.data());
+            }
+            glEnd();
+
+
+
+
+            if (m_width != 0)
+            {
+                glPopAttrib();
+            }
+
+            if (pushName)
+                glPopName();
         }
     }
-
+public:
     void setColor(const colorType col[])
     {
         memcpy(m_rgbColor,col,sizeof(colorType)*3);
@@ -93,17 +129,16 @@ public:
 
 
 protected:
-    virtual void applyGLTransformation(const ccGLMatrix& trans) {}
-    virtual void setGLTransformation(const ccGLMatrix& trans) {}
+    //    virtual void applyGLTransformation(const ccGLMatrix& trans) {}
+    //    virtual void setGLTransformation(const ccGLMatrix& trans) {}
 
     //! Unique RGB color
     colorType m_rgbColor[3];
 
     //! Width of the line
-    PointCoordinateType m_width;
-public:
+    PointCoordinateType m_width = 1;
     spc::SelectionRubberband::Ptr rubberband_;
-protected:
+
 
     //! Whether poyline should draws itself in background (false) or foreground (true)
     bool m_foreground;
