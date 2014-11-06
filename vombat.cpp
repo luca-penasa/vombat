@@ -54,6 +54,8 @@ vombat::vombat()
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
 
+    spc::io::testXMLMatrixWrite();
+
 
     LOG(INFO) << "Vombat plugin created";
 }

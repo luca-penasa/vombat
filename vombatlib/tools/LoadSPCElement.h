@@ -24,7 +24,7 @@ public:
     virtual int compute ()
     {
 
-
+    spc::io::testXMLMatrixWrite();
 
 //{
 

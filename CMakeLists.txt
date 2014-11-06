@@ -98,9 +98,13 @@ set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 #find_package(CCP REQUIRED) # CloudCompareProjects
 #include_directories(${CCP_INCLUDE_DIRS})
 
-if (UNIX)
-        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x ${CCP_CXX_FLAGS} -Wno-narrowing"  )
-endif()
+#if( NOT MSVC )
+#        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread " )
+#endif()
+
+#if (UNIX)
+#        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x ${CCP_CXX_FLAGS} -Wno-narrowing"  )
+#endif()
 
 
 # verify if qPCL plugin was compiled or not
