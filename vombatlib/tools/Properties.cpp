@@ -2,9 +2,9 @@
 
 
 Properties::Properties(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription("Open Properties Dialog",
-                                                                                       "Opens the properties editor for selected object",
+                                                                                       "Opens the properties editor for selected SPC object",
                                                                                        "Properties",
-                                                                                       ":/toolbar/icons/plot_dlg.png"), parent_plugin)
+                                                                                       ":/toolbar/icons/properties.png"), parent_plugin)
 {
     this->setShowProgressBar(false);
 
@@ -23,13 +23,7 @@ int Properties::openOutputDialog()
     else
     {
         m_dialog->setVisible(true);
-//        m_dialog->raise();
     }
-
-
-
-
-//    segtool->linkWith(this->)
 
 	return 1;
 }

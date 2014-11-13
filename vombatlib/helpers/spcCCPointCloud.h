@@ -17,7 +17,7 @@ public:
 
     using spc::PointCloudBase::IndexT;
 
-    SPC_OBJECT(spcCCPointCloud)
+    SPC_ELEMENT(spcCCPointCloud)
 
     spcCCPointCloud(ccPointCloud *cloud)
     {

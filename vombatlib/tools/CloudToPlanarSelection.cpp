@@ -55,6 +55,12 @@ int CloudToPlanarSelection::openInputDialog()
     LOG(INFO) << "get as spc point cloud";
     spcCCPointCloud::Ptr c (new spcCCPointCloud(verts));
 
+    if (c->getNumberOfPoints() >= 40)
+    {
+        LOG(ERROR) << "too much points here. Cannot create a selction with all these points";
+        return -1;
+    }
+
 
 
     LOG(INFO) << "now create rubberband";

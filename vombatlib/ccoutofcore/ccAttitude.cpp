@@ -10,6 +10,9 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
     spc::Attitude att = spc::Attitude(asEigenVector(orientation), asEigenVector(center));
     setAttitude(att);
     writeSPCClassNameToMetadata();
+
+            m_selectionBehavior = SELECTION_IGNORED;
+
 }
 
 
@@ -18,6 +21,7 @@ ccAttitude::ccAttitude(spc::Attitude att)
 {    
     setAttitude(att);
     writeSPCClassNameToMetadata();
+                m_selectionBehavior = SELECTION_IGNORED;
 
 }
 
@@ -26,7 +30,7 @@ ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
     setAttitude(att_ptr);
     setName(att_ptr->getDipAndDipAngleAsString().c_str());
     writeSPCClassNameToMetadata();
-
+                m_selectionBehavior = SELECTION_IGNORED;
 
 }
 
@@ -35,6 +39,7 @@ ccAttitude::ccAttitude()
 {
     setAttitude(spc::Attitude::Ptr(new spc::Attitude));
     writeSPCClassNameToMetadata();
+                m_selectionBehavior = SELECTION_IGNORED;
 
 }
 
@@ -42,7 +47,7 @@ ccAttitude::ccAttitude(QString name): ccMyBaseObject(name)
 {
     setAttitude(spc::Attitude::Ptr(new spc::Attitude));
     writeSPCClassNameToMetadata();
-
+            m_selectionBehavior = SELECTION_IGNORED;
 
 }
 

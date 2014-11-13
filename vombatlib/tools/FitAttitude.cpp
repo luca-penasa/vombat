@@ -74,6 +74,8 @@ FitAttitude::compute()
     for(spc::Attitude att: atts)
     {
 
+
+        LOG(INFO) << "attitude is in place: " << att.getPosition();
         ccAttitude * ccAtt = new ccAttitude (att);
 //        std::cout <<"NORMAL: \n" << att.getUnitNormal() << std::endl;
 //        std::cout <<"CENTER: \n" << att.getPosition() << std::endl;

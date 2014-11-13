@@ -21,6 +21,8 @@ public:
     virtual int compute()
     {
 
+
+        // only the first one
         ccHObject *qua = getSelectedThatHaveMetaData("plugin_name", "vombat").at(0);
 
         ccMyBaseObject *my = dynamic_cast<ccMyBaseObject *>(qua);
@@ -28,12 +30,14 @@ public:
         if (!my)
         {
             return -1;
+            LOG(ERROR) << "cannot dynami cast to ccMyBaseObject. This Should never happen!";
         }
 
         spc::ElementBase::Ptr element = my->getSPCElement();
 
         if (!element)
         {
+            LOG(ERROR) << "Returned element is null!";
             return -1;
         }
 
@@ -57,13 +61,15 @@ public:
     virtual int checkSelected()
     {
 
-        ccHObject::Container all = getSelectedThatHaveMetaData("plugin_name", "vombat");
+        ccHObject::Container all = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::ElementBase::Type);
 
-        if (all.size() != 1) // one at a time for now
-            return -1;
+        for (ccHObject * oj: all)
+            LOG(INFO) << "selected: " << oj->getName().toStdString();
 
-        else
+        if (all.size() == 1) // one at a time for now
             return 1;
+        else
+            return -1;
 
     }
 

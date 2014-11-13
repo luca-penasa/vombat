@@ -132,8 +132,31 @@ void ccPropertiesTree::fromPropertyToEigenVector(QtVariantProperty *property,
     }
 }
 
+void ccPropertiesTree::addPropertyFromSelectionRubberband( const spc::SelectionRubberband::Ptr &sel,
+                                                          QtVariantProperty *property)
+{
+
+
+    QtVariantPropertyManager *man = dynamic_cast
+        <QtVariantPropertyManager *>(property->propertyManager());
+
+    QtVariantProperty *max_distance
+        = man->addProperty(QVariant::Double, QLatin1String("Max Distance"));
+
+
+    max_distance->setValue(sel->getMaxDistance());
+    property->addSubProperty(max_distance);
+}
+
+void ccPropertiesTree::fromPropertyToSelectionRubberband(spc::SelectionRubberband::Ptr sel, const QtVariantProperty *property)
+{
+
+    sel->setMaxDistance(property->value().toDouble()) ;
+
+}
+
 void ccPropertiesTree::addPropertyFromVariantDataRecord(
-    spc::ElementWithVariantProperties::Ptr el, QtVariantProperty *parent)
+        spc::ElementWithVariantProperties::Ptr el, QtVariantProperty *parent)
 {
 
 
@@ -236,6 +259,9 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
         if (*type == spc::Point3D::Type)
             addPropertyFromMovableElement(spcDynamicPointerCast<spc::Point3D> (element), m_topProperty);
 
+        if (*type == spc::SelectionRubberband::Type)
+            addPropertyFromSelectionRubberband(spcDynamicPointerCast<spc::SelectionRubberband>(element), m_topProperty);
+
         type = type->getParent();
 
     }
@@ -259,21 +285,33 @@ void ccPropertiesTree::updateObjectWithProperties(QtProperty *property,
         QtProperty *prop = current_props.at(i);
         QtVariantProperty *varProp = dynamic_cast<QtVariantProperty *>(prop);
 
-        if (varProp->propertyName() == "Position") {
-            ccSample *sample = dynamic_cast<ccSample *>(m_currentItem);
-            spc::Point3D::Ptr spcsample = sample->getSample();
+        ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(m_currentItem);
 
-            //           setPropertyMovableElement(property, varProp->value(),
-            // spcsample);
+        if (!myobj)
+        {
+            LOG(ERROR) << "Trying to set the properties on a NON-spc element! This should never happen.";
+            return;
+        }
+
+        if (varProp->propertyName() == "Position")
+        {
+
+            spc::Point3D::Ptr movable = spcDynamicPointerCast<spc::Point3D>(myobj->getSPCElement());
+            setPropertyMovableElement(varProp, movable);
+        }
+
+        LOG(INFO) << "PROP NAME: " << varProp->propertyName().toStdString();
+
+        if (varProp->propertyName() == "Max Distance")
+        {
+
+            spc::SelectionRubberband::Ptr sel = spcDynamicPointerCast<spc::SelectionRubberband>(myobj->getSPCElement());
+             LOG(INFO) << "updating in object";
+            fromPropertyToSelectionRubberband(sel, varProp);
         }
     }
 
-    if (m_currentItem->getMetaData("class_name") == "ccSample") {
-        ccSample *sample = dynamic_cast<ccSample *>(m_currentItem);
-        spc::Sample::Ptr spcsample = sample->getSample();
 
-        //        setPropertyMovableElement(property, value, spcsample);
-    }
 }
 
 void ccPropertiesTree::selectionChanged(const ccHObject::Container &sel)

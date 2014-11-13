@@ -76,7 +76,7 @@ public:
 protected:
     static Eigen::Vector3f asEigenVector(CCVector3 v)
     {
-        return Eigen::Vector3f (v.x, v.y, v.z); //we should make a MAP instead than a copy!
+        return Eigen::Vector3f (v.x, v.y, v.z);
     }
 
     static CCVector3 asCCVector(Eigen::Vector3f v)

@@ -27,7 +27,9 @@ public:
     { return true; }
 
 
-    virtual ccBBox getMyOwnBB() override;
+//    virtual ccBBox getMyOwnBB() override;
+
+    virtual ccBBox getDisplayBB() override;
 
 
     virtual QIcon getIcon() const override
@@ -60,9 +62,15 @@ protected:
             {
                 glPushAttrib(GL_LINE_BIT);
                 glLineWidth(static_cast<GLfloat>(m_width));
-            }
+
 
 //            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+                //we draw the segments
+                if (isSelected())
+                    glColor3ubv(ccColor::red);
+                else
+                    glColor3ubv(ccColor::green);
 
 
             for (int i = -1; i <= 1; ++i)
@@ -78,7 +86,7 @@ protected:
                 }
                 glEnd();
             }
-
+            }
 
             glBegin(GL_LINES);
             for( int i = 0 ; i < rubberband_->getVertices().getNumberOfPoints(); ++i)
@@ -136,7 +144,7 @@ protected:
     colorType m_rgbColor[3];
 
     //! Width of the line
-    PointCoordinateType m_width = 1;
+    PointCoordinateType m_width = 2;
     spc::SelectionRubberband::Ptr rubberband_;
 
 

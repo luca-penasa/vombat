@@ -19,6 +19,10 @@
 #include <ExportToAscii.h>
 #include <ApplyCorrection.h>
 
+#include <CreateStratigraphicConstrain.h>
+
+#include <LinkModelToRubberband.h>
+
 #include <AddSample.h>
 
 #include <CreateTimeSeriesFromScalarFields.h>
@@ -44,6 +48,8 @@
 
 #include <boost/foreach.hpp>
 
+#include <LoadCloudDataSource.h>
+
 static vombat *qgeo_instance = 0;
 
 vombat::vombat()
@@ -53,9 +59,6 @@ vombat::vombat()
 
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
-
-    spc::io::testXMLMatrixWrite();
-
 
     LOG(INFO) << "Vombat plugin created";
 }
@@ -96,6 +99,8 @@ void vombat::getActions(QActionGroup &group)
         // ADD FILTERS
         addFilter(new FitAttitude(this));
         addFilter(new AttitudeToModel(this));
+        addFilter(new LinkModelToRubberband(this));
+
         addFilter(new EvaluateDynamicScalarFieldGenerator(this));
         addFilter(new Edit(this));
 
@@ -132,6 +137,10 @@ void vombat::getActions(QActionGroup &group)
         addFilter(new ExportToAscii(this));
         addFilter(new SaveSPCElement(this));
         addFilter(new LoadSPCElement(this));
+        addFilter(new LoadCloudDataSource(this));
+
+
+        addFilter(new CreateStratigraphicConstrain(this));
 
 
 
@@ -338,12 +347,33 @@ ccHObject::Container vombat::getAllObjectsInTreeBySPCDti(const DtiClassType *dti
     return out;
 }
 
+ccHObject::Container vombat::getAllObjectsSelectedBySPCDti(const DtiClassType *dti)
+{
+    ccHObject::Container all = getSelected();
+    ccHObject::Container out;
+    for (ccHObject * obj: all)
+    {
+        ccMyBaseObject * asvombat = dynamic_cast<ccMyBaseObject *> (obj);
+        if (asvombat!= NULL)
+        {
+            // isa  vomabt object
+            if(asvombat->getSPCElement()->isA(dti))
+                out.push_back(obj);
+        }
+    }
+
+    return out;
+}
+
 void vombat::onNewSelection(const ccHObject::Container &selectedEntities)
 {
+    //! always substitute m_selected with the new selection,
+    //! before to notify the plugins. Some plugins get access to the
+    //! current selection from vombat::theInstance()->...
+    m_selected = selectedEntities;
+
     for (unsigned i = 0; i < m_filters.size(); ++i)
         m_filters[i]->updateSelectedEntities(selectedEntities);
-
-    m_selected = selectedEntities;
 
     emit selectionChanged(m_selected);
 }

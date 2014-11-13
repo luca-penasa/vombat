@@ -14,59 +14,23 @@
 #include <ccPlanarSelection.h>
 
 
-
+#include <ccoutofcore/ccCloudDataSourceOnDisk.h>
 
 class LoadSPCElement: public BaseFilter
 {
 public:
     LoadSPCElement(ccPluginInterface * parent_plugin);
 
-    virtual int compute ()
+    static ccHObject * elementToCCHobject(spc::ElementBase::Ptr el)
     {
-
-    spc::io::testXMLMatrixWrite();
-
-//{
-
-//    Eigen::Vector3f normal, position;
-//    normal = Eigen::Vector3f::Random();
-//    position = Eigen::Vector3f::Random();
-//    spc::Attitude::Ptr att(new spc::Attitude);
-//    att->setNormal(normal);
-//    att->setPosition(position);
-
-//    std::cout << att->getNormal() << std::endl;
-//    std::cout << att->getPosition() << std::endl;
-
-//    spc::io::serializeToFile(att, "/home/luca/attitude", spc::io::JSON);
-
-//}
-
-//    {
-//    spc::ISerializable::Ptr reloaded =  spc::io::deserializeFromFile("/home/luca/attitude.json");
-//    spc::Attitude::Ptr newatt = spcDynamicPointerCast<spc::Attitude> (reloaded);
-
-//    std::cout << newatt->getNormal() << std::endl;
-//    std::cout << newatt->getPosition() << std::endl;
-
-//    spc::io::serializeToFile(newatt, "/home/luca/attitude2", spc::io::JSON);
-//    }
-
-
-
-
-
-        spc::ISerializable::Ptr obj = spc::io::deserializeFromFile(m_filename.toStdString());
-
-        if (!obj)
-            return -1;
-
-        spc::ElementBase::Ptr el = spcDynamicPointerCast<spc::ElementBase> (obj);
-
-        if (!el)
-            return -1;
-
         ccHObject * newobj;
+
+        if (el == NULL)
+        {
+            LOG(ERROR)<<"you passed a null pointer!";
+            return NULL;
+        }
+
         if (el->getType() == &spc::Attitude::Type)
         {
             spc::Attitude::Ptr att = spcDynamicPointerCast<spc::Attitude>(el);
@@ -85,34 +49,143 @@ public:
         else if (el->getType() ==&spc::SelectionRubberband::Type)
         {
             spc::SelectionRubberband::Ptr att = spcDynamicPointerCast<spc::SelectionRubberband> (el);
+           LOG(INFO) << "found selection rubberband with T " << att->getPojectionTransform().matrix();
             newobj = new ccPlanarSelection(att);
         }
-        else
+
+        else if (el->getType() ==&spc::CloudDataSourceOnDisk::Type)
         {
-            return -1;
+            spc::CloudDataSourceOnDisk::Ptr ob = spcDynamicPointerCast<spc::CloudDataSourceOnDisk> (el);
+            newobj = new ccCloudDataSourceOnDisk(ob);
         }
 
+        else
+        {
+            LOG(WARNING) << "cannot transform the loaded spc element into something cloudcompare-comaptible. plase provide the implementation here.";
+            newobj = NULL;
+        }
+
+        return newobj;
+    }
+
+
+    static std::vector<ccHObject *> rebuildMyChilds(ccHObject *parent)
+    {
+        std::vector<ccHObject *> out;
+        ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject *> (parent);
+
+        CHECK(asmine != NULL);
+
+        for (spc::ElementBase::Ptr el: asmine->getSPCElement()->getChilds())
+        {
+            ccHObject * ascc =  elementToCCHobject(el);
+            if (!ascc)
+                continue;
+
+            out.push_back(ascc);
+
+            ascc->setEnabled(true);
+            ascc->setVisible(true);
+            parent->addChild(ascc);
+        }
+
+    }
+
+    virtual int compute ()
+    {
+
+        for (QString filename : m_filenames)
+        {
+            if (QFileInfo(filename).suffix() == "pcd")
+            {
+                LOG(INFO) << "Found a pcd file. Loading as SPC point cloud source";
+
+                ccCloudDataSourceOnDisk * source = new ccCloudDataSourceOnDisk(filename.toStdString());
+
+                newEntity(source);
+
+                continue;
+
+            }
+
+
+            spc::ISerializable::Ptr obj = spc::io::deserializeFromFile(filename.toStdString());
+
+            if (!obj)
+                return -1;
+
+            spc::ElementBase::Ptr el = spcDynamicPointerCast<spc::ElementBase> (obj);
 
 
 
-        newobj->setEnabled(true);
-        newobj->setVisible(true);
+            if (!el)
+                return -1;
+
+            //! this must be moved in a real factory!
+            ccHObject * newobj = elementToCCHobject(el);
+
+            if (!newobj)
+                return -1;
 
 
-//        entityHasChanged(newobj);
-        newEntity(newobj);
+
+            //! \todo use a stack please
+            std::vector<ccHObject *> to_parse = {newobj};
+
+            while (to_parse.size() != 0 )
+            {
+                ccHObject * child = to_parse.at(0);
+
+                // remove from stack
+                to_parse.erase(std::remove(to_parse.begin(), to_parse.end(), child), to_parse.end());
+
+
+                std::vector<ccHObject *> news = rebuildMyChilds(child);
+
+                for (ccHObject * obj: news)
+                {
+                    to_parse.push_back(obj);
+                }
+
+            }
+
+
+            newobj->setEnabled(true);
+            newobj->setVisible(true);
+
+
+            newEntity(newobj);
+
+        }
 
         return 1;
     }
 
     virtual int openInputDialog()
     {
-        m_filename.clear();
-        m_filename =  QFileDialog::getOpenFileName(0, tr("Load From XML File"),
-                                                   "",
-                                                   tr("XML Documents (*.xml)"));
-        if (m_filename.isEmpty())
+
+        QSettings settings;
+        settings.beginGroup("vombat");
+        QString current_path = settings.value("CurrentLoadPath",QApplication::applicationDirPath()).toString();
+//        QString currentOpenDlgFilter = settings.value("CurrentOpenDialogFilter","SPC XML Documents (*.xml)").toString();
+
+
+
+        m_filenames.clear();
+        m_filenames =  QFileDialog::getOpenFileNames(0,
+                                                     "Load SPC data sources",
+                                                     current_path,
+                                                     "SPC XML Documents (*.xml);; SPC binary files (*.spc);; SPC JSON Documents (*.json);; PCD files sources (*.pcd)");
+        if (m_filenames.isEmpty())
             return -1;
+
+
+
+        current_path = QFileInfo(m_filenames[0]).absolutePath();
+        settings.setValue("CurrentLoadPath", current_path);
+//        settings.setValue(s_psSelectedInputFilter,currentOpenDlgFilter);
+        settings.endGroup();
+
 
         return 1;
     }
@@ -124,7 +197,7 @@ public:
 
 
 protected:
-    QString m_filename;
+    QStringList m_filenames;
 
 
 };

@@ -9,8 +9,6 @@
         <file>icons/test1.png</file>
         <file>icons/test2.png</file>
         <file>icons/new_series.png</file>
-        <file>icons/attitude.png</file>
-        <file>icons/AttitudeToModel.png</file>
         <file>icons/edit.png</file>
         <file>icons/tseries.png</file>
         <file>icons/tseries_generator.png</file>
@@ -29,6 +27,13 @@
         <file>icons/SFEvaluator.png</file>
         <file>icons/SFGenerator.png</file>
         <file>icons/sample.png</file>
+        <file>icons/stratigraphic_constrain.png</file>
+        <file>icons/cloud_data_source_on_disk.png</file>
+        <file>icons/cloud_data_source_on_disk_load.png</file>
+        <file>icons/properties.png</file>
+        <file>icons/LinkModelToRubberband.png</file>
+        <file>icons/AttitudeToModel.png</file>
+        <file>icons/attitude.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

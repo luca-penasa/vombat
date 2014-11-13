@@ -1,4 +1,4 @@
-#pragma onces
+#pragma once
 #ifndef CCSAMPLE_H
 #define CCSAMPLE_H
 
@@ -19,6 +19,14 @@ public:
         m_sample = spc::Sample::Ptr(new spc::Sample(0.0, 0.0, 0.0));
         writeSPCClassNameToMetadata();
     }
+
+
+    ccSample(const spc::Point3D::Ptr point)
+    {
+        m_sample = spcDynamicPointerCast<spc::Sample> (point);
+        writeSPCClassNameToMetadata();
+    }
+
     ccSample(const cc2DLabel *label): m_radius_(1)
     {
         m_sample = spc::Sample::Ptr(new spc::Sample);

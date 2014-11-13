@@ -7,6 +7,7 @@
 #include <ccMyBaseObject.h>
 #include <spc/elements/MovableElement.h>
 #include <spc/elements/ElementWithVariantProperties.h>
+#include <spc/elements/SelectionRubberband.h>
 
 class ccAddNewVariantProperty;
 
@@ -37,12 +38,22 @@ public:
                                           const spc::Point3D::Ptr obj);
 
     static void addPropertyFromEigenVector(const Eigen::Vector3f &v,
-                                                     QtVariantProperty *parent);
+                                           QtVariantProperty *parent);
+
     static void fromPropertyToEigenVector(QtVariantProperty *property,
                                        Eigen::Vector3f &p);
+
+
+    static void addPropertyFromSelectionRubberband(const spc::SelectionRubberband::Ptr &sel, QtVariantProperty *property);
+
+
+    static void fromPropertyToSelectionRubberband( spc::SelectionRubberband::Ptr sel, const QtVariantProperty *property);
+
+
+
     //! BOOST-VARIANT BASED PROPERTIES ELEMENT
     static void addPropertyFromVariantDataRecord(spc::ElementWithVariantProperties::Ptr el,
-                                 QtVariantProperty *parent);
+                                                 QtVariantProperty *parent);
 
     static void setPropertyVariantDataRecord(
         QtProperty *property, const QVariant value,
