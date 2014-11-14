@@ -18,18 +18,24 @@ public:
     {
         m_sample = spc::Sample::Ptr(new spc::Sample(0.0, 0.0, 0.0));
         writeSPCClassNameToMetadata();
+        m_selectionBehavior = SELECTION_IGNORED;
+
     }
 
 
-    ccSample(const spc::Point3D::Ptr point)
+    ccSample(const spc::Point3D::Ptr point): ccMyBaseObject(point)
     {
         m_sample = spcDynamicPointerCast<spc::Sample> (point);
         writeSPCClassNameToMetadata();
+        m_selectionBehavior = SELECTION_IGNORED;
+
     }
 
     ccSample(const cc2DLabel *label): m_radius_(1)
     {
         m_sample = spc::Sample::Ptr(new spc::Sample);
+
+        m_sample->setElementName(label->getName().toStdString());
 
         cc2DLabel::PickedPoint picked_point
             = label->getPoint(0); // we only use 0-point
@@ -38,25 +44,34 @@ public:
 
         this->m_sample->setPosition(Eigen::Vector3f(point.x, point.y, point.z));
         writeSPCClassNameToMetadata();
+        m_selectionBehavior = SELECTION_IGNORED;
+
     }
 
     ccSample(const CCVector3 &v): m_radius_(1)
     {
         m_sample = spc::Sample::Ptr(new spc::Sample(v.x, v.y, v.z));
         writeSPCClassNameToMetadata();
+        m_selectionBehavior = SELECTION_IGNORED;
+
     }
 
-    ccSample(const spc::Sample::Ptr s): m_radius_(1)
+    ccSample(const spc::Sample::Ptr s): m_radius_(1), ccMyBaseObject(s)
     {
         m_sample = s;
         writeSPCClassNameToMetadata();
+        m_selectionBehavior = SELECTION_IGNORED;
+
     }
 
 //    virtual ccBBox getMyOwnBB();
 
     virtual QIcon getIcon() const
     {
-        return QIcon(QString::fromUtf8(":/toolbar/icons/sample.png"));
+        if (m_sample->getManual())
+            return QIcon(QString::fromUtf8(":/toolbar/icons/sample.png"));
+        else
+            return QIcon(QString::fromUtf8(":/toolbar/icons/sample_locked.png"));
     }
 
     virtual bool hasColors() const
@@ -79,6 +94,21 @@ public:
         return m_sample;
     }
 
+    ccBBox getMyOwnBB()
+    {
+        CCVector3 center = CCVector3::fromArray (m_sample->getPosition().data());
+        float s = 0.5; //50 cm
+
+        CCVector3 scale_v (s,s,s);
+        CCVector3 min_corner(center - scale_v);
+        CCVector3 max_corner(center + scale_v);
+        ccBBox box(min_corner, max_corner);
+
+        return box;
+    }
+
+
+    void drawStratPos(CC_DRAW_CONTEXT &context);
 protected:
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
 

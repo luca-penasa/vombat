@@ -40,8 +40,7 @@ public:
 
     }
 
-    // construct passing an spc::DynamicScalarFieldgenerator pointer
-    ccDynamicScalarFieldGenerator(const spc::VariableScalarFieldBase::Ptr &other)
+    ccDynamicScalarFieldGenerator(spc::VariableScalarFieldBase::Ptr other): ccMyBaseObject(other)
     {
         m_generator_ = other;
         writeSPCClassNameToMetadata();

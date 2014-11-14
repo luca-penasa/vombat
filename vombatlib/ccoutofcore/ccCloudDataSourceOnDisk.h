@@ -13,22 +13,22 @@
 class ccCloudDataSourceOnDisk:  public ccMyBaseObject
 {
 public:
-    ccCloudDataSourceOnDisk(spc::CloudDataSourceOnDisk::Ptr source)
+    ccCloudDataSourceOnDisk(spc::CloudDataSourceOnDisk::Ptr source): ccMyBaseObject(source)
     {
-        this->writeSPCClassNameToMetadata();
+//        this->writeSPCClassNameToMetadata();
 
-        this->setName(source->getFilename().c_str());
+//        this->setName(source->getFilename().c_str());
 
         source_ = source;
     }
 
-    ccCloudDataSourceOnDisk(const spc::CloudDataSourceOnDisk & source)
-    {
-        this->writeSPCClassNameToMetadata();
-        source_ = spcMakeSharedPtrMacro<spc::CloudDataSourceOnDisk>(source);
+//    ccCloudDataSourceOnDisk(const spc::CloudDataSourceOnDisk & source): ccMyBaseObject(source)
+//    {
+////        this->writeSPCClassNameToMetadata();
+////        source_ = spcMakeSharedPtrMacro<spc::CloudDataSourceOnDisk>(source);
 
-        this->setName(source_->getFilename().c_str());
-    }
+////        this->setName(source_->getFilename().c_str());
+//    }
 
 
     ~ccCloudDataSourceOnDisk()

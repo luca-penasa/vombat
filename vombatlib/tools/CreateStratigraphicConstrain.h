@@ -42,16 +42,15 @@ public:
 
             CHECK(myobj != NULL) << "Bad error. pointer is null!";
 
-            spc::Point3D::Ptr point_ptr = spcDynamicPointerCast<spc::Point3D> (myobj->getSPCElement()->clone());
+            spc::StratigraphicPositionableElement::Ptr point_ptr = spcDynamicPointerCast<spc::StratigraphicPositionableElement> (myobj->getSPCElement());
 
             CHECK(point_ptr != NULL) << "Bad error. pointer is null!";
 
             constrain->addVertex(point_ptr);
 
-
-            ccSample * sam = new ccSample(point_ptr);
-            out->addChild(sam);
-            sam->setVisible(true);
+//            ccSample * sam = new ccSample(point_ptr);
+//            out->addChild(sam);
+//            sam->setVisible(true);
 
         }
 
@@ -66,7 +65,7 @@ public:
 protected:
     int checkSelected()
     {
-        ccHObject::Container selected = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::Point3D::Type);
+        ccHObject::Container selected = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::StratigraphicPositionableElement::Type);
 
         if (selected.size() > 0)
             return 1;

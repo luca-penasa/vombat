@@ -9,6 +9,8 @@
 #include <spc/elements/ElementWithVariantProperties.h>
 #include <spc/elements/SelectionRubberband.h>
 
+#include <spc/elements/StratigraphicPositionableElement.h>
+
 class ccAddNewVariantProperty;
 
 namespace Ui
@@ -36,6 +38,12 @@ public:
 
     static void setPropertyMovableElement(QtVariantProperty *property,
                                           const spc::Point3D::Ptr obj);
+
+
+    static void addPropertyFromStratigraphicPositionableElement(spc::StratigraphicPositionableElement::Ptr el,
+                                                                 QtVariantProperty *parent_prop);
+
+    static void setPropertyToStratigraphicPositionableElement(QtVariantProperty *parent_prop, spc::StratigraphicPositionableElement::Ptr el);
 
     static void addPropertyFromEigenVector(const Eigen::Vector3f &v,
                                            QtVariantProperty *parent);

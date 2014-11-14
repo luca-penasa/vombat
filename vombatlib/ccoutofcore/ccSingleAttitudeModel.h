@@ -29,6 +29,8 @@ class ccSingleAttitudeModel: public ccDynamicScalarFieldGenerator
 public:
     ccSingleAttitudeModel(const char * name = 0);
 
+    ccSingleAttitudeModel (spc::StratigraphicModelSingleAttitude::Ptr model);
+
     // copy const
     ccSingleAttitudeModel(const ccSingleAttitudeModel &model);
 

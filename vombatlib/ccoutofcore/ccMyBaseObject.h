@@ -18,6 +18,11 @@ public:
 
     ccMyBaseObject(QString name);
 
+    ccMyBaseObject(spc::ElementBase::Ptr el)
+    {
+        m_name = el->getElementName().c_str();
+    }
+
     virtual spc::ElementBase::Ptr getSPCElement() const = 0;
 
     // each derived object should implement one
@@ -30,39 +35,22 @@ public:
         return this->getSPCElement()->isA(type);
     }
 
-    virtual bool addChild(ccHObject* child, int dependencyFlags = DP_PARENT_OF_OTHER, int insertIndex = -1) override
-    {
-        ccCustomHObject::addChild(child, dependencyFlags, insertIndex);
+    virtual bool addChild(ccHObject* child, int dependencyFlags = DP_PARENT_OF_OTHER, int insertIndex = -1) override;
 
-        ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(child);
+    virtual void removeChild(ccHObject* child) override;
 
-        if (asmine)
-            this->getSPCElement()->addChild(asmine->getSPCElement());
-    }
-
-    virtual void removeChild(ccHObject* child) override
-    {
-            ccMyBaseObject::removeChild(child);
+    virtual void removeChild(int pos) override;
 
 
-            ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(child);
+    virtual  void setParent(ccHObject* anObject) override;
 
 
-            if(asmine)
-                this->getSPCElement()->removeChild(asmine->getSPCElement());
-    }
 
-    virtual void detachChild(ccHObject * child) override
-    {
-        ccMyBaseObject::detachChild(child);
-
-        ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(child);
-
-        if(asmine)
-            this->getSPCElement()->removeChild(asmine->getSPCElement());
-    }
+    virtual void detachChild(ccHObject * child) override;
 
 
+    //! Sets object name
+    virtual void setName(const QString& name) override;
 
 
 

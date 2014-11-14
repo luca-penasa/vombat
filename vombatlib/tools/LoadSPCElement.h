@@ -3,13 +3,14 @@
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 
+#include <stack>
 #include <vombat.h>
 
 #include <ccoutofcore/ccMyBaseObject.h>
 #include<ccoutofcore/ccAttitude.h>
 #include <ccoutofcore/ccEigenTable.h>
 #include <ccoutofcore/ccSample.h>
-//#include <ccoutofcore/ccSingleAttitudeModel.h>
+#include <ccoutofcore/ccSingleAttitudeModel.h>
 
 #include <ccPlanarSelection.h>
 
@@ -59,11 +60,23 @@ public:
             newobj = new ccCloudDataSourceOnDisk(ob);
         }
 
+        else if (el->getType() ==& spc::StratigraphicModelSingleAttitude::Type)
+        {
+            spc::StratigraphicModelSingleAttitude::Ptr ob = spcDynamicPointerCast<spc::StratigraphicModelSingleAttitude> (el);
+            newobj = new ccSingleAttitudeModel(ob);
+//            newobj->setName(ob->getElementName());
+        }
+
         else
         {
             LOG(WARNING) << "cannot transform the loaded spc element into something cloudcompare-comaptible. plase provide the implementation here.";
             newobj = NULL;
         }
+
+
+
+
+        LOG(INFO) << "new object created.";
 
         return newobj;
     }
@@ -71,14 +84,20 @@ public:
 
     static std::vector<ccHObject *> rebuildMyChilds(ccHObject *parent)
     {
+
+        LOG(INFO) << "called rebuild my childs";
         std::vector<ccHObject *> out;
         ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject *> (parent);
 
         CHECK(asmine != NULL);
 
+        LOG(INFO) << "correctly transformed to a ccMyBaseObject";
+
         for (spc::ElementBase::Ptr el: asmine->getSPCElement()->getChilds())
         {
-            ccHObject * ascc =  elementToCCHobject(el);
+            LOG(INFO) << "working on child " << el;
+            ccHObject * ascc =  elementToCCHobject(el);                       
+
             if (!ascc)
                 continue;
 
@@ -86,80 +105,14 @@ public:
 
             ascc->setEnabled(true);
             ascc->setVisible(true);
-            parent->addChild(ascc);
+            parent->ccHObject::addChild(ascc);
         }
+
+        return out;
 
     }
 
-    virtual int compute ()
-    {
-
-        for (QString filename : m_filenames)
-        {
-            if (QFileInfo(filename).suffix() == "pcd")
-            {
-                LOG(INFO) << "Found a pcd file. Loading as SPC point cloud source";
-
-                ccCloudDataSourceOnDisk * source = new ccCloudDataSourceOnDisk(filename.toStdString());
-
-                newEntity(source);
-
-                continue;
-
-            }
-
-
-            spc::ISerializable::Ptr obj = spc::io::deserializeFromFile(filename.toStdString());
-
-            if (!obj)
-                return -1;
-
-            spc::ElementBase::Ptr el = spcDynamicPointerCast<spc::ElementBase> (obj);
-
-
-
-            if (!el)
-                return -1;
-
-            //! this must be moved in a real factory!
-            ccHObject * newobj = elementToCCHobject(el);
-
-            if (!newobj)
-                return -1;
-
-
-
-            //! \todo use a stack please
-            std::vector<ccHObject *> to_parse = {newobj};
-
-            while (to_parse.size() != 0 )
-            {
-                ccHObject * child = to_parse.at(0);
-
-                // remove from stack
-                to_parse.erase(std::remove(to_parse.begin(), to_parse.end(), child), to_parse.end());
-
-
-                std::vector<ccHObject *> news = rebuildMyChilds(child);
-
-                for (ccHObject * obj: news)
-                {
-                    to_parse.push_back(obj);
-                }
-
-            }
-
-
-            newobj->setEnabled(true);
-            newobj->setVisible(true);
-
-
-            newEntity(newobj);
-
-        }
-
-        return 1;
-    }
+    virtual int compute ();
 
     virtual int openInputDialog()
     {

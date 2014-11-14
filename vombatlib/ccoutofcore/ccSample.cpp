@@ -17,65 +17,26 @@ static QSharedPointer<ccSphere> c_unitPointMarker(0);
 //    return box;
 //}
 
-void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
+void ccSample::drawStratPos(CC_DRAW_CONTEXT &context)
 {
-    if (!this->m_sample)
-        return;
-
-    bool pushName = MACRO_DrawEntityNames(context);
-    if (pushName) {
-        // not particularily fast
-        if (MACRO_DrawFastNamesOnly(context))
-            return;
-        glPushName(getUniqueIDForDisplay());
-    }
-
-    const float c_sizeFactor = 4.0f;
-    bool loop = false;
-
-    if (!c_unitPointMarker || c_unitPointMarker->getRadius() != m_radius_) {
-        c_unitPointMarker = QSharedPointer
-            <ccSphere>(new ccSphere(m_radius_, 0, "PointMarker", 12));
-        c_unitPointMarker->showColors(true);
-        c_unitPointMarker->setVisible(true);
-        c_unitPointMarker->setEnabled(true);
-    }
-
-    // build-up point maker own 'context'
-    CC_DRAW_CONTEXT markerContext = context;
-    markerContext.flags
-        &= (~CC_DRAW_ENTITY_NAMES); // we must remove the 'push name flag' so
-                                    // that the sphere doesn't push its own!
-    markerContext._win = 0;
-
-    if (isSelected() && !pushName)
-        c_unitPointMarker->setTempColor(ccColor::red);
-    else
-        c_unitPointMarker->setTempColor(ccColor::magenta);
-
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    float x, y, z;
-    this->m_sample->getPosition(x, y, z);
-    //    const CCVector3* P = m_points[i].cloud->getPoint(m_points[i].index);
-    ccGL::Translate(x, y, z);
-    glScalef(context.pickedPointsRadius, context.pickedPointsRadius,
-             context.pickedPointsRadius);
-
-    m_current_scaling_ = context.pickedPointsRadius;
-
-    c_unitPointMarker->draw(markerContext);
-
-    glPopMatrix();
-
     QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
-                                                    // account!
-    // font.setPointSize(font.pointSize()+2);
+    // account!
+    font.setPointSize(font.pointSize()+2);
     font.setBold(true);
 
     // draw their name
     glPushAttrib(GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
+
+
+QString name = QString::fromStdString(m_sample->getElementName()) +" at SP: "+ QString::number(m_sample->getStratigraphicPosition(), 'g', 3);
+
+    context._win->display3DLabel(name,
+                                 CCVector3(m_sample->getPosition().data()), ccColor::red, font);
+
+
+
+
 
     //    CCVector3 p (x,y,z);
     //    QString title = (getName());
@@ -88,6 +49,68 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
     //                                    font );
 
     glPopAttrib();
-    if (pushName)
-        glPopName();
+}
+
+void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
+{
+
+    if (MACRO_Draw3D(context))
+    {
+        if (!this->m_sample)
+            return;
+
+        bool pushName = MACRO_DrawEntityNames(context);
+        if (pushName) {
+            // not particularily fast
+            if (MACRO_DrawFastNamesOnly(context))
+                return;
+            glPushName(getUniqueIDForDisplay());
+        }
+
+
+
+        if (!c_unitPointMarker || c_unitPointMarker->getRadius() != m_radius_) {
+            c_unitPointMarker = QSharedPointer
+                    <ccSphere>(new ccSphere(m_radius_, 0, "PointMarker", 12));
+            c_unitPointMarker->showColors(true);
+            c_unitPointMarker->setVisible(true);
+            c_unitPointMarker->setEnabled(true);
+        }
+
+        // build-up point maker own 'context'
+        CC_DRAW_CONTEXT markerContext = context;
+        markerContext.flags
+                &= (~CC_DRAW_ENTITY_NAMES); // we must remove the 'push name flag' so
+        // that the sphere doesn't push its own!
+        markerContext._win = 0;
+
+        if (isSelected() && !pushName)
+            c_unitPointMarker->setTempColor(ccColor::red);
+        else
+            c_unitPointMarker->setTempColor(ccColor::magenta);
+
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+
+
+
+        float x, y, z;
+        this->m_sample->getPosition(x, y, z);
+        //    const CCVector3* P = m_points[i].cloud->getPoint(m_points[i].index);
+        ccGL::Translate(x, y, z);
+        glScalef(context.pickedPointsRadius, context.pickedPointsRadius,
+                 context.pickedPointsRadius);
+
+        m_current_scaling_ = context.pickedPointsRadius;
+
+        c_unitPointMarker->draw(markerContext);
+
+        glPopMatrix();
+
+        drawStratPos(context);
+
+        if (pushName)
+            glPopName();
+
+    }
 }

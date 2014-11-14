@@ -23,14 +23,14 @@ public:
 
 
         // only the first one
-        ccHObject *qua = getSelectedThatHaveMetaData("plugin_name", "vombat").at(0);
-
+        ccHObject *qua = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::ElementBase::Type).at(0);
         ccMyBaseObject *my = dynamic_cast<ccMyBaseObject *>(qua);
 
         if (!my)
         {
+            LOG(ERROR) << "cannot dynamic cast to ccMyBaseObject. This Should never happen!";
             return -1;
-            LOG(ERROR) << "cannot dynami cast to ccMyBaseObject. This Should never happen!";
+
         }
 
         spc::ElementBase::Ptr element = my->getSPCElement();

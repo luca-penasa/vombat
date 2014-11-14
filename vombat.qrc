@@ -34,6 +34,7 @@
         <file>icons/LinkModelToRubberband.png</file>
         <file>icons/AttitudeToModel.png</file>
         <file>icons/attitude.png</file>
+        <file>icons/sample_locked.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

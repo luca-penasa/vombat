@@ -50,8 +50,7 @@ ccPropertiesTree::addPropertyFromMovableElement(spc::Point3D::Ptr el,
         <QtVariantPropertyManager *>(parent->propertyManager());
 
     // a new property group
-    QtVariantProperty *property = man->addProperty(
-        QtVariantPropertyManager::groupTypeId());
+    QtVariantProperty *property = man->addProperty( QtVariantPropertyManager::groupTypeId());
 
     // named position, with code position
     property->setPropertyName("Position");
@@ -135,23 +134,89 @@ void ccPropertiesTree::fromPropertyToEigenVector(QtVariantProperty *property,
 void ccPropertiesTree::addPropertyFromSelectionRubberband( const spc::SelectionRubberband::Ptr &sel,
                                                           QtVariantProperty *property)
 {
-
-
     QtVariantPropertyManager *man = dynamic_cast
         <QtVariantPropertyManager *>(property->propertyManager());
+
+    QtVariantProperty *group = man->addProperty( QtVariantPropertyManager::groupTypeId());
+    group->setPropertyName("Rubberband Selection");
+
 
     QtVariantProperty *max_distance
         = man->addProperty(QVariant::Double, QLatin1String("Max Distance"));
 
 
     max_distance->setValue(sel->getMaxDistance());
-    property->addSubProperty(max_distance);
+    group->addSubProperty(max_distance);
+
+    property->addSubProperty(group);
 }
 
 void ccPropertiesTree::fromPropertyToSelectionRubberband(spc::SelectionRubberband::Ptr sel, const QtVariantProperty *property)
 {
 
-    sel->setMaxDistance(property->value().toDouble()) ;
+    QList<QtProperty *>list =property->subProperties();
+    for (QtProperty * prop : list)
+    {
+        QtVariantProperty *var_p = dynamic_cast<QtVariantProperty *>(prop);
+
+        if (var_p->propertyName() == "Max Distance")
+            sel->setMaxDistance(property->value().toDouble()) ;
+
+     }
+
+
+
+
+}
+
+void ccPropertiesTree::addPropertyFromStratigraphicPositionableElement(spc::StratigraphicPositionableElement::Ptr el, QtVariantProperty *parent_prop)
+{
+    QtVariantPropertyManager *man = dynamic_cast<QtVariantPropertyManager *>(parent_prop->propertyManager());
+
+
+    QtVariantProperty *group = man->addProperty( QtVariantPropertyManager::groupTypeId());
+    group->setPropertyName("Stratigraphic Positionable Element");
+
+
+
+
+    QtVariantProperty *automatic = man->addProperty(QVariant::Bool, QLatin1String("Manual"));
+    automatic->setValue(el->getManual());
+
+
+
+    QtVariantProperty *sp
+        = man->addProperty(QVariant::Double, QLatin1String("Stratigraphic Position"));
+
+    if (!el->getManual())
+        sp->setEnabled(false);
+
+    float sp_ = el->getStratigraphicPosition();
+    sp->setValue(sp_);
+
+
+
+    group->addSubProperty(automatic);
+    group->addSubProperty(sp);
+
+    parent_prop->addSubProperty(group);
+}
+
+
+void ccPropertiesTree::setPropertyToStratigraphicPositionableElement(    QtVariantProperty *parent_prop, spc::StratigraphicPositionableElement::Ptr el)
+{
+    QList<QtProperty *>list =parent_prop->subProperties();
+    for (QtProperty * prop : list)
+    {
+        QtVariantProperty *var_p = dynamic_cast<QtVariantProperty *>(prop);
+
+        if (var_p->propertyName() == "Manual")
+            el->setManual(var_p->value().toBool());
+
+        else if (var_p->propertyName() == "Stratigraphic Position" && el->getManual())
+            el->setStratigraphicPosition(var_p->value().toDouble());
+
+     }
 
 }
 
@@ -252,6 +317,17 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
 
     DtiClassType * type = element->getType();
 
+//    if (element->isA(&spc::Point3D::Type))
+//    {
+//        addPropertyFromMovableElement(spcDynamicPointerCast<spc::Point3D> (element), m_topProperty);
+//    }
+
+//    if (element->isA(&spc::SelectionRubberband::Type))
+//    {
+//        addPropertyFromSelectionRubberband(spcDynamicPointerCast<spc::SelectionRubberband>(element), m_topProperty);
+
+//    }
+
 
     while (type->getParent())
     {
@@ -261,6 +337,9 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
 
         if (*type == spc::SelectionRubberband::Type)
             addPropertyFromSelectionRubberband(spcDynamicPointerCast<spc::SelectionRubberband>(element), m_topProperty);
+
+        if (* type == spc::StratigraphicPositionableElement::Type)
+            addPropertyFromStratigraphicPositionableElement(spcDynamicPointerCast<spc::StratigraphicPositionableElement>(element), m_topProperty);
 
         type = type->getParent();
 
@@ -298,6 +377,18 @@ void ccPropertiesTree::updateObjectWithProperties(QtProperty *property,
 
             spc::Point3D::Ptr movable = spcDynamicPointerCast<spc::Point3D>(myobj->getSPCElement());
             setPropertyMovableElement(varProp, movable);
+        }
+
+        if (varProp->propertyName() == "Rubberband Selection")
+        {
+            spc::SelectionRubberband::Ptr sel = spcDynamicPointerCast<spc::SelectionRubberband>(myobj->getSPCElement());
+            fromPropertyToSelectionRubberband(sel, varProp);
+        }
+
+        if (varProp->propertyName() == "Stratigraphic Positionable Element")
+        {
+            spc::StratigraphicPositionableElement::Ptr my= spcDynamicPointerCast<spc::StratigraphicPositionableElement>(myobj->getSPCElement());
+            setPropertyToStratigraphicPositionableElement(varProp, my);
         }
 
         LOG(INFO) << "PROP NAME: " << varProp->propertyName().toStdString();
@@ -386,3 +477,6 @@ void ccPropertiesTree::refresh()
     if (m_currentItem)
         emit objectChanged(m_currentItem);
 }
+
+
+
