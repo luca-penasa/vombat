@@ -160,7 +160,7 @@ void ccPropertiesTree::fromPropertyToSelectionRubberband(spc::SelectionRubberban
         QtVariantProperty *var_p = dynamic_cast<QtVariantProperty *>(prop);
 
         if (var_p->propertyName() == "Max Distance")
-            sel->setMaxDistance(property->value().toDouble()) ;
+            sel->setMaxDistance(var_p->value().toDouble()) ;
 
      }
 
@@ -299,7 +299,7 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
 {
     clear();
 
-    ccMyBaseObject *test = dynamic_cast<ccMyBaseObject *>(obj);
+    ccSPCElementShell *test = dynamic_cast<ccSPCElementShell *>(obj);
     if (!test) {
         m_currentItem = 0; // no current item
         return;            // it is not an object from vombat!
@@ -316,17 +316,6 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
 
 
     DtiClassType * type = element->getType();
-
-//    if (element->isA(&spc::Point3D::Type))
-//    {
-//        addPropertyFromMovableElement(spcDynamicPointerCast<spc::Point3D> (element), m_topProperty);
-//    }
-
-//    if (element->isA(&spc::SelectionRubberband::Type))
-//    {
-//        addPropertyFromSelectionRubberband(spcDynamicPointerCast<spc::SelectionRubberband>(element), m_topProperty);
-
-//    }
 
 
     while (type->getParent())
@@ -364,7 +353,7 @@ void ccPropertiesTree::updateObjectWithProperties(QtProperty *property,
         QtProperty *prop = current_props.at(i);
         QtVariantProperty *varProp = dynamic_cast<QtVariantProperty *>(prop);
 
-        ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(m_currentItem);
+        ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(m_currentItem);
 
         if (!myobj)
         {

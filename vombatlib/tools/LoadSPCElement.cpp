@@ -1,9 +1,9 @@
 #include "LoadSPCElement.h"
 
 
-LoadSPCElement::LoadSPCElement(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Load SPC elemnts",
-                                                                                                   "Load SPC elemnts",
-                                                                                                   "Load SPC elemnts",
+LoadSPCElement::LoadSPCElement(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Load SPC elements",
+                                                                                                   "Load SPC elements",
+                                                                                                   "Load SPC elements",
                                                                                                    ":/toolbar/icons/load.png")
                                                                               , parent_plugin)
 {
@@ -51,31 +51,8 @@ int LoadSPCElement::compute()
 
         LOG(INFO) << "new ccHObject correctly created";
         //! \todo use a stack please
-        std::stack<ccHObject *> to_parse;
-        to_parse.push(newobj);
 
-        while (to_parse.size() != 0 )
-        {
-            LOG(INFO) << "parsing chid" << to_parse.top()->getName().toStdString();
-
-            ccHObject * child = to_parse.top();
-            to_parse.pop();
-
-            std::vector<ccHObject *> news = rebuildMyChilds(child);
-
-            for (ccHObject * obj: news)
-            {
-                to_parse.push(obj);
-            }
-
-            LOG(INFO) << "parsing done still n: " << to_parse.size();
-        }
-
-
-        newobj->setEnabled(true);
-        newobj->setVisible(true);
-
-
+        rebuildMyChildsRecursive(newobj);
         newEntity(newobj);
     }
 

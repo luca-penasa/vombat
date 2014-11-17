@@ -22,7 +22,7 @@ ccSingleAttitudeModelEditorDlg::~ccSingleAttitudeModelEditorDlg()
 
 void ccSingleAttitudeModelEditorDlg::stratShiftChanged(double val)
 {
-    m_model->getModel()->setAdditionalShift((float)val);
+    m_model->getModel()->setStratigraphicShift((float)val);
     m_model->updateInternals();
     m_model->redrawDisplay();
 }
@@ -47,7 +47,7 @@ void ccSingleAttitudeModelEditorDlg::maxSPChanged(double max_sp)
 
 void ccSingleAttitudeModelEditorDlg::initFromModel()
 {
-    ui->spinStratShift->setValue((double) m_model->getModel()->getAdditionalShift());
+    ui->spinStratShift->setValue((double) m_model->getModel()->getStratigraphicShift());
     ui->spinMaxSP->setValue((double) m_model->getMaxSp());
     ui->spinMinSP->setValue((double) m_model->getMinSp());
 }

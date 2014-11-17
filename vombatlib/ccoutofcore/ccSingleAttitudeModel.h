@@ -9,14 +9,13 @@
 
 #include <QDialog>
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include <QIcon>
 #include <ccPointCloud.h>
 
 #include <ccoutofcore/ccAttitude.h>
 
 #include "ccDynamicScalarFieldGenerator.h"
-//#define EIGEN_USE_NEW_STDVECTOR
 #include <Eigen/StdVector>
 /**
  * @brief The ccSingleAttitudeModel class is a specialization of a ccDynamicScalarFieldGenerator that add some
@@ -26,17 +25,22 @@ class ccSingleAttitudeModel: public ccDynamicScalarFieldGenerator
 {
     Q_OBJECT
 
+
+
 public:
-    ccSingleAttitudeModel(const char * name = 0);
 
-    ccSingleAttitudeModel (spc::StratigraphicModelSingleAttitude::Ptr model);
+    ccSingleAttitudeModel(): ccDynamicScalarFieldGenerator()
+    {
 
-    // copy const
-    ccSingleAttitudeModel(const ccSingleAttitudeModel &model);
+    }
 
-    ccSingleAttitudeModel(const spc::Attitude & att);
+    ccSingleAttitudeModel (spc::StratigraphicModelSingleAttitude::Ptr model):  ccDynamicScalarFieldGenerator(model)
+    {
 
-    ccSingleAttitudeModel(const ccAttitude & att);
+        initParameters();
+    }
+
+
 
     virtual bool isSerializable() const { return true; }
 
@@ -65,12 +69,6 @@ public:
         m_generator_ = spcStaticPointerCast<spc::VariableScalarFieldBase> (model);
     }
 
-protected:
-    virtual QString getSPCClassName() const
-    {
-        return "ccSingleAttitudeModel";
-    }
-
 
 
 public slots:
@@ -93,7 +91,7 @@ public slots:
     void setAdditionalShiftSlot(double additional_shift)
     {
         // we know this generator is a spc::SingleAttitudeModel
-        getModel()->setAdditionalShift((float) additional_shift);
+        getModel()->setStratigraphicShift((float) additional_shift);
         updateMajorBreaks();
     }
 
@@ -134,6 +132,7 @@ protected:
     float m_max_sp;
     float m_step;
 
+    float m_size_ = 10;
     int m_line_width;
 
     float m_major_thicks_length;

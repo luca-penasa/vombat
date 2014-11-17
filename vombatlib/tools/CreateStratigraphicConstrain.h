@@ -38,7 +38,7 @@ public:
 
             DLOG(INFO) << "working on " << obj;
 
-            ccMyBaseObject * myobj = dynamic_cast<ccMyBaseObject *> (obj);
+            ccSPCElementShell * myobj = dynamic_cast<ccSPCElementShell *> (obj);
 
             CHECK(myobj != NULL) << "Bad error. pointer is null!";
 
@@ -47,6 +47,8 @@ public:
             CHECK(point_ptr != NULL) << "Bad error. pointer is null!";
 
             constrain->addVertex(point_ptr);
+
+            obj->setLocked(true);
 
 //            ccSample * sam = new ccSample(point_ptr);
 //            out->addChild(sam);
@@ -67,7 +69,7 @@ protected:
     {
         ccHObject::Container selected = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::StratigraphicPositionableElement::Type);
 
-        if (selected.size() > 0)
+        if (selected.size() >= 2)
             return 1;
         else
             return -1;

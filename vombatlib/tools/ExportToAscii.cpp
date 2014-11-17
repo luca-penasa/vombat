@@ -29,7 +29,7 @@ int ExportToAscii::compute()
     int counter = 0;
     for(ccHObject * ts: ts_list)
     {
-        ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(ts);
+        ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(ts);
 
         spc::EigenTable::Ptr obj;
 

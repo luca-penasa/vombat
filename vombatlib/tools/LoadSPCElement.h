@@ -5,8 +5,9 @@
 
 #include <stack>
 #include <vombat.h>
+#include <ccStratigraphicConstrain.h>
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include<ccoutofcore/ccAttitude.h>
 #include <ccoutofcore/ccEigenTable.h>
 #include <ccoutofcore/ccSample.h>
@@ -14,9 +15,9 @@
 
 #include <ccPlanarSelection.h>
 
-
+#include <ccVirtualOutcrop.h>
 #include <ccoutofcore/ccCloudDataSourceOnDisk.h>
-
+#include <ccTimeSeries.h>
 class LoadSPCElement: public BaseFilter
 {
 public:
@@ -67,6 +68,23 @@ public:
 //            newobj->setName(ob->getElementName());
         }
 
+        else if (el->getType() == & spc::VirtualOutcrop::Type)
+        {
+            spc::VirtualOutcrop::Ptr ob = spcDynamicPointerCast<spc::VirtualOutcrop>(el);
+            newobj = new ccVirtualOutcrop(ob);
+        }
+
+        else if (el->isA(&spc::TimeSeriesBase::Type))
+        {
+                 spc::TimeSeriesBase::Ptr series= spcDynamicPointerCast<spc::TimeSeriesBase>(el);
+                 newobj = new ccTimeSeries(series);
+        }
+
+        else if (el->isA(&spc::StratigraphicConstrain::Type))
+        {
+            spc::StratigraphicConstrain::Ptr ob= spcDynamicPointerCast<spc::StratigraphicConstrain>(el);
+            newobj = new ccStratigraphicConstrain(ob);
+        }
         else
         {
             LOG(WARNING) << "cannot transform the loaded spc element into something cloudcompare-comaptible. plase provide the implementation here.";
@@ -81,21 +99,57 @@ public:
         return newobj;
     }
 
+    static void rebuildMyChildsRecursive(ccHObject * newobj)
+    {
+        LOG(INFO) << "new ccHObject correctly created";
+        //! \todo use a stack please
+        std::stack<ccHObject *> to_parse;
+        to_parse.push(newobj);
+
+        while (to_parse.size() != 0 )
+        {
+            LOG(INFO) << "parsing chid" << to_parse.top()->getName().toStdString();
+
+            ccHObject * child = to_parse.top();
+            to_parse.pop();
+
+            std::vector<ccHObject *> news = rebuildMyChilds(child);
+
+            for (ccHObject * obj: news)
+            {
+                to_parse.push(obj);
+            }
+
+            LOG(INFO) << "parsing done still n: " << to_parse.size();
+        }
+
+
+        newobj->setEnabled(true);
+        newobj->setVisible(true);
+    }
+
 
     static std::vector<ccHObject *> rebuildMyChilds(ccHObject *parent)
     {
 
         LOG(INFO) << "called rebuild my childs";
         std::vector<ccHObject *> out;
-        ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject *> (parent);
+        ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell *> (parent);
 
         CHECK(asmine != NULL);
 
-        LOG(INFO) << "correctly transformed to a ccMyBaseObject";
+        LOG(INFO) << "correctly transformed to a ccSPCElementShell: " << asmine->getSPCClassName().toStdString();
 
         for (spc::ElementBase::Ptr el: asmine->getSPCElement()->getChilds())
         {
-            LOG(INFO) << "working on child " << el;
+            if (vombat::theInstance()->getObjectFromElement(el) != NULL) // is yet present in the current tree
+            {
+                LOG(INFO) << "object is yet present in the tree. Not rebuilding it " << el->getType()->getClassName();
+                out.push_back(vombat::theInstance()->getObjectFromElement(el));
+                continue; //nothing to be done
+            }
+
+            LOG(INFO) << "working on child of type " << el->getType()->getClassName();
             ccHObject * ascc =  elementToCCHobject(el);                       
 
             if (!ascc)
@@ -105,7 +159,9 @@ public:
 
             ascc->setEnabled(true);
             ascc->setVisible(true);
-            parent->ccHObject::addChild(ascc);
+
+
+            parent->ccHObject::addChild(ascc);                        
         }
 
         return out;

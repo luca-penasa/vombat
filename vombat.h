@@ -4,18 +4,20 @@
 #include <QObject>
 #include <QtGui>
 //#include <mainwindow.h>
-
+#include <stack>
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <ccStdPluginInterface.h>
 #include <spc/core/DtiClass.h>
 //#include <ccVombatObjectsFactory.h>
+#include <spc/elements/ElementBase.h>
 
 class PlotterDlg;
 //class QToolBar;
 class QMenu;
 class OpenPlotsDialog;
 class Plotter2DDlg;
+class ccSPCElementShell;
 
 //! PCL bridge plugin
 class vombat : public QObject, public ccStdPluginInterface
@@ -84,6 +86,8 @@ public:
     ccHObject::Container getAllObjectsInTreeThatHaveMetaData(const QString key,
                                                              const QString value = QString() );
     ccHObject::Container getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType);
+
+    ccHObject * getObjectFromElement(const spc::ElementBase::Ptr el);
 
     static ccHObject::Container getAllChildren(ccHObject * object);
 

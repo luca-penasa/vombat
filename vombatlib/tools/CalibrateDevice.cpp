@@ -25,8 +25,8 @@ CalibrateDevice::CalibrateDevice(ccPluginInterface *parent_plugin)
 int CalibrateDevice::compute()
 {
 
-    ccMyBaseObject *myobj = dynamic_cast
-        <ccMyBaseObject *>(getSelectedEntityAsCCHObject());
+    ccSPCElementShell *myobj = dynamic_cast
+        <ccSPCElementShell *>(getSelectedEntityAsCCHObject());
     spc::IntensityCalibrator calibrator;
 
     spc::SamplesDB::Ptr db = spcDynamicPointerCast

@@ -1,7 +1,7 @@
 #ifndef CC_CALIBRATION_DB_H
 #define CC_CALIBRATION_DB_H
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 
 #include <helpers/ccSPCObjectsStreamer.h>
 //#include <spc/elements/SamplesDB.h>
@@ -15,16 +15,16 @@
 #include <spc/elements/EigenTable.h>
 
 
-class ccEigenTable : public ccMyBaseObject
+class ccEigenTable : public ccSPCElementShell
 
 {
 public:
-    ccEigenTable();
-
-    ccEigenTable(spc::EigenTable::Ptr db)
+    ccEigenTable(): m_calibration_db_(new spc::EigenTable), ccSPCElementShell(m_calibration_db_)
     {
-        m_calibration_db_ = db;
-        writeSPCClassNameToMetadata();
+    }
+
+    ccEigenTable(spc::EigenTable::Ptr db): m_calibration_db_(db), ccSPCElementShell(db)
+    {
     }
 
     virtual bool hasColors() const
@@ -49,12 +49,7 @@ public:
     }
 
 
-//    void exposeSamples();
 
-    virtual QString getSPCClassName() const
-    {
-        return "ccEigenTable";
-    }
 
 protected:
 
@@ -78,10 +73,6 @@ protected:
         return true;
     }
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        return m_calibration_db_;
-    }
 
 
 }; // end class

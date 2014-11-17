@@ -4,52 +4,28 @@
 #include <helpers/ccSPCObjectsStreamer.h>
 #include <ccGenericGLDisplay.h>
 
-ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
+ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation):
+    ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(asEigenVector(orientation), asEigenVector(center))))
 {
-
-    spc::Attitude att = spc::Attitude(asEigenVector(orientation), asEigenVector(center));
-    setAttitude(att);
-    writeSPCClassNameToMetadata();
-
-            m_selectionBehavior = SELECTION_IGNORED;
-
+    m_attitude  = this->getSPCElement<spc::Attitude>();
+     m_selectionBehavior = SELECTION_IGNORED;
 }
 
+ccAttitude::ccAttitude(spc::Attitude att): ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(att)))
+{        
 
-
-ccAttitude::ccAttitude(spc::Attitude att)
-{    
-    setAttitude(att);
-    writeSPCClassNameToMetadata();
-                m_selectionBehavior = SELECTION_IGNORED;
-
+    m_attitude = this->getSPCElement<spc::Attitude>();
+    m_selectionBehavior = SELECTION_IGNORED;
 }
 
-ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
+ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr):m_attitude(att_ptr), ccSPCElementShell(att_ptr)
 {
-    setAttitude(att_ptr);
+
     setName(att_ptr->getDipAndDipAngleAsString().c_str());
-    writeSPCClassNameToMetadata();
-                m_selectionBehavior = SELECTION_IGNORED;
+    m_selectionBehavior = SELECTION_IGNORED;
 
 }
 
-
-ccAttitude::ccAttitude()
-{
-    setAttitude(spc::Attitude::Ptr(new spc::Attitude));
-    writeSPCClassNameToMetadata();
-                m_selectionBehavior = SELECTION_IGNORED;
-
-}
-
-ccAttitude::ccAttitude(QString name): ccMyBaseObject(name)
-{
-    setAttitude(spc::Attitude::Ptr(new spc::Attitude));
-    writeSPCClassNameToMetadata();
-            m_selectionBehavior = SELECTION_IGNORED;
-
-}
 
 ccBBox ccAttitude::getMyOwnBB()
 {

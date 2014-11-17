@@ -25,10 +25,7 @@ AttitudeToModel::AttitudeToModel(ccPluginInterface *parent_plugin) : BaseFilter(
 
 int AttitudeToModel::compute()
 {
-
-
-
-    ccHObject * selected = getSelectedEntityAsCCHObject(); //we are sure it exists!
+    ccHObject * selected =vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::Attitude::Type).at(0); //we are sure it exists!
 
     ccAttitude * att =dynamic_cast<ccAttitude *> (selected);
 
@@ -37,8 +34,9 @@ int AttitudeToModel::compute()
 
 
 
+    spc::StratigraphicModelSingleAttitude::Ptr modelspc (new spc::StratigraphicModelSingleAttitude(*att->getAttitude()));
 
-    ccSingleAttitudeModel * model = new ccSingleAttitudeModel (*att);
+    ccSingleAttitudeModel * model = new ccSingleAttitudeModel (modelspc);
 
     selected->addChild(model);
 
@@ -58,9 +56,12 @@ int AttitudeToModel::compute()
 
 int AttitudeToModel::checkSelected()
 {
-    ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->getMetaData("class_name") == "ccAttitude")
+
+    if (vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::Attitude::Type).size() == 1)
+    {
         return 1;
+    }
     else
         return 0;
+
 }

@@ -8,10 +8,7 @@
 
 
 
-ccEigenTable::ccEigenTable()
-{
-        writeSPCClassNameToMetadata();
-}
+
 
 
 //void ccCalibrationDB::exposeSamples()

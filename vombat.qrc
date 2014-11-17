@@ -35,6 +35,9 @@
         <file>icons/AttitudeToModel.png</file>
         <file>icons/attitude.png</file>
         <file>icons/sample_locked.png</file>
+        <file>icons/outcrop.png</file>
+        <file>icons/time_series_multi.png</file>
+        <file>icons/FlipModel.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

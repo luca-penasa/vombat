@@ -3,20 +3,19 @@
 
 
 #include <spc/elements/SelectionRubberband.h>
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include <ccPolyline.h>
 #include <pcl/common/common.h>
 #include <pcl/filters/extract_indices.h>
 #include <boost/foreach.hpp>
 
-class ccPlanarSelection: public ccMyBaseObject
+class ccPlanarSelection: public ccSPCElementShell
 {
 public:
     ccPlanarSelection();
 
-    ccPlanarSelection(spc::SelectionRubberband::Ptr sel)
-    {
-        rubberband_ = sel;
+    ccPlanarSelection(spc::SelectionRubberband::Ptr sel): rubberband_(sel), ccSPCElementShell(sel)
+    {       
         LOG(INFO) << "ccPlanarSelection created";
     }
 
@@ -130,10 +129,7 @@ public:
         return m_rgbColor;
     }
 
-    virtual QString getSPCClassName() const
-    {
-        return "ccPlanarSelection";
-    }
+
 
 
 protected:
@@ -151,12 +147,6 @@ protected:
     //! Whether poyline should draws itself in background (false) or foreground (true)
     bool m_foreground;
 
-
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        DCHECK(rubberband_!=NULL);
-        return rubberband_;
-    }
 
 
 

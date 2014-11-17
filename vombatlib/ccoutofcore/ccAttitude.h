@@ -9,7 +9,7 @@
 #include "ccNormalVectors.h"
 
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 
 //#include <boost/serialization/shared_ptr.hpp>
 
@@ -23,18 +23,21 @@
 ///
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
-class ccAttitude:  public ccMyBaseObject
+class ccAttitude:  public ccSPCElementShell
 {
 public:
+    ccAttitude(): m_attitude(new spc::Attitude), ccSPCElementShell(m_attitude)
+    {
+        m_selectionBehavior = SELECTION_IGNORED;
+    }
+
     ccAttitude(CCVector3 center, CCVector3 orientation);
 
     ccAttitude(spc::Attitude att);
 
     ccAttitude(spc::Attitude::Ptr att_ptr);
 
-    ccAttitude();
 
-    ccAttitude(QString name);
 
     //inherited methods (ccHObject)
     virtual bool hasColors() const { return true; }
@@ -68,10 +71,7 @@ public:
         setAttitude(at_ptr);
     }
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        return m_attitude;
-    }
+
 
 protected:
     static Eigen::Vector3f asEigenVector(CCVector3 v)
@@ -89,11 +89,6 @@ protected:
 
 
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context);
-
-    virtual QString getSPCClassName() const
-    {
-        return "ccAttitude";
-    }
 
     float m_scale = 10;
     int m_width = 4;

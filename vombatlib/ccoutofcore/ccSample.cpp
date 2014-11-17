@@ -21,7 +21,7 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT &context)
 {
     QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
     // account!
-    font.setPointSize(font.pointSize()+2);
+    font.setPointSize(font.pointSize());
     font.setBold(true);
 
     // draw their name
@@ -29,10 +29,13 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT &context)
     glDisable(GL_DEPTH_TEST);
 
 
-QString name = QString::fromStdString(m_sample->getElementName()) +" at SP: "+ QString::number(m_sample->getStratigraphicPosition(), 'g', 3);
+QString name = QString::fromStdString(getSample()->getElementName()) +
+        " at SP: "+
+        QString::number(getSample()->getStratigraphicPosition(), 'g', 3);
 
     context._win->display3DLabel(name,
-                                 CCVector3(m_sample->getPosition().data()), ccColor::red, font);
+                                 CCVector3(getSample()->getPosition().data()),
+                                 ccColor::red, font);
 
 
 
@@ -56,7 +59,7 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
 
     if (MACRO_Draw3D(context))
     {
-        if (!this->m_sample)
+        if (!this->getSample())
             return;
 
         bool pushName = MACRO_DrawEntityNames(context);
@@ -95,7 +98,7 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
 
 
         float x, y, z;
-        this->m_sample->getPosition(x, y, z);
+        this->getSample()->getPosition(x, y, z);
         //    const CCVector3* P = m_points[i].cloud->getPoint(m_points[i].index);
         ccGL::Translate(x, y, z);
         glScalef(context.pickedPointsRadius, context.pickedPointsRadius,

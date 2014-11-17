@@ -32,7 +32,7 @@ public:
 
             DLOG(INFO) << "working on " << obj;
 
-            ccMyBaseObject * myobj = dynamic_cast<ccMyBaseObject *> (obj);
+            ccSPCElementShell * myobj = dynamic_cast<ccSPCElementShell *> (obj);
 
             CHECK(myobj != NULL) << "Bad error. pointer is null!";
 

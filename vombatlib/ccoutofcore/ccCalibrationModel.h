@@ -9,7 +9,7 @@
 #include "ccNormalVectors.h"
 
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 
 #include <spc/experimental/ICalPHFunction.h>
 
@@ -25,7 +25,7 @@
 ///
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
-class ccCalibrationModel:  public ccMyBaseObject
+class ccCalibrationModel:  public ccSPCElementShell
 {
 public:
     ccCalibrationModel();
@@ -43,23 +43,12 @@ public:
 
 
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        return m_attitude;
-    }
-
 protected:
 
 
     virtual bool toFile_MeOnly(QFile &out) const;
     virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags);
 
-
-
-    virtual QString getSPCClassName() const
-    {
-        return "ccCalibrationModel";
-    }
 
 
 

@@ -21,7 +21,7 @@ int Edit::compute()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject(); //we are sure it exists!
 
-    ccMyBaseObject * myobj = static_cast<ccMyBaseObject *> (selected);
+    ccSPCElementShell * myobj = static_cast<ccSPCElementShell *> (selected);
     if (!myobj)
         return 0;
 
@@ -39,7 +39,7 @@ int Edit::checkSelected()
     if (selected && selected->getMetaData("class_name").isValid())
     {
 
-        ccMyBaseObject * mobj = static_cast<ccMyBaseObject * >(selected);
+        ccSPCElementShell * mobj = static_cast<ccSPCElementShell * >(selected);
 
         if (!mobj)
         {

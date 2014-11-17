@@ -2,45 +2,13 @@
 #include <ccPointCloud.h>
 #include <dialogs/ccSingleAttitudeModelEditorDlg.h>
 #include <ccGenericGLDisplay.h>
-ccSingleAttitudeModel::ccSingleAttitudeModel(const char * name): ccDynamicScalarFieldGenerator(name)
-{
-
-    setModel( spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude));
-    initParameters();
-    writeSPCClassNameToMetadata();
-
-
-}
-
-ccSingleAttitudeModel::ccSingleAttitudeModel(const ccSingleAttitudeModel &other)
-{
-    setModel(other.getModel());
-    initParameters();
-    writeSPCClassNameToMetadata();
 
 
 
-}
-
-ccSingleAttitudeModel::ccSingleAttitudeModel(const spc::Attitude &att)
-{
-    setModel( spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude(att)) );
-
-    initParameters();
-    writeSPCClassNameToMetadata();
 
 
-}
-
-ccSingleAttitudeModel::ccSingleAttitudeModel(const ccAttitude & att)
-{
-    setModel(spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude(att.getAttitude())) );
-
-    initParameters();
-    writeSPCClassNameToMetadata();
 
 
-}
 
 void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
@@ -207,6 +175,9 @@ void ccSingleAttitudeModel::initParameters()
 
 void ccSingleAttitudeModel::updateMajorBreaks()
 {
+
+    m_max_sp = getModel()->getStratigraphicShift() + m_size_;
+    m_min_sp = getModel()->getStratigraphicShift() - m_size_;
     if(m_max_sp <= m_min_sp)
         return; // do nothing
 
@@ -284,11 +255,6 @@ void ccSingleAttitudeModel::setMaxSp(float max_sp)
 
 }
 
-ccSingleAttitudeModel::ccSingleAttitudeModel(spc::StratigraphicModelSingleAttitude::Ptr model): ccDynamicScalarFieldGenerator(model)
-{
-    m_generator_ = model;
-    initParameters();
-}
 
 float ccSingleAttitudeModel::getMinSp() const
 {

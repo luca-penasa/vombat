@@ -1,6 +1,6 @@
 #ifndef CCTIMESERIES_H
 #define CCTIMESERIES_H
-#include "ccMyBaseObject.h"
+#include "ccSPCElementShell.h"
 
 class QIcon;
 
@@ -10,19 +10,19 @@ class QIcon;
 ///
 /// \brief The ccTimeSeries class contains any kind of spc-based time-series
 ///
-class ccTimeSeries : public ccMyBaseObject
+class ccTimeSeries : public ccSPCElementShell
 {
 public:
-    ccTimeSeries(spc::TimeSeriesBase::Ptr series);
+    ccTimeSeries(spc::TimeSeriesBase::Ptr series, const QString name = QString(""));
 
-    ccTimeSeries()
+    ccTimeSeries(): ccSPCElementShell(NULL)
     {
-        writeSPCClassNameToMetadata();
+
     }
 
     virtual QIcon getIcon() const
     {
-        return QIcon(QString::fromUtf8(":/toolbar/icons/tseries.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/time_series.png"));
     }
 
     spc::TimeSeriesBase::Ptr getTimeSeries() const
@@ -77,15 +77,9 @@ protected:
     spc::TimeSeriesBase::Ptr series_;
 
 public:
-    virtual QString getSPCClassName() const
-    {
-        return "ccTimeSeries";
-    }
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        return series_;
-    }
+
+
 
     // ccHObject interface
 protected:

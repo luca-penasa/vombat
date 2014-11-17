@@ -2,7 +2,7 @@
 #define CC_EXAMPLE_OBJECT_H
 
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include <spc/elements/CloudDataSourceOnDisk.h>
 #include <QIcon>
 
@@ -10,10 +10,10 @@
 ///
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
-class ccCloudDataSourceOnDisk:  public ccMyBaseObject
+class ccCloudDataSourceOnDisk:  public ccSPCElementShell
 {
 public:
-    ccCloudDataSourceOnDisk(spc::CloudDataSourceOnDisk::Ptr source): ccMyBaseObject(source)
+    ccCloudDataSourceOnDisk(spc::CloudDataSourceOnDisk::Ptr source): ccSPCElementShell(source)
     {
 //        this->writeSPCClassNameToMetadata();
 
@@ -22,7 +22,7 @@ public:
         source_ = source;
     }
 
-//    ccCloudDataSourceOnDisk(const spc::CloudDataSourceOnDisk & source): ccMyBaseObject(source)
+//    ccCloudDataSourceOnDisk(const spc::CloudDataSourceOnDisk & source): ccSPCElementShell(source)
 //    {
 ////        this->writeSPCClassNameToMetadata();
 ////        source_ = spcMakeSharedPtrMacro<spc::CloudDataSourceOnDisk>(source);
@@ -66,10 +66,6 @@ public:
 public:
 
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        return source_;
-    }
 
 protected:
 
@@ -166,10 +162,6 @@ protected:
 //        }
     }
 
-    virtual QString getSPCClassName() const
-    {
-        return "ccCloudDataSourceOnDisk";
-    }
 
 protected:
     spc::CloudDataSourceOnDisk::Ptr source_;

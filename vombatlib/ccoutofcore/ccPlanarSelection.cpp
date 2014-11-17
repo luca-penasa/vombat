@@ -1,11 +1,7 @@
 #include "ccPlanarSelection.h"
 
-ccPlanarSelection::ccPlanarSelection()
+ccPlanarSelection::ccPlanarSelection(): rubberband_(new spc::SelectionRubberband), ccSPCElementShell(rubberband_)
 {
-
-    QVariant var("An area selection");
-    setMetaData(QString("[vombat][ccPlanarSelection]"), var);
-
     m_foreground = false;
 
     m_selectionBehavior = SELECTION_IGNORED;
@@ -13,9 +9,6 @@ ccPlanarSelection::ccPlanarSelection()
     memcpy(m_rgbColor, ccColor::green, sizeof(colorType) * 3);
 
     setVisible(true);
-
-
-
 }
 
 ccBBox ccPlanarSelection::getDisplayBB()

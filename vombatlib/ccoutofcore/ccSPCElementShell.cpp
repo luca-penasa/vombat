@@ -1,51 +1,49 @@
-#include "ccMyBaseObject.h"
+#include "ccSPCElementShell.h"
 
 #include <spc/elements/StratigraphicPositionableElement.h>
 
-ccMyBaseObject::ccMyBaseObject()
-{
-    setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
+//ccSPCElementShell::ccSPCElementShell()
+//{
 
-    DLOG(INFO) << "created a ccMyBaseObject";
+//    DLOG(INFO) << "created a ccSPCElementShell";
 
-}
+//}
 
-ccMyBaseObject::ccMyBaseObject(QString name) : ccCustomHObject(name)
-{
-    setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
-    DLOG(INFO) << "created a ccMyBaseObject";
-}
+//ccSPCElementShell::ccSPCElementShell(QString name) : ccCustomHObject(name)
+//{
+//    setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
+//    DLOG(INFO) << "created a ccSPCElementShell";
+//}
 
-QString ccMyBaseObject::getSPCClassName() const
-{
-    return "ccMyBaseObject";
-}
 
-void ccMyBaseObject::writeSPCClassNameToMetadata()
+
+void ccSPCElementShell::writeSPCClassNameToMetadata()
 {
     QString name = this->getSPCClassName();
     setMetaData(QString("class_name"), QVariant(QString(name)));
+    setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
+
 }
 
 
-bool ccMyBaseObject::addChild(ccHObject *child, int dependencyFlags, int insertIndex)
+bool ccSPCElementShell::addChild(ccHObject *child, int dependencyFlags, int insertIndex)
 {
 
     DLOG(INFO) << "adding child";
 
     ccHObject::addChild(child, dependencyFlags, insertIndex);
 
-    ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(child);
+    ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell * >(child);
 
     if (asmine)
         this->getSPCElement()->addChild(asmine->getSPCElement());
 }
 
-void ccMyBaseObject::removeChild(int pos)
+void ccSPCElementShell::removeChild(int pos)
 {
     DLOG(INFO) << "removing child by pos";
 
-    ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(m_children[pos]);
+    ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell * >(m_children[pos]);
 
     if(asmine)
         this->getSPCElement()->removeChild(asmine->getSPCElement());
@@ -53,13 +51,13 @@ void ccMyBaseObject::removeChild(int pos)
     ccHObject::removeChild(pos);
 }
 
-void ccMyBaseObject::setParent(ccHObject *parent)
+void ccSPCElementShell::setParent(ccHObject *parent)
 {
 
     DLOG(INFO) << "set parent";
     ccHObject::setParent(parent);
 
-    ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(parent);
+    ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell * >(parent);
     if(asmine)
     {
         this->getSPCElement()->setParent(asmine->getSPCElement());
@@ -89,32 +87,32 @@ void ccMyBaseObject::setParent(ccHObject *parent)
 
 }
 
-void ccMyBaseObject::detachChild(ccHObject *child)
+void ccSPCElementShell::detachChild(ccHObject *child)
 {
     DLOG(INFO) << "detached chaild";
 
     ccHObject::detachChild(child);
 
-    ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(child);
+    ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell * >(child);
 
     if(asmine)
         this->getSPCElement()->removeChild(asmine->getSPCElement());
 }
 
-void ccMyBaseObject::setName(const QString &name)
+void ccSPCElementShell::setName(const QString &name)
 {
     ccObject::setName(name);
     this->getSPCElement()->setElementName(name.toStdString());
 
 }
 
-void ccMyBaseObject::removeChild(ccHObject *child)
+void ccSPCElementShell::removeChild(ccHObject *child)
 {
     DLOG(INFO) << "removing child by pointer";
     ccHObject::removeChild(child);
 
 
-    ccMyBaseObject * asmine = dynamic_cast<ccMyBaseObject * >(child);
+    ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell * >(child);
 
 
     if(asmine)

@@ -107,7 +107,7 @@ protected:
         if (obj && obj->isA(CC_TYPES::POINT_CLOUD)) {
             return true;
         } else {
-            ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(obj);
+            ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(obj);
             if (!myobj)
                 return false;
             else {
@@ -138,7 +138,7 @@ protected:
                 new spcCCPointCloud(getSelectedEntityAsCCPointCloud()));
 
         // maybe is another spc type field-enabled
-        ccMyBaseObject *myobj = dynamic_cast<ccMyBaseObject *>(obj);
+        ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(obj);
         if (myobj && myobj->getSPCElement()->getType()->isA(
                          &spc::EigenTable::Type)) {
             spc::EigenTable::Ptr man = spcDynamicPointerCast

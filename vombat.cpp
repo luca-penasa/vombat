@@ -1,5 +1,8 @@
 #include "vombat.h"
 
+#include <ccSPCElementShell.h>
+
+
 #include <ccPointCloud.h>
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 //#include <ComputeTimeSeries.h>
@@ -18,15 +21,16 @@
 #include <OpenPlots2DDialog.h>
 #include <ExportToAscii.h>
 #include <ApplyCorrection.h>
+#include <FlipModel.h>
 
 #include <CreateStratigraphicConstrain.h>
-
+#include <CreateOutcrop.h>
 #include <LinkModelToRubberband.h>
 
 #include <AddSample.h>
 
 #include <CreateTimeSeriesFromScalarFields.h>
-
+#include <AutoComputeTimeSeries.h>
 #include <ComputeCalibrationDB.h>
 //#include <test.h>
 
@@ -97,8 +101,11 @@ void vombat::getActions(QActionGroup &group)
 {
     if (m_filters.empty()) {
         // ADD FILTERS
+
+        addFilter(new CreateOutcrop(this));
         addFilter(new FitAttitude(this));
         addFilter(new AttitudeToModel(this));
+        addFilter(new FlipModel(this));
         addFilter(new LinkModelToRubberband(this));
 
         addFilter(new EvaluateDynamicScalarFieldGenerator(this));
@@ -117,7 +124,6 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new SetUpNewSeries(this));
 
         //        addFilter(new Test(this));
-
         addFilter(new ComputeCalibrationDB(this));
         addFilter(new CalibrateDevice(this));
         addFilter(new ApplyCorrection(this));
@@ -138,6 +144,7 @@ void vombat::getActions(QActionGroup &group)
         addFilter(new SaveSPCElement(this));
         addFilter(new LoadSPCElement(this));
         addFilter(new LoadCloudDataSource(this));
+        addFilter(new AutoComputeTimeSeries(this));
 
 
         addFilter(new CreateStratigraphicConstrain(this));
@@ -270,6 +277,36 @@ ccHObject::Container vombat::getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType)
     return vombat::filterObjectsByType(all, ThisType);
 }
 
+ccHObject *vombat::getObjectFromElement(const ElementBase::Ptr el)
+{
+    ccHObject * root = this->theInstance()->getMainAppInterface()->dbRootObject();
+
+    std::stack<ccHObject *> tocheck;
+    tocheck.push(root);
+
+    while (!tocheck.empty())
+    {
+        ccHObject * obj = tocheck.top();
+        tocheck.pop();
+
+        ccSPCElementShell * asmine = dynamic_cast<ccSPCElementShell *> (obj);
+
+        if (asmine != NULL)
+        {
+            if (asmine->getSPCElement() == el)
+                return asmine;
+        }
+
+        for(int i = 0; i < obj->getChildrenNumber(); ++i)
+        {
+            tocheck.push(obj->getChild(i));
+        }
+    }
+
+    // if we are here nothing was found
+    return NULL;
+}
+
 ccHObject::Container vombat::getAllChildren(ccHObject *object)
 {
     int n = object->getChildrenNumber();
@@ -335,7 +372,7 @@ ccHObject::Container vombat::getAllObjectsInTreeBySPCDti(const DtiClassType *dti
     ccHObject::Container out;
     for (ccHObject * obj: all)
     {
-        ccMyBaseObject * asvombat = dynamic_cast<ccMyBaseObject *> (obj);
+        ccSPCElementShell * asvombat = dynamic_cast<ccSPCElementShell *> (obj);
         if (asvombat!= NULL)
         {
             // isa  vomabt object
@@ -353,7 +390,7 @@ ccHObject::Container vombat::getAllObjectsSelectedBySPCDti(const DtiClassType *d
     ccHObject::Container out;
     for (ccHObject * obj: all)
     {
-        ccMyBaseObject * asvombat = dynamic_cast<ccMyBaseObject *> (obj);
+        ccSPCElementShell * asvombat = dynamic_cast<ccSPCElementShell *> (obj);
         if (asvombat!= NULL)
         {
             // isa  vomabt object

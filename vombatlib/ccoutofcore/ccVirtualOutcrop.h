@@ -1,22 +1,23 @@
-#ifndef CC_EXAMPLE_OBJECT_H
-#define CC_EXAMPLE_OBJECT_H
+#ifndef CC_VIRTUAL_OUTCROP_H
+#define CC_VIRTUAL_OUTCROP_H
 
 
 #include <ccoutofcore/ccSPCElementShell.h>
 #include <QIcon>
 
-
+#include <spc/elements/VirtualOutcrop.h>
 ///
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
-class ccExampleObject:  public ccSPCElementShell
+class ccVirtualOutcrop:  public ccSPCElementShell
 {
 public:
-    ccExampleObject(spc::ElementBase::Ptr obj): ccSPCElementShell(obj)
+    ccVirtualOutcrop(spc::VirtualOutcrop::Ptr outcrop): ccSPCElementShell(outcrop)
     {
+
     }
 
-    ~ccExampleObject()
+    ~ccVirtualOutcrop()
     {
 
     }
@@ -39,7 +40,7 @@ public:
 
     virtual QIcon getIcon() const
     {
-        return QIcon(QString::fromUtf8(":/toolbar/icons/attitude.png"));
+        return QIcon(QString::fromUtf8(":/toolbar/icons/outcrop.png"));
     }
 
     //inherited from ccSerializableObject
@@ -47,7 +48,6 @@ public:
     {
         return true;
     }
-
 
 protected:
 
@@ -145,8 +145,10 @@ protected:
     }
 
 
-
-
+    spc::VirtualOutcrop::Ptr getVirtualOutcrop() const
+    {
+        return getSPCElement<spc::VirtualOutcrop>();
+    }
 
 };//end class
 

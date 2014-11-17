@@ -10,7 +10,7 @@
 
 #include <QDialog>
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include <QIcon>
 #include <ccPointCloud.h>
 
@@ -18,43 +18,26 @@
 
 #include <ccoutofcore/ccAttitude.h>
 
-class ccDynamicScalarFieldGenerator: public QObject,  public ccMyBaseObject
+class ccDynamicScalarFieldGenerator: public QObject,  public ccSPCElementShell
 {
     Q_OBJECT
 
 public:
 
-
-    ccDynamicScalarFieldGenerator(const char * name =0): ccMyBaseObject(name)
+    ccDynamicScalarFieldGenerator(): ccSPCElementShell(NULL)
     {
-
-        writeSPCClassNameToMetadata();
 
     }
 
-    // copy const
-    ccDynamicScalarFieldGenerator(const ccDynamicScalarFieldGenerator &other)
-    {
-        m_generator_ = other.getGenerator();
-        writeSPCClassNameToMetadata();
-
-    }
-
-    ccDynamicScalarFieldGenerator(spc::VariableScalarFieldBase::Ptr other): ccMyBaseObject(other)
+    ccDynamicScalarFieldGenerator(spc::VariableScalarFieldBase::Ptr other): ccSPCElementShell(other)
     {
         m_generator_ = other;
-        writeSPCClassNameToMetadata();
 
     }
 
     spc::VariableScalarFieldBase::Ptr getGenerator() const
     {
         return m_generator_;
-    }
-
-    virtual QString getSPCClassName() const
-    {
-        return "ccDynamicScalarFieldGenerator";
     }
 
 
@@ -75,7 +58,7 @@ protected:
 
 
 
-    // ccMyBaseObject interface
+    // ccSPCElementShell interface
 
     // ccHObject interface
 protected:
@@ -93,10 +76,6 @@ protected:
         return true;
     }
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        return m_generator_;
-    }
 
     // ccSerializableObject interface
 };

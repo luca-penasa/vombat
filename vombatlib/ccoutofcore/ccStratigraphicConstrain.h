@@ -3,23 +3,24 @@
 
 
 #include <spc/elements/StratigraphicConstrain.h>
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include <ccPolyline.h>
 #include <pcl/common/common.h>
 #include <pcl/filters/extract_indices.h>
 #include <boost/foreach.hpp>
+#include <ccSphere.h>
 
 
 static QSharedPointer<ccSphere> c_unitPointMarker(0);
 
 
-class ccStratigraphicConstrain: public ccMyBaseObject
+class ccStratigraphicConstrain: public ccSPCElementShell
 {
 public:
-    ccStratigraphicConstrain()
+    ccStratigraphicConstrain(): ccSPCElementShell(spc::StratigraphicConstrain::Ptr(new spc::StratigraphicConstrain))
     {
-        QVariant var("Stratigraphic correspondence constrain");
-        setMetaData(QString("[vombat][ccStratigraphicConstrain]"), var);
+
+        constrain_ = this->getSPCElement<spc::StratigraphicConstrain>();
 
         m_foreground = false;
         m_width  = 0.0;
@@ -28,9 +29,19 @@ public:
         setVisible(true);
     }
 
-    ccStratigraphicConstrain(spc::StratigraphicConstrain::Ptr sel)
+    ccStratigraphicConstrain(spc::StratigraphicConstrain::Ptr sel): ccSPCElementShell(sel)
     {
-        constrain_ = sel;    }
+        constrain_ = sel;
+    }
+    ~ccStratigraphicConstrain()
+    {
+        for (spc::ElementBase::Ptr el: constrain_->getVertices())
+        {
+            ccHObject * ob = vombat::theInstance()->getObjectFromElement(el);
+            if(ob) //! < maybe has been deleted in the meanwhile \todo this should not happen but it does check why
+                ob->setLocked(false);
+        }
+    }
 
     virtual bool isSerializable() const override
     { return true; }
@@ -121,13 +132,19 @@ protected:
 
 //        }
 
-
-        if (colorsShown())
-            glColor3ubv(m_rgbColor);
-
+        if (isSelected())
+        {
+            glColor3ubv(ccColor::red);
+            glLineWidth(3);
+        }
+        else
+        {
+            glLineWidth(2);
+            glColor3ubv(ccColor::orange);
+        }
         glPushAttrib(GL_LINE_BIT);
 
-        glLineStipple(1, 0xAAAA);
+        glLineStipple(2, 0xAAAA);
         glEnable(GL_LINE_STIPPLE);
         glBegin(GL_LINE_STRIP);
         for (int i =0; i < constrain_->getNumberOfConstrains(); ++i)
@@ -160,10 +177,7 @@ public:
         return m_rgbColor;
     }
 
-    virtual QString getSPCClassName() const
-    {
-        return "ccStrtigraphicConstrain";
-    }
+
 
 
 protected:
@@ -178,6 +192,8 @@ protected:
     spc::StratigraphicConstrain::Ptr constrain_;
 
 
+
+
     int m_radius_ = 1;
 
 
@@ -185,11 +201,6 @@ protected:
     bool m_foreground;
 
 
-    virtual spc::ElementBase::Ptr getSPCElement() const
-    {
-        DCHECK(constrain_!=NULL);
-        return constrain_;
-    }
 
 
 

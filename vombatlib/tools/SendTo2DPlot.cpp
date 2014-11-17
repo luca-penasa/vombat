@@ -43,7 +43,7 @@ int SendTo2DPlot::compute()
 int SendTo2DPlot::checkSelected()
 {
     ccHObject * selected = getSelectedEntityAsCCHObject();
-    if (selected && selected->getMetaData("class_name") == "ccTimeSeries")
+    if (selected && dynamic_cast<ccTimeSeries *> (selected))
         return 1;
     else
         return 0;

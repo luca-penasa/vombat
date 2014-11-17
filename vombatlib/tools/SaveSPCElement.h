@@ -5,7 +5,7 @@
 #include <vombat.h>
 #include <spc/elements/ElementBase.h>
 
-#include <ccoutofcore/ccMyBaseObject.h>
+#include <ccoutofcore/ccSPCElementShell.h>
 #include <ccoutofcore/ccAttitude.h>
 //#include <boost/typeof/typeof.hpp>
 
@@ -24,11 +24,11 @@ public:
 
         // only the first one
         ccHObject *qua = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::ElementBase::Type).at(0);
-        ccMyBaseObject *my = dynamic_cast<ccMyBaseObject *>(qua);
+        ccSPCElementShell *my = dynamic_cast<ccSPCElementShell *>(qua);
 
         if (!my)
         {
-            LOG(ERROR) << "cannot dynamic cast to ccMyBaseObject. This Should never happen!";
+            LOG(ERROR) << "cannot dynamic cast to ccSPCElementShell. This Should never happen!";
             return -1;
 
         }

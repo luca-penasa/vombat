@@ -28,8 +28,8 @@ int LinkModelToRubberband::compute()
     ccHObject::Container rubberband  = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::SelectionRubberband::Type);
 
 
-    ccMyBaseObject * mod = dynamic_cast<ccMyBaseObject *> (model.at(0));
-    ccMyBaseObject * rub = dynamic_cast<ccMyBaseObject *> (rubberband.at(0));
+    ccSPCElementShell * mod = dynamic_cast<ccSPCElementShell *> (model.at(0));
+    ccSPCElementShell * rub = dynamic_cast<ccSPCElementShell *> (rubberband.at(0));
 
     mod->getParent()->detachChild(mod);
 

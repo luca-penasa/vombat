@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <ccHObject.h>
 #include <QtVariantProperty>
-#include <ccMyBaseObject.h>
+#include <ccSPCElementShell.h>
 #include <spc/elements/MovableElement.h>
 #include <spc/elements/ElementWithVariantProperties.h>
 #include <spc/elements/SelectionRubberband.h>
