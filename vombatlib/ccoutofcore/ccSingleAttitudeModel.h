@@ -2,7 +2,7 @@
 #define CC_SINGLE_ATTITUDE_MODEL_H
 
 #include <ccHObject.h>
-
+#include <spc/core/spc_eigen.h>
 #include <spc/elements/StratigraphicModelSingleAttitude.h>
 #include <ccCylinder.h>
 #include <ccoutofcore/ccEditableHObject.h>

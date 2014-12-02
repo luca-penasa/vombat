@@ -36,7 +36,7 @@ int ComputeCalibrationDB::compute()
         calibrator.setMaximumDistanceForGettingNormal(m_dialog->getMaxDistanceForNormals());
     }
 
-    calibrator.setSearchRadius(m_dialog->getKernelSize());
+    calibrator.setNormalEstimationSearchRadius(m_dialog->getKernelSize());
 
     //we use gaussian by def
     calibrator.setIntensityEstimationMethod(spc::CalibrationDataEstimator::GAUSSIAN_ESTIMATION);

@@ -1,7 +1,7 @@
 #include "ccEigenTable.h"
 #include <iostream>
 
-#include <Eigen/Dense>
+#include <spc/core/eigen_extensions.h>
 
 #include <ccoutofcore/ccSample.h>
 #include <spc/elements/SamplesDB.h>

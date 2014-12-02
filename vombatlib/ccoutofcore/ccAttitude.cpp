@@ -9,6 +9,10 @@ ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation):
 {
     m_attitude  = this->getSPCElement<spc::Attitude>();
      m_selectionBehavior = SELECTION_IGNORED;
+
+     if (m_attitude->getNormal()(2) < 0)
+         flipNormal();
+
 }
 
 ccAttitude::ccAttitude(spc::Attitude att): ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(att)))
@@ -16,6 +20,8 @@ ccAttitude::ccAttitude(spc::Attitude att): ccSPCElementShell(spc::Attitude::Ptr(
 
     m_attitude = this->getSPCElement<spc::Attitude>();
     m_selectionBehavior = SELECTION_IGNORED;
+    if (m_attitude->getNormal()(2) < 0)
+        flipNormal();
 }
 
 ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr):m_attitude(att_ptr), ccSPCElementShell(att_ptr)
@@ -23,9 +29,15 @@ ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr):m_attitude(att_ptr), ccSPCEle
 
     setName(att_ptr->getDipAndDipAngleAsString().c_str());
     m_selectionBehavior = SELECTION_IGNORED;
+    if (m_attitude->getNormal()(2) < 0)
+        flipNormal();
 
 }
 
+void ccAttitude::flipNormal()
+{
+    m_attitude->setNormal(-m_attitude->getNormal());
+}
 
 ccBBox ccAttitude::getMyOwnBB()
 {

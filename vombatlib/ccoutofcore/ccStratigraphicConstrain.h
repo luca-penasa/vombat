@@ -22,6 +22,7 @@ public:
 
         constrain_ = this->getSPCElement<spc::StratigraphicConstrain>();
 
+
         m_foreground = false;
         m_width  = 0.0;
         memcpy(m_rgbColor, ccColor::red, sizeof(colorType) * 3);
@@ -31,6 +32,8 @@ public:
 
     ccStratigraphicConstrain(spc::StratigraphicConstrain::Ptr sel): ccSPCElementShell(sel)
     {
+        m_selectionBehavior = SELECTION_IGNORED;
+
         constrain_ = sel;
     }
     ~ccStratigraphicConstrain()
