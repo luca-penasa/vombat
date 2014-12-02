@@ -106,7 +106,7 @@ void vombat::getActions(QActionGroup &group)
         addFilter(new FitAttitude(this));
         addFilter(new AttitudeToModel(this));
         addFilter(new FlipModel(this));
-        addFilter(new LinkModelToRubberband(this));
+//        addFilter(new LinkModelToRubberband(this));
 
         addFilter(new EvaluateDynamicScalarFieldGenerator(this));
         addFilter(new Edit(this));
@@ -124,9 +124,9 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new SetUpNewSeries(this));
 
         //        addFilter(new Test(this));
-        addFilter(new ComputeCalibrationDB(this));
-        addFilter(new CalibrateDevice(this));
-        addFilter(new ApplyCorrection(this));
+//        addFilter(new ComputeCalibrationDB(this));
+//        addFilter(new CalibrateDevice(this));
+//        addFilter(new ApplyCorrection(this));
 
         addFilter(new AddSample(this));
 
