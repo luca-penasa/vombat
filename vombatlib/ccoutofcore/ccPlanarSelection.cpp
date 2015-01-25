@@ -6,7 +6,7 @@ ccPlanarSelection::ccPlanarSelection(): rubberband_(new spc::SelectionRubberband
 
     m_selectionBehavior = SELECTION_IGNORED;
     m_width  = 0.0;
-    memcpy(m_rgbColor, ccColor::green, sizeof(colorType) * 3);
+	memcpy(m_rgbColor, ccColor::green.rgba, sizeof(colorType) * 3);
 
     setVisible(true);
 }

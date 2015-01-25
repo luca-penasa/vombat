@@ -25,7 +25,7 @@ public:
 
         m_foreground = false;
         m_width  = 0.0;
-        memcpy(m_rgbColor, ccColor::red, sizeof(colorType) * 3);
+		memcpy(m_rgbColor, ccColor::red.rgba, sizeof(colorType) * 3);
 
         setVisible(true);
     }
@@ -137,13 +137,13 @@ protected:
 
         if (isSelected())
         {
-            glColor3ubv(ccColor::red);
+			glColor3ubv(ccColor::red.rgba);
             glLineWidth(3);
         }
         else
         {
             glLineWidth(2);
-            glColor3ubv(ccColor::orange);
+			glColor3ubv(ccColor::orange.rgba);
         }
         glPushAttrib(GL_LINE_BIT);
 

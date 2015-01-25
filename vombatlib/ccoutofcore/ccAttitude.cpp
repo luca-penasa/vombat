@@ -103,9 +103,9 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 
         //we draw the segments
         if (isSelected())
-            glColor3ubv(ccColor::red);
+			glColor3ubv(ccColor::red.rgba);
         else
-            glColor3ubv(ccColor::green);
+			glColor3ubv(ccColor::green.rgba);
 
         Vector3f pos = getAttitude()->getPosition();
 
@@ -113,21 +113,21 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
         Vector3f strike_v = getAttitude()->getStrikeVector();
 
 
-        Vector3f arr_shaft = pos + dip_v * m_scale * context.pickedPointsRadius;
-        Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.pickedPointsRadius;
-        Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.pickedPointsRadius;
+		Vector3f arr_shaft = pos + dip_v * m_scale * context.labelMarkerSize;
+		Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.labelMarkerSize;
+		Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.labelMarkerSize;
 
-        context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
+		context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red.rgba);
 
 
         glBegin(GL_LINES);
-        glColor3ubv(ccColor::red);
+		glColor3ubv(ccColor::red.rgba);
 
         glVertex3fv( pos.data() );
         glVertex3fv( arr_shaft.data() );
 
 
-        glColor3ubv(ccColor::blue);
+		glColor3ubv(ccColor::blue.rgba);
 
 
         glVertex3fv( pos.data());

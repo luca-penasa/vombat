@@ -12,7 +12,7 @@
 
 void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
-    m_dynamic_scale = context.pickedPointsRadius;
+	m_dynamic_scale = context.labelMarkerSize;
 
     //we draw here a little 3d representation of the sensor
     if (MACRO_Draw3D(context))
@@ -34,9 +34,9 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 
         //we draw the segments
         if (isSelected())
-            glColor3ubv(ccColor::red);
+			glColor3ubv(ccColor::red.rgba);
         else
-            glColor3ubv(ccColor::blue);
+			glColor3ubv(ccColor::blue.rgba);
 
         Eigen::Vector3f start = getModel()->getPointAtStratigraphicPosition(m_min_sp);
         Eigen::Vector3f end = getModel()->getPointAtStratigraphicPosition(m_max_sp);
@@ -71,9 +71,9 @@ void ccSingleAttitudeModel::drawMajorThicks(CC_DRAW_CONTEXT &context)
 
     //we draw the segments
     if (isSelected())
-        glColor3ubv(ccColor::red);
+		glColor3ubv(ccColor::red.rgba);
     else
-        glColor3ubv(ccColor::blue);
+		glColor3ubv(ccColor::blue.rgba);
 
 
     glBegin(GL_LINES);
@@ -107,9 +107,9 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 
 
         if (isSelected())
-            context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::red);
+			context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::red.rgba);
         else
-            context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::blue);
+			context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::blue.rgba);
     }
 
 }

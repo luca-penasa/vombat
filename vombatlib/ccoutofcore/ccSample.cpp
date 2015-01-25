@@ -35,7 +35,7 @@ QString name = QString::fromStdString(getSample()->getElementName()) +
 
     context._win->display3DLabel(name,
                                  CCVector3(getSample()->getPosition().data()),
-                                 ccColor::red, font);
+								 ccColor::red.rgba, font);
 
 
 
@@ -101,10 +101,10 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
         this->getSample()->getPosition(x, y, z);
         //    const CCVector3* P = m_points[i].cloud->getPoint(m_points[i].index);
         ccGL::Translate(x, y, z);
-        glScalef(context.pickedPointsRadius, context.pickedPointsRadius,
-                 context.pickedPointsRadius);
+		glScalef(context.labelMarkerSize, context.labelMarkerSize,
+				 context.labelMarkerSize);
 
-        m_current_scaling_ = context.pickedPointsRadius;
+		m_current_scaling_ = context.labelMarkerSize;
 
         c_unitPointMarker->draw(markerContext);
 

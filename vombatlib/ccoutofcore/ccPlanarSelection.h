@@ -67,9 +67,9 @@ protected:
 
                 //we draw the segments
                 if (isSelected())
-                    glColor3ubv(ccColor::red);
+					glColor3ubv(ccColor::red.rgba);
                 else
-                    glColor3ubv(ccColor::green);
+					glColor3ubv(ccColor::green.rgba);
 
 
             for (int i = -1; i <= 1; ++i)
