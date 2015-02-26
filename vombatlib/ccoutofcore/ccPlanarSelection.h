@@ -28,7 +28,7 @@ public:
 
 //    virtual ccBBox getMyOwnBB() override;
 
-    virtual ccBBox getDisplayBB() override;
+	virtual ccBBox getOwnBB(bool withGLFeatures = false) override;
 
 
     virtual QIcon getIcon() const override

@@ -53,7 +53,7 @@ public:
     { return true; }
 
 
-    virtual ccBBox getMyOwnBB() override
+	virtual ccBBox getOwnBB(bool withGLFeatures = false) override
     {
         CHECK(constrain_ != NULL);
 

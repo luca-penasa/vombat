@@ -11,7 +11,7 @@ ccPlanarSelection::ccPlanarSelection(): rubberband_(new spc::SelectionRubberband
     setVisible(true);
 }
 
-ccBBox ccPlanarSelection::getDisplayBB()
+ccBBox ccPlanarSelection::getOwnBB(bool withGLFeatures)
 {
     CHECK(rubberband_ != NULL);
 
