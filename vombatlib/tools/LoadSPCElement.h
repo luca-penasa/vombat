@@ -18,6 +18,10 @@
 #include <ccVirtualOutcrop.h>
 #include <ccoutofcore/ccCloudDataSourceOnDisk.h>
 #include <ccTimeSeries.h>
+
+
+#include <QApplication>
+#include <QFileDialog>
 class LoadSPCElement: public BaseFilter
 {
 public:

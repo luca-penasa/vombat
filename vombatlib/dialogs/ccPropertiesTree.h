@@ -3,14 +3,15 @@
 
 #include <QWidget>
 #include <ccHObject.h>
-#include <QtVariantProperty>
+#include <qtpropertybrowser.h>
+//#include <QtVariantProperty>
 #include <ccSPCElementShell.h>
 #include <spc/elements/MovableElement.h>
 #include <spc/elements/ElementWithVariantProperties.h>
 #include <spc/elements/SelectionRubberband.h>
 
 #include <spc/elements/StratigraphicPositionableElement.h>
-
+#include <qtvariantproperty.h>
 class ccAddNewVariantProperty;
 
 namespace Ui

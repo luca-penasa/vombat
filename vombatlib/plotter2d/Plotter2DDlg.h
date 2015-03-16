@@ -8,8 +8,7 @@ class CustomPlotWidget;
 #include <PropertyInspector.h>
 #include <QMainWindow>
 #include <QMdiSubWindow>
-#include <QtVariantProperty>
-
+#include <qtvariantproperty.h>
 
 
 

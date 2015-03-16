@@ -3,7 +3,7 @@
 
 #include <ccSample.h>
 
-#include <QtVariantPropertyManager>
+#include <qtpropertybrowser.h>
 
 #include <ccAddNewVariantProperty.h>
 

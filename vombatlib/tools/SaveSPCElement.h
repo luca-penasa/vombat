@@ -13,6 +13,9 @@
 
 #include <iostream>
 
+
+#include <QFileDialog>
+
 class SaveSPCElement : public BaseFilter
 {
 public:
