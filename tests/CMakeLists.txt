@@ -1,14 +1,14 @@
-FIND_PACKAGE(Qt4 REQUIRED)
-INCLUDE(${QT_USE_FILE})
-ADD_DEFINITIONS(${QT_DEFINITIONS})
+#FIND_PACKAGE(Qt4 REQUIRED)
+#INCLUDE(${QT_USE_FILE})
+#ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-if (UNIX)
-        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS} "  )
-endif()
+#if (UNIX)
+#        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${CCP_CXX_FLAGS} "  )
+#endif()
 
-if( NOT MSVC )
-        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread" )
-endif()
+#if( NOT MSVC )
+#        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread" )
+#endif()
 
 
 

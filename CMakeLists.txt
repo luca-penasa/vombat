@@ -26,11 +26,14 @@ include_directories("external/qtpropertybrowser")
 #include_directories(external/spc/submodules/cereal/include)
 #link_directories(${SPC_BINARY_DIR}/lib)
 
-
+if(USE_QT5)
+find_package(Qt5Widgets)
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+else()
 FIND_PACKAGE(Qt4 REQUIRED)
 INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
-
+endif()
 
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )

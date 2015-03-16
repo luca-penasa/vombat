@@ -44,11 +44,28 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
 
 
+
+if ( USE_QT5 )
+	find_mocable_files( mocable_list ${header_list} )
+
+	qt5_wrap_ui( generated_ui_list ${ui_list} )
+		qt5_wrap_cpp( moc_list ${mocable_list} )
+
+	#qt5_add_resources( generated_qrc_list ${qrc_list} )
+else()
+	# find Qt mocable files
+	find_mocable_files( mocable_list ${header_list} )
+	qt4_wrap_cpp( moc_list ${mocable_list} )
+	qt4_wrap_ui( generated_ui_list ${ui_list} )
+	#qt4_add_resources( generated_qrc_list ${qrc_list} )
+endif()
+
+
 # find Qt mocable files
-find_mocable_files( mocable_list ${header_list} )
-qt4_wrap_cpp( moc_list ${mocable_list} )
-QT4_WRAP_UI( generated_ui_list ${ui_list} )
-#QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
+#find_mocable_files( mocable_list ${header_list} )
+#qt4_wrap_cpp( moc_list ${mocable_list} )
+#QT4_WRAP_UI( generated_ui_list ${ui_list} )
+##QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
 add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} )
 
