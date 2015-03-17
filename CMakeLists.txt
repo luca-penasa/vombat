@@ -12,8 +12,13 @@ set( CMAKE_VERBOSE_MAKEFILE on )
 
 include(cmake/macros.cmake) # load some macros
 
-add_subdirectory(external/qtpropertybrowser)
-
+if (USE_QT5)
+    add_subdirectory(external/qtpropertybrowser_qt5)
+    include_directories("external/qtpropertybrowser_qt5")
+else()
+    add_subdirectory(external/qtpropertybrowser_qt4)
+    include_directories("external/qtpropertybrowser_qt4")
+endif()
 
 #find_package(QtPropertyBrowser)
 #message("INCLUDE: ${QtPropertyBrowser_SOURCE_DIR}")

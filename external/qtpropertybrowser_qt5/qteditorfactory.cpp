@@ -41,22 +41,44 @@
 
 #include "qteditorfactory.h"
 #include "qtpropertybrowserutils_p.h"
-#include <QtWidgets/QSpinBox>
-#include <QtWidgets/QScrollBar>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QAbstractItemView>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QDateTimeEdit>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QMenu>
-#include <QtGui/QKeyEvent>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QToolButton>
-#include <QtWidgets/QColorDialog>
-#include <QtWidgets/QFontDialog>
-#include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QKeySequenceEdit>
+
+#ifdef CC_QT5
+	#include <QtWidgets/QSpinBox>
+	#include <QtWidgets/QScrollBar>
+	#include <QtWidgets/QComboBox>
+	#include <QtWidgets/QAbstractItemView>
+	#include <QtWidgets/QLineEdit>
+	#include <QtWidgets/QDateTimeEdit>
+	#include <QtWidgets/QHBoxLayout>
+	#include <QtWidgets/QMenu>
+	#include <QtGui/QKeyEvent>
+	#include <QtWidgets/QApplication>
+	#include <QtWidgets/QLabel>
+	#include <QtWidgets/QToolButton>
+	#include <QtWidgets/QColorDialog>
+	#include <QtWidgets/QFontDialog>
+	#include <QtWidgets/QSpacerItem>
+	#include <QtWidgets/QKeySequenceEdit>
+#else
+	#include <QSpinBox>
+	#include <QScrollBar>
+	#include <QComboBox>
+	#include <QAbstractItemView>
+	#include <QLineEdit>
+	#include <QDateTimeEdit>
+	#include <QHBoxLayout>
+	#include <QMenu>
+	#include <QtGui/QKeyEvent>
+	#include <QApplication>
+	#include <QLabel>
+	#include <QToolButton>
+	#include <QColorDialog>
+	#include <QFontDialog>
+	#include <QSpacerItem>
+	#include <QKeySequence>
+#endif
+
+
 #include <QtCore/QMap>
 
 #if defined(Q_CC_MSVC)
@@ -1410,7 +1432,6 @@ void QtDateTimeEditFactory::disconnectPropertyManager(QtDateTimePropertyManager 
 }
 
 // QtKeySequenceEditorFactory
-
 class QtKeySequenceEditorFactoryPrivate : public EditorFactoryPrivate<QKeySequenceEdit>
 {
     QtKeySequenceEditorFactory *q_ptr;
@@ -1420,6 +1441,7 @@ public:
     void slotPropertyChanged(QtProperty *property, const QKeySequence &value);
     void slotSetValue(const QKeySequence &value);
 };
+
 
 void QtKeySequenceEditorFactoryPrivate::slotPropertyChanged(QtProperty *property,
             const QKeySequence &value)
@@ -1450,6 +1472,7 @@ void QtKeySequenceEditorFactoryPrivate::slotSetValue(const QKeySequence &value)
             return;
         }
 }
+
 
 /*!
     \class QtKeySequenceEditorFactory
@@ -1520,6 +1543,7 @@ void QtKeySequenceEditorFactory::disconnectPropertyManager(QtKeySequenceProperty
     disconnect(manager, SIGNAL(valueChanged(QtProperty*,QKeySequence)),
                 this, SLOT(slotPropertyChanged(QtProperty*,QKeySequence)));
 }
+
 
 // QtCharEdit
 

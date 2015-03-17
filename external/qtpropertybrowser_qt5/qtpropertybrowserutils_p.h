@@ -55,7 +55,16 @@
 
 #include <QtCore/QMap>
 #include <QtGui/QIcon>
-#include <QtWidgets/QWidget>
+
+#ifdef CC_QT5
+
+	#include <QtWidgets/QWidget>
+
+#else
+	#include <QWidget>
+#endif
+
+
 #include <QtCore/QStringList>
 
 QT_BEGIN_NAMESPACE

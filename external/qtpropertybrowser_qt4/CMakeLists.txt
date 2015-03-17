@@ -1,11 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(QtPropertyBrowser)
 
-find_package(Qt5Widgets)
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
-
-message("using qt5"  ${USE_QT5}  )
 
 SET(KIT_SRCS
 qtbuttonpropertybrowser.cpp
@@ -37,22 +33,9 @@ INCLUDE_DIRECTORIES(
 ${CMAKE_CURRENT_SOURCE_DIR}
 ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-
-if ( USE_QT5 )
-	qt5_wrap_ui( KIT_UI_CPP ${KIT_UI_FORMS} )
-	qt5_add_resources( KIT_QRC_SRCS ${KIT_resources} )
-else()
-	# find Qt mocable file
-	QT4_WRAP_UI(KIT_UI_CPP ${KIT_UI_FORMS})
-	QT4_WRAP_CPP(KIT_MOC_CPP ${KIT_MOC_SRCS})
-	QT4_ADD_RESOURCES(KIT_QRC_SRCS ${KIT_resources})
-endif()
-
-
-
-
-
+QT4_WRAP_UI(KIT_UI_CPP ${KIT_UI_FORMS})
+QT4_WRAP_CPP(KIT_MOC_CPP ${KIT_MOC_SRCS})
+QT4_ADD_RESOURCES(KIT_QRC_SRCS ${KIT_resources})
 SET(libname ${PROJECT_NAME})
 ADD_LIBRARY(${libname} STATIC
 ${KIT_SRCS}
@@ -80,13 +63,7 @@ SET(KIT_MOC_CPP)
 FOREACH(file ${KIT_HEADERS_MOC_SRCS})
 get_filename_component(filename_we ${file} NAME_WE)
 SET(output_file moc_${filename_we}.cpp)
-
-if (USE_QT5)
-	QT5_GENERATE_MOC(${file} ${output_file})
-else()
-	QT4_GENERATE_MOC(${file} ${output_file})
-endif()
-
+QT4_GENERATE_MOC(${file} ${output_file})
 LIST(APPEND KIT_MOC_CPP ${output_file})
 ENDFOREACH()
 # List of cpp files that should go though moc
@@ -98,15 +75,7 @@ qttreepropertybrowser.cpp
 FOREACH(file ${KIT_CPP_MOC_SRCS})
 get_filename_component(filename_we ${file} NAME_WE)
 SET(output_file ${filename_we}.moc)
-
-
-if (USE_QT5)
-	QT5_GENERATE_MOC(${file} ${output_file})
-else()
-	QT4_GENERATE_MOC(${file} ${output_file})
-endif()
-
-#QT4_GENERATE_MOC(${file} ${output_file})
+QT4_GENERATE_MOC(${file} ${output_file})
 LIST(APPEND KIT_MOC_CPP ${output_file})
 ENDFOREACH()
 add_custom_target(${libname}GenerateMoc
