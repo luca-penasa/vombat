@@ -460,5 +460,8 @@ Plotter2DDlg *vombat::getPlotter2DDlg()
     return 0;
 }
 
-// plugin export
-Q_EXPORT_PLUGIN2(vombat, vombat)
+
+
+#ifndef CC_QT5
+Q_EXPORT_PLUGIN2(vombat,vombat);
+#endif

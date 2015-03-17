@@ -196,6 +196,6 @@ message( "${CMAKE_CXX_FLAGS}" )
 ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare qcustomplot)
 
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 endif() #main if ends here

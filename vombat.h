@@ -25,7 +25,9 @@ class vombat : public QObject, public ccStdPluginInterface
     Q_OBJECT
     Q_INTERFACES(ccStdPluginInterface)
 
-
+#ifdef CC_QT5
+	Q_PLUGIN_METADATA(IID "cccorp.cloudcompare.plugin.vombat")
+#endif
 
 public:
     //! Default constructor

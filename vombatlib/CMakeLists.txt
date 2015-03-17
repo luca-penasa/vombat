@@ -49,7 +49,7 @@ if ( USE_QT5 )
 	find_mocable_files( mocable_list ${header_list} )
 
 	qt5_wrap_ui( generated_ui_list ${ui_list} )
-		qt5_wrap_cpp( moc_list ${mocable_list} )
+#		qt5_wrap_cpp( moc_list ${mocable_list} )
 
 	#qt5_add_resources( generated_qrc_list ${qrc_list} )
 else()
