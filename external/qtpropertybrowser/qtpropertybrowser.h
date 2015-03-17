@@ -42,9 +42,14 @@
 #ifndef QTPROPERTYBROWSER_H
 #define QTPROPERTYBROWSER_H
 
-#include <QtWidgets/QWidget>
-#include <QtCore/QSet>
-
+#ifdef CC_QT5
+	#include <QtWidgets/QWidget>
+	#include <QtCore/QSet>
+#else
+	#include <QWidget>
+	#include <QSet>
+	#include <QLineEdit>
+#endif
 QT_BEGIN_NAMESPACE
 
 class QtAbstractPropertyManager;
