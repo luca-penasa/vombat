@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 project(QtPropertyBrowser)
 
-if(USE_QT5)
 find_package(Qt5Widgets)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
 
 message("using qt5"  ${USE_QT5}  )
-endif()
 
 
 SET(KIT_SRCS

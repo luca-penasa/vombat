@@ -1,15 +1,13 @@
-#ifndef Q_GEO_PLUGIN_HEADER
-#define Q_GEO_PLUGIN_HEADER
+#ifndef Q_VOMBAT_PLUGIN_HEADER
+#define Q_VOMBAT_PLUGIN_HEADER
+
+
+#include <ccStdPluginInterface.h>
 
 #include <QObject>
 #include <QtGui>
-//#include <mainwindow.h>
-#include <stack>
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
-#include <ccStdPluginInterface.h>
 #include <spc/core/DtiClass.h>
-//#include <ccVombatObjectsFactory.h>
 #include <spc/elements/ElementBase.h>
 
 class PlotterDlg;
@@ -18,6 +16,7 @@ class QMenu;
 class OpenPlotsDialog;
 class Plotter2DDlg;
 class ccSPCElementShell;
+class BaseFilter;
 
 //! PCL bridge plugin
 class vombat : public QObject, public ccStdPluginInterface
@@ -142,4 +141,4 @@ public:
 };
 
 
-#endif//END Q_GEO_PLUGIN_HEADER
+#endif//END Q_VOMBAT_PLUGIN_HEADER

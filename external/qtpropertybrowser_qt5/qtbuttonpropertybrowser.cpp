@@ -41,22 +41,12 @@
 
 #include "qtbuttonpropertybrowser.h"
 #include <QtCore/QSet>
-#ifdef CC_QT5
-	#include <QtWidgets/QGridLayout>
-	#include <QtWidgets/QLabel>
-	#include <QtWidgets/QToolButton>
-	#include <QtWidgets/QStyle>
-
-#else
-	#include <QGridLayout>
-	#include <QLabel>
-	#include <QToolButton>
-	#include <QStyle>
-#endif
-
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QLabel>
 #include <QtCore/QTimer>
 #include <QtCore/QMap>
-
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QStyle>
 
 QT_BEGIN_NAMESPACE
 

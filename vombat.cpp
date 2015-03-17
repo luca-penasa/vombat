@@ -1,11 +1,10 @@
 #include "vombat.h"
 
 #include <ccSPCElementShell.h>
-
-
 #include <ccPointCloud.h>
+
 #include <qPCL/PclUtils/filters/BaseFilter.h>
-//#include <ComputeTimeSeries.h>
+
 #include <FitAttitude.h>
 #include <AttitudeToModel.h>
 #include <Edit.h>
