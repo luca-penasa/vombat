@@ -34,8 +34,8 @@ public:
 //        CCVector3 min_corner(center - scale_v);
 //        CCVector3 max_corner(center + scale_v);
 //        ccBBox box(min_corner, max_corner);
-
-//        return box;
+		ccBBox bb;
+        return bb;
     }
 
     virtual QIcon getIcon() const
@@ -61,7 +61,7 @@ protected:
 //        outs << m_width;
 
 //        ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
-//        return true;
+        return true;
 
     }
     virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
@@ -76,7 +76,7 @@ protected:
 //        spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
 //        m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
 
-//        return true;
+        return true;
     }
 
 

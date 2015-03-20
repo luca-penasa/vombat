@@ -37,6 +37,8 @@ bool ccSPCElementShell::addChild(ccHObject *child, int dependencyFlags, int inse
 
     if (asmine)
         this->getSPCElement()->addChild(asmine->getSPCElement());
+
+	return true;
 }
 
 void ccSPCElementShell::removeChild(int pos)

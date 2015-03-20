@@ -79,7 +79,7 @@ protected:
 //        outs << m_width;
 
 //        ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
-//        return true;
+        return true;
 
     }
     virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
@@ -94,7 +94,7 @@ protected:
 //        spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
 //        m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
 
-//        return true;
+        return true;
     }
 
 

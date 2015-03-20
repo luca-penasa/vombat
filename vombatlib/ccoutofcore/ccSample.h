@@ -77,7 +77,7 @@ public:
         return true;
     }
 
-    typename SPCType::Ptr getSample() const
+    SPCType::Ptr getSample() const
     {
         return getSPCElement<SPCType>();
     }

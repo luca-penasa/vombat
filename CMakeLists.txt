@@ -190,12 +190,12 @@ include( ../CMakePluginTpl.cmake )
 
 #target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES})
 
-target_link_libraries(${PROJECT_NAME} VOMBATLIB )
+target_link_libraries(${PROJECT_NAME} VOMBATLIB)
 
 #target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
 #target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
-target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB )
+target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB)
 
 message( "${CMAKE_CXX_FLAGS}" )
 ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare qcustomplot)

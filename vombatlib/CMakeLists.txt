@@ -67,7 +67,10 @@ endif()
 #QT4_WRAP_UI( generated_ui_list ${ui_list} )
 ##QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
-add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} )
+set(QCUSTOMPLOT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/qcustomplot/qcustomplot.cpp )
+message(" QCUSTOMPLOT_SOURCES" ${QCUSTOMPLOT_SOURCES} )
+
+add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} ${QCUSTOMPLOT_SOURCES} )
 
 # Default preprocessors
 set_default_cc_preproc( ${PROJECT_NAME} )
@@ -92,4 +95,4 @@ link_directories( ${PCL_LIBRARY_DIRS} )
 add_definitions( ${PCL_DEFINITIONS} )
 
 
-target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser)
+target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser )

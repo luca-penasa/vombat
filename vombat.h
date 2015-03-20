@@ -132,7 +132,10 @@ protected:
 
     ccExternalFactory * m_factory;
 
-     ccPluginInterface * interface;
+
+	//ccPluginInterface * iface;
+
+     //ccPluginInterface * interface;
 public:
     ccExternalFactory *getCustomObjectsFactory() const
     {

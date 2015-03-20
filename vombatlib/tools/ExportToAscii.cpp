@@ -55,7 +55,7 @@ int ExportToAscii::compute()
             if (!obj)
                 return -1;
 
-            w.setOutputFilename(out_file.c_str());
+            w.setOutputFilename(out_file.string().c_str());
             w.setInput(obj);
             w.write();
         }
