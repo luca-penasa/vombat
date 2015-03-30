@@ -7,6 +7,7 @@
 class ccTimeSeries;
 class QWidget;
 class QCPAxis;
+class ccHObject;
 
 //// main plot widget
 class CustomPlotWidget : public QCustomPlot
@@ -16,8 +17,9 @@ public:
     explicit CustomPlotWidget(QWidget *parent);
     ~CustomPlotWidget();
 
-    //! is this series yet present?
-    bool isYetPlotted(ccTimeSeries *ser);
+	//! is this object yet present in some way?
+	bool isYetPlotted(ccHObject *ser);
+
 
 signals:
     /// every time a ts is plottet this will be emitted
@@ -38,7 +40,9 @@ slots:
     }
 
     //! it keeps a ptr to the added series into the all_series_ vector
-    int addPlot(ccTimeSeries *series);
+    int addSeries(ccTimeSeries *series);
+
+	int addSample(ccSample * sample);
 
     //! clear everything into the plot
     void clearPlot();
@@ -49,8 +53,8 @@ slots:
     }
 
 protected:
-    QMap<ccTimeSeries *, QCPGraph *> cc_to_graph_;
-    QMap<QCPGraph *, ccTimeSeries *> graph_to_cc_;
+	QMap<ccHObject *, QCPLayerable *> cc_to_layerable_;
+	QMap<QCPLayerable *, ccHObject *> layerable_to_cc_;
 };
 
 #endif // CUSTOMPLOTWIDGET_H

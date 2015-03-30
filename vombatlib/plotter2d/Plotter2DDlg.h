@@ -3,6 +3,7 @@
 
 class ccTimeSeries;
 class CustomPlotWidget;
+class ccSample;
 
 #include <iostream>
 #include <PropertyInspector.h>
@@ -36,7 +37,9 @@ public:
 public slots:
     CustomPlotWidget *addNewPlot();
 
-    void handleNewPlot(ccTimeSeries * serie);
+	void handleNewSeries(ccTimeSeries * serie);
+
+	void handleNewSample(ccSample * sample);
 
     void closedSubPlot(CustomPlotWidget * plot)
     {

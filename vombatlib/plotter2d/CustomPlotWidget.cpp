@@ -1,9 +1,12 @@
 #include "plotter2d/CustomPlotWidget.h"
 #include <ccoutofcore/ccTimeSeries.h>
+#include <ccHObject.h>
+#include <ccSample.h>
+#include "QCPItemSample.h"
 CustomPlotWidget::CustomPlotWidget(QWidget *parent) : QCustomPlot(parent)
 {
     this->setInteractions(QCP::iRangeZoom | QCP::iRangeDrag
-                          | QCP::iSelectPlottables | QCP::iSelectAxes);
+						  | QCP::iSelectPlottables | QCP::iSelectAxes);
     connect(this, SIGNAL(mouseWheel(QWheelEvent *)), this, SLOT(mouseWheel()));
 }
 
@@ -12,12 +15,14 @@ CustomPlotWidget::~CustomPlotWidget()
     emit closed(this);
 }
 
-bool CustomPlotWidget::isYetPlotted(ccTimeSeries *ser)
+bool CustomPlotWidget::isYetPlotted(ccHObject *ser)
 {
-    return (cc_to_graph_.find(ser) != cc_to_graph_.end());
+	return (cc_to_layerable_.find(ser) != cc_to_layerable_.end());
 }
 
-int CustomPlotWidget::addPlot(ccTimeSeries *series)
+
+
+int CustomPlotWidget::addSeries(ccTimeSeries *series)
 {
     if (isYetPlotted(series))
         return -1;
@@ -42,27 +47,47 @@ int CustomPlotWidget::addPlot(ccTimeSeries *series)
     this->replot();
     emit seriesAdded(series);
 
-    graph_to_cc_[graph] = series;
-    cc_to_graph_[series] = graph;
+	layerable_to_cc_[graph] = series;
+	cc_to_layerable_[series] = graph;
 
     return 1;
 }
 
+int CustomPlotWidget::addSample(ccSample *sample)
+{
+	if (isYetPlotted(sample))
+		return -1;
+
+		QCPItemSample * qcpsample  = new QCPItemSample(sample, this);
+		this->addItem(qcpsample);
+
+		this->replot();
+
+
+		layerable_to_cc_[qcpsample] = sample;
+		cc_to_layerable_[sample] = qcpsample;
+
+
+	return 1;
+}
+
+
 void CustomPlotWidget::clearPlot()
 {
 
-    QList<ccTimeSeries *> ser = cc_to_graph_.keys();
+	QList<ccHObject *> ser = cc_to_layerable_.keys();
 
-    for (ccTimeSeries *s : ser)
+	for (ccHObject *s : ser)
         s->setLocked(false); // unlock series
 
 
     // clear the maps
     this->clearGraphs();
+	this->clearItems();
     this->replot();
 
-    graph_to_cc_.clear();
-    cc_to_graph_.clear();
+	layerable_to_cc_.clear();
+	cc_to_layerable_.clear();
 }
 
 void CustomPlotWidget::mouseWheel()
@@ -78,3 +103,5 @@ void CustomPlotWidget::mouseWheel()
     else
         this->axisRect()->setRangeZoom(Qt::Horizontal | Qt::Vertical);
 }
+
+

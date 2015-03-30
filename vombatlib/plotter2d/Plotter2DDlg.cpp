@@ -68,9 +68,9 @@ CustomPlotWidget *Plotter2DDlg::addNewPlot()
     return plot;
 }
 
-void Plotter2DDlg::handleNewPlot(ccTimeSeries *serie)
+void Plotter2DDlg::handleNewSeries(ccTimeSeries *serie)
 {
-    getCurrentPlotWidget()->addPlot(serie);
+	getCurrentPlotWidget()->addSeries(serie);
 }
 
 void Plotter2DDlg::selected(CustomPlotWidget *plot)
@@ -96,6 +96,8 @@ void Plotter2DDlg::selectionChanged()
 {
 
     updateProperties(getCurrentlySelectedGraphs());
+
+	DLOG(INFO) << "selection changed";
 }
 
 void Plotter2DDlg::updateProperties(QList<QCPGraph *> graphs)
@@ -225,13 +227,23 @@ void Plotter2DDlg::valueChanged(QtProperty *property, const QVariant &value)
 
 CustomPlotWidget *Plotter2DDlg::getCurrentPlotWidget()
 {
-    std::cout << "getting current plot" << m_last_plot << std::endl;
+	DLOG(INFO) <<"last plot:" << m_last_plot;
 
     if (!m_last_plot) {
-        std::cout << "last plot not present , adding one" << std::endl;
+		DLOG(WARNING) << "last plot not present , adding one";
         CustomPlotWidget *plot = this->addNewPlot();
         return plot;
     }
 
     return m_last_plot;
+}
+
+
+void Plotter2DDlg::handleNewSample(ccSample *sample)
+{
+	DLOG(INFO) << "Handling new sample";
+	getCurrentPlotWidget()->addSample(sample);
+
+
+
 }

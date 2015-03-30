@@ -5,6 +5,7 @@
 
 
 class ccTimeSeries;
+class ccSample;
 
 class SendTo2DPlot: public BaseFilter
 {
@@ -21,7 +22,9 @@ public:
 
 
 signals:
-    void handleNewPlot(ccTimeSeries *serie);
+	void handleNewSeries(ccTimeSeries *serie);
+
+	void handleNewSample(ccSample * sample);
 
 protected:
     virtual int checkSelected();
