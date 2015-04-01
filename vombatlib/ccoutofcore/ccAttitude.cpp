@@ -39,7 +39,7 @@ void ccAttitude::flipNormal()
     m_attitude->setNormal(-m_attitude->getNormal());
 }
 
-ccBBox ccAttitude::getMyOwnBB()
+ccBBox ccAttitude::getOwnBB()
 {
     CCVector3 center = CCVector3::fromArray (getAttitude()->getPosition().data());
     float s = m_scale * 0.5;
@@ -49,6 +49,7 @@ ccBBox ccAttitude::getMyOwnBB()
     CCVector3 max_corner(center + scale_v);
     ccBBox box(min_corner, max_corner);
 
+	box.setValidity(true);
     return box;
 }
 
@@ -117,7 +118,15 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 		Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.labelMarkerSize;
 		Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.labelMarkerSize;
 
-		context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red.rgba);
+
+		QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+		// account!
+		font.setPointSize(font.pointSize());
+		font.setBold(true);
+//
+		glDisable(GL_DEPTH_TEST);
+		context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), getAttitude()->getPosition().data(), ccColor::red.rgba, font);
+		glEnable(GL_DEPTH_TEST);
 
 
         glBegin(GL_LINES);

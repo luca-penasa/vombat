@@ -24,9 +24,9 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT &context)
     font.setPointSize(font.pointSize());
     font.setBold(true);
 
-    // draw their name
-    glPushAttrib(GL_DEPTH_BUFFER_BIT);
-    glDisable(GL_DEPTH_TEST);
+//    // draw their name
+//	glPushAttrib(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
 
 
 QString name = QString::fromStdString(getSample()->getElementName()) +
@@ -51,7 +51,7 @@ QString name = QString::fromStdString(getSample()->getElementName()) +
     //                                    ccColor::magenta,
     //                                    font );
 
-    glPopAttrib();
+//	glPopAttrib();
 }
 
 void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)

@@ -29,8 +29,6 @@ public:
     ccAttitude(): m_attitude(new spc::Attitude), ccSPCElementShell(m_attitude)
     {
         m_selectionBehavior = SELECTION_IGNORED;
-
-
     }
 
     ccAttitude(CCVector3 center, CCVector3 orientation);
@@ -43,7 +41,7 @@ public:
 
     //inherited methods (ccHObject)
     virtual bool hasColors() const { return true; }
-    virtual ccBBox getMyOwnBB();
+	virtual ccBBox getOwnBB();
 
     virtual QIcon getIcon() const
     {

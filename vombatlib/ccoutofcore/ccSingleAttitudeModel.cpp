@@ -105,12 +105,14 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
         Vector3f end = pos + m_major_thicks_vector;
 
 
-
+		glDisable(GL_DEPTH_TEST);
         if (isSelected())
 			context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::red.rgba);
         else
 			context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::blue.rgba);
-    }
+		glDisable(GL_DEPTH_TEST);
+
+	}
 
 }
 
