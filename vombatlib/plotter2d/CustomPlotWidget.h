@@ -47,10 +47,7 @@ slots:
     //! clear everything into the plot
     void clearPlot();
 
-    QList<QCPGraph *> getCurrentlySelectedGraphs()
-    {
-        return this->selectedGraphs();
-    }
+
 
 protected:
 	QMap<ccHObject *, QCPLayerable *> cc_to_layerable_;

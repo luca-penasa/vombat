@@ -458,6 +458,8 @@ void QtVariantPropertyManagerPrivate::valueChanged(QtProperty *property, const Q
     QtVariantProperty *varProp = m_internalToProperty.value(property, 0);
     if (!varProp)
         return;
+
+
     emit q_ptr->valueChanged(varProp, val);
     emit q_ptr->propertyChanged(varProp);
 }

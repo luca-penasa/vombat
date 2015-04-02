@@ -35,33 +35,20 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent)
 //            SIGNAL(valueChanged(QtProperty *, const QVariant &)), this,
 //            SLOT(valueChanged(QtProperty *, const QVariant &)));
 
-    QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory(this);
 
     QDockWidget *dock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
 
 	PropertyBrowser *browser = new PropertyBrowser(dock);
-	browser->setRootIsDecorated(true);
-	browser->setAlternatingRowColors(true);
-
 	m_browser = browser;
-
-
-	m_manager = new QtVariantPropertyManager(this);
-	m_readOnlyManager = new QtVariantPropertyManager(this);
-
-
-	m_browser->setFactoryForManager(m_manager, variantFactory);
 	dock->setWidget(m_browser);
 
-	m_object = 0;
 
 //	QtVariantEditorFactory *factory = new QtVariantEditorFactory(this);
 //	m_browser->setFactoryForManager(m_manager, factory);
 
-	connect(m_manager, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
-				this, SLOT(slotValueChanged(QtProperty *, const QVariant &)));
+
 
 
 }
@@ -101,10 +88,39 @@ void Plotter2DDlg::selected(CustomPlotWidget *plot)
     selectionChanged();
 }
 
-QList<QCPGraph *> Plotter2DDlg::getCurrentlySelectedGraphs()
+QList<QObject *> Plotter2DDlg::getCurrentlySelectedObjects()
 {
-    if (m_last_plot)
-        return m_last_plot->getCurrentlySelectedGraphs();
+
+	if (m_last_plot == NULL)
+		return QList<QObject *> (); // empty list
+
+	QList<QObject *> obj_list;
+
+	QList<QCPAxis * >sel_axis = m_last_plot->selectedAxes();
+	QList<QCPAbstractItem * > items = m_last_plot->selectedItems();
+	QList<QCPLegend *> legends = m_last_plot->selectedLegends();
+	QList<QCPGraph *> graphs = m_last_plot->selectedGraphs();
+	QList<QCPAbstractPlottable *> plottables = m_last_plot->selectedPlottables();
+
+
+	for (QObject * ob: sel_axis)
+		obj_list.append(ob);
+
+	for (QObject * ob: items)
+		obj_list.append(ob);
+
+	for (QObject * ob: legends)
+		obj_list.append(ob);
+
+	for (QObject * ob: graphs)
+		obj_list.append(ob);
+
+	for (QObject * ob: plottables)
+		obj_list.append(ob);
+
+
+
+	return obj_list;
 }
 
 void Plotter2DDlg::clearCurrentPlot()
@@ -116,319 +132,15 @@ void Plotter2DDlg::clearCurrentPlot()
 
 void Plotter2DDlg::selectionChanged()
 {
-
-	QList<QCPGraph *> selected = getCurrentlySelectedGraphs();
+	QList<QObject *> selected = getCurrentlySelectedObjects();
 	if (selected.size() > 0)
-		setObject(selected.at(0));
+		m_browser->setObject(selected.at(0));
+	else
+		m_browser->setObject(NULL);
 
 	LOG(INFO) << "selection changed";
 }
 
-
-int Plotter2DDlg::enumToInt(const QMetaEnum &metaEnum, int enumValue) const
-{
-	QMap<int, int> valueMap; // dont show multiple enum values which have the same values
-	int pos = 0;
-	for (int i = 0; i < metaEnum.keyCount(); i++) {
-		int value = metaEnum.value(i);
-		if (!valueMap.contains(value)) {
-			if (value == enumValue)
-				return pos;
-			valueMap[value] = pos++;
-		}
-	}
-	return -1;
-}
-
-int Plotter2DDlg::intToEnum(const QMetaEnum &metaEnum, int intValue) const
-{
-	QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
-	QList<int> values;
-	for (int i = 0; i < metaEnum.keyCount(); i++) {
-		int value = metaEnum.value(i);
-		if (!valueMap.contains(value)) {
-			valueMap[value] = true;
-			values.append(value);
-		}
-	}
-	if (intValue >= values.count())
-		return -1;
-	return values.at(intValue);
-}
-
-bool Plotter2DDlg::isSubValue(int value, int subValue) const
-{
-	if (value == subValue)
-		return true;
-	int i = 0;
-	while (subValue) {
-		if (!(value & (1 << i))) {
-			if (subValue & 1)
-				return false;
-		}
-		i++;
-		subValue = subValue >> 1;
-	}
-	return true;
-}
-
-bool Plotter2DDlg::isPowerOf2(int value) const
-{
-	while (value) {
-		if (value & 1) {
-			return value == 1;
-		}
-		value = value >> 1;
-	}
-	return false;
-}
-
-void Plotter2DDlg::setObject(QObject *object)
-{
-	if (m_object == object)
-		return;
-
-	if (m_object) {
-		saveExpandedState();
-		QListIterator<QtProperty *> it(m_topLevelProperties);
-		while (it.hasNext()) {
-			m_browser->removeProperty(it.next());
-		}
-		m_topLevelProperties.clear();
-	}
-
-	m_object = object;
-
-	if (!m_object)
-		return;
-
-	addClassProperties(m_object->metaObject());
-
-	restoreExpandedState();
-}
-
-int Plotter2DDlg::flagToInt(const QMetaEnum &metaEnum, int flagValue) const
-{
-	if (!flagValue)
-		return 0;
-	int intValue = 0;
-	QMap<int, int> valueMap; // dont show multiple enum values which have the same values
-	int pos = 0;
-	for (int i = 0; i < metaEnum.keyCount(); i++) {
-		int value = metaEnum.value(i);
-		if (!valueMap.contains(value) && isPowerOf2(value)) {
-			if (isSubValue(flagValue, value))
-				intValue |= (1 << pos);
-			valueMap[value] = pos++;
-		}
-	}
-	return intValue;
-}
-
-int Plotter2DDlg::intToFlag(const QMetaEnum &metaEnum, int intValue) const
-{
-	QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
-	QList<int> values;
-	for (int i = 0; i < metaEnum.keyCount(); i++) {
-		int value = metaEnum.value(i);
-		if (!valueMap.contains(value) && isPowerOf2(value)) {
-			valueMap[value] = true;
-			values.append(value);
-		}
-	}
-	int flagValue = 0;
-	int temp = intValue;
-	int i = 0;
-	while (temp) {
-		if (i >= values.count())
-			return -1;
-		if (temp & 1)
-			flagValue |= values.at(i);
-		i++;
-		temp = temp >> 1;
-	}
-	return flagValue;
-}
-
-
-void Plotter2DDlg::addClassProperties(const QMetaObject *metaObject)
-{
-	if (!metaObject)
-		return;
-
-	addClassProperties(metaObject->superClass());
-
-	QtProperty *classProperty = m_classToProperty.value(metaObject);
-	if (!classProperty) {
-		QString className = QLatin1String(metaObject->className());
-		classProperty = m_manager->addProperty(QtVariantPropertyManager::groupTypeId(), className);
-		m_classToProperty[metaObject] = classProperty;
-		m_propertyToClass[classProperty] = metaObject;
-
-		for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++) {
-			QMetaProperty metaProperty = metaObject->property(idx);
-			int type = metaProperty.userType();
-			QtVariantProperty *subProperty = 0;
-			if (!metaProperty.isReadable()) {
-				subProperty = m_readOnlyManager->addProperty(QVariant::String, QLatin1String(metaProperty.name()));
-				subProperty->setValue(QLatin1String("< Non Readable >"));
-			} else if (metaProperty.isEnumType()) {
-				if (metaProperty.isFlagType()) {
-					subProperty = m_manager->addProperty(QtVariantPropertyManager::flagTypeId(), QLatin1String(metaProperty.name()));
-					QMetaEnum metaEnum = metaProperty.enumerator();
-					QMap<int, bool> valueMap;
-					QStringList flagNames;
-					for (int i = 0; i < metaEnum.keyCount(); i++) {
-						int value = metaEnum.value(i);
-						if (!valueMap.contains(value) && isPowerOf2(value)) {
-							valueMap[value] = true;
-							flagNames.append(QLatin1String(metaEnum.key(i)));
-						}
-					subProperty->setAttribute(QLatin1String("flagNames"), flagNames);
-					subProperty->setValue(flagToInt(metaEnum, metaProperty.read(m_object).toInt()));
-					}
-				} else {
-					subProperty = m_manager->addProperty(QtVariantPropertyManager::enumTypeId(), QLatin1String(metaProperty.name()));
-					QMetaEnum metaEnum = metaProperty.enumerator();
-					QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
-					QStringList enumNames;
-					for (int i = 0; i < metaEnum.keyCount(); i++) {
-						int value = metaEnum.value(i);
-						if (!valueMap.contains(value)) {
-							valueMap[value] = true;
-							enumNames.append(QLatin1String(metaEnum.key(i)));
-						}
-					}
-					subProperty->setAttribute(QLatin1String("enumNames"), enumNames);
-					subProperty->setValue(enumToInt(metaEnum, metaProperty.read(m_object).toInt()));
-				}
-			} else if (m_manager->isPropertyTypeSupported(type)) {
-				if (!metaProperty.isWritable())
-					subProperty = m_readOnlyManager->addProperty(type, QLatin1String(metaProperty.name()) + QLatin1String(" (Non Writable)"));
-				if (!metaProperty.isDesignable())
-					subProperty = m_readOnlyManager->addProperty(type, QLatin1String(metaProperty.name()) + QLatin1String(" (Non Designable)"));
-				else
-					subProperty = m_manager->addProperty(type, QLatin1String(metaProperty.name()));
-				subProperty->setValue(metaProperty.read(m_object));
-			} else {
-
-				addClassProperties(metaObject);
-				subProperty = m_readOnlyManager->addProperty(QVariant::String, QLatin1String(metaProperty.name()));
-//				subProperty->setValue(metaProperty.read(m_object));
-
-				LOG(INFO) << "settting the value of class " << metaObject->className();
-				LOG(INFO) << "settting the value of metapro " << metaProperty.name();
-
-//				QVariant stuff = metaProperty.read(m_object);
-//				if (stuff.canConvert<QBrush>())
-//				{
-//					LOG(INFO) << "can convert!";
-
-
-//					QBrush  a = stuff.value<QBrush>();
-
-//						LOG(INFO) << "found a good QCPAxis *";
-//						const QMetaObject *mobj = a.metaObject();
-//						if (mobj != NULL)
-//						{
-//							LOG(INFO) << "no null!";
-//							addClassProperties(mobj);
-//						}
-
-
-//				}
-
-
-//				LOG(INFO) << stuff.typeName();
-
-//				if (g)
-//					LOG(INFO) << "--> we have a valid scatterstyle!" ;
-
-
-
-				subProperty->setValue(QLatin1String("< Unknown Type >"));
-				subProperty->setEnabled(false);
-			}
-			classProperty->addSubProperty(subProperty);
-			m_propertyToIndex[subProperty] = idx;
-			m_classToIndexToProperty[metaObject][idx] = subProperty;
-		}
-	} else {
-		updateClassProperties(metaObject, false);
-	}
-
-	m_topLevelProperties.append(classProperty);
-	m_browser->addProperty(classProperty);
-}
-
-void Plotter2DDlg::updateClassProperties(const QMetaObject *metaObject, bool recursive)
-{
-	if (!metaObject)
-		return;
-
-	if (recursive)
-		updateClassProperties(metaObject->superClass(), recursive);
-
-	QtProperty *classProperty = m_classToProperty.value(metaObject);
-	if (!classProperty)
-		return;
-
-	for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++) {
-		QMetaProperty metaProperty = metaObject->property(idx);
-		if (metaProperty.isReadable()) {
-			if (m_classToIndexToProperty.contains(metaObject) && m_classToIndexToProperty[metaObject].contains(idx)) {
-				QtVariantProperty *subProperty = m_classToIndexToProperty[metaObject][idx];
-				if (metaProperty.isEnumType()) {
-					if (metaProperty.isFlagType())
-						subProperty->setValue(flagToInt(metaProperty.enumerator(), metaProperty.read(m_object).toInt()));
-					else
-						subProperty->setValue(enumToInt(metaProperty.enumerator(), metaProperty.read(m_object).toInt()));
-				} else {
-					subProperty->setValue(metaProperty.read(m_object));
-				}
-			}
-		}
-	}
-}
-
-
-
-void Plotter2DDlg::saveExpandedState()
-{
-
-}
-
-void Plotter2DDlg::restoreExpandedState()
-{
-
-}
-
-
-
-
-
-void Plotter2DDlg::slotValueChanged(QtProperty *property, const QVariant &value)
-{
-
-	LOG(INFO)  << "SLOT VALUE CHANGED";
-	if (!m_propertyToIndex.contains(property))
-		return;
-
-	int idx = m_propertyToIndex.value(property);
-
-	const QMetaObject *metaObject = m_object->metaObject();
-	QMetaProperty metaProperty = metaObject->property(idx);
-	if (metaProperty.isEnumType()) {
-		if (metaProperty.isFlagType())
-			metaProperty.write(m_object, intToFlag(metaProperty.enumerator(), value.toInt()));
-		else
-			metaProperty.write(m_object, intToEnum(metaProperty.enumerator(), value.toInt()));
-	} else {
-		metaProperty.write(m_object, value);
-	}
-
-	updateClassProperties(metaObject, true);
-}
 
 
 
