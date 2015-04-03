@@ -23,17 +23,31 @@
 
 #include "variantmanager.h"
 
+#include <spc/core/logging.h>
+
+
+
 
 
 int VariantManager::filePathTypeId()
 {
-    return qMetaTypeId<FilePathPropertyType>();
+	return qMetaTypeId<FilePathPropertyType>();
+}
+
+int VariantManager::QCPRangeTypeId()
+{
+	return qMetaTypeId<QCPRange>();
+
 }
 
 bool VariantManager::isPropertyTypeSupported(int propertyType) const
 {
     if (propertyType == filePathTypeId())
         return true;
+
+	if (propertyType == QCPRangeTypeId())
+		return true;
+
     return QtVariantPropertyManager::isPropertyTypeSupported(propertyType);
 }
 
@@ -41,13 +55,26 @@ int VariantManager::valueType(int propertyType) const
 {
     if (propertyType == filePathTypeId())
         return QVariant::String;
+
+	if (propertyType == QCPRangeTypeId())
+		return QCPRangeTypeId();
+
     return QtVariantPropertyManager::valueType(propertyType);
 }
 
 QVariant VariantManager::value(const QtProperty *property) const
 {
+
     if (theValues.contains(property))
         return theValues[property].value;
+
+	if (qcpRangeValues.contains(property))
+	{
+		QCPRange data = qcpRangeValues[property].value;
+		return QVariant::fromValue(data);
+	}
+
+
     return QtVariantPropertyManager::value(property);
 }
 
@@ -85,24 +112,63 @@ QString VariantManager::valueText(const QtProperty *property) const
 {
     if (theValues.contains(property))
         return theValues[property].value;
+
+	if (qcpRangeValues.contains(property))
+	{
+		QCPRange p = qcpRangeValues[property].value;
+		return QString(tr("(%1, %2)").arg(QString::number(p.lower))
+								 .arg(QString::number(p.upper)));
+	}
+
+
     return QtVariantPropertyManager::valueText(property);
 }
 
+// the porpuse of this is getting the data from val and change the content of the
+// qcpRangeValues with that value
 void VariantManager::setValue(QtProperty *property, const QVariant &val)
 {
+	LOG(INFO) << "calling setValue from the variantManager";
     if (theValues.contains(property)) {
-        if (val.type() != QVariant::String && !val.canConvert(QVariant::String))
+		if (val.type() != QVariant::String && !val.canConvert(QVariant::String))
             return;
+		// get out the value from val
 		QString str = val.value<QString>();
+
+		// retrieve the stored data container
         Data d = theValues[property];
         if (d.value == str)
             return;
+
+		// substitute the value with the new one from val
         d.value = str;
+
+		// set back into the map
         theValues[property] = d;
+
+		// emit stuff
         emit propertyChanged(property);
         emit valueChanged(property, str);
         return;
     }
+
+	if (qcpRangeValues.contains(property))
+	{
+		if (val.type() != QCPRangeTypeId() && !val.canConvert<QCPRange>())
+			return;
+
+		QCPRange newrange =val.value<QCPRange>();
+		QCPRangeData data = qcpRangeValues[property];
+		data.value = newrange;
+		qcpRangeValues[property] = data;
+		emit propertyChanged(property);
+
+		QVariant variant(QCPRangeTypeId(), &newrange);
+
+//		emit valueChanged(property, variant);
+		return;
+
+	}
     QtVariantPropertyManager::setValue(property, val);
 }
 
@@ -130,12 +196,20 @@ void VariantManager::initializeProperty(QtProperty *property)
 {
     if (propertyType(property) == filePathTypeId())
         theValues[property] = Data();
+
+	if (propertyType(property) == QCPRangeTypeId())
+	{
+		qcpRangeValues[property] = QCPRangeData();
+	}
+
     QtVariantPropertyManager::initializeProperty(property);
 }
 
 void VariantManager::uninitializeProperty(QtProperty *property)
 {
     theValues.remove(property);
+	qcpRangeValues.remove(property);
+
     QtVariantPropertyManager::uninitializeProperty(property);
 }
 

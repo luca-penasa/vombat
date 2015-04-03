@@ -25,6 +25,8 @@
 #include "variantmanager.h"
 #include "fileedit.h"
 
+#include <spc/core/logging.h>
+
 VariantFactory::~VariantFactory()
 {
     QList<FileEdit *> editors = theEditorToProperty.keys();
@@ -40,6 +42,8 @@ void VariantFactory::connectPropertyManager(QtVariantPropertyManager *manager)
     connect(manager, SIGNAL(attributeChanged(QtProperty *, const QString &, const QVariant &)),
                 this, SLOT(slotPropertyAttributeChanged(QtProperty *, const QString &, const QVariant &)));
     QtVariantEditorFactory::connectPropertyManager(manager);
+
+	LOG(INFO) << "PRoperty manager connected!";
 }
 
 QWidget *VariantFactory::createEditor(QtVariantPropertyManager *manager,
@@ -73,6 +77,8 @@ void VariantFactory::disconnectPropertyManager(QtVariantPropertyManager *manager
 void VariantFactory::slotPropertyChanged(QtProperty *property,
                 const QVariant &value)
 {
+
+	LOG(INFO) << "called VariantFactory::slotPropertyChanged";
     if (!theCreatedEditors.contains(property))
         return;
 

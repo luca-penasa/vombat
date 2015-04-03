@@ -9,18 +9,20 @@
 #include "variantfactory.h"
 #include <QMetaEnum>
 
+#include <ExtendedVariantManager.h>
+
 PropertyBrowser::PropertyBrowser(QWidget *parent) : QtTreePropertyBrowser(parent)
 {
 	setRootIsDecorated(true);
 	setAlternatingRowColors(true);
 
-	m_manager = new VariantManager(this);
-	m_readOnlyManager = new VariantManager(this);
+	m_manager = new ExtendedVariantManager(this);
+	m_readOnlyManager = new ExtendedVariantManager(this);
 
 	m_object = NULL;
 
 
-	QtVariantEditorFactory *variantFactory = new VariantFactory(this);
+	QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory(this);
 	setFactoryForManager(m_manager, variantFactory);
 
 	connect(m_manager, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
@@ -276,11 +278,33 @@ void PropertyBrowser::addClassProperties(const QMetaObject *metaObject)
 
 void PropertyBrowser::updateClassProperties(const QMetaObject *metaObject, bool recursive)
 {
-	if (!metaObject)
+
+	LOG(INFO) << "begin of updateClassProperties";
+
+
+	if (metaObject == NULL)
+	{
+		LOG(INFO) << "META OBJECt is null! returning.";
 		return;
+	}
+
+	LOG(INFO) << "after null checking, recusrsive is  "<< recursive;
+
 
 	if (recursive)
-		updateClassProperties(metaObject->superClass(), recursive);
+	{
+		LOG(INFO) << metaObject->className();
+		LOG(INFO) << "going to get the superclass";
+		const QMetaObject * superclass = metaObject->superClass();
+		if (superclass != NULL)
+		{
+			LOG(INFO) << "going to call updateClassProperties again with the superclass: " << superclass->className();
+			updateClassProperties(superclass, recursive);
+			LOG(INFO) << "done";
+		}
+	}
+
+	LOG(INFO) << "going ahead";
 
 	QtProperty *classProperty = m_classToProperty.value(metaObject);
 	if (!classProperty)
@@ -339,6 +363,9 @@ void PropertyBrowser::slotValueChanged(QtProperty *property, const QVariant &val
 	} else {
 		metaProperty.write(m_object, value);
 	}
+
+	LOG(INFO)  << "going to update" << metaObject->className();
+
 
 	updateClassProperties(metaObject, true);
 }

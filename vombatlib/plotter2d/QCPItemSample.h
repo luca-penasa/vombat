@@ -12,7 +12,7 @@ class QCPItemSample: public QCPItemStraightLine
 
 	Q_OBJECT
 
-	Q_PROPERTY(FilePathPropertyType path READ path WRITE setPath)
+	Q_PROPERTY(QPointF point READ point WRITE setPoint)
 public:
 	QCPItemSample(ccSample * sample, QCustomPlot *parentPlot);
 
@@ -23,14 +23,14 @@ public:
 	QCPItemText * getLabel() const;
 
 
-	void setPath(const FilePathPropertyType &path)
+	void setPoint(const QPointF &p)
 	{
-		m_path = path;
+		m_point = p;
 	}
 
-	FilePathPropertyType path() const
+	QPointF point() const
 	{
-		return m_path;
+		return m_point;
 	}
 
 protected:
@@ -39,7 +39,7 @@ protected:
 	QCPItemText * text_;
 
 
-	FilePathPropertyType m_path;
+	QPointF m_point;
 
 
 

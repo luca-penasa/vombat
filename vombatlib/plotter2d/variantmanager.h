@@ -26,19 +26,25 @@
 
 #include "qtvariantproperty.h"
 
+#include <qcustomplot.h>
+
 class FilePathPropertyType
 {
 };
 
 Q_DECLARE_METATYPE(FilePathPropertyType)
 
+Q_DECLARE_METATYPE(QCPRange)
+
 class VariantManager : public QtVariantPropertyManager
 {
+
     Q_OBJECT
 public:
     VariantManager(QObject *parent = 0)
         : QtVariantPropertyManager(parent)
-            { }
+			{
+}
 
     virtual QVariant value(const QtProperty *property) const;
     virtual int valueType(int propertyType) const;
@@ -50,10 +56,11 @@ public:
 
 
     static int filePathTypeId();
+
+	static int QCPRangeTypeId();
 public slots:
     virtual void setValue(QtProperty *property, const QVariant &val);
-    virtual void setAttribute(QtProperty *property,
-                const QString &attribute, const QVariant &value);
+	virtual void setAttribute(QtProperty *property, const QString &attribute, const QVariant &value);
 protected:
     virtual QString valueText(const QtProperty *property) const;
     virtual void initializeProperty(QtProperty *property);
@@ -63,7 +70,16 @@ private:
         QString value;
         QString filter;
     };
+
+
+	struct QCPRangeData {
+		QCPRange value;
+//		double upper;
+	};
+
     QMap<const QtProperty *, Data> theValues;
+	QMap<const QtProperty *, QCPRangeData> qcpRangeValues;
+
 };
 
 

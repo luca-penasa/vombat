@@ -8,6 +8,8 @@
 
 #include <qcustomplot.h>
 
+#include "variantmanager.h"
+
 //QCPRange range;
 
 //class ExtendedVariantEditorFactory: public QtVariantEditorFactory
@@ -15,7 +17,7 @@
 
 //};
 
-Q_DECLARE_METATYPE(QCPRange)
+//Q_DECLARE_METATYPE(QCPRange)
 
 class ExtenedVariantFactory: public QtVariantEditorFactory
 {
@@ -31,15 +33,9 @@ public:
 
 	~ExtendedVariantManager();
 
-	int QCPRangeTypeId() const
-	{
-		return qMetaTypeId<QCPRange>();
-	}
-
-
 	bool isPropertyTypeSupported(int propertyType) const
 	   {
-		   if (propertyType == QCPRangeTypeId())
+		   if (propertyType == QVariant::PointF)
 			   return true;
 
 		   return QtVariantPropertyManager::isPropertyTypeSupported(propertyType);

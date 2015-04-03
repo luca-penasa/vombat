@@ -10,6 +10,9 @@
 ExtendedVariantManager::ExtendedVariantManager(QObject *parent): QtVariantPropertyManager(parent)
 {
 
+//	qRegisterMetaType<QCPRange>();
+
+
 	connect(this, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
 				this, SLOT(slotValueChanged(QtProperty *, const QVariant &)));
 	connect(this, SIGNAL(propertyDestroyed(QtProperty *)),
@@ -24,27 +27,22 @@ ExtendedVariantManager::~ExtendedVariantManager()
 }
 
 
-void ExtendedVariantManager::slotValueChanged(QtProperty *property, const QVariant &variantvalue)
+void ExtendedVariantManager::slotValueChanged(QtProperty *property, const QVariant &value)
 {
 	if (xToProperty.contains(property)) {
 		QtProperty *pointProperty = xToProperty[property];
 		QVariant v = this->value(pointProperty);
-		QCPRange p = v.value<QCPRange>();
-
-		p.lower = variantvalue.value<double>();
-
-		QVariant myvar(QCPRangeTypeId(), &p);
-//		setValue(pointProperty, myvar);
+		QPointF p = v.value<QPointF>();
+		p.setX(value.value<double>());
+		setValue(pointProperty, p);
 	} else if (yToProperty.contains(property)) {
 		QtProperty *pointProperty = yToProperty[property];
 		QVariant v = this->value(pointProperty);
-		QCPRange p = v.value<QCPRange>();
-		p.upper  = variantvalue.value<double>();
-		QVariant myvar(QCPRangeTypeId(), &p);
-//		setValue(pointProperty, myvar);
+		QPointF p = v.value<QPointF>();
+		p.setY(value.value<double>());
+		setValue(pointProperty, p);
 	}
 }
-
 void ExtendedVariantManager::slotPropertyDestroyed(QtProperty *property)
 {
 	if (xToProperty.contains(property)) {
@@ -62,8 +60,8 @@ void ExtendedVariantManager::slotPropertyDestroyed(QtProperty *property)
 
 int ExtendedVariantManager::valueType(int propertyType) const
 {
-	if (propertyType == QCPRangeTypeId())
-		return QCPRangeTypeId();
+	if (propertyType == QVariant::PointF)
+		return QVariant::PointF;
 
 	return QtVariantPropertyManager::valueType(propertyType);
 }
@@ -79,12 +77,11 @@ QVariant ExtendedVariantManager::value(const QtProperty *property) const
 
 QString ExtendedVariantManager::valueText(const QtProperty *property) const
 {
-
 	if (propertyToData.contains(property)) {
 		QVariant v = propertyToData[property].value;
-		QCPRange p = v.value<QCPRange>();
-		return QString(tr("(%1, %2)").arg(QString::number(p.lower))
-								 .arg(QString::number(p.upper)));
+		QPointF p = v.value<QPointF>();
+		return QString(tr("(%1, %2)").arg(QString::number(p.x()))
+								 .arg(QString::number(p.y())));
 	}
 	return QtVariantPropertyManager::valueText(property);
 }
@@ -92,30 +89,18 @@ QString ExtendedVariantManager::valueText(const QtProperty *property) const
 void ExtendedVariantManager::setValue(QtProperty *property, const QVariant &val)
 {
 	if (propertyToData.contains(property)) {
-		if (val.type() != QCPRangeTypeId() && !val.canConvert(QCPRangeTypeId()))
+		if (val.type() != QVariant::PointF && !val.canConvert(QVariant::PointF))
 			return;
-		QCPRange p = val.value<QCPRange>();
+		QPointF p = val.value<QPointF>();
 		Data d = propertyToData[property];
-
-		QVariant myvar (QCPRangeTypeId(), &p);
-
-		if (!myvar.isValid())
-		{
-			LOG(INFO) << "IVNALID!!";
-						 return;
-		}
-
-//		QVariant myvar(QCPRangeTypeId());
-
-		d.value = myvar;
+		d.value = p;
 		if (d.x)
-			d.x->setValue(p.lower);
+			d.x->setValue(p.x());
 		if (d.y)
-			d.y->setValue(p.upper);
+			d.y->setValue(p.y());
 		propertyToData[property] = d;
-		emit valueChanged(property, myvar);
 		emit propertyChanged(property);
-
+		emit valueChanged(property, p);
 		return;
 	}
 	QtVariantPropertyManager::setValue(property, val);
@@ -123,15 +108,12 @@ void ExtendedVariantManager::setValue(QtProperty *property, const QVariant &val)
 
 void ExtendedVariantManager::initializeProperty(QtProperty *property)
 {
-
-	if (propertyType(property) == QCPRangeTypeId()) {
+	if (propertyType(property) == QVariant::PointF) {
 		Data d;
 
-		QCPRange voidrange (0, 0);
-		QVariant myvar (QCPRangeTypeId(), &voidrange);
-		d.value = myvar;
+		d.value = QPointF(0, 0);
 
-		ExtendedVariantManager *that = (ExtendedVariantManager *)this;
+		VariantManager *that = (VariantManager *)this;
 
 		d.x = that->addProperty(QVariant::Double);
 		d.x->setPropertyName(tr("Position X"));
