@@ -125,7 +125,8 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
 		font.setBold(true);
 //
 		glDisable(GL_DEPTH_TEST);
-		context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), getAttitude()->getPosition().data(), ccColor::red.rgba, font);
+		context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgba, font);
+
 		glEnable(GL_DEPTH_TEST);
 
 

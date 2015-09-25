@@ -52,13 +52,13 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 
         glPopAttrib();
 
-        if (pushName)
-            glPopName();
+
 
         drawMajorThicks(context);
-        drawMajorThicksText(context);
+		drawMajorThicksText(context);
 
-
+		if (pushName)
+			glPopName();
     }
 
 }
@@ -105,12 +105,19 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
         Vector3f end = pos + m_major_thicks_vector;
 
 
+		QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+		// account!
+		font.setPointSize(font.pointSize());
+		font.setBold(true);
+
+
+
 		glDisable(GL_DEPTH_TEST);
         if (isSelected())
-			context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::red.rgba);
+			context._win->display3DLabel(s.str().c_str(), CCVector3::fromArray(end.data()), ccColor::red.rgba, font);
         else
-			context._win->display3DLabel(s.str().c_str(), end.data(), ccColor::blue.rgba);
-		glDisable(GL_DEPTH_TEST);
+			context._win->display3DLabel(s.str().c_str(), CCVector3::fromArray(end.data()), ccColor::blue.rgba, font);
+		glEnable(GL_DEPTH_TEST);
 
 	}
 
