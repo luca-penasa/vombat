@@ -165,9 +165,9 @@ protected:
 
     }
 public:
-    void setColor(const colorType col[])
+    void setColor(const ccColor::Rgb &col)
     {
-        memcpy(m_rgbColor,col,sizeof(colorType)*3);
+        m_rgbColor = col;
     }
 
     void setWidth(PointCoordinateType width)
@@ -175,7 +175,7 @@ public:
         m_width = width;
     }
 
-    const colorType* getColor() const
+    const ccColor::Rgb getColor() const
     {
         return m_rgbColor;
     }
@@ -188,7 +188,7 @@ protected:
     //    virtual void setGLTransformation(const ccGLMatrix& trans) {}
 
     //! Unique RGB color
-    colorType m_rgbColor[3];
+    ccColor::Rgb m_rgbColor;
 
     //! Width of the line
     PointCoordinateType m_width = 1;
