@@ -72,9 +72,9 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
 
 
 
-        if (!c_unitPointMarker || c_unitPointMarker->getRadius() != m_radius_) {
-            c_unitPointMarker = QSharedPointer
-                    <ccSphere>(new ccSphere(m_radius_, 0, "PointMarker", 12));
+		if (!c_unitPointMarker )
+		{
+			c_unitPointMarker = QSharedPointer<ccSphere>(new ccSphere(m_radius_, 0, "PointMarker", 12));
             c_unitPointMarker->showColors(true);
             c_unitPointMarker->setVisible(true);
             c_unitPointMarker->setEnabled(true);
@@ -88,9 +88,15 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT &context)
         markerContext._win = 0;
 
         if (isSelected() && !pushName)
+		{
             c_unitPointMarker->setTempColor(ccColor::red);
+			c_unitPointMarker->setRadius(2*m_radius_);
+		}
         else
+		{
             c_unitPointMarker->setTempColor(ccColor::magenta);
+			c_unitPointMarker->setRadius(m_radius_);
+		}
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();

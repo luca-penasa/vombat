@@ -31,11 +31,14 @@ public:
 
     ccSingleAttitudeModel(): ccDynamicScalarFieldGenerator()
     {
+		m_selectionBehavior = SELECTION_IGNORED;
 
     }
 
     ccSingleAttitudeModel (spc::StratigraphicModelSingleAttitude::Ptr model):  ccDynamicScalarFieldGenerator(model)
     {
+		m_selectionBehavior = SELECTION_IGNORED;
+
 
         initParameters();
     }
