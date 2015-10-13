@@ -25,8 +25,8 @@ public:
 
         m_foreground = false;
         m_width  = 0.0;
-		memcpy(m_rgbColor, ccColor::red.rgba, sizeof(colorType) * 3);
-
+//		memcpy(m_rgbColor, ccColor::red.rgba, sizeof(colorType) * 3);
+        m_rgbColor = ccColor::red;
         setVisible(true);
     }
 
