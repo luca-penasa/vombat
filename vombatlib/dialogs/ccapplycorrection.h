@@ -16,6 +16,7 @@ public:
     ~ccApplyCorrection();
 
     QComboBox * getModelCombo();
+	QComboBox * getFieldCombo();
 
 
 private:

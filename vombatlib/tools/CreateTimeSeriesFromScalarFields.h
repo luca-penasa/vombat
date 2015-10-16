@@ -77,6 +77,8 @@ public:
             generator.setYFieldName(y_field_name);
 
             generator.setSamplingStep(ssx);
+			LOG(INFO) << "Using sampling step: " << ssx;
+			LOG(INFO) << "Using bandwidth: " << ksx;
             generator.setBandwidth(ksx);
             std::cout << "starting computing - compute()" << std::endl;
 

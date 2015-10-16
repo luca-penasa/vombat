@@ -4,8 +4,12 @@
 
 #include <qPCL/PclUtils/filters/BaseFilter.h>
 #include <visualization/PlotterDlg.h>
-#include <ccPointCloud.h>
 
+
+
+class ccScalarField;
+class ccPointCloud;
+class ccHObject;
 
 class ApplyCorrection : public BaseFilter
 {
@@ -24,7 +28,11 @@ protected:
 
     QString m_filename;
 
-    ccHObject * model_;
+	ccTimeSeries * ts_;
+
+	ccScalarField * field_;
+
+	ccPointCloud * cloud_;
 };
 
 #endif // PLOT_2D_H

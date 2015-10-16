@@ -15,5 +15,10 @@ ccApplyCorrection::~ccApplyCorrection()
 
 QComboBox *ccApplyCorrection::getModelCombo()
 {
-    return ui->comboModel;
+	return ui->comboModel;
+}
+
+QComboBox *ccApplyCorrection::getFieldCombo()
+{
+	return ui->comboModel_2;
 }

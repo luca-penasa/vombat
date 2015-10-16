@@ -54,7 +54,6 @@ int EvaluateDynamicScalarFieldGenerator::compute()
 
         Eigen::VectorXf scalars = spc::evaluate_dynamic_scalar_field_generator<float>(ptr, m_generator->getGenerator());
 
-//                m_generator->getGenerator()->getScalarFieldValues(ptr);
 
         std::string sf_name = m_dialog->ui->lneSFName->text().toStdString();
         if (sf_name.empty())
@@ -71,7 +70,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
             sf->setValue(i, scalars.at(i));
         }
 
-        sf->computeMinAndMax();
+
 
         int index = cloud->getScalarFieldIndexByName(sf->getName());
 
@@ -89,9 +88,13 @@ int EvaluateDynamicScalarFieldGenerator::compute()
             }
         }
 
+
         int n = cloud->addScalarField(sf);
         cloud->setCurrentDisplayedScalarField(n);
         cloud->showSF(true);
+
+		sf->computeMinAndMax();
+
 
         emit entityHasChanged(cloud);
     }

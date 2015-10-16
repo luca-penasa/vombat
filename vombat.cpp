@@ -125,7 +125,7 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new Test(this));
 //        addFilter(new ComputeCalibrationDB(this));
 //        addFilter(new CalibrateDevice(this));
-//        addFilter(new ApplyCorrection(this));
+		addFilter(new ApplyCorrection(this));
 
         addFilter(new AddSample(this));
 
