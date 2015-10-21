@@ -28,6 +28,7 @@ class ccAttitude:  public ccSPCElementShell
 public:
     ccAttitude(): m_attitude(new spc::Attitude), ccSPCElementShell(m_attitude)
     {
+        LOG(INFO) << " ccAttitude constructor called!";
         m_selectionBehavior = SELECTION_IGNORED;
     }
 

@@ -55,15 +55,19 @@
 
 static vombat *qgeo_instance = 0;
 
+
+
 vombat::vombat()
 {
+
+    assert((1==2));
     google::InitGoogleLogging("vombat");
-    LOG(INFO) << "Logging started";
+    DLOG(FATAL) << "Logging started";
 
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
 
-    LOG(INFO) << "Vombat plugin created";
+    DLOG(INFO) << "Vombat plugin created";
 }
 
 vombat::~vombat()
@@ -76,7 +80,7 @@ vombat::~vombat()
 
 void vombat::handleNewEntity(ccHObject *entity)
 {
-    assert(entity && m_app);    
+    assert(entity && m_app);
     m_app->addToDB(entity);
 }
 

@@ -19,6 +19,9 @@ class ccSPCElementShell : public ccEditableHObject, public ccCustomHObject
 public:
     ccSPCElementShell(spc::ElementBase::Ptr el, const QString & name = QString("")): ccCustomHObject(name)
     {
+
+        LOG(INFO) << " ccSPCElementShell constructor called!";
+
         element_ = el;
 
         // force the name to match the one in the element
@@ -46,7 +49,8 @@ public:
     // each derived object should implement one
    QString getSPCClassName() const
     {
-        return QString::fromStdString(element_->Type.getClassName());
+       DLOG(INFO) << "asked spcclassname, returned: " <<  element_->getClassNameFromDtiClass();
+        return QString::fromStdString(element_->getClassNameFromDtiClass());
 
     }
 private:

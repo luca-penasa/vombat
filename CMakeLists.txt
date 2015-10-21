@@ -7,18 +7,18 @@ if (INSTALL_vombat_PLUGIN)
 
 project(vombat)
 
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+
 set( CMAKE_VERBOSE_MAKEFILE on )
 
 
 include(cmake/macros.cmake) # load some macros
 
-if (USE_QT5)
-    add_subdirectory(external/qtpropertybrowser_qt5)
-    include_directories("external/qtpropertybrowser_qt5")
-else()
-    add_subdirectory(external/qtpropertybrowser_qt4)
-    include_directories("external/qtpropertybrowser_qt4")
-endif()
+add_subdirectory(external/qtpropertybrowser_qt5)
+include_directories("external/qtpropertybrowser_qt5")
+
 
 #find_package(QtPropertyBrowser)
 #message("INCLUDE: ${QtPropertyBrowser_SOURCE_DIR}")
@@ -31,14 +31,8 @@ include_directories("external/qtpropertybrowser")
 #include_directories(external/spc/submodules/cereal/include)
 #link_directories(${SPC_BINARY_DIR}/lib)
 
-if(USE_QT5)
 find_package(Qt5Widgets)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
-else()
-FIND_PACKAGE(Qt4 REQUIRED)
-INCLUDE(${QT_USE_FILE})
-ADD_DEFINITIONS(${QT_DEFINITIONS})
-endif()
 
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -69,7 +63,6 @@ if( MSVC )
 endif()
 
 include_directories( ${QCC_GL_LIB_SOURCE_DIR} )
-include_directories( ${EXTERNAL_LIBS_INCLUDE_DIR} )
 
 
 option(BUILD_WITH_CLANG "Build vombat plugin using clang isntead of gcc. it is EXPERIMENTAL stuff!" OFF)
@@ -184,7 +177,20 @@ endif()
 
 add_subdirectory(vombatlib)
 
+
+#set(needed_features
+#    cxx_strong_enums
+#    cxx_constexpr
+#    cxx_auto_type)
+
+#target_compile_features(${PROJECT_NAME} PRIVATE ${needed_features})
+
+
+
 include( ../CMakePluginTpl.cmake )
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+
 
 #add_library( ${PROJECT_NAME} SHARED ${header_list} ${source_list} ${moc_list} ${generated_qrc_list})
 
@@ -197,10 +203,13 @@ target_link_libraries(${PROJECT_NAME} VOMBATLIB)
 
 target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB)
 
-message( "${CMAKE_CXX_FLAGS}" )
+message( "cxx_flags are: ${CMAKE_CXX_FLAGS}" )
 ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare qcustomplot)
 
 
 #add_subdirectory(tests)
 
 endif() #main if ends here
+
+
+

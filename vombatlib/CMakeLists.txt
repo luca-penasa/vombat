@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project( VOMBATLIB )
 
+
 #requires PCL
 find_package(PCL REQUIRED)
 
@@ -44,37 +45,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
 
 
+qt5_wrap_ui( generated_ui_list ${ui_list} )
 
-if ( USE_QT5 )
-	find_mocable_files( mocable_list ${header_list} )
-
-	qt5_wrap_ui( generated_ui_list ${ui_list} )
-#		qt5_wrap_cpp( moc_list ${mocable_list} )
-
-	#qt5_add_resources( generated_qrc_list ${qrc_list} )
-else()
-	# find Qt mocable files
-	find_mocable_files( mocable_list ${header_list} )
-	qt4_wrap_cpp( moc_list ${mocable_list} )
-	qt4_wrap_ui( generated_ui_list ${ui_list} )
-	#qt4_add_resources( generated_qrc_list ${qrc_list} )
-endif()
-
-
-# find Qt mocable files
-#find_mocable_files( mocable_list ${header_list} )
-#qt4_wrap_cpp( moc_list ${mocable_list} )
-#QT4_WRAP_UI( generated_ui_list ${ui_list} )
-##QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
 set(QCUSTOMPLOT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/qcustomplot/qcustomplot.cpp )
 message(" QCUSTOMPLOT_SOURCES" ${QCUSTOMPLOT_SOURCES} )
 
 add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} ${QCUSTOMPLOT_SOURCES} )
 
-# Default preprocessors
-set_default_cc_preproc( ${PROJECT_NAME} )
-
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
 
 # Add custom prepocessor definitions
 if (WIN32)
@@ -96,3 +75,5 @@ add_definitions( ${PCL_DEFINITIONS} )
 
 
 target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::PrintSupport )
+
+

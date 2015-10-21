@@ -13,22 +13,34 @@ ccVombatObjectsFactory::ccVombatObjectsFactory(QString name): ccExternalFactory(
 ccHObject *ccVombatObjectsFactory::buildObject(const QString &metaname)
 {
 
-    if (metaname == "ccAttitude")
-        return new ccAttitude();
 
-    else if (metaname == "ccSingleAttitudeModel")
+
+    if (metaname == "Attitude")
+    {
+        LOG(INFO) << " creating new ccAttitude!";
+        return new ccAttitude();
+        LOG(INFO) << " Done!";
+    }
+
+    if (metaname == "ElementBase")
+    {
+        LOG(INFO) << "trying to deserialize a pure elementbase";
+        return 0;
+    }
+
+    else if (metaname == "SingleAttitudeModel")
         return new ccSingleAttitudeModel();
 
-    else if (metaname == "ccDynamicScalarFieldGenerator")
+    else if (metaname == "DynamicScalarFieldGenerator")
         return new ccDynamicScalarFieldGenerator();
 
-    else if (metaname == "ccSample")
+    else if (metaname == "Sample")
         return new ccSample();
 
-    else if (metaname == "ccTimeSeries")
+    else if (metaname == "TimeSeries")
         return new ccTimeSeries();
 
-    else if (metaname == "ccEigenTable")
+    else if (metaname == "EigenTable")
         return new ccEigenTable();
 
     else
