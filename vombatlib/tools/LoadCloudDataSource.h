@@ -1,7 +1,7 @@
 #ifndef LOAD_CLOUD_DATA_SOURCE_H
 #define LOAD_CLOUD_DATA_SOURCE_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <ccSample.h>
 #include <ccPointCloud.h>
 #include <ccHObjectCaster.h>

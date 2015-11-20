@@ -2,7 +2,7 @@
 #define EXPORTTOASCII_H
 
 //#include <BaseFilter.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 //#include <dialogs/ccCurvePlotterDlg.h>
 #include <PlotterDlg.h>
 

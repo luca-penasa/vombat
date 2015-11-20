@@ -1,7 +1,7 @@
 #ifndef AUTOCOMPUTE_TIME_SERIES_H
 #define AUTOCOMPUTE_TIME_SERIES_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <ccSample.h>
 #include <ccPointCloud.h>
 #include <ccHObjectCaster.h>

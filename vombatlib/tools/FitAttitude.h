@@ -2,7 +2,7 @@
 #define FITGEOLOGICALORIENTATION_H
 
 //#include <BaseFilter.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 
 class FitAttitude : public BaseFilter
 {

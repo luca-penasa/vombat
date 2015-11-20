@@ -1,7 +1,7 @@
 #ifndef CREATE_STRATIGRAPHIC_CONSTRAIN_H
 #define CREATE_STRATIGRAPHIC_CONSTRAIN_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <ccSample.h>
 #include <ccPointCloud.h>
 #include <ccHObjectCaster.h>

@@ -3,7 +3,7 @@
 
 //#include <BaseFilter.h>
 #include <PlotterDlg.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 
 class OpenPlots2DDialog : public BaseFilter
 {

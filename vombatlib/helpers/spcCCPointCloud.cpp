@@ -93,11 +93,11 @@ void spcCCPointCloud::setFieldValue(const spcCCPointCloud::IndexT id, const std:
 {
     if (fieldname == "x" ||fieldname == "y" ||fieldname == "z")
     {
-        PCL_ERROR("Cannot modify x, y, z values in ccPointCloud!\n");
+        LOG(ERROR) << "Cannot modify x, y, z values in ccPointCloud!";
     }
     else if (fieldname == "normal_x" ||fieldname == "normal_y" ||fieldname == "normal_z")
     {
-        PCL_ERROR("Cannot modify normals values in ccPointCloud!\n");
+        LOG(ERROR) << "Cannot modify normals values in ccPointCloud!";
     }
     else
     {

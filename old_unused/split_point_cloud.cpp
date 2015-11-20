@@ -1,6 +1,8 @@
 #include "split_point_cloud.h"
 
 //#include <spc/io/pointcloud2_reader.h>
+
+#ifdef SPC_WITH_PCL
 #include <spc/methods/PointCloudSlicer.h>
 
 #include <boost/foreach.hpp>
@@ -89,3 +91,4 @@ SplitPointCloud::compute()
     this->newEntity(container);
     return 1;
 }
+#endif

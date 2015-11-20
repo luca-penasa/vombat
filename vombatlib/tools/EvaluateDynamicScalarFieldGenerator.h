@@ -2,7 +2,7 @@
 #ifndef EVALUATE_DYNAMIC_SCALAR_FIELD_GENERATOR_H
 #define EVALUATE_DYNAMIC_SCALAR_FIELD_GENERATOR_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <dialogs/ccHObjectSelectionDlgSimple.h>
 #include <spc/elements/StratigraphicModelSingleAttitude.h>
 #include <ccoutofcore/ccSingleAttitudeModel.h>

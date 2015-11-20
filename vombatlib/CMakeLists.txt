@@ -44,9 +44,29 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/tools)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
 
+set(CMAKE_AUTOMOC ON)
 
-qt5_wrap_ui( generated_ui_list ${ui_list} )
+if ( USE_QT5 )
+#	find_mocable_files( mocable_list ${header_list} )
 
+	qt5_wrap_ui( generated_ui_list ${ui_list} )
+#		qt5_wrap_cpp( moc_list ${mocable_list} )
+
+	#qt5_add_resources( generated_qrc_list ${qrc_list} )
+else()
+	# find Qt mocable files
+	#find_mocable_files( mocable_list ${header_list} )
+#	qt4_wrap_cpp( moc_list ${mocable_list} )
+	qt4_wrap_ui( generated_ui_list ${ui_list} )
+	#qt4_add_resources( generated_qrc_list ${qrc_list} )
+endif()
+
+
+# find Qt mocable files
+#find_mocable_files( mocable_list ${header_list} )
+#qt4_wrap_cpp( moc_list ${mocable_list} )
+#QT4_WRAP_UI( generated_ui_list ${ui_list} )
+##QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
 
 set(QCUSTOMPLOT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/qcustomplot/qcustomplot.cpp )
 message(" QCUSTOMPLOT_SOURCES" ${QCUSTOMPLOT_SOURCES} )
@@ -73,7 +93,9 @@ endif()
 link_directories( ${PCL_LIBRARY_DIRS} )
 add_definitions( ${PCL_DEFINITIONS} )
 
-
-target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::PrintSupport )
-
+if (USE_QT5)
+    target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::PrintSupport )
+else()
+    target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser )
+endif()
 

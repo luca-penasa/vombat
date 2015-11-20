@@ -1,7 +1,7 @@
 #ifndef SAVE_SPC_ELEMENT_H
 #define SAVE_SPC_ELEMENT_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <vombat.h>
 #include <spc/elements/ElementBase.h>
 
@@ -23,6 +23,9 @@ public:
 
     virtual int compute()
     {
+
+
+
 
 
         // only the first one
@@ -64,7 +67,16 @@ public:
     virtual int checkSelected()
     {
 
+        // we can save any kind of SPC object
         ccHObject::Container all = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::ElementBase::Type);
+
+//        // we can also save point clouds
+//        ccHObject::Container clouds = vombat::theInstance()->getAllObjectsInTreeThatAre(CC_TYPES::POINT_CLOUD);
+
+//        for (auto c:clouds)
+//            all.push_back(c);
+
+
 
         for (ccHObject * oj: all)
             LOG(INFO) << "selected: " << oj->getName().toStdString();

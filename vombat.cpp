@@ -1,9 +1,12 @@
 #include "vombat.h"
 
+
+
+
 #include <ccSPCElementShell.h>
 #include <ccPointCloud.h>
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 
 #include <FitAttitude.h>
 #include <AttitudeToModel.h>
@@ -15,13 +18,13 @@
 #include <Properties.h>
 #include <CloudToPlanarSelection.h>
 //#include <SetUpNewSeries.h>
-#include <split_point_cloud.h>
+//#include <split_point_cloud.h>
 #include <OpenPlotsDialog.h>
 #include <OpenPlots2DDialog.h>
 #include <ExportToAscii.h>
 #include <ApplyCorrection.h>
 #include <FlipModel.h>
-
+#include <NewRoi.h>
 #include <CreateStratigraphicConstrain.h>
 #include <CreateOutcrop.h>
 #include <LinkModelToRubberband.h>
@@ -41,8 +44,9 @@
 
 #include <CalibrateDevice.h>
 
+#ifdef SPC_WITH_PCL
 #include <GaussianFilter.h>
-
+#endif
 #include <Properties.h>
 
 #include <spc/methods/TimeSeriesGenerator.h>
@@ -60,9 +64,8 @@ static vombat *qgeo_instance = 0;
 vombat::vombat()
 {
 
-    assert((1==2));
     google::InitGoogleLogging("vombat");
-    DLOG(FATAL) << "Logging started";
+    DLOG(WARNING) << "Logging started";
 
     qgeo_instance = this;
     m_factory = new ccVombatObjectsFactory("vombat");
@@ -140,7 +143,11 @@ void vombat::getActions(QActionGroup &group)
         //        addFilter(new EvaluateStratigraphicPosition(this));
         //        addFilter(new Properties(this));
         addFilter(new CloudToPlanarSelection(this));
+        addFilter(new NewRoi(this));
+
+#ifdef SPC_WITH_PCL
         addFilter(new GaussianFilter(this));
+#endif
         addFilter(new Properties(this));
 
         addFilter(new ExportToAscii(this));

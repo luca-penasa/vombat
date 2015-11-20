@@ -4,7 +4,7 @@
 #include <dialogs/ccHObjectSelectionDlgSimple.h>
 //temp include
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <ccHObjectCaster.h>
 #include <ccPointCloud.h>
 

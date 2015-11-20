@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 
-option( INSTALL_vombat_PLUGIN "Check to install vombat plugin" OFF )
+#option( INSTALL_vombat_PLUGIN "Check to install vombat plugin" OFF )
+
+include(CMakeDependentOption)
+CMAKE_DEPENDENT_OPTION(INSTALL_vombat_PLUGIN "Compile Vombat plugin" ON
+                         "INSTALL_QPCL_PLUGIN" OFF)
 
 if (INSTALL_vombat_PLUGIN)
 
@@ -16,9 +20,13 @@ set( CMAKE_VERBOSE_MAKEFILE on )
 
 include(cmake/macros.cmake) # load some macros
 
-add_subdirectory(external/qtpropertybrowser_qt5)
-include_directories("external/qtpropertybrowser_qt5")
-
+if(USE_QT5)
+    add_subdirectory(external/qtpropertybrowser_qt5)
+    include_directories("external/qtpropertybrowser_qt5")
+else()
+    add_subdirectory(external/qtpropertybrowser_qt4)
+    include_directories("external/qtpropertybrowser_qt4")
+endif()
 
 #find_package(QtPropertyBrowser)
 #message("INCLUDE: ${QtPropertyBrowser_SOURCE_DIR}")
@@ -31,8 +39,14 @@ include_directories("external/qtpropertybrowser")
 #include_directories(external/spc/submodules/cereal/include)
 #link_directories(${SPC_BINARY_DIR}/lib)
 
+if(USE_QT5)
 find_package(Qt5Widgets)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
+else()
+FIND_PACKAGE(Qt4 REQUIRED)
+INCLUDE(${QT_USE_FILE})
+ADD_DEFINITIONS(${QT_DEFINITIONS})
+endif()
 
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -95,24 +109,6 @@ endif()
 set(VOMBAT_MODULES) #this will be populated with all the modular libs needed by vombat
 set(VOMBAT_INCLUDE_DIRS) # and this with the include directories
 
-# finding cloudcompare things
-#find_package(CCP REQUIRED) # CloudCompareProjects
-#include_directories(${CCP_INCLUDE_DIRS})
-
-#if( NOT MSVC )
-#        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -lpthread " )
-#endif()
-
-#if (UNIX)
-#        set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x ${CCP_CXX_FLAGS} -Wno-narrowing"  )
-#endif()
-
-
-# verify if qPCL plugin was compiled or not
-if(NOT TARGET QPCL_PLUGIN)
-    message( FATAL_ERROR "CloudCompare must be compiled with qPCL plugin enabled for vombat to work")
-endif()
-
 
 #################### SPC ###########################################
 #it also automatically find PCL and other required libraries
@@ -126,16 +122,7 @@ message("spc includes: ${SPC_INCLUDE_DIRS}")
 message("spc libs: ${SPC_LIBRARIES}")
 ####################################################################
 
-find_package(PCL 1.6 REQUIRED)
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
 
-# this is needed for being able to correctly include the pcl_plugin_utils_lib stuff
-if( NOT PCL_VERSION VERSION_GREATER  1.7 ) #from 1.7 the patch was merged
-	message(" PCL is ${PCL_VERSION} -> PCL is lower than 1.7")
-	add_definitions( "-D PCL_VER_1_6_OR_OLDER" )
-endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/ccoutofcore)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib/dialogs)
@@ -201,7 +188,7 @@ target_link_libraries(${PROJECT_NAME} VOMBATLIB)
 #target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
 #target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
-target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB)
+#target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB)
 
 message( "cxx_flags are: ${CMAKE_CXX_FLAGS}" )
 ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare qcustomplot)

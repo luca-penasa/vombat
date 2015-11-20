@@ -2,7 +2,7 @@
 #define VOMBAT_GAUSSIANFILTER_H
 
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 
 //#include <BaseFilter.h>
 #include <dialogs/GaussianFilterDlg.h>

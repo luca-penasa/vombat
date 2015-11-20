@@ -2,7 +2,7 @@
 #define ATTITUDE_TO_MODEL_H
 
 //#include <BaseFilter.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <dialogs/ccHObjectSelectionDlgSimple.h>
 
 #include <spc/elements/StratigraphicModelSingleAttitude.h>

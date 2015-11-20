@@ -1,6 +1,6 @@
 #ifndef SENDTO2DPLOT_H
 #define SENDTO2DPLOT_H
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <vombat.h>
 
 

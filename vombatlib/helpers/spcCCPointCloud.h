@@ -1,7 +1,7 @@
 #ifndef CLOUDMAPPER_H
 #define CLOUDMAPPER_H
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
+//#include <pcl/point_cloud.h>
+//#include <pcl/point_types.h>
 
 #include <ccScalarField.h>
 
@@ -56,13 +56,13 @@ public:
     virtual spc::OrientedSensor getSensor() const
     {
         spc::OrientedSensor sensor;
-        std::cout << "WARNING!!! getSensor in spcCCPointCloud is only a fake virtual function!!!!!!!"<< std::endl;
+        LOG(WARNING) << "WARNING!!! getSensor in spcCCPointCloud is only a fake virtual function!!!!!!!";
         return sensor;
     }
     /** \todo IMPLEMENT THIS METHOD **/
     virtual void setSensor(const spc::OrientedSensor &sensor) const
     {
-        std::cout << "WARNING!!! setSensor in spcCCPointCloud is only a fake virtual function!!!!!!!"<< std::endl;
+        LOG(WARNING)<< "WARNING!!! setSensor in spcCCPointCloud is only a fake virtual function!!!!!!!";
 
     }
 

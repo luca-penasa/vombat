@@ -1,7 +1,7 @@
 #ifndef CREATE_OUTCROP_H
 #define CREATE_OUTCROP_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <spc/elements/VirtualOutcrop.h>
 #include <ccVirtualOutcrop.h>
 #include <ccSingleAttitudeModel.h>

@@ -5,8 +5,8 @@
 #include <spc/elements/StratigraphicConstrain.h>
 #include <ccoutofcore/ccSPCElementShell.h>
 #include <ccPolyline.h>
-#include <pcl/common/common.h>
-#include <pcl/filters/extract_indices.h>
+//#include <pcl/common/common.h>
+//#include <pcl/filters/extract_indices.h>
 #include <boost/foreach.hpp>
 #include <ccSphere.h>
 

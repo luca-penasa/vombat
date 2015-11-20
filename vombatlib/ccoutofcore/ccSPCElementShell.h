@@ -22,6 +22,8 @@ public:
 
         LOG(INFO) << " ccSPCElementShell constructor called!";
 
+        CHECK(el !=nullptr);
+
         element_ = el;
 
         // force the name to match the one in the element

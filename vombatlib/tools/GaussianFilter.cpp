@@ -8,6 +8,8 @@
 #include <ccScalarField.h>
 #include <ccPointCloud.h>
 
+
+#ifdef SPC_WITH_PCL
 GaussianFilter::GaussianFilter(ccPluginInterface *parent_plugin)
     : BaseFilter(FilterDescription("Apply Gaussian filter to scalar field ",
                                    "Apply Gaussian filter to scalar field",
@@ -91,3 +93,4 @@ int GaussianFilter::checkSelected()
 
     return 1;
 }
+#endif

@@ -3,7 +3,7 @@
 
 //#include <BaseFilter.h>
 #include <dialogs/ccPropertiesTree.h>
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 
 class Properties : public BaseFilter
 {

@@ -1,7 +1,7 @@
 #ifndef FlipModel_H
 #define FlipModel_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 #include <ccSample.h>
 #include <ccPointCloud.h>
 #include <ccHObjectCaster.h>

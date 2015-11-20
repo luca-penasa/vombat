@@ -1,7 +1,7 @@
 #ifndef CREATE_TIME_SERIES_FROM_SCALAR_FIELDS_H
 #define CREATE_TIME_SERIES_FROM_SCALAR_FIELDS_H
 
-#include <qPCL/PclUtils/filters/BaseFilter.h>
+#include "BaseFilter.h"
 
 #include <helpers/spcCCPointCloud.h>
 
