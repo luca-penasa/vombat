@@ -265,6 +265,21 @@ void ccSingleAttitudeModel::setMaxSp(float max_sp)
 }
 
 
+ccSingleAttitudeModel::ccSingleAttitudeModel():
+    ccDynamicScalarFieldGenerator(spc::StratigraphicModelSingleAttitude::Ptr(new spc::StratigraphicModelSingleAttitude))
+{
+    m_selectionBehavior = SELECTION_IGNORED;
+
+}
+
+ccSingleAttitudeModel::ccSingleAttitudeModel(StratigraphicModelSingleAttitude::Ptr model):  ccDynamicScalarFieldGenerator(model)
+{
+    m_selectionBehavior = SELECTION_IGNORED;
+
+
+    initParameters();
+}
+
 float ccSingleAttitudeModel::getMinSp() const
 {
     return m_min_sp;

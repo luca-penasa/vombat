@@ -22,16 +22,25 @@ public:
 
         LOG(INFO) << " ccSPCElementShell constructor called!";
 
-        CHECK(el !=nullptr);
+//        CHECK(el !=nullptr);
 
-        element_ = el;
+        if (el !=nullptr)
+        {
+            element_ = el;
 
-        // force the name to match the one in the element
-        setName(el->getElementName().c_str());
-
-        writeSPCClassNameToMetadata();
+            updateCcDataFromSpc();
+        }
 
         DLOG(INFO) << "ccSPCElementShell correctly initialized";
+    }
+
+
+    void updateCcDataFromSpc()
+    {
+        // force the name to match the one in the element
+        setName(element_->getElementName().c_str());
+
+        writeSPCClassNameToMetadata();
     }
 
 
@@ -94,6 +103,11 @@ protected:
         ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
         spc::ISerializable::Ptr el = ccSPCObjectsStreamer::ReadFromQFile(in);
         element_ = spcDynamicPointerCast<spc::ElementBase>(el);
+
+        CHECK(element_ != nullptr); // security assert
+
+        updateCcDataFromSpc();
+
         return true;
     }
 

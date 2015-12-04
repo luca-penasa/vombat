@@ -15,7 +15,7 @@ class ccTimeSeries : public ccSPCElementShell
 public:
     ccTimeSeries(spc::TimeSeriesBase::Ptr series, const QString name = QString(""));
 
-    ccTimeSeries(): ccSPCElementShell(NULL)
+    ccTimeSeries(): ccSPCElementShell(nullptr)
     {
 
     }
@@ -27,7 +27,7 @@ public:
 
     spc::TimeSeriesBase::Ptr getTimeSeries() const
     {
-        return series_;
+        return this->getSPCElement<spc::TimeSeriesBase>();
     }
 
     QVector<double> getX(const bool only_finite=false) const
@@ -73,29 +73,13 @@ public:
         return y_d;
     }
 
-protected:
-    spc::TimeSeriesBase::Ptr series_;
-
-public:
+//protected:
+//    spc::TimeSeriesBase::Ptr series_;
 
 
 
 
-    // ccHObject interface
-protected:
-    virtual bool toFile_MeOnly(QFile &out) const
-    {
-        ccCustomHObject::toFile_MeOnly(out);
-        ccSPCObjectsStreamer::WriteToQFile(series_, out);
-        return true;
-    }
-    virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
-    {
-        ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
-        spc::ISerializable::Ptr el = ccSPCObjectsStreamer::ReadFromQFile(in);
-        series_ = spcDynamicPointerCast<spc::TimeSeriesBase>(el);
-        return true;
-    }
+
 };
 
 #endif // CCTIMESERIES_H

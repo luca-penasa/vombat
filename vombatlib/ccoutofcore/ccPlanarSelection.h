@@ -14,9 +14,18 @@ class ccPlanarSelection: public ccSPCElementShell
 public:
     ccPlanarSelection();
 
-    ccPlanarSelection(spc::SelectionRubberband::Ptr sel): rubberband_(sel), ccSPCElementShell(sel)
+    ccPlanarSelection(spc::SelectionRubberband::Ptr sel): ccSPCElementShell(sel)
     {       
         LOG(INFO) << "ccPlanarSelection created";
+
+//        m_foreground = false;
+
+//        m_selectionBehavior = SELECTION_IGNORED;
+//        m_width  = 0.0;
+//    //	memcpy(m_rgbColor, ccColor::green.rgba, sizeof(colorType) * 3);
+
+//        m_rgbColor = ccColor::green;
+//        setVisible(true);
     }
 
     virtual bool isSerializable() const override
@@ -40,7 +49,6 @@ protected:
     virtual void drawMeOnly(CC_DRAW_CONTEXT &context) override
     {
 
-        //we draw here a little 3d representation of the sensor and some of its attributes
         if (MACRO_Draw3D(context))
         {
             bool pushName = MACRO_DrawEntityNames(context);
@@ -53,7 +61,7 @@ protected:
                 glPushName(getUniqueID());
             }
 
-            size_t vertCount = this->rubberband_->getVertices().getNumberOfPoints();
+            size_t vertCount = this->getRubberband()->getVertices().getNumberOfPoints();
             if (vertCount < 2)
                 return;
 
@@ -76,11 +84,11 @@ protected:
             {
                 if (i == 0)
                     continue;
-                Eigen::Vector3f n =  rubberband_->getProjectionPlane().getUnitNormal() * (float) i * rubberband_->getMaxDistance();
+                Eigen::Vector3f n =  getRubberband()->getProjectionPlane().getUnitNormal() * (float) i * getRubberband()->getMaxDistance();
                 glBegin(GL_LINE_LOOP);
-                for( int i = 0 ; i < rubberband_->getVertices().getNumberOfPoints(); ++i)
+                for( int i = 0 ; i < getRubberband()->getVertices().getNumberOfPoints(); ++i)
                 {
-                    Eigen::Vector3f p = rubberband_->getVertices().getPoint(i) + n;
+                    Eigen::Vector3f p = getRubberband()->getVertices().getPoint(i) + n;
                     ccGL::Vertex3v( p.data() );
                 }
                 glEnd();
@@ -88,14 +96,14 @@ protected:
             }
 
             glBegin(GL_LINES);
-            for( int i = 0 ; i < rubberband_->getVertices().getNumberOfPoints(); ++i)
+            for( int i = 0 ; i < getRubberband()->getVertices().getNumberOfPoints(); ++i)
             {
-                Eigen::Vector3f in =  rubberband_->getProjectionPlane().getUnitNormal() * rubberband_->getMaxDistance();
+                Eigen::Vector3f in =  getRubberband()->getProjectionPlane().getUnitNormal() * getRubberband()->getMaxDistance();
 //                Eigen::Vector3f out = -in;
 
-                Eigen::Vector3f p1 = rubberband_->getVertices().getPoint(i) + in;
-                Eigen::Vector3f p2 = rubberband_->getVertices().getPoint(i) - in;
-                //            LOG(INFO) << rubberband_->getVertices().getPoint(i).transpose();
+                Eigen::Vector3f p1 = getRubberband()->getVertices().getPoint(i) + in;
+                Eigen::Vector3f p2 = getRubberband()->getVertices().getPoint(i) - in;
+                //            LOG(INFO) << getRubberband()->getVertices().getPoint(i).transpose();
                 ccGL::Vertex3v(p1.data());
                 ccGL::Vertex3v(p2.data());
             }
@@ -129,6 +137,11 @@ public:
         return m_rgbColor;
     }
 
+    spc::SelectionRubberband::Ptr getRubberband() const
+    {
+        return this->getSPCElement<spc::SelectionRubberband>();
+    }
+
 
 
 
@@ -143,7 +156,7 @@ protected:
 
     //! Width of the line
     PointCoordinateType m_width = 2;
-    spc::SelectionRubberband::Ptr rubberband_;
+//    spc::SelectionRubberband::Ptr getRubberband();
 
 
     //! Whether poyline should draws itself in background (false) or foreground (true)

@@ -11,6 +11,7 @@ ccAttitude::ccAttitude(): ccSPCElementShell (spc::Attitude::Ptr(new spc::Attitud
 
     LOG(INFO) << " ccAttitude constructor called!";
     m_selectionBehavior = SELECTION_IGNORED;
+
 }
 
 ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation):

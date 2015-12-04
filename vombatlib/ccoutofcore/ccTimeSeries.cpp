@@ -4,6 +4,6 @@
 
 ccTimeSeries::ccTimeSeries(spc::TimeSeriesBase::Ptr series, const QString name): ccSPCElementShell(series, name)
 {
-    series_ = series;
+//    series_ = series;
 }
 

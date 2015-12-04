@@ -24,10 +24,10 @@ class ccDynamicScalarFieldGenerator: public QObject,  public ccSPCElementShell
 
 public:
 
-    ccDynamicScalarFieldGenerator(): ccSPCElementShell(NULL)
-    {
+//    ccDynamicScalarFieldGenerator(): ccSPCElementShell()
+//    {
 
-    }
+//    }
 
     ccDynamicScalarFieldGenerator(spc::VariableScalarFieldBase::Ptr other): ccSPCElementShell(other)
     {
