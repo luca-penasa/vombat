@@ -6,6 +6,9 @@
 #include <ccPointCloud.h>
 #include <ccHObjectCaster.h>
 #include <ScalarField.h>
+#include <helpers/spcCCPointCloud.h>
+
+
 class AutoComputeTimeSeries : public BaseFilter
 {
 public:
@@ -26,6 +29,31 @@ protected:
 
         ccHObject * root =  vombat::theInstance()->getSelected().at(0);
         ccSPCElementShell * el = dynamic_cast<ccSPCElementShell *> (root);
+
+
+        ccHObject::Container objects = vombat::theInstance()->getAllObjectsInTreeThatAre(CC_TYPES::POINT_CLOUD);
+
+        if (objects.size() > 0)
+        {
+
+            ccHObject * cloud = objects.at(0);
+
+            ccPointCloud * ascloud =ccHObjectCaster::ToPointCloud(cloud);
+
+
+            if (cloud)
+            {
+                LOG(INFO) << "found cloud";
+                spc::spcCCPointCloud::Ptr t =  spc::spcCCPointCloud::fromccPointCloud(ascloud) ;
+                try {
+                    LOG(INFO)  << "at check time" << t->getPtr();
+                } catch ( std::exception& e ) {
+                    LOG(INFO) << "got exception" << e.what();
+                }
+
+            }
+
+        }
 
         if (el != NULL)
             return 1;

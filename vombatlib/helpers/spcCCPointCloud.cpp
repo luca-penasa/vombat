@@ -1,5 +1,12 @@
+
 #include "spcCCPointCloud.h"
 #include <ScalarField.h>
+
+namespace spc
+{
+
+DtiClassType spcCCPointCloud::Type = DtiClassType("spcCCPointCloud", &PointCloudBase::Type);
+
 
 void spcCCPointCloud::getPoint(const IndexT id, float &x, float &y, float &z) const
 {
@@ -123,3 +130,6 @@ spcCCPointCloud::IndexT spcCCPointCloud::getNumberOfPoints() const
 {
     return in_cloud->size();
 }
+
+
+}// end nspace

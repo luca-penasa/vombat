@@ -136,8 +136,7 @@ protected:
 
         ccHObject *obj = getSelectedEntityAsCCHObject();
         if (obj && obj->isA(CC_TYPES::POINT_CLOUD))
-            cloud_ = spc::PointCloudBase::Ptr(
-                new spcCCPointCloud(getSelectedEntityAsCCPointCloud()));
+            cloud_ = spcCCPointCloud::fromccPointCloud(getSelectedEntityAsCCPointCloud());
 
         // maybe is another spc type field-enabled
         ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(obj);

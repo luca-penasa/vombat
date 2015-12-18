@@ -48,7 +48,7 @@ int EvaluateDynamicScalarFieldGenerator::compute()
     for(ccHObject * obj: clouds)
     {
         ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(obj);
-        spcCCPointCloud::Ptr ptr (new spcCCPointCloud  (cloud) );
+        spcCCPointCloud::Ptr ptr = spcCCPointCloud::fromccPointCloud(cloud) ;
 
 
 

@@ -47,7 +47,7 @@ FitAttitude::compute()
 
     for(ccPointCloud* cloud: clouds) //add the single clouds
     {
-        spcCCPointCloud::Ptr c (new spcCCPointCloud(cloud));
+        spcCCPointCloud::Ptr c =  spcCCPointCloud::fromccPointCloud(cloud);
         estimator.addInputCloud(c);
     }
 

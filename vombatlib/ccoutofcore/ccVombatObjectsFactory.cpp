@@ -6,6 +6,7 @@
 #include <ccTimeSeries.h>
 #include <ccEigenTable.h>
 
+#include <ccVirtualOutcrop.h>
 
 
 #include <ccPlanarSelection.h>
@@ -49,6 +50,9 @@ ccHObject *ccVombatObjectsFactory::buildObject(const QString &metaname)
 
     else if (metaname.toStdString() == spc::SelectionRubberband::Type.getClassName())
         return new ccPlanarSelection();
+
+    else if (metaname.toStdString() == spc::VirtualOutcrop::Type.getClassName())
+        return new ccVirtualOutcrop();
 
     else if (metaname == "TimeSeriesEquallySpaced")
         return new ccTimeSeries();

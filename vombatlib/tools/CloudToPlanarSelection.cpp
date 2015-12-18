@@ -53,7 +53,7 @@ int CloudToPlanarSelection::openInputDialog()
 
 
     LOG(INFO) << "get as spc point cloud";
-    spcCCPointCloud::Ptr c (new spcCCPointCloud(verts));
+    spcCCPointCloud::Ptr c =  spcCCPointCloud::fromccPointCloud(verts);
 
     if (c->getNumberOfPoints() >= 40)
     {
