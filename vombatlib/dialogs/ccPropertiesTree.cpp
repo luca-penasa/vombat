@@ -220,75 +220,75 @@ void ccPropertiesTree::setPropertyToStratigraphicPositionableElement(    QtVaria
 
 }
 
-void ccPropertiesTree::addPropertyFromVariantDataRecord(
-        spc::ElementWithVariantProperties::Ptr el, QtVariantProperty *parent)
-{
+//void ccPropertiesTree::addPropertyFromVariantDataRecord(
+//        spc::ElementWithVariantProperties::Ptr el, QtVariantProperty *parent)
+//{
 
 
 
 
 
-    spc::VariantPropertiesRecord record = el->getVariantPropertiesRecord();
-    std::vector<std::string> klist = record.getKeysList();
+//    spc::VariantPropertiesRecord record = el->getVariantPropertiesRecord();
+//    std::vector<std::string> klist = record.getKeysList();
 
-    if (klist.empty())
-        return;
+//    if (klist.empty())
+//        return;
 
-    // new group etc
-    QtVariantPropertyManager *man = dynamic_cast
-        <QtVariantPropertyManager *>(parent->propertyManager());
+//    // new group etc
+//    QtVariantPropertyManager *man = dynamic_cast
+//        <QtVariantPropertyManager *>(parent->propertyManager());
 
-    QtVariantProperty *property = man->addProperty(
-        QtVariantPropertyManager::groupTypeId());
+//    QtVariantProperty *property = man->addProperty(
+//        QtVariantPropertyManager::groupTypeId());
 
-    // named position, with code position
-    property->setPropertyName("Variant Proprieties");
-
-
-    for(std::string k: klist)
-    {
-        QtVariantProperty *prop(0);
-
-        spc::VariantProperty spcprop = record.property(k);
-        int ty = spcprop.value().which();
-        if (ty == 0) // int
-        {
-            int value = boost::get<int>(spcprop.value());
-            prop = man->addProperty(QVariant::Int, QLatin1String(k.c_str()));
-            prop->setValue(value);
-
-        } else if (ty == 1) // float
-        {
-            float value = boost::get<float>(spcprop.value());
-            prop = man->addProperty(QVariant::Double, QLatin1String(k.c_str()));
-            prop->setValue(value);
-
-        } else if (ty == 2) // string
-        {
-            std::string value = boost::get<std::string>(spcprop.value());
-            prop = man->addProperty(QVariant::String, QLatin1String(k.c_str()));
-            prop->setValue(value.c_str());
-
-        } else if (ty == 3) // vector 3d
-        {
-            Eigen::Vector3f value = boost::get<Eigen::Vector3f>(spcprop.value());
-            prop = man->addProperty(QtVariantPropertyManager::groupTypeId());
-            addPropertyFromEigenVector(value, prop);
-
-        }
-        else
-            continue; // and do nothing
+//    // named position, with code position
+//    property->setPropertyName("Variant Proprieties");
 
 
+//    for(std::string k: klist)
+//    {
+//        QtVariantProperty *prop(0);
 
-        prop->setPropertyName(k.c_str());
-        property->addSubProperty(prop);
-    }
+//        spc::VariantProperty spcprop = record.property(k);
+//        int ty = spcprop.value().which();
+//        if (ty == 0) // int
+//        {
+//            int value = boost::get<int>(spcprop.value());
+//            prop = man->addProperty(QVariant::Int, QLatin1String(k.c_str()));
+//            prop->setValue(value);
 
-    parent->addSubProperty(property);
+//        } else if (ty == 1) // float
+//        {
+//            float value = boost::get<float>(spcprop.value());
+//            prop = man->addProperty(QVariant::Double, QLatin1String(k.c_str()));
+//            prop->setValue(value);
+
+//        } else if (ty == 2) // string
+//        {
+//            std::string value = boost::get<std::string>(spcprop.value());
+//            prop = man->addProperty(QVariant::String, QLatin1String(k.c_str()));
+//            prop->setValue(value.c_str());
+
+//        } else if (ty == 3) // vector 3d
+//        {
+//            Eigen::Vector3f value = boost::get<Eigen::Vector3f>(spcprop.value());
+//            prop = man->addProperty(QtVariantPropertyManager::groupTypeId());
+//            addPropertyFromEigenVector(value, prop);
+
+//        }
+//        else
+//            continue; // and do nothing
 
 
-}
+
+//        prop->setPropertyName(k.c_str());
+//        property->addSubProperty(prop);
+//    }
+
+//    parent->addSubProperty(property);
+
+
+//}
 
 void ccPropertiesTree::addPropertySpcElement(spc::ElementBase::Ptr el, QtVariantProperty *parent)
 {
@@ -334,9 +334,9 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
 
     }
 
-    // now infos coming from interfaces
-    if (element->hasVariantProperties())
-        addPropertyFromVariantDataRecord(spcDynamicPointerCast<spc::ElementWithVariantProperties> (element), m_topProperty);
+//    // now infos coming from interfaces
+//    if (element->hasVariantProperties())
+//        addPropertyFromVariantDataRecord(spcDynamicPointerCast<spc::ElementWithVariantProperties> (element), m_topProperty);
 
     QtBrowserItem *item = ui->treeView->addProperty(m_topProperty);
 }
@@ -406,43 +406,43 @@ void ccPropertiesTree::selectionChanged(const ccHObject::Container &sel)
     }
 }
 
-void ccPropertiesTree::addNewVariantProperty()
-{
+//void ccPropertiesTree::addNewVariantProperty()
+//{
 
-    if (!m_currentItem)
-        return;
+////    if (!m_currentItem)
+////        return;
 
-    if (!m_addPropDialog)
-        m_addPropDialog = new ccAddNewVariantProperty(this);
-    int accepted = m_addPropDialog->exec();
+////    if (!m_addPropDialog)
+////        m_addPropDialog = new ccAddNewVariantProperty(this);
+////    int accepted = m_addPropDialog->exec();
 
-    if (!accepted)
-        return;
+////    if (!accepted)
+////        return;
 
-    QString name = m_addPropDialog->getName();
+////    QString name = m_addPropDialog->getName();
 
-    int typ = m_addPropDialog->getType();
+////    int typ = m_addPropDialog->getType();
 
-    if (m_currentItem->getMetaData("class_name") == "ccSample") {
-        ccSample *sam = dynamic_cast<ccSample *>(m_currentItem);
-        spc::ElementWithVariantProperties::Ptr spc_sample = sam->getSample();
+////    if (m_currentItem->getMetaData("class_name") == "ccSample") {
+////        ccSample *sam = dynamic_cast<ccSample *>(m_currentItem);
+////        spc::ElementWithVariantProperties::Ptr spc_sample = sam->getSample();
 
-        if (!spc_sample)
-            return;
+////        if (!spc_sample)
+////            return;
 
-        spc::VariantProperty::VarianT value;
+////        spc::VariantProperty::VarianT value;
 
-        if (typ == 0)
-            value = 0;
-        else if (typ == 1)
-            value = 0.0f;
-        else if (typ == 2)
-            value = std::string("");
+////        if (typ == 0)
+////            value = 0;
+////        else if (typ == 1)
+////            value = 0.0f;
+////        else if (typ == 2)
+////            value = std::string("");
 
 
-        spc_sample->getVariantPropertiesRecord().property(name.toStdString()) = value;
-    }
-}
+////        spc_sample->getVariantPropertiesRecord().property(name.toStdString()) = value;
+////    }
+//}
 
 void ccPropertiesTree::forceUpdate()
 {

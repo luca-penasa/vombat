@@ -1,6 +1,7 @@
 #include "ccSPCElementShell.h"
 
 #include <spc/elements/StratigraphicPositionableElement.h>
+#include <spc/elements/GeometricElement3DBase.h>
 
 //ccSPCElementShell::ccSPCElementShell()
 //{
@@ -105,6 +106,26 @@ void ccSPCElementShell::setName(const QString &name)
 {
     ccObject::setName(name);
     this->getSPCElement()->setElementName(name.toStdString());
+
+}
+
+void ccSPCElementShell::applyGLTransformation(const ccGLMatrix &trans)
+{
+    spc::ElementBase::Ptr elbase = this->getSPCElement();
+
+    spc::GeometricElement3DBase::Ptr geom = std::dynamic_pointer_cast<spc::GeometricElement3DBase> (elbase);
+
+    if (geom)
+    {
+
+        Eigen::Map<const Eigen::Matrix4f> mat (trans.data());
+        spc::GeometricElement3DBase::TransformT t(mat);
+
+        geom->applyTransform(t);
+    }
+
+
+    ccHObject::applyGLTransformation(trans);
 
 }
 

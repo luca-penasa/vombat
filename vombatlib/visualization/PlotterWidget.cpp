@@ -1,7 +1,7 @@
 #include "PlotterWidget.h"
 #include "PlotsContainer.h"
 #include "SinglePlot.h"
-#include <spc/io/AsciiEigenTableWriter.h>
+//#include <spc/io/AsciiEigenTableWriter.h>
 #include <spc/elements/TimeSeriesBase.h>
 
 #include <sstream>

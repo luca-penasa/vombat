@@ -104,9 +104,14 @@ protected:
 
     void drawMajorThicksText(CC_DRAW_CONTEXT &context);
 
-    virtual void applyGLTransformation(const ccGLMatrix& trans) {}
+    virtual void applyGLTransformation(const ccGLMatrix& trans)
+    {
+        ccSPCElementShell::applyGLTransformation(trans);
+        initParameters();
 
-    virtual void setGLTransformation(const ccGLMatrix& trans) {}
+    }
+
+//    virtual void setGLTransformation(const ccGLMatrix& trans) {}
 
 //    ccCylinder getScalePiece( const colorType *color,const float min_sp, const float max_sp);
 

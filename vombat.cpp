@@ -21,7 +21,7 @@
 //#include <split_point_cloud.h>
 #include <OpenPlotsDialog.h>
 #include <OpenPlots2DDialog.h>
-#include <ExportToAscii.h>
+//#include <ExportToAscii.h>
 #include <ApplyCorrection.h>
 #include <FlipModel.h>
 #include <NewRoi.h>
@@ -42,7 +42,7 @@
 
 #include <PlotterDlg.h>
 
-#include <CalibrateDevice.h>
+//#include <CalibrateDevice.h>
 
 #ifdef SPC_WITH_PCL
 #include <GaussianFilter.h>
@@ -150,7 +150,7 @@ void vombat::getActions(QActionGroup &group)
 #endif
         addFilter(new Properties(this));
 
-        addFilter(new ExportToAscii(this));
+//        addFilter(new ExportToAscii(this));
         addFilter(new SaveSPCElement(this));
         addFilter(new LoadSPCElement(this));
         addFilter(new LoadCloudDataSource(this));

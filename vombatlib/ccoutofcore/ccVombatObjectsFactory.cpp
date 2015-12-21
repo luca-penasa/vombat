@@ -4,7 +4,7 @@
 #include <ccSingleAttitudeModel.h>
 #include <ccSample.h>
 #include <ccTimeSeries.h>
-#include <ccEigenTable.h>
+//#include <ccEigenTable.h>
 
 #include <ccVirtualOutcrop.h>
 
@@ -45,8 +45,8 @@ ccHObject *ccVombatObjectsFactory::buildObject(const QString &metaname)
     else if (metaname == "TimeSeries")
         return new ccTimeSeries();
 
-    else if (metaname == "EigenTable")
-        return new ccEigenTable();
+//    else if (metaname == "EigenTable")
+//        return new ccEigenTable();
 
     else if (metaname.toStdString() == spc::SelectionRubberband::Type.getClassName())
         return new ccPlanarSelection();

@@ -5,7 +5,7 @@
 #include <vombat.h>
 #include <PlotterDlg.h>
 
-#include <spc/io/AsciiEigenTableWriter.h>
+//#include <spc/io/AsciiEigenTableWriter.h>
 
 #include <boost/filesystem.hpp>
 

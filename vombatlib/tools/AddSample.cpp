@@ -40,7 +40,7 @@ int AddSample::compute()
                 float value = sf->getValue(i);
                 QString sf_name = sf->getName();
 
-                sample->getSample()->getVariantPropertiesRecord().property(sf_name.toStdString()) = value;
+//                sample->getSample()->getVariantPropertiesRecord().property(sf_name.toStdString()) = value;
             }
 
             sample->setVisible(true);

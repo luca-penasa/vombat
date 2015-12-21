@@ -9,7 +9,7 @@
 
 #include <ccoutofcore/ccSPCElementShell.h>
 #include<ccoutofcore/ccAttitude.h>
-#include <ccoutofcore/ccEigenTable.h>
+//#include <ccoutofcore/ccEigenTable.h>
 #include <ccoutofcore/ccSample.h>
 #include <ccoutofcore/ccSingleAttitudeModel.h>
 
@@ -27,6 +27,9 @@ class LoadSPCElement: public BaseFilter
 public:
     LoadSPCElement(ccPluginInterface * parent_plugin);
 
+
+    //  \todo we should use a unified factory for this
+    // the the ccVombatObjectsFactory
     static ccHObject * elementToCCHobject(spc::ElementBase::Ptr el)
     {
         ccHObject * newobj;
@@ -42,11 +45,11 @@ public:
             spc::Attitude::Ptr att = spcDynamicPointerCast<spc::Attitude>(el);
             newobj = new ccAttitude(att);
         }
-        else if (el->getType() == &spc::EigenTable::Type)
-        {
-            spc::EigenTable::Ptr att = spcDynamicPointerCast<spc::EigenTable>(el);
-            newobj = new ccEigenTable(att);
-        }
+//        else if (el->getType() == &spc::EigenTable::Type)
+//        {
+//            spc::EigenTable::Ptr att = spcDynamicPointerCast<spc::EigenTable>(el);
+//            newobj = new ccEigenTable(att);
+//        }
         else if (el->getType() == &spc::Sample::Type)
         {
             spc::Sample::Ptr att = spcDynamicPointerCast<spc::Sample>(el);

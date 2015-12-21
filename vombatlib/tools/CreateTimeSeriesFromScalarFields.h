@@ -18,8 +18,8 @@
 
 #include <spc/core/common.h>
 //#include <spc/elements/Fields.h>
-#include <spc/elements/PointCloudSpc.h>
-#include <spc/elements/EigenTable.h>
+//#include <spc/elements/PointCloudSpc.h>
+//#include <spc/elements/EigenTable.h>
 
 class CreateTimeSeriesFromScalarFields : public BaseFilter
 {
@@ -106,25 +106,10 @@ protected:
     {
 
         ccHObject *obj = this->getSelectedEntityAsCCHObject();
-        if (obj && obj->isA(CC_TYPES::POINT_CLOUD)) {
+        if (obj && obj->isA(CC_TYPES::POINT_CLOUD))
             return true;
-        } else {
-            ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(obj);
-            if (!myobj)
-                return false;
-            else {
-                    spc::ElementBase::Ptr el = myobj->getSPCElement();
-
-                    DCHECK(el != NULL);
-
-                if (el->getType()->isA(
-                        &spc::EigenTable::Type))
-                    return true;
-            }
-        }
-
-
-        return false;
+        else
+            return false;
     }
 
     int openInputDialog()
@@ -138,16 +123,16 @@ protected:
         if (obj && obj->isA(CC_TYPES::POINT_CLOUD))
             cloud_ = spcCCPointCloud::fromccPointCloud(getSelectedEntityAsCCPointCloud());
 
-        // maybe is another spc type field-enabled
-        ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(obj);
-        if (myobj && myobj->getSPCElement()->getType()->isA(
-                         &spc::EigenTable::Type)) {
-            spc::EigenTable::Ptr man = spcDynamicPointerCast
-                <spc::EigenTable>(myobj->getSPCElement());
-            spc::PointCloudSpc::Ptr spcc(new spc::PointCloudSpc);
-            spcc->setFieldsManager(man);
-            cloud_ = spcc;
-        }
+//        // maybe is another spc type field-enabled
+//        ccSPCElementShell *myobj = dynamic_cast<ccSPCElementShell *>(obj);
+//        if (myobj && myobj->getSPCElement()->getType()->isA(
+//                         &spc::EigenTable::Type)) {
+//            spc::EigenTable::Ptr man = spcDynamicPointerCast
+//                <spc::EigenTable>(myobj->getSPCElement());
+//            spc::PointCloudSpc::Ptr spcc(new spc::PointCloudSpc);
+//            spcc->setFieldsManager(man);
+//            cloud_ = spcc;
+//        }
 
         std::vector<std::string> names = cloud_->getFieldNames();
         m_dialog->getUi()->cmbX->clear();

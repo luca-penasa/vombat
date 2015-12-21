@@ -8,6 +8,7 @@
 #include <spc/elements/ElementBase.h>
 #include <helpers/ccSPCObjectsStreamer.h>
 
+
 //!
 //! \brief The ccSPCElementShell class
 //! empty constructor is not allowed. Each object must be the shell of some kind of spc element
@@ -113,6 +114,10 @@ protected:
 
 
 
+
+    // ccHObject interface
+protected:
+    virtual void applyGLTransformation(const ccGLMatrix &trans) override;
 };
 
 #endif // ccSPCElementShell_H

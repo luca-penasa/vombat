@@ -3,7 +3,7 @@
 
 #include "PlotterDlg.h"
 
-#include <spc/io/AsciiEigenTableWriter.h>
+//#include <spc/io/AsciiEigenTableWriter.h>
 #include <iostream>
 
 #include <time.h> //for win

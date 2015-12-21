@@ -7,7 +7,7 @@
 //#include <QtVariantProperty>
 #include <ccSPCElementShell.h>
 #include <spc/elements/MovableElement.h>
-#include <spc/elements/ElementWithVariantProperties.h>
+//#include <spc/elements/ElementWithVariantProperties.h>
 #include <spc/elements/SelectionRubberband.h>
 
 #include <spc/elements/StratigraphicPositionableElement.h>
@@ -60,15 +60,15 @@ public:
 
 
 
-    //! BOOST-VARIANT BASED PROPERTIES ELEMENT
-    static void addPropertyFromVariantDataRecord(spc::ElementWithVariantProperties::Ptr el,
-                                                 QtVariantProperty *parent);
+//    //! BOOST-VARIANT BASED PROPERTIES ELEMENT
+//    static void addPropertyFromVariantDataRecord(spc::ElementWithVariantProperties::Ptr el,
+//                                                 QtVariantProperty *parent);
 
-    static void setPropertyVariantDataRecord(
-        QtProperty *property, const QVariant value,
-        const spc::ElementWithVariantProperties::Ptr obj)
-    {
-    }
+//    static void setPropertyVariantDataRecord(
+//        QtProperty *property, const QVariant value,
+//        const spc::ElementWithVariantProperties::Ptr obj)
+//    {
+//    }
 
     static void addPropertySpcElement(spc::ElementBase::Ptr el,
                                       QtVariantProperty *parent);
@@ -82,7 +82,7 @@ slots:
 
     void selectionChanged(const ccHObject::Container &sel);
 
-    void addNewVariantProperty();
+//    void addNewVariantProperty();
 
     void forceUpdate();
 
