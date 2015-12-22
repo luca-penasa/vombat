@@ -1,24 +1,16 @@
+#pragma once
 #ifndef VOMBAT_GAUSSIANFILTER_H
 #define VOMBAT_GAUSSIANFILTER_H
 
-
 #include "BaseFilter.h"
 
-//#include <BaseFilter.h>
-#include <dialogs/GaussianFilterDlg.h>
+class GaussianFilterDlg;
 
-//#include <spc/scalar_fields_generators/single_attitude_model.h>
-//
-//#include <ccoutofcore/ccSingleAttitudeModel.h>
-
-
-class GaussianFilter : public BaseFilter
-{
+class GaussianFilter : public BaseFilter {
 public:
-    GaussianFilter(ccPluginInterface * parent_plugin = 0);
+    GaussianFilter(ccPluginInterface* parent_plugin = 0);
 
-
-    virtual int compute() ;
+    virtual int compute();
 
 protected:
     virtual int checkSelected();
@@ -26,11 +18,7 @@ protected:
     int openInputDialog();
 
 private:
-    GaussianFilterDlg * m_dialog_;
-
-
+    GaussianFilterDlg* m_dialog_;
 };
-
-
 
 #endif // VOMBAT_GAUSSIANFILTER_H

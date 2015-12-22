@@ -15,10 +15,7 @@ public:
     explicit CreateTimeSeriesFromScalarFieldsDlg(QWidget *parent = 0);
     ~CreateTimeSeriesFromScalarFieldsDlg();
 
-    //lets try with to get access to the ui this way
     Ui::CreateTimeSeriesFromScalarFieldsDlg * getUi () const;
-
-
 
 private:
     Ui::CreateTimeSeriesFromScalarFieldsDlg *ui;

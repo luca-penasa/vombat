@@ -79,10 +79,10 @@ public:
 
 
     ccHObject::Container getAllObjectsInTree();
-    ccHObject::Container getAllObjectsInTreeBySPCDti(const DtiClassType * dti);
+    ccHObject::Container getAllObjectsInTreeBySPCDti(const spc::DtiClassType * dti);
 
 
-    ccHObject::Container getAllObjectsSelectedBySPCDti(const DtiClassType * dti);
+    ccHObject::Container getAllObjectsSelectedBySPCDti(const spc::DtiClassType * dti);
 
     ccHObject::Container getAllObjectsInTreeThatHaveMetaData(const QString key,
                                                              const QString value = QString() );

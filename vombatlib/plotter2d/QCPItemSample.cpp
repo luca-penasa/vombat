@@ -2,6 +2,8 @@
 
 #include <ccoutofcore/ccSample.h>
 
+#include <spc/elements/Sample.h>
+
 QCPItemSample::QCPItemSample(ccSample *sample, QCustomPlot *parentPlot) : QCPItemStraightLine(parentPlot),
 	sample_(sample)
 {

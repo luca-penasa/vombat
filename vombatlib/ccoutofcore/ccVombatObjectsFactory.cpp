@@ -7,7 +7,7 @@
 //#include <ccEigenTable.h>
 
 #include <ccVirtualOutcrop.h>
-
+#include <spc/elements/SelectionRubberband.h>
 
 #include <ccPlanarSelection.h>
 

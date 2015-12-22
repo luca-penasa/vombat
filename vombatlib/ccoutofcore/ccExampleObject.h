@@ -1,24 +1,23 @@
+#pragma once
 #ifndef CC_EXAMPLE_OBJECT_H
 #define CC_EXAMPLE_OBJECT_H
-
 
 #include <ccoutofcore/ccSPCElementShell.h>
 #include <QIcon>
 
+namespace spc {
+spcFwdDeclSharedPtr(ElementBase)
+}
 
 ///
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
-class ccExampleObject:  public ccSPCElementShell
-{
+class ccExampleObject : public ccSPCElementShell {
 public:
-    ccExampleObject(spc::ElementBase::Ptr obj): ccSPCElementShell(obj)
-    {
-    }
+    ccExampleObject(spc::ElementBasePtr obj);
 
     ~ccExampleObject()
     {
-
     }
 
     //inherited methods (ccHObject)
@@ -26,15 +25,15 @@ public:
     virtual ccBBox getMyOwnBB()
     {
         //! example
-//        CCVector3 center = CCVector3::fromArray (getAttitude()->getPosition().data());
-//        float s = m_scale * 0.5;
+        //        CCVector3 center = CCVector3::fromArray (getAttitude()->getPosition().data());
+        //        float s = m_scale * 0.5;
 
-//        CCVector3 scale_v (s,s,s);
-//        CCVector3 min_corner(center - scale_v);
-//        CCVector3 max_corner(center + scale_v);
-//        ccBBox box(min_corner, max_corner);
+        //        CCVector3 scale_v (s,s,s);
+        //        CCVector3 min_corner(center - scale_v);
+        //        CCVector3 max_corner(center + scale_v);
+        //        ccBBox box(min_corner, max_corner);
 
-//        return box;
+        //        return box;
     }
 
     virtual QIcon getIcon() const
@@ -48,106 +47,90 @@ public:
         return true;
     }
 
-
 protected:
-
-
-    virtual bool toFile_MeOnly(QFile &out) const
+    virtual bool toFile_MeOnly(QFile& out) const
     {
-//        ccCustomHObject::toFile_MeOnly(out);
+        //        ccCustomHObject::toFile_MeOnly(out);
 
-//        QDataStream outs(&out);
-//        outs << m_scale;
-//        outs << m_width;
+        //        QDataStream outs(&out);
+        //        outs << m_scale;
+        //        outs << m_width;
 
-//        ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
-//        return true;
-
+        //        ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
+        //        return true;
     }
-    virtual bool fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+    virtual bool fromFile_MeOnly(QFile& in, short dataVersion, int flags)
     {
-//        ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
+        //        ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
 
+        //        QDataStream ins(&in);
+        //        ins >> m_scale;
+        //        ins >> m_width;
 
-//        QDataStream ins(&in);
-//        ins >> m_scale;
-//        ins >> m_width;
+        //        spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
+        //        m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
 
-//        spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
-//        m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
-
-//        return true;
+        //        return true;
     }
 
-
-    virtual void drawMeOnly(CC_DRAW_CONTEXT &context)
+    virtual void drawMeOnly(CC_DRAW_CONTEXT& context)
     {
-            //! example of drawing
-//        if (MACRO_Draw3D(context))
-//        {
-//            bool pushName = MACRO_DrawEntityNames(context);
+        //! example of drawing
+        //        if (MACRO_Draw3D(context))
+        //        {
+        //            bool pushName = MACRO_DrawEntityNames(context);
 
-//            if (pushName)
-//            {
-//                //not particulary fast
-//                if (MACRO_DrawFastNamesOnly(context))
-//                    return;
-//                glPushName(getUniqueID());
-//            }
+        //            if (pushName)
+        //            {
+        //                //not particulary fast
+        //                if (MACRO_DrawFastNamesOnly(context))
+        //                    return;
+        //                glPushName(getUniqueID());
+        //            }
 
+        //            glPushAttrib(GL_LINE_BIT);
+        //            glLineWidth(m_width);
 
-//            glPushAttrib(GL_LINE_BIT);
-//            glLineWidth(m_width);
+        //            //we draw the segments
+        //            if (isSelected())
+        //                glColor3ubv(ccColor::red);
+        //            else
+        //                glColor3ubv(ccColor::green);
 
+        //            Vector3f pos = getAttitude()->getPosition();
 
-//            //we draw the segments
-//            if (isSelected())
-//                glColor3ubv(ccColor::red);
-//            else
-//                glColor3ubv(ccColor::green);
+        //            Vector3f dip_v = getAttitude()->getDipVector();
+        //            Vector3f strike_v = getAttitude()->getStrikeVector();
 
-//            Vector3f pos = getAttitude()->getPosition();
+        //            Vector3f arr_shaft = pos + dip_v * m_scale * context.pickedPointsRadius;
+        //            Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.pickedPointsRadius;
+        //            Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.pickedPointsRadius;
 
-//            Vector3f dip_v = getAttitude()->getDipVector();
-//            Vector3f strike_v = getAttitude()->getStrikeVector();
+        //            context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
 
+        //            glBegin(GL_LINES);
+        //            glColor3ubv(ccColor::red);
 
-//            Vector3f arr_shaft = pos + dip_v * m_scale * context.pickedPointsRadius;
-//            Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.pickedPointsRadius;
-//            Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.pickedPointsRadius;
+        //            glVertex3fv( pos.data() );
+        //            glVertex3fv( arr_shaft.data() );
 
-//            context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
+        //            glColor3ubv(ccColor::blue);
 
+        //            glVertex3fv( pos.data());
+        //            glVertex3fv( strike_dir.data());
 
-//            glBegin(GL_LINES);
-//            glColor3ubv(ccColor::red);
+        //            glVertex3fv( pos.data());
+        //            glVertex3fv( s_opp.data() );
+        //            glEnd();
 
-//            glVertex3fv( pos.data() );
-//            glVertex3fv( arr_shaft.data() );
+        //            glPopAttrib();
 
+        //            if (pushName)
+        //                glPopName();
 
-//            glColor3ubv(ccColor::blue);
-
-
-//            glVertex3fv( pos.data());
-//            glVertex3fv( strike_dir.data());
-
-//            glVertex3fv( pos.data());
-//            glVertex3fv( s_opp.data() );
-//            glEnd();
-
-//            glPopAttrib();
-
-//            if (pushName)
-//                glPopName();
-
-//        }
+        //        }
     }
 
-
-
-
-
-};//end class
+}; //end class
 
 #endif // CCPLANEORIENTATION_H

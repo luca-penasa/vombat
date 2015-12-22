@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CC_VIRTUAL_OUTCROP_H
 #define CC_VIRTUAL_OUTCROP_H
 

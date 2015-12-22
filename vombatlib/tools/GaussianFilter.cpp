@@ -7,15 +7,15 @@
 
 #include <ccScalarField.h>
 #include <ccPointCloud.h>
-
+#include <dialogs/GaussianFilterDlg.h>
 
 #ifdef SPC_WITH_PCL
-GaussianFilter::GaussianFilter(ccPluginInterface *parent_plugin)
+GaussianFilter::GaussianFilter(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Apply Gaussian filter to scalar field ",
-                                   "Apply Gaussian filter to scalar field",
-                                   "Apply Gaussian filter to scalar field",
-                                   ":/toolbar/icons/gaussian.png"),
-                 parent_plugin)
+                     "Apply Gaussian filter to scalar field",
+                     "Apply Gaussian filter to scalar field",
+                     ":/toolbar/icons/gaussian.png"),
+          parent_plugin)
 {
     this->setShowProgressBar(true);
 }
@@ -23,16 +23,15 @@ GaussianFilter::GaussianFilter(ccPluginInterface *parent_plugin)
 int GaussianFilter::compute()
 {
 
-    ccPointCloud *cc_cloud = getSelectedEntityAsCCPointCloud();
+    ccPointCloud* cc_cloud = getSelectedEntityAsCCPointCloud();
 
     if (!cc_cloud)
         return -1;
 
-    ccScalarField *selected_field = cc_cloud->getCurrentDisplayedScalarField();
+    ccScalarField* selected_field = cc_cloud->getCurrentDisplayedScalarField();
 
     // construct the right pcl::pointcloud
-    pcl::PointCloud<pcl::PointXYZI>::Ptr input = pcl::PointCloud
-        <pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>);
+    pcl::PointCloud<pcl::PointXYZI>::Ptr input = pcl::PointCloud<pcl::PointXYZI>::Ptr(new pcl::PointCloud<pcl::PointXYZI>);
 
     input->resize(cc_cloud->size());
 
@@ -55,7 +54,7 @@ int GaussianFilter::compute()
 
     std::vector<float> filtered_field = filt.getOutput();
 
-    ccScalarField *f = new ccScalarField;
+    ccScalarField* f = new ccScalarField;
 
     f->resize(filtered_field.size());
     for (int i = 0; i < filtered_field.size(); ++i) {
@@ -87,7 +86,7 @@ int GaussianFilter::openInputDialog()
 }
 int GaussianFilter::checkSelected()
 {
-    ccPointCloud *cc_cloud = getSelectedEntityAsCCPointCloud();
+    ccPointCloud* cc_cloud = getSelectedEntityAsCCPointCloud();
     if (!cc_cloud)
         return -1;
 

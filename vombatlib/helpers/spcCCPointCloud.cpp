@@ -1,7 +1,7 @@
 
 #include "spcCCPointCloud.h"
 #include <ScalarField.h>
-
+#include <spc/elements/OrientedSensor.h>
 namespace spc
 {
 
@@ -129,6 +129,19 @@ void spcCCPointCloud::addField(const std::string &name)
 spcCCPointCloud::IndexT spcCCPointCloud::getNumberOfPoints() const
 {
     return in_cloud->size();
+}
+
+spc::OrientedSensor spc::spcCCPointCloud::getSensor() const
+{
+    spc::OrientedSensor sensor;
+    LOG(WARNING) << "WARNING!!! getSensor in spcCCPointCloud is only a fake virtual function!!!!!!!";
+    return sensor;
+}
+
+void spcCCPointCloud::setSensor(const OrientedSensor &sensor) const
+{
+    LOG(WARNING)<< "WARNING!!! setSensor in spcCCPointCloud is only a fake virtual function!!!!!!!";
+
 }
 
 

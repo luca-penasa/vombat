@@ -3,6 +3,7 @@
 #include <plotter2d/Plotter2DDlg.h>
 #include <ccoutofcore/ccTimeSeries.h>
 #include <ccoutofcore/ccSample.h>
+#include <vombat.h>
 
 
 #include <plotter2d/CustomPlotWidget.h>

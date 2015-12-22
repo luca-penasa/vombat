@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CC_SINGLE_ATTITUDE_MODEL_H
 #define CC_SINGLE_ATTITUDE_MODEL_H
 

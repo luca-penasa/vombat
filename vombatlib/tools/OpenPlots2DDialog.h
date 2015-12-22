@@ -1,9 +1,11 @@
+#pragma once
 #ifndef VOMBAT_OPENPLOTS2D_H
 #define VOMBAT_OPENPLOTS2D_H
 
 //#include <BaseFilter.h>
-#include <PlotterDlg.h>
 #include "BaseFilter.h"
+
+class  Plotter2DDlg;
 
 class OpenPlots2DDialog : public BaseFilter
 {

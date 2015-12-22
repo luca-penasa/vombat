@@ -1,6 +1,7 @@
 #include "OpenPlots2DDialog.h"
 #include <vombat.h>
 #include <Plotter2DDlg.h>
+#include <PlotterDlg.h>
 
 OpenPlots2DDialog::OpenPlots2DDialog(ccPluginInterface *parent_plugin) : BaseFilter(FilterDescription(   "Show 2d Plots ",
                                                      "Open the 2D plots dialog",

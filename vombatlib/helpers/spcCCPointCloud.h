@@ -120,18 +120,9 @@ protected:
     // PointCloudBase interface
 public:
     /** \todo IMPLEMENT THIS METHOD **/
-    virtual spc::OrientedSensor getSensor() const
-    {
-        spc::OrientedSensor sensor;
-        LOG(WARNING) << "WARNING!!! getSensor in spcCCPointCloud is only a fake virtual function!!!!!!!";
-        return sensor;
-    }
+    virtual spc::OrientedSensor getSensor() const;
     /** \todo IMPLEMENT THIS METHOD **/
-    virtual void setSensor(const spc::OrientedSensor &sensor) const
-    {
-        LOG(WARNING)<< "WARNING!!! setSensor in spcCCPointCloud is only a fake virtual function!!!!!!!";
-
-    }
+    virtual void setSensor(const spc::OrientedSensor &sensor) const;
 
 };
 

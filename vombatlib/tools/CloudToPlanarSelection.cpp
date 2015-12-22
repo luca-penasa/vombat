@@ -11,7 +11,7 @@
 //#include <cc2DRubberbandLabel.h>
 
 #include <ccPolyline.h>
-
+#include <spc/elements/SelectionRubberband.h>
 #include <ccoutofcore/ccPlanarSelection.h>
 #include <iostream>
 #include <cc2DViewportLabel.h>
@@ -21,14 +21,13 @@
 
 #include <ccHObjectCaster.h>
 
-
-CloudToPlanarSelection::CloudToPlanarSelection(ccPluginInterface *parent_plugin): BaseFilter(FilterDescription("From a cloud representing a polygon create a selection",
-                                                                     "From a cloud representing a polygon create a selection",
-                                                                     "From a cloud representing a polygon create a selection",
-                                                                     ":/toolbar/icons/selection.png"), parent_plugin)
+CloudToPlanarSelection::CloudToPlanarSelection(ccPluginInterface* parent_plugin)
+    : BaseFilter(FilterDescription("From a cloud representing a polygon create a selection",
+                     "From a cloud representing a polygon create a selection",
+                     "From a cloud representing a polygon create a selection",
+                     ":/toolbar/icons/selection.png"),
+          parent_plugin)
 {
-
-
 }
 
 int CloudToPlanarSelection::compute()
@@ -40,37 +39,30 @@ int CloudToPlanarSelection::openInputDialog()
 {
     this->setShowProgressBar(false);
 
-
     ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_TYPES::POINT_CLOUD);
 
     if (cont.size() == 0)
         return -1;
 
-    ccPointCloud * verts = ccHObjectCaster::ToPointCloud(cont.at(0) );
+    ccPointCloud* verts = ccHObjectCaster::ToPointCloud(cont.at(0));
 
     if (!verts)
         return -1;
 
-
     LOG(INFO) << "get as spc point cloud";
-    spcCCPointCloud::Ptr c =  spcCCPointCloud::fromccPointCloud(verts);
+    spcCCPointCloud::Ptr c = spcCCPointCloud::fromccPointCloud(verts);
 
-    if (c->getNumberOfPoints() >= 40)
-    {
+    if (c->getNumberOfPoints() >= 40) {
         LOG(ERROR) << "too much points here. Cannot create a selction with all these points";
         return -1;
     }
 
-
-
     LOG(INFO) << "now create rubberband";
-    spc::SelectionRubberband::Ptr sel (new spc::SelectionRubberband(*c));
-    ccPlanarSelection * pl = new ccPlanarSelection(sel);
+    spc::SelectionRubberband::Ptr sel(new spc::SelectionRubberband(*c));
+    ccPlanarSelection* pl = new ccPlanarSelection(sel);
     pl->setVisible(true);
     LOG(INFO) << "now call newEntity";
     newEntity(pl);
-
-
 
     return 1;
 }
@@ -84,6 +76,3 @@ int CloudToPlanarSelection::checkParameters()
     else
         return 1;
 }
-
-
-

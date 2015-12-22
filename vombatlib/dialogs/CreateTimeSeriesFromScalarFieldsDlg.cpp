@@ -1,4 +1,4 @@
-#include "CreateTimeSeriesFromScalarFields.h"
+#include "CreateTimeSeriesFromScalarFieldsDlg.h"
 #include "ui_CreateTimeSeriesFromScalarFieldsDlg.h"
 
 CreateTimeSeriesFromScalarFieldsDlg::CreateTimeSeriesFromScalarFieldsDlg(QWidget *parent) :

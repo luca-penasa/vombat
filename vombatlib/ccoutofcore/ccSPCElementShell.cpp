@@ -3,6 +3,15 @@
 #include <spc/elements/StratigraphicPositionableElement.h>
 #include <spc/elements/GeometricElement3DBase.h>
 
+
+#include <ccoutofcore/ccEditableHObject.h>
+#include <ccHObject.h>
+
+#include <ccCustomObject.h>
+#include <spc/elements/ElementBase.h>
+#include <helpers/ccSPCObjectsStreamer.h>
+
+
 //ccSPCElementShell::ccSPCElementShell()
 //{
 
@@ -18,12 +27,54 @@
 
 
 
+ccSPCElementShell::ccSPCElementShell(ElementBase::Ptr el, const QString &name): ccCustomHObject(name)
+{
+
+    LOG(INFO) << " ccSPCElementShell constructor called!";
+
+    //        CHECK(el !=nullptr);
+
+    if (el !=nullptr)
+    {
+        element_ = el;
+
+        updateCcDataFromSpc();
+    }
+
+    DLOG(INFO) << "ccSPCElementShell correctly initialized";
+}
+
+void ccSPCElementShell::updateCcDataFromSpc()
+{
+    // force the name to match the one in the element
+    setName(element_->getElementName().c_str());
+
+    writeSPCClassNameToMetadata();
+}
+
+QString ccSPCElementShell::getSPCClassName() const
+{
+    DLOG(INFO) << "asked spcclassname, returned: " <<  element_->getClassNameFromDtiClass();
+    return QString::fromStdString(element_->getClassNameFromDtiClass());
+
+}
+
+ElementBase::Ptr ccSPCElementShell::getSPCElement() const
+{
+    return element_;
+}
+
 void ccSPCElementShell::writeSPCClassNameToMetadata()
 {
     QString name = this->getSPCClassName();
     setMetaData(QString("class_name"), QVariant(QString(name)));
     setMetaData(QString("plugin_name"), QVariant(QString("vombat")));
 
+}
+
+bool ccSPCElementShell::isASPC(DtiClassType *type)
+{
+    return this->getSPCElement()->isA(type);
 }
 
 
@@ -107,6 +158,26 @@ void ccSPCElementShell::setName(const QString &name)
     ccObject::setName(name);
     this->getSPCElement()->setElementName(name.toStdString());
 
+}
+
+bool ccSPCElementShell::toFile_MeOnly(QFile &out) const
+{
+    ccCustomHObject::toFile_MeOnly(out);
+    ccSPCObjectsStreamer::WriteToQFile(element_, out);
+    return true;
+}
+
+bool ccSPCElementShell::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+{
+    ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
+    spc::ISerializable::Ptr el = ccSPCObjectsStreamer::ReadFromQFile(in);
+    element_ = spcDynamicPointerCast<spc::ElementBase>(el);
+
+    CHECK(element_ != nullptr); // security assert
+
+    updateCcDataFromSpc();
+
+    return true;
 }
 
 void ccSPCElementShell::applyGLTransformation(const ccGLMatrix &trans)

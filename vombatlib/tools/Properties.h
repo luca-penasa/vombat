@@ -1,18 +1,15 @@
+#pragma once
 #ifndef PROPERTIES_H
 #define PROPERTIES_H
 
-//#include <BaseFilter.h>
-#include <dialogs/ccPropertiesTree.h>
 #include "BaseFilter.h"
 
-class Properties : public BaseFilter
-{
+class ccPropertiesTree;
+
+class Properties : public BaseFilter {
 public:
-    Properties(ccPluginInterface *parent_plugin = 0);
-    ~Properties()
-    {
-        delete m_dialog;
-    }
+    Properties(ccPluginInterface* parent_plugin = 0);
+    ~Properties();
 
     virtual int compute()
     {
@@ -26,9 +23,8 @@ public:
 
     int openOutputDialog();
 
-
 private:
-    ccPropertiesTree *m_dialog;
+    ccPropertiesTree* m_dialog;
 };
 
 #endif // PROPERTIES_H

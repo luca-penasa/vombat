@@ -3,30 +3,40 @@
 
 #include <helpers/ccSPCObjectsStreamer.h>
 #include <ccGenericGLDisplay.h>
+#include <spc/elements/Attitude.h>
 
-ccAttitude::ccAttitude(): ccSPCElementShell (spc::Attitude::Ptr(new spc::Attitude))
+//#include <boost/serialization/shared_ptr.hpp>
+
+#include <spc/io/element_io.h>
+
+#include <QIcon>
+
+#include "ccPointCloud.h"
+#include "ccNormalVectors.h"
+
+ccAttitude::ccAttitude()
+    : ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude))
 {
 
     m_attitude = this->getSPCElement<spc::Attitude>();
 
     LOG(INFO) << " ccAttitude constructor called!";
     m_selectionBehavior = SELECTION_IGNORED;
-
 }
 
-ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation):
-    ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(asEigenVector(orientation), asEigenVector(center))))
+ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
+    : ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(asEigenVector(orientation), asEigenVector(center))))
 {
-    m_attitude  = this->getSPCElement<spc::Attitude>();
-     m_selectionBehavior = SELECTION_IGNORED;
+    m_attitude = this->getSPCElement<spc::Attitude>();
+    m_selectionBehavior = SELECTION_IGNORED;
 
-     if (m_attitude->getNormal()(2) < 0)
-         flipNormal();
-
+    if (m_attitude->getNormal()(2) < 0)
+        flipNormal();
 }
 
-ccAttitude::ccAttitude(spc::Attitude att): ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(att)))
-{        
+ccAttitude::ccAttitude(const spc::Attitude& att)
+    : ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(att)))
+{
 
     m_attitude = this->getSPCElement<spc::Attitude>();
     m_selectionBehavior = SELECTION_IGNORED;
@@ -34,14 +44,15 @@ ccAttitude::ccAttitude(spc::Attitude att): ccSPCElementShell(spc::Attitude::Ptr(
         flipNormal();
 }
 
-ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr):m_attitude(att_ptr), ccSPCElementShell(att_ptr)
+ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
+    : m_attitude(att_ptr)
+    , ccSPCElementShell(att_ptr)
 {
 
     setName(att_ptr->getDipAndDipAngleAsString().c_str());
     m_selectionBehavior = SELECTION_IGNORED;
     if (m_attitude->getNormal()(2) < 0)
         flipNormal();
-
 }
 
 void ccAttitude::flipNormal()
@@ -51,19 +62,30 @@ void ccAttitude::flipNormal()
 
 ccBBox ccAttitude::getOwnBB()
 {
-    CCVector3 center = CCVector3::fromArray (getAttitude()->getPosition().data());
+    CCVector3 center = CCVector3::fromArray(getAttitude()->getPosition().data());
     float s = m_scale * 0.5;
 
-    CCVector3 scale_v (s,s,s);
+    CCVector3 scale_v(s, s, s);
     CCVector3 min_corner(center - scale_v);
     CCVector3 max_corner(center + scale_v);
     ccBBox box(min_corner, max_corner);
 
-	box.setValidity(true);
+    box.setValidity(true);
     return box;
 }
 
-bool ccAttitude::toFile_MeOnly(QFile &out) const
+QIcon ccAttitude::getIcon() const
+{
+    return QIcon(QString::fromUtf8(":/toolbar/icons/attitude.png"));
+}
+
+void ccAttitude::setAttitude(const spc::Attitude& att)
+{
+    spc::Attitude::Ptr at_ptr = spcMakeSharedPtrMacro<spc::Attitude>(att);
+    setAttitude(at_ptr);
+}
+
+bool ccAttitude::toFile_MeOnly(QFile& out) const
 {
     ccCustomHObject::toFile_MeOnly(out);
 
@@ -73,13 +95,11 @@ bool ccAttitude::toFile_MeOnly(QFile &out) const
 
     ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
     return true;
-
 }
 
-bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
+bool ccAttitude::fromFile_MeOnly(QFile& in, short dataVersion, int flags)
 {
     ccCustomHObject::fromFile_MeOnly(in, dataVersion, flags);
-
 
     QDataStream ins(&in);
     ins >> m_scale;
@@ -91,79 +111,65 @@ bool ccAttitude::fromFile_MeOnly(QFile &in, short dataVersion, int flags)
     return true;
 }
 
-
-void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT &context)
+void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT& context)
 {
 
-    if (MACRO_Draw3D(context))
-    {
+    if (MACRO_Draw3D(context)) {
         bool pushName = MACRO_DrawEntityNames(context);
 
-        if (pushName)
-        {
+        if (pushName) {
             //not particulary fast
             if (MACRO_DrawFastNamesOnly(context))
                 return;
             glPushName(getUniqueID());
         }
 
-
         glPushAttrib(GL_LINE_BIT);
         glLineWidth(m_width);
 
-
         //we draw the segments
         if (isSelected())
-			glColor3ubv(ccColor::red.rgba);
+            glColor3ubv(ccColor::red.rgba);
         else
-			glColor3ubv(ccColor::green.rgba);
+            glColor3ubv(ccColor::green.rgba);
 
         Vector3f pos = getAttitude()->getPosition();
 
         Vector3f dip_v = getAttitude()->getDipVector();
         Vector3f strike_v = getAttitude()->getStrikeVector();
 
+        Vector3f arr_shaft = pos + dip_v * m_scale * context.labelMarkerSize;
+        Vector3f strike_dir = pos + strike_v * m_scale * 0.5 * context.labelMarkerSize;
+        Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.labelMarkerSize;
 
-		Vector3f arr_shaft = pos + dip_v * m_scale * context.labelMarkerSize;
-		Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.labelMarkerSize;
-		Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.labelMarkerSize;
+        QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+        // account!
+        font.setPointSize(font.pointSize());
+        font.setBold(true);
+        //
+        glDisable(GL_DEPTH_TEST);
+        context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgba, font);
 
-
-		QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
-		// account!
-		font.setPointSize(font.pointSize());
-		font.setBold(true);
-//
-		glDisable(GL_DEPTH_TEST);
-		context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgba, font);
-
-		glEnable(GL_DEPTH_TEST);
-
+        glEnable(GL_DEPTH_TEST);
 
         glBegin(GL_LINES);
-		glColor3ubv(ccColor::red.rgba);
+        glColor3ubv(ccColor::red.rgba);
 
-        glVertex3fv( pos.data() );
-        glVertex3fv( arr_shaft.data() );
+        glVertex3fv(pos.data());
+        glVertex3fv(arr_shaft.data());
 
+        glColor3ubv(ccColor::blue.rgba);
 
-		glColor3ubv(ccColor::blue.rgba);
+        glVertex3fv(pos.data());
+        glVertex3fv(strike_dir.data());
 
-
-        glVertex3fv( pos.data());
-        glVertex3fv( strike_dir.data());
-
-        glVertex3fv( pos.data());
-        glVertex3fv( s_opp.data() );
+        glVertex3fv(pos.data());
+        glVertex3fv(s_opp.data());
         glEnd();
 
         glPopAttrib();
 
         if (pushName)
             glPopName();
-
     }
 }
-
-
-

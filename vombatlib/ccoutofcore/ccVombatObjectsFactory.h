@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CCVOMBATOBJECTSFACTORY_H
 #define CCVOMBATOBJECTSFACTORY_H
 
