@@ -25,7 +25,10 @@ public:
 	bool isSubValue(int value, int subValue) const;
 	bool isPowerOf2(int value) const;
 
-	void setObject(QObject *object);
+    void setObject(QObject *object, QList<QObject *> mirror = QList<QObject * >());
+
+
+//    void assignProperties
 
 public slots:
 	void slotValueChanged(QtProperty *property, const QVariant &value);
@@ -33,12 +36,12 @@ public slots:
 
 
 protected:
-	class QtVariantPropertyManager *m_manager;
+    class QtVariantPropertyManager *m_manager;
 
-	class QtVariantPropertyManager *m_readOnlyManager;
+    class QtVariantPropertyManager *m_readOnlyManager;
 
 
-	class QObject * m_object;
+    class QObject * m_object = nullptr;
 
 	QMap<const QMetaObject *, QtProperty *> m_classToProperty;
 	QMap<QtProperty *, const QMetaObject *> m_propertyToClass;
@@ -51,6 +54,7 @@ protected:
 
 
 
+    QList<QObject *> m_mirror_objects;
 
 
 };

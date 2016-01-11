@@ -87,9 +87,9 @@ int AutoComputeTimeSeries::checkSelected()
 
         if (cloud) {
             LOG(INFO) << "found cloud";
-            spc::spcCCPointCloud::Ptr t = spc::spcCCPointCloud::fromccPointCloud(ascloud);
+//            spc::spcCCPointCloud::Ptr t = spc::spcCCPointCloud::fromccPointCloud(ascloud);
             try {
-                LOG(INFO) << "at check time" << t->getPtr();
+//                LOG(INFO) << "at check time" << t->getPtr();
             }
             catch (std::exception& e) {
                 LOG(INFO) << "got exception" << e.what();

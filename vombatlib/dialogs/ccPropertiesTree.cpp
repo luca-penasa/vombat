@@ -302,7 +302,7 @@ void ccPropertiesTree::updateWithObject(ccHObject *obj)
     ccSPCElementShell *test = dynamic_cast<ccSPCElementShell *>(obj);
     if (!test) {
         m_currentItem = 0; // no current item
-        return;            // it is not an object from vombat!
+        return;
     }
 
     if (m_topProperty)

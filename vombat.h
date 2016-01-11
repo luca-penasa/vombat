@@ -88,6 +88,9 @@ public:
                                                              const QString value = QString() );
     ccHObject::Container getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType);
 
+    ccHObject::Container getAllDirectChildrenOfType(const int parent_id, CC_CLASS_ENUM ThisType);
+
+
     ccHObject * getObjectFromElement(const spc::ElementBase::Ptr el);
 
     static ccHObject::Container getAllChildren(ccHObject * object);

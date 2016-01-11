@@ -270,6 +270,8 @@ ccSingleAttitudeModel::ccSingleAttitudeModel():
 {
     m_selectionBehavior = SELECTION_IGNORED;
 
+    initParameters();
+
 }
 
 ccSingleAttitudeModel::ccSingleAttitudeModel(StratigraphicModelSingleAttitude::Ptr model):  ccDynamicScalarFieldGenerator(model)

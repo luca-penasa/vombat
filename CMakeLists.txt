@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 #option( INSTALL_vombat_PLUGIN "Check to install vombat plugin" OFF )
 
-include(CMakeDependentOption)
-CMAKE_DEPENDENT_OPTION(INSTALL_vombat_PLUGIN "Compile Vombat plugin" ON
-                         "INSTALL_QPCL_PLUGIN" OFF)
+#include(CMakeDependentOption)
+#CMAKE_DEPENDENT_OPTION(INSTALL_vombat_PLUGIN "Compile Vombat plugin" ON
+#                         "INSTALL_QPCL_PLUGIN" OFF)
 
 if (INSTALL_vombat_PLUGIN)
 

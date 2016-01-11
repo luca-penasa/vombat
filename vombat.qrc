@@ -38,6 +38,8 @@
         <file>icons/outcrop.png</file>
         <file>icons/time_series_multi.png</file>
         <file>icons/FlipModel.png</file>
+        <file>icons/properties_qt.png</file>
+        <file>icons/analyzer.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

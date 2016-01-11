@@ -10,15 +10,10 @@
 ExtendedVariantManager::ExtendedVariantManager(QObject *parent): QtVariantPropertyManager(parent)
 {
 
-//	qRegisterMetaType<QCPRange>();
-
-
 	connect(this, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
 				this, SLOT(slotValueChanged(QtProperty *, const QVariant &)));
 	connect(this, SIGNAL(propertyDestroyed(QtProperty *)),
 				this, SLOT(slotPropertyDestroyed(QtProperty *)));
-
-
 }
 
 ExtendedVariantManager::~ExtendedVariantManager()
@@ -143,30 +138,3 @@ void ExtendedVariantManager::uninitializeProperty(QtProperty *property)
 	QtVariantPropertyManager::uninitializeProperty(property);
 }
 
-//int main(int argc, char **argv)
-//{
-//    QApplication app(argc, argv);
-
-//    VariantManager *variantManager = new VariantManager();
-
-//    QtVariantProperty *item = variantManager->addProperty(QVariant::PointF,
-//                "PointF Property");
-//    item->setValue(QPointF(2.5, 13.13));
-
-//    QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory();
-
-//    QtTreePropertyBrowser ed1;
-//    QtVariantPropertyManager *varMan = variantManager;
-//    ed1.setFactoryForManager(varMan, variantFactory);
-//    ed1.addProperty(item);
-
-
-//    ed1.show();
-
-//    int ret = app.exec();
-
-//    delete variantFactory;
-//    delete variantManager;
-
-//    return ret;
-//}

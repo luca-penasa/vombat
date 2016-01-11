@@ -4,7 +4,7 @@
 #include <ccPolyline.h>
 #include <spc/elements/Plane.h>
 
-
+#include <ccPointCloud.h>
 ccPlanarSelection::ccPlanarSelection(): ccSPCElementShell(spc::SelectionRubberband::Ptr(new spc::SelectionRubberband))
 {
 
@@ -12,11 +12,104 @@ ccPlanarSelection::ccPlanarSelection(): ccSPCElementShell(spc::SelectionRubberba
 
 }
 
+//ccPlanarSelection::ccPlanarSelection(ccPolyline &pline)
+//{
+// spc::SelectionRubberband::Ptr s(new spc::SelectionRubberband)   ;
+ 
+// s->setVertices();
+//}
+
 ccPlanarSelection::ccPlanarSelection(spc::SelectionRubberbandPtr sel): ccSPCElementShell(sel)
 {
     LOG(INFO) << "ccPlanarSelection created";
 
 
+}
+
+double ccPlanarSelection::getDepth() const
+{
+    return this->getRubberband()->getMaxDistance();
+}
+
+void ccPlanarSelection::setDepth(const double &depth)
+{
+    this->getRubberband()->setMaxDistance(depth);
+}
+
+ccPlanarSelection *ccPlanarSelection::fromPolyline(const ccPolyline &pline)
+{
+
+
+    spc::PolyLine3D polyspc;
+
+    for (int i = 0 ; i < pline.size(); ++i)
+    {
+        CCVector3 point;
+        pline.getPoint(i, point);
+        Eigen::Map<const Eigen::Vector3f> map (&(point.u[0]));
+
+        polyspc.addPoint(map);
+    }
+
+    spc::SelectionRubberband::Ptr sel(new spc::SelectionRubberband(polyspc));
+
+
+
+    ccPlanarSelection* pl = new ccPlanarSelection(sel);
+    return pl;
+}
+
+ccPointCloud *ccPlanarSelection::crop(const ccPointCloud *incloud)
+{
+    ccPointCloud * outcloud = new ccPointCloud();
+
+    outcloud->reserve(incloud->size());
+
+    std::vector<bool> ids =  cropping_ids(incloud, true);
+
+    size_t count = 0;
+    for (int i = 0 ; i < ids.size(); ++i)
+    {
+
+        if (ids.at(i) == true)
+        {
+            outcloud->addPoint(*incloud->getPoint(i));
+            count++;
+        }
+    }
+
+    outcloud->resize(count);
+
+
+    if (count == 0)
+        return nullptr;
+    else
+        return outcloud;
+}
+
+std::vector<bool> ccPlanarSelection::cropping_ids(const ccPointCloud *incloud,
+                                                  const bool inside)
+{
+
+
+    std::vector<bool> out(incloud->size());
+
+//#if defined(_OPENMP)
+//#pragma omp parallel for
+//#endif
+    for (int i = 0 ; i < incloud->size(); ++i)
+    {
+        CCVector3 p;
+        incloud->getPoint(i, p);
+        Eigen::Map<Eigen::Vector3f>  map(&p.u[0]);
+
+        if (this->getRubberband()->contains(map))
+            out[i] = inside;
+        else
+            out[i] = !inside;
+    }
+
+    return out;
 }
 
 ccBBox ccPlanarSelection::getOwnBB(bool withGLFeatures)

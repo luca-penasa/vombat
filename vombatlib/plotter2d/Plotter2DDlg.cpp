@@ -11,6 +11,7 @@
 #include <plotter2d/CustomPlotWidget.h>
 
 #include <QToolBar>
+#include <QDockWidget>
 
 Q_DECLARE_METATYPE(QCPScatterStyle)
 

@@ -11,12 +11,34 @@ namespace spc
 spcFwdDeclSharedPtr(SelectionRubberband)
 }
 
+class ccPolyline;
+class ccPointCloud;
+
 class ccPlanarSelection: public ccSPCElementShell
 {
+    Q_OBJECT
+
+
 public:
+
+    Q_PROPERTY(double Depth READ getDepth WRITE setDepth)
+
     ccPlanarSelection();
 
+//    ccPlanarSelection(ccPolyline & pline);
+
     ccPlanarSelection(spc::SelectionRubberbandPtr sel);
+
+    double getDepth() const;
+
+    void setDepth (const double &depth);
+
+    static ccPlanarSelection *fromPolyline(const ccPolyline & pline);
+
+    ccPointCloud  * crop(const ccPointCloud * incloud);
+
+    std::vector<bool> cropping_ids(const ccPointCloud * incloud, const bool inside);
+
 
     virtual bool isSerializable() const override
     { return true; }

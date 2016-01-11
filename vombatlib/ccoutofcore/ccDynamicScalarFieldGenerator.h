@@ -19,7 +19,7 @@
 
 #include <ccoutofcore/ccAttitude.h>
 
-class ccDynamicScalarFieldGenerator: public QObject,  public ccSPCElementShell
+class ccDynamicScalarFieldGenerator: public ccSPCElementShell
 {
     Q_OBJECT
 
