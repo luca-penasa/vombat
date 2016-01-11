@@ -1,6 +1,9 @@
 #include "ccAddNewVariantProperty.h"
 #include "ui_ccAddNewVariantProperty.h"
 
+
+
+
 ccAddNewVariantProperty::ccAddNewVariantProperty(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ccAddNewVariantProperty)

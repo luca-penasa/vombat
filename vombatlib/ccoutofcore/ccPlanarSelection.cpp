@@ -172,8 +172,10 @@ void ccPlanarSelection::drawMeOnly(CC_DRAW_CONTEXT &context)
                 glBegin(GL_LINE_LOOP);
                 for( int i = 0 ; i < getRubberband()->getVertices().getNumberOfPoints(); ++i)
                 {
-                    Eigen::Vector3f p = getRubberband()->getVertices().getPoint(i) + n;
-                    ccGL::Vertex3v( p.data() );
+                    Eigen::Vector3f p = getRubberband()->getVertices().getPoint(i);
+                    Eigen::Vector3f projected_p  = getRubberband()->getProjectionPlane()->projectPointOnPlane(p) + n;
+
+                    ccGL::Vertex3v( projected_p .data() );
                 }
                 glEnd();
             }
@@ -184,9 +186,13 @@ void ccPlanarSelection::drawMeOnly(CC_DRAW_CONTEXT &context)
         {
             Eigen::Vector3f in =  getRubberband()->getProjectionPlane()->getUnitNormal() * getRubberband()->getMaxDistance();
             //                Eigen::Vector3f out = -in;
+            Eigen::Vector3f p = getRubberband()->getVertices().getPoint(i);
 
-            Eigen::Vector3f p1 = getRubberband()->getVertices().getPoint(i) + in;
-            Eigen::Vector3f p2 = getRubberband()->getVertices().getPoint(i) - in;
+
+            Eigen::Vector3f projected_p  = getRubberband()->getProjectionPlane()->projectPointOnPlane(p);
+
+            Eigen::Vector3f p1 = projected_p + in;
+            Eigen::Vector3f p2 = projected_p - in;
             //            LOG(INFO) << getRubberband()->getVertices().getPoint(i).transpose();
             ccGL::Vertex3v(p1.data());
             ccGL::Vertex3v(p2.data());

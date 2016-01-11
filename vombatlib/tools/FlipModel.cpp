@@ -8,6 +8,8 @@
 #include <ScalarField.h>
 #include <vombat.h>
 
+
+
 FlipModel::FlipModel(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Flip the direction of the stratigraphic model",
                      "Flip the direction of the stratigraphic model",
