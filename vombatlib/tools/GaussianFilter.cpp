@@ -1,4 +1,6 @@
 #include "GaussianFilter.h"
+
+
 #include <qPCL/PclUtils/utils/cc2sm.h>
 
 #include <spc/elements/point_types.h>

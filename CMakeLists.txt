@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-#option( INSTALL_vombat_PLUGIN "Check to install vombat plugin" OFF )
+option( INSTALL_vombat_PLUGIN "Check to install vombat plugin" OFF )
 
 #include(CMakeDependentOption)
 #CMAKE_DEPENDENT_OPTION(INSTALL_vombat_PLUGIN "Compile Vombat plugin" ON
