@@ -40,6 +40,7 @@
         <file>icons/FlipModel.png</file>
         <file>icons/properties_qt.png</file>
         <file>icons/analyzer.png</file>
+        <file>icons/cropper.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>

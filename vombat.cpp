@@ -37,6 +37,8 @@
 
 #include <AddSample.h>
 
+#include <Cropper.h>
+
 #include <CreateTimeSeriesFromScalarFields.h>
 #include <AutoComputeTimeSeries.h>
 //#include <ComputeCalibrationDB.h>
@@ -164,6 +166,9 @@ void vombat::getActions(QActionGroup &group) {
     addFilter(new CreateStratigraphicConstrain(this));
 
     addFilter(new Analyzer(this));
+
+    addFilter(new Cropper(this));
+
   }
 
   for (std::vector<BaseFilter *>::const_iterator it = m_filters.begin();

@@ -85,10 +85,6 @@ int Analyzer::compute()
             if (cropped_vertices)
             {
                 ccPolyline *cropped_pline = new ccPolyline(cropped_vertices);
-                for (int i = 0 ; i < cropped_vertices->size(); ++i)
-                {
-                    LOG(INFO) << cropped_vertices->getPoint(i)->x;
-                }
 
                 cropped_pline->addPointIndex(0, cropped_vertices->size()-1);
                 cropped_pline->setVisible(true);
@@ -112,6 +108,7 @@ int Analyzer::compute()
 
             sel->addChild(model);
         }
+
 
     }
 
