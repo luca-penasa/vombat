@@ -8,7 +8,12 @@
 #include <helpers/spcCCPointCloud.h>
 #include <vombat.h>
 
+#include <ccPlanarSelection.h>
+#include <dialogs/ComputeTimeSeriesDlg.h>
 
+
+
+#include <ccSingleAttitudeModel.h>
 AutoComputeTimeSeries::AutoComputeTimeSeries(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Automatically compute time series for selections defined in childrens",
                      "Automatically compute time series for selections defined in childrens",
@@ -23,44 +28,157 @@ int AutoComputeTimeSeries::compute()
 {
     LOG(INFO) << "starting to compute() autoComputeTimeSeries";
 
-    ccHObject* root = vombat::theInstance()->getSelected().at(0);
-    ccSPCElementShell* el = dynamic_cast<ccSPCElementShell*>(root);
 
-    LOG(INFO) << "nhere";
+    ccHObject::Container clouds, selections, models ;
+    m_dialog->comboClouds->getSelectedObject()->filterChildren(clouds,false, CC_TYPES::POINT_CLOUD,true);
 
-    if (!el)
-        LOG(INFO) << "no spc element!!!";
+    m_dialog->comboModels->getSelectedObject()->filterChildren(models);
 
-    ccHObject::Container clouds = vombat::theInstance()->getAllObjectsInTreeThatAre(CC_TYPES::POINT_CLOUD);
+    m_dialog->comboRegions->getSelectedObject()->filterChildren(selections);
 
-    LOG(INFO) << "found  " << clouds.size() << " clouds in addition!";
+    std::string  field = m_dialog->comboScalarFields->currentText().toStdString();
 
-    std::vector<spc::PointCloudBase::Ptr> add_clouds;
-    for (auto c : clouds) {
+    LOG(INFO) << "trying to use field " << field;
 
-        LOG(INFO) << "creating special cloud";
 
-        ccPointCloud* ascloud = static_cast<ccPointCloud*>(c);
+    for (ccHObject * s: selections)
+    {
 
-        spcCCPointCloud::Ptr asspc = spcCCPointCloud::fromccPointCloud(ascloud);
+        ccPlanarSelection * sel = dynamic_cast<ccPlanarSelection *> (s);
 
-        LOG(INFO) << "done";
-        add_clouds.push_back(asspc);
+        if (sel)
+        {
+            LOG(INFO) << "working on sel  " << sel->getName().toStdString();
 
-        LOG(INFO) << "Added additional cloud " << asspc;
+
+            spc::SelectionRubberband::Ptr spcsel = sel->getSPCElement<spc::SelectionRubberband>();
+
+            // now we need to find a goog model for this selection
+
+
+            for (ccHObject * m: models)
+            {
+                ccSingleAttitudeModel * mod =  dynamic_cast<ccSingleAttitudeModel * > (m);
+
+
+                spc::StratigraphicModelSingleAttitude::Ptr model;
+
+                if (mod) // go ahead an thest it
+                {
+                    spc::StratigraphicModelSingleAttitude::Ptr spcmod = mod->getModel();
+
+
+                    if (spcsel->contains(spcmod->getAttitude().getPosition()))
+                    {
+                        LOG(INFO) << " found pertinent selection";
+                        model = spcmod;
+                    }
+                    else
+                        continue;
+
+                }
+
+
+               ////////////////////////
+
+                        spc::PointCloudBase::Ptr asspc =  spcCCPointCloud::fromccPointCloud(cloud);
+
+                        spc::SelectionExtractor<Eigen::Vector3f, int> ext;
+                        ext.setInputSet(asspc);
+                        ext.setSelection(spcse;);
+                        ext.compute();
+
+                        LOG(INFO) << "selection of the cloud extracted";
+
+                        spc::DynamicScalarFieldEvaluator eval;
+                        eval.setInputCloud(asspc);
+                        eval.setIndices(ext.getInsideIds());
+                        Eigen::VectorXf positions = eval.getOutput();
+
+
+                        ////////////////////// now get out the scalar field
+                        ///
+                        Eigen::VectorXf yfield;
+                        yfield.resize(positions.rows()); // same size of te other
+
+
+
+                        if ((field ==  "R Color") ||
+                                (field ==   "G Color") ||
+                                (field ==   "B Color"))
+                        {
+
+
+                            if (!cloud->hasColors())
+                            {
+                                LOG(INFO) << "a rgb field was requested but the cloud has none";
+                                continue;
+                            }
+
+                            size_t pos;
+                            if (field == "R Color")
+                                 pos = 0;
+                            else if (field == "G Color")
+                                pos = 1;
+                            else if (field == "B Color")
+                                pos = 2;
+
+
+
+
+                            int counter = 0;
+                            for (int id : ext.getInsideIds())
+                            {
+                                yfield(counter ++) = (float) cloud->getPointColor(id)[pos];
+                            }
+
+
+                        }
+
+                        else // is a standard scalar field
+                        {
+                            CCLib::ScalarField * f = cloud->getScalarField(cloud->getScalarFieldIndexByName(field));
+
+                            if (!f)
+
+                            {
+                                LOG(INFO) << "cannot find requested field in the cloud";
+                                continue;
+                            }
+
+                            int counter = 0;
+                            for (int id : ext.getInsideIds())
+                            {
+                                yfield(counter ++) = f->getValue(id);
+                            }
+                        }
+
+
+
+
+                        ///// DONE!
+                        ///
+                        /// Compute the time series
+
+
+                                KernelSmoothing<float> ks(positions, y_field_);
+                                ks.setKernelSigma(bandwidth_);
+
+
+
+
+            }
+
+
+        }
+        ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(c);
+
+        if (cloud)
+        {
+            LOG(INFO)
+        }
     }
 
-    spc::ElementBase::Ptr r = el->getSPCElement();
-
-    spc::TimeSeriesAutoExtractor extractor;
-
-    extractor.setRoot(r);
-    extractor.setAdditionalCloudsInMemory(add_clouds);
-    extractor.compute();
-
-    LoadSPCElement::rebuildMyChildsRecursive(vombat::theInstance()->getObjectFromElement(r));
-
-    entityHasChanged(vombat::theInstance()->getObjectFromElement(r));
 
     LOG(INFO) << "done";
 
@@ -69,36 +187,15 @@ int AutoComputeTimeSeries::compute()
 
 int AutoComputeTimeSeries::checkSelected()
 {
-
-    if (vombat::theInstance()->getSelected().size() != 1) {
-        return -1;
-    }
-
-    ccHObject* root = vombat::theInstance()->getSelected().at(0);
-    ccSPCElementShell* el = dynamic_cast<ccSPCElementShell*>(root);
-
-    ccHObject::Container objects = vombat::theInstance()->getAllObjectsInTreeThatAre(CC_TYPES::POINT_CLOUD);
-
-    if (objects.size() > 0) {
-
-        ccHObject* cloud = objects.at(0);
-
-        ccPointCloud* ascloud = ccHObjectCaster::ToPointCloud(cloud);
-
-        if (cloud) {
-            LOG(INFO) << "found cloud";
-//            spc::spcCCPointCloud::Ptr t = spc::spcCCPointCloud::fromccPointCloud(ascloud);
-            try {
-//                LOG(INFO) << "at check time" << t->getPtr();
-            }
-            catch (std::exception& e) {
-                LOG(INFO) << "got exception" << e.what();
-            }
-        }
-    }
-
-    if (el != NULL)
         return 1;
-    else
-        return 0;
+}
+
+int AutoComputeTimeSeries::openInputDialog()
+{
+
+    if (!m_dialog)
+        m_dialog =  new ComputeTimeSeriesDlg(vombat::theInstance()->getMainWindow());
+
+    return m_dialog->exec() ? 1 : 0;
+    return 1;
 }

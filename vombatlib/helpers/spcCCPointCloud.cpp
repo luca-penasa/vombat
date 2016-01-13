@@ -78,6 +78,8 @@ void spcCCPointCloud::getFieldValue(const spcCCPointCloud::IndexT id, const std:
         int component = nameToComponent(fieldname);
         val = in_cloud->getPointNormal(id)[component];
     }
+
+
     else
     {
         int i = in_cloud->getScalarFieldIndexByName(fieldname.c_str());

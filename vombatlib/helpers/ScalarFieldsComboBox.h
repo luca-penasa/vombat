@@ -35,6 +35,9 @@ public:
 
     void addItemsFromFieldsCloud(const ccPointCloud * cloud);
 
+    void addCommonFieldsFromClouds(const ccPointCloud * cloud);
+
+
     void addItemsXYZ();
 
     void addItemsRGB(bool add_also_composite=true);

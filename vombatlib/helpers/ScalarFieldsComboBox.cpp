@@ -33,6 +33,7 @@ std::vector<float> getComboItemAsStdFloatVector(ComboItemDescriptor desc, const 
     }
 
 
+
     return v;
 }
 
@@ -53,7 +54,11 @@ void ScalarFieldsComboBox::addItemsFromFieldsCloud(const ccPointCloud * cloud)
         data.setValue(desc);
 
         this->addItem(desc.name, data);
+
+
     }
+
+
 }
 
 void ScalarFieldsComboBox::addItemsXYZ()

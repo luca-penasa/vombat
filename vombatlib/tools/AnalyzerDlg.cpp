@@ -69,13 +69,6 @@ ccHObject *AnalyzerDlg::comboToObject(const QComboBox *combo)
     int sel_id =combo->currentIndex();
 
 
-    LOG(INFO) << "size of combo " << combo->count();
-    for (int i =0; i < combo->count(); ++i)
-    {
-        LOG(INFO) << "combo el " << combo->itemText(i).toStdString();
-    }
-
-    LOG(INFO) << "selected index is " << sel_id;
 
     int id = combo->itemData(sel_id).toInt();
 

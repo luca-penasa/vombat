@@ -3,7 +3,8 @@
 #include <ObjectSelectionComboBox.h>
 
 #include <spc/core/macros.h>
-
+#include <ccDBRoot.h>
+#include <vombat.h>
 
 
 ObjectSelectionComboBox::ObjectSelectionComboBox(QWidget *parent): QComboBox(parent), m_has_none(false), m_old_selected_id(-1)
@@ -79,3 +80,8 @@ void ObjectSelectionComboBox::updateCurrentSelectionInfo(int id)
         m_old_selected_id = obj->getUniqueID();
     }
 }
+
+
+
+
+

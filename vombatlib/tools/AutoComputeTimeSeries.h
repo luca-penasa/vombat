@@ -4,6 +4,8 @@
 
 #include "BaseFilter.h"
 
+class ComputeTimeSeriesDlg;
+
 class AutoComputeTimeSeries : public BaseFilter {
 public:
     AutoComputeTimeSeries(ccPluginInterface* parent_plugin = 0);
@@ -15,10 +17,10 @@ public:
 protected:
     int checkSelected();
 
-    int openInputDialog()
-    {
-        return 1;
-    }
+    int openInputDialog();
+
+
+    ComputeTimeSeriesDlg * m_dialog;
 };
 
 #endif // AutoComputeTimeSeries_H
