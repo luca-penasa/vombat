@@ -10,16 +10,16 @@
 
 #include <ccPlanarSelection.h>
 #include <dialogs/ComputeTimeSeriesDlg.h>
-
+#include <ccTimeSeries.h>
 
 
 #include <ccSingleAttitudeModel.h>
 AutoComputeTimeSeries::AutoComputeTimeSeries(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Automatically compute time series for selections defined in childrens",
-                     "Automatically compute time series for selections defined in childrens",
-                     "Automatically compute time series for selections defined in childrens",
-                     ":/toolbar/icons/time_series_multi.png"),
-          parent_plugin)
+                                   "Automatically compute time series for selections defined in childrens",
+                                   "Automatically compute time series for selections defined in childrens",
+                                   ":/toolbar/icons/time_series_multi.png"),
+                 parent_plugin)
 {
     this->setShowProgressBar(false);
 }
@@ -36,9 +36,7 @@ int AutoComputeTimeSeries::compute()
 
     m_dialog->comboRegions->getSelectedObject()->filterChildren(selections);
 
-    std::string  field = m_dialog->comboScalarFields->currentText().toStdString();
 
-    LOG(INFO) << "trying to use field " << field;
 
 
     for (ccHObject * s: selections)
@@ -65,8 +63,12 @@ int AutoComputeTimeSeries::compute()
 
                 if (mod) // go ahead an thest it
                 {
+                    LOG(INFO) << "Testing model for this selection;";
+
                     spc::StratigraphicModelSingleAttitude::Ptr spcmod = mod->getModel();
 
+
+                    LOG(INFO) << "position " << spcmod->getAttitude().getPosition();
 
                     if (spcsel->contains(spcmod->getAttitude().getPosition()))
                     {
@@ -74,109 +76,60 @@ int AutoComputeTimeSeries::compute()
                         model = spcmod;
                     }
                     else
+                    {
+                        LOG(INFO) << " Not pertinent";
+
                         continue;
+                    }
 
                 }
 
+                for (ccHObject * o :clouds)
+                {
 
-               ////////////////////////
+                    ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(o);
 
-                        spc::PointCloudBase::Ptr asspc =  spcCCPointCloud::fromccPointCloud(cloud);
+                    spcCCPointCloud::Ptr cloud_spc =  spcCCPointCloud::fromccPointCloud(cloud);
 
-                        spc::SelectionExtractor<Eigen::Vector3f, int> ext;
-                        ext.setInputSet(asspc);
-                        ext.setSelection(spcse;);
-                        ext.compute();
+                    if(!cloud)
+                        continue;
 
-                        LOG(INFO) << "selection of the cloud extracted";
+                    spc::TimeSeriesGenerator generator;
 
-                        spc::DynamicScalarFieldEvaluator eval;
-                        eval.setInputCloud(asspc);
-                        eval.setIndices(ext.getInsideIds());
-                        Eigen::VectorXf positions = eval.getOutput();
+                    generator.setInputCloud(cloud_spc);
+                    generator.setBandwidth(m_dialog->spinBandwidth->value());
+                    generator.setSamplingStep(m_dialog->spinResolution->value());
+                    generator.setSelection(spcsel);
+                    generator.setStratigraphicModel(model);
 
+                    generator.setMinNumberOfPoints(m_dialog->spinMinNbPoints->value());
 
-                        ////////////////////// now get out the scalar field
-                        ///
-                        Eigen::VectorXf yfield;
-                        yfield.resize(positions.rows()); // same size of te other
+                    FieldDescriptor descriptor = m_dialog->comboScalarFields->itemData(m_dialog->comboScalarFields->currentIndex()).value<FieldDescriptor>();
 
-
-
-                        if ((field ==  "R Color") ||
-                                (field ==   "G Color") ||
-                                (field ==   "B Color"))
-                        {
-
-
-                            if (!cloud->hasColors())
-                            {
-                                LOG(INFO) << "a rgb field was requested but the cloud has none";
-                                continue;
-                            }
-
-                            size_t pos;
-                            if (field == "R Color")
-                                 pos = 0;
-                            else if (field == "G Color")
-                                pos = 1;
-                            else if (field == "B Color")
-                                pos = 2;
+                    if (!descriptor.iscolor_) // just a regular field
+                        generator.setYFieldName(descriptor.name_);
+                    else // is a color field
+                    {
+                        generator.setYFieldUseColor(descriptor.color_channel);
+                    }
 
 
+                    generator.setDoAutoCalibration(false);
+                    generator.compute();
+                    spc::TimeSeriesEquallySpaced::Ptr ts = generator.getOutputSeries();
 
+                    if (ts)
+                    {
+                        ccTimeSeries * ccts  = new ccTimeSeries(ts);
 
-                            int counter = 0;
-                            for (int id : ext.getInsideIds())
-                            {
-                                yfield(counter ++) = (float) cloud->getPointColor(id)[pos];
-                            }
-
-
-                        }
-
-                        else // is a standard scalar field
-                        {
-                            CCLib::ScalarField * f = cloud->getScalarField(cloud->getScalarFieldIndexByName(field));
-
-                            if (!f)
-
-                            {
-                                LOG(INFO) << "cannot find requested field in the cloud";
-                                continue;
-                            }
-
-                            int counter = 0;
-                            for (int id : ext.getInsideIds())
-                            {
-                                yfield(counter ++) = f->getValue(id);
-                            }
-                        }
-
-
-
-
-                        ///// DONE!
-                        ///
-                        /// Compute the time series
-
-
-                                KernelSmoothing<float> ks(positions, y_field_);
-                                ks.setKernelSigma(bandwidth_);
-
-
-
-
+                        newEntity(ccts);
+                    }
+                }
             }
 
 
         }
-        ccPointCloud * cloud = ccHObjectCaster::ToPointCloud(c);
 
-        if (cloud)
-        {
-            LOG(INFO)
-        }
     }
 
 
@@ -187,7 +140,7 @@ int AutoComputeTimeSeries::compute()
 
 int AutoComputeTimeSeries::checkSelected()
 {
-        return 1;
+    return 1;
 }
 
 int AutoComputeTimeSeries::openInputDialog()

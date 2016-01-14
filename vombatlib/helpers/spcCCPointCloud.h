@@ -26,7 +26,7 @@ public:
 
     void setInCloud (ccPointCloud * cloud)
     {
-        in_cloud = cloud;
+        cloud_ = cloud;
     }
 
 //    SPC_ELEMENT(spcCCPointCloud)
@@ -112,7 +112,7 @@ public:
 
     int nameToComponent(const std::string &name) const ;
 protected:
-    ccPointCloud * in_cloud;
+    ccPointCloud * cloud_;
 
 
 
@@ -124,6 +124,15 @@ public:
     /** \todo IMPLEMENT THIS METHOD **/
     virtual void setSensor(const spc::OrientedSensor &sensor) const;
 
+
+//    // ElementBase interface
+//public:
+//    virtual ElementBase::Ptr clone() const override;
+
+
+    // PointCloudBase interface
+public:
+    virtual bool getRGBField(const COLORS_ENUM &color, VectorXf &vector, const std::vector<IndexT> &indices) const override;
 };
 
 

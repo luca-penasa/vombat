@@ -10,9 +10,9 @@ DtiClassType spcCCPointCloud::Type = DtiClassType("spcCCPointCloud", &PointCloud
 
 void spcCCPointCloud::getPoint(const IndexT id, float &x, float &y, float &z) const
 {
-    assert(id < in_cloud->size());
+    assert(id < cloud_->size());
     CCVector3 point;
-    in_cloud->getPoint(id, point);
+    cloud_->getPoint(id, point);
     x = point.x;
     y = point.y;
     z = point.z;
@@ -20,7 +20,7 @@ void spcCCPointCloud::getPoint(const IndexT id, float &x, float &y, float &z) co
 
 void spcCCPointCloud::setPoint(const IndexT id, const float x, const float y, const float z)
 {
-     const CCVector3 * p = in_cloud->getPointPersistentPtr(id);
+     const CCVector3 * p = cloud_->getPointPersistentPtr(id);
 
      CCVector3 * ptr = const_cast<CCVector3*> (p);
 
@@ -41,10 +41,10 @@ bool spcCCPointCloud::hasField(const std::string fieldname) const
 
     else if (fieldname == "normal_x" | fieldname == "normal_y" | fieldname == "normal_z")
     {
-        return in_cloud->hasNormals();
+        return cloud_->hasNormals();
     }
 
-    int id =  in_cloud->getScalarFieldIndexByName(fieldname.c_str());
+    int id =  cloud_->getScalarFieldIndexByName(fieldname.c_str());
     if (id < 0)
         return false;
     else
@@ -53,15 +53,15 @@ bool spcCCPointCloud::hasField(const std::string fieldname) const
 
 void spcCCPointCloud::resize(const IndexT s)
 {
-    in_cloud->resize(s);
+    cloud_->resize(s);
 }
 
 std::vector<std::string> spcCCPointCloud::getFieldNames() const
 {
     std::vector<std::string> out;
-    int n = in_cloud->getNumberOfScalarFields();
+    int n = cloud_->getNumberOfScalarFields();
     for (int i = 0; i < n; ++i)
-        out.push_back(in_cloud->getScalarFieldName(i));
+        out.push_back(cloud_->getScalarFieldName(i));
 
     return out;
 }
@@ -71,19 +71,19 @@ void spcCCPointCloud::getFieldValue(const spcCCPointCloud::IndexT id, const std:
     if (fieldname == "x" ||fieldname == "y" ||fieldname == "z")
     {
         int component = nameToComponent(fieldname);
-        val = in_cloud->getPoint(id)->operator [](component);
+        val = cloud_->getPoint(id)->operator [](component);
     }
     else if (fieldname == "normal_x" ||fieldname == "normal_y" ||fieldname == "normal_z")
     {
         int component = nameToComponent(fieldname);
-        val = in_cloud->getPointNormal(id)[component];
+        val = cloud_->getPointNormal(id)[component];
     }
 
 
     else
     {
-        int i = in_cloud->getScalarFieldIndexByName(fieldname.c_str());
-        ccScalarField * sf = static_cast<ccScalarField*>(in_cloud->getScalarField(i));
+        int i = cloud_->getScalarFieldIndexByName(fieldname.c_str());
+        ccScalarField * sf = static_cast<ccScalarField*>(cloud_->getScalarField(i));
         val  = sf->getValue(id);
     }
 }
@@ -110,8 +110,8 @@ void spcCCPointCloud::setFieldValue(const spcCCPointCloud::IndexT id, const std:
     }
     else
     {
-        int i = in_cloud->getScalarFieldIndexByName(fieldname.c_str());
-        ccScalarField * sf = static_cast<ccScalarField*>(in_cloud->getScalarField(i));
+        int i = cloud_->getScalarFieldIndexByName(fieldname.c_str());
+        ccScalarField * sf = static_cast<ccScalarField*>(cloud_->getScalarField(i));
         sf->setValue(id, val);
     }
 }
@@ -120,17 +120,17 @@ void spcCCPointCloud::addField(const std::string &name)
 {
     if (name  == "normal_x" ||name  == "normal_y" ||name  == "normal_z" )
     {
-        in_cloud->reserveTheNormsTable();
+        cloud_->reserveTheNormsTable();
     }
 
     ccScalarField * f = new ccScalarField(name.c_str());
-    f->resize(in_cloud->resize(in_cloud->size()));
-    in_cloud->addScalarField(f);
+    f->resize(cloud_->resize(cloud_->size()));
+    cloud_->addScalarField(f);
 }
 
 spcCCPointCloud::IndexT spcCCPointCloud::getNumberOfPoints() const
 {
-    return in_cloud->size();
+    return cloud_->size();
 }
 
 spc::OrientedSensor spc::spcCCPointCloud::getSensor() const
@@ -147,4 +147,60 @@ void spcCCPointCloud::setSensor(const OrientedSensor &sensor) const
 }
 
 
+
+
 }// end nspace
+
+
+bool spc::spcCCPointCloud::getRGBField(const PointCloudBase::COLORS_ENUM &color, VectorXf &vector, const std::vector<PointSetBase::IndexT> &indices) const
+{
+
+        // put everything in an eigen map fo easy access
+        // this only works on 64 bit systems!!!!
+
+        const ColorCompType * firstc = cloud_->getPointColor(0);
+
+        typedef Eigen::Matrix<ColorCompType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> ColMatType;
+//        typedef Eigen::Matrix<ColorCompType, Eigen::Dynamic, 1> ColVectType;
+
+        Eigen::Map<ColMatType> map(const_cast<ColorCompType *> (firstc), cloud_->size(), 3);
+
+
+        if (color != COLORS_ENUM::AVERAGE)
+        {
+            Eigen::Block<Eigen::Map<ColMatType>, -1, 1> all = map.col((int) color);
+            if (indices.empty())
+                vector =  all.cast<float>();
+            else
+            {
+                vector.resize(indices.size());
+                size_t counter = 0;
+                for (const int &id: indices)
+                {
+                    vector(counter++) = all(id);
+                }
+            }
+            return true;
+        }
+
+        else // average was requested
+        {
+            Eigen::Matrix<ColorCompType, Eigen::Dynamic, 3> mat;
+            if (indices.empty())
+            {
+                vector = (map.rowwise().sum().array() / 3.0).cast<float>();
+            }
+            else
+            {
+                vector.resize(indices.size());
+                size_t counter = 0;
+                for (const int &id: indices)
+                {
+                    vector(counter++) = static_cast<float>(map.row(id).sum()) / 3.0;
+                }
+            }
+            return true;
+        }
+
+
+}

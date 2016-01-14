@@ -3,6 +3,7 @@
 #include <ccHObjectCaster.h>
 #include <ccScalarField.h>
 
+
 ComputeTimeSeriesDlg::ComputeTimeSeriesDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -24,12 +25,18 @@ void ComputeTimeSeriesDlg::changedCloudSelection(int n)
 
     ccHObject * cloud_cont = this->comboClouds->getSelectedObject();
 
+    if (!cloud_cont)
+    {
+        LOG(INFO) << "no cloud container found";
+        return;
+    }
+
     ccHObject::Container  filtered;
     cloud_cont->filterChildren(filtered, false, CC_TYPES::POINT_CLOUD,true);
 
     LOG(INFO) << "there are " << filtered.size() << "point clouds";
 
-    std::list<std::string> field_list;
+    std::list<FieldDescriptor> field_list;
 
     for (ccHObject * obj: filtered)
 
@@ -39,15 +46,16 @@ void ComputeTimeSeriesDlg::changedCloudSelection(int n)
         {
             if (cloud->hasColors())
             {
-                field_list.push_back("R Color");
-                field_list.push_back("G Color");
-                field_list.push_back("B Color");
+                field_list.push_back(FieldDescriptor("R", true, spc::PointCloudBase::COLORS_ENUM::R));
+                field_list.push_back(FieldDescriptor("G", true, spc::PointCloudBase::COLORS_ENUM::G));
+                field_list.push_back(FieldDescriptor("B", true, spc::PointCloudBase::COLORS_ENUM::B));
+                field_list.push_back(FieldDescriptor("Average", true, spc::PointCloudBase::COLORS_ENUM::AVERAGE));
             }
 
             for (int i = 0; i < cloud->getNumberOfScalarFields(); ++i)
             {
                 CCLib::ScalarField * field = cloud->getScalarField(i);
-                field_list.push_back(field->getName());
+                field_list.push_back(FieldDescriptor(field->getName(), false));
             }
 
 
@@ -59,9 +67,24 @@ void ComputeTimeSeriesDlg::changedCloudSelection(int n)
     field_list.sort();
     field_list.unique();
 
-    for (std::string f: field_list)
+    for ( FieldDescriptor f: field_list)
     {
-        this->comboScalarFields->addItem(QString(f.c_str()));
+        QString name;
+        if (f.iscolor_)
+        {
+             name = QString(f.name_.c_str()) + " [Color Cannel]";
+        }
+        else
+        {
+            name = QString(f.name_.c_str());
+
+        }
+
+        QVariant desc;
+        desc.setValue(f);
+        this->comboScalarFields->addItem(name , desc);
     }
 
 }
+
+

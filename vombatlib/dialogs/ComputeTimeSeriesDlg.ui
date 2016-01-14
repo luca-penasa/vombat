@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>342</width>
-    <height>355</height>
+    <height>376</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,6 +55,9 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="NewObjectSelectionComboBox" name="comboRegions"/>
+     </item>
      <item row="2" column="1">
       <widget class="NewObjectSelectionComboBox" name="comboModels"/>
      </item>
@@ -64,9 +67,6 @@
         <string>Clouds</string>
        </property>
       </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="NewObjectSelectionComboBox" name="comboRegions"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_5">
@@ -105,6 +105,20 @@
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Scalar Field</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Min pts per sample</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QSpinBox" name="spinMinNbPoints">
+       <property name="maximum">
+        <number>10000</number>
        </property>
       </widget>
      </item>

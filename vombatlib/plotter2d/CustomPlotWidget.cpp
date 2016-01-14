@@ -30,8 +30,8 @@ int CustomPlotWidget::addSeries(ccTimeSeries *series)
     series->setLocked(
         true); // we lock the series so that the user cannot delete it!
 
-    QVector<double> x = series->getX(true);
-    QVector<double> y = series->getY(true);
+    QVector<double> x = series->getX(false);
+    QVector<double> y = series->getY(false);
 
     QCPGraph *graph = this->addGraph();
 

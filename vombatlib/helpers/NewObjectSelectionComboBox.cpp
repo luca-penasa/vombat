@@ -29,9 +29,13 @@ void NewObjectSelectionComboBox::setOnlySelected(const bool &status)
 ccHObject *NewObjectSelectionComboBox::getSelectedObject()
 {
     int sel_id = this->currentIndex();
-    int id = this->itemData(sel_id).toInt();
+    unsigned id = this->itemData(sel_id).toUInt();
+
+    LOG(INFO) << "looking for the id " << id;
 
     ccHObject * obj = vombat::theInstance()->getMainAppInterface()->db()->find(id);
+
+
 
     return obj;
 }
@@ -116,6 +120,6 @@ void NewObjectSelectionComboBox::updateItems()
     ccHObject::Container good = performFiltering();
 
     for (ccHObject * ob: good)
-        this->addItem(ob->getName(), ob->getUniqueID());
+        this->addItem(ob->getName(), QVariant(ob->getUniqueID()));
 
 }
