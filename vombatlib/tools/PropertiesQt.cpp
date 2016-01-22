@@ -2,6 +2,8 @@
 #include <PropertyInspector.h>
 #include <QDialog>
 #include <vombat.h>
+#include <QMainWindow>
+
 
 #include <QLayout>
 PropertiesQt::PropertiesQt(ccPluginInterface* parent_plugin)
@@ -13,7 +15,8 @@ PropertiesQt::PropertiesQt(ccPluginInterface* parent_plugin)
 {
     this->setShowProgressBar(false);
 
-    m_dialog = new QDialog(vombat::theInstance()->getMainWindow());
+    QMainWindow * win = vombat::theInstance()->getMainWindow();
+    m_dialog = new QDialog(win);
 
     QLayout * layout  = new QGridLayout(m_dialog);
 

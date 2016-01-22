@@ -4,13 +4,11 @@
 #include <QDialog>
 #include <ccHObject.h>
 
-namespace Ui {
-class AnalyzerDlg;
-}
+#include "ui_AnalyzerDlg.h"
 
 class QComboBox;
 
-class AnalyzerDlg : public QDialog
+class AnalyzerDlg : public QDialog, public Ui::AnalyzerDlg
 {
     Q_OBJECT
 
@@ -18,42 +16,27 @@ public:
     explicit AnalyzerDlg(QWidget *parent = 0);
     ~AnalyzerDlg();
 
-    void populateCombos();
+//    void populateCombos();
 
-    void clearCombos();
+//    void clearCombos();
 
-    ccHObject::Container getRegions();
-//    ccHObject::Container getClouds();
-    ccHObject::Container getTraces();
-
-
-    static ccHObject * comboToObject(const QComboBox * combo);
-
-    bool cropStrataTraces() const;
-
-    bool outputAttitudes() const;
-
-    bool outputRulers() const;
+//    ccHObject::Container getRegions();
+////    ccHObject::Container getClouds();
+//    ccHObject::Container getTraces();
 
 
-//        bool generateRegions() const;
+//    static ccHObject * comboToObject(const QComboBox * combo);
+
+//    bool cropStrataTraces() const;
+
+//    bool outputAttitudes() const;
+
+//    bool outputRulers() const;
 
 
-private:
-    Ui::AnalyzerDlg *ui;
 
-    // QWidget interface
-public slots:
-//    virtual void setVisible(bool visible) override
-//    {
-//        if (visible == true)
-//        {
-//            clearCombos();
-//            populateCombos();
-//        }
 
-//        QWidget::setVisible(visible);
-//    }
+
 
 };
 

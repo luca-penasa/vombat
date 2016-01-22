@@ -1,7 +1,7 @@
 #include "CreateTimeSeriesFromScalarFields.h"
 
 #include <helpers/spcCCPointCloud.h>
-
+#include <boost/lexical_cast.hpp>
 #include <dialogs/CreateTimeSeriesFromScalarFieldsDlg.h>
 
 #include "ui_CreateTimeSeriesFromScalarFieldsDlg.h"

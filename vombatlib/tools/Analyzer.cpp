@@ -18,6 +18,9 @@
 #include <ccoutofcore/ccVirtualOutcrop.h>
 
 #include <ccSingleAttitudeModel.h>
+
+#include <QMainWindow>
+
 Analyzer::Analyzer(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Perform geological analysis of CC objects",
                                    "Perform geological analysis of CC objects",
@@ -47,11 +50,12 @@ int Analyzer::compute()
         m_root_outcrop = new ccVirtualOutcrop();
 
 
-    ccHObject::Container regions = m_dialog->getRegions();
+    ccHObject::Container regions = m_dialog->comboRegions->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
 
-    //    ccHObject::Container clouds = m_dialog->getClouds();
+    ccHObject::Container traces = m_dialog->comboTraces->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
 
-    ccHObject::Container traces = m_dialog->getTraces();
+    ccHObject::Container links = m_dialog->comboLinks->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
+
 
     LOG(INFO) << "found " << regions.size()  << " to be processed";
 //    LOG(INFO) << "Found " << clouds.size() << " point clouds to be analyzed";
@@ -67,6 +71,8 @@ int Analyzer::compute()
 
         ccPlanarSelection * sel = ccPlanarSelection::fromPolyline(*line);
         sel->setVisible(true);
+
+        sel->setDepth(m_dialog->spinRegionDepth->value());
 //        if (m_dialog->generateRegions())
             m_root_outcrop->addChild(sel);
 
@@ -88,7 +94,7 @@ int Analyzer::compute()
 
                 cropped_pline->addPointIndex(0, cropped_vertices->size()-1);
                 cropped_pline->setVisible(true);
-                if (m_dialog->cropStrataTraces())
+                if (m_dialog->checkBoxCropStrataTraces->checkState())
                     sel->addChild(cropped_pline);
             }
 
@@ -96,11 +102,11 @@ int Analyzer::compute()
         }
 
         ccAttitude * attitude = FitAttitude::fitAttitude(fittables);
-        if (m_dialog->outputAttitudes())
+        if (m_dialog->checkBoxGenerateAttitudes->checkState())
             sel->addChild(attitude);
 
 
-        if (m_dialog->outputRulers())
+        if (m_dialog->checkBoxGenerateRulers->checkState())
         {
 
             spc::StratigraphicModelSingleAttitude::Ptr spcmodel( new spc::StratigraphicModelSingleAttitude( *attitude->getAttitude()));
@@ -135,8 +141,8 @@ int Analyzer::openInputDialog()
         m_dialog =  new AnalyzerDlg(vombat::theInstance()->getMainWindow());
 
 
-    m_dialog->clearCombos();
-    m_dialog->populateCombos();
+//    m_dialog->clearCombos();
+//    m_dialog->populateCombos();
 
 
     return m_dialog->exec() ? 1 : 0;

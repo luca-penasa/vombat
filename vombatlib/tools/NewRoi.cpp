@@ -20,7 +20,7 @@
 #include <helpers/spcCCPointCloud.h>
 
 #include <ccHObjectCaster.h>
-#include <dialogs/ccPointPickingDlg.h>
+//#include <dialogs/ccPointPickingDlg.h>
 
 //#include <ccGLWindow.h>
 

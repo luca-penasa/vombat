@@ -20,6 +20,7 @@
 #include <ccSingleAttitudeModel.h>
 
 #include <spc/methods/SelectionExtractor.h>
+#include <QMainWindow>
 
 Cropper::Cropper(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Crop entities using a rubberband",

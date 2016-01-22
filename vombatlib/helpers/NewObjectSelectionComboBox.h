@@ -23,6 +23,8 @@ public:
 
     ccHObject * getSelectedObject();
 
+    ccHObject::Container  getChildrenOfSelectedObject(const CC_CLASS_ENUM &type, bool recursive = false, bool strict=true);
+
 public slots:
     void selectionChanged(ccHObject::Container & sel);
 

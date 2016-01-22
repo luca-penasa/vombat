@@ -40,6 +40,20 @@ ccHObject *NewObjectSelectionComboBox::getSelectedObject()
     return obj;
 }
 
+ccHObject::Container NewObjectSelectionComboBox::getChildrenOfSelectedObject(const CC_CLASS_ENUM &type, bool recursive, bool strict)
+{
+    ccHObject::Container out;
+    ccHObject * obj = this->getSelectedObject();
+    if (!obj)
+        return out;
+
+    obj->filterChildren(out, recursive, type, strict);
+
+    return out;
+}
+
+
+
 void NewObjectSelectionComboBox::selectionChanged(ccHObject::Container &sel)
 {
     if (only_selected)

@@ -6,101 +6,101 @@
 #include <vombat.h>
 
 AnalyzerDlg::AnalyzerDlg(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::AnalyzerDlg)
+    QDialog(parent)
 {
-    ui->setupUi(this);
+    setupUi(this);
 
+    this->comboRegions->addShownType(CC_TYPES::HIERARCHY_OBJECT);
+    this->comboTraces->addShownType(CC_TYPES::HIERARCHY_OBJECT);
+    this->comboLinks->addShownType(CC_TYPES::HIERARCHY_OBJECT);
 
-//    connect (ui->comboRegions, SIGNAL(currentIndexChanged(int)), this, SLOT(itemChanged(int)));
 }
 
 AnalyzerDlg::~AnalyzerDlg()
 {
-    delete ui;
 }
 
-void AnalyzerDlg::populateCombos()
-{
-    ccHObject::Container objs = vombat::theInstance()->getAllObjectsInTreeThatAre(CC_TYPES::HIERARCHY_OBJECT);
+//void AnalyzerDlg::populateCombos()
+//{
+//    ccHObject::Container objs = vombat::theInstance()->getAllObjectsInTreeThatAre(CC_TYPES::HIERARCHY_OBJECT);
 
-    LOG(INFO) << "found " << objs.size();
+//    LOG(INFO) << "found " << objs.size();
 
-    for (ccHObject * obj: objs)
-    {
-        if (obj->getName() == "DB Tree")
-            continue;
+//    for (ccHObject * obj: objs)
+//    {
+//        if (obj->getName() == "DB Tree")
+//            continue;
 
-        LOG(INFO) << "updating with id: " << obj->getUniqueID();
-        ui->comboRegions->addItem(obj->getName(), QVariant(obj->getUniqueID()));
-        ui->comboTraces->addItem(obj->getName(), QVariant(obj->getUniqueID()));
-//        ui->comboBox->addItem(obj->getName(), QVariant(obj->getUniqueID()));
-    }
-}
+//        LOG(INFO) << "updating with id: " << obj->getUniqueID();
+//        comboRegions->addItem(obj->getName(), QVariant(obj->getUniqueID()));
+//        comboTraces->addItem(obj->getName(), QVariant(obj->getUniqueID()));
+////        comboBox->addItem(obj->getName(), QVariant(obj->getUniqueID()));
+//    }
+//}
 
-void AnalyzerDlg::clearCombos()
-{
-//    ui->comboBox->clear();
-    ui->comboRegions->clear();
-    ui->comboTraces->clear();
-}
+//void AnalyzerDlg::clearCombos()
+//{
+////    comboBox->clear();
+//    comboRegions->clear();
+//    comboTraces->clear();
+//}
 
-ccHObject::Container AnalyzerDlg::getRegions()
-{
-    ccHObject * selected  = comboToObject(this->ui->comboRegions);
-    ccHObject::Container out;
-    selected->filterChildren(out,false, CC_TYPES::POLY_LINE,true);
-    return out;
-}
-
-
-
-ccHObject::Container AnalyzerDlg::getTraces()
-{
-    ccHObject * selected  = comboToObject(this->ui->comboTraces);
-    ccHObject::Container out;
-    selected->filterChildren(out,false, CC_TYPES::POLY_LINE,true);
-    return out;
-}
-
-ccHObject *AnalyzerDlg::comboToObject(const QComboBox *combo)
-{
-
-    int sel_id =combo->currentIndex();
+//ccHObject::Container AnalyzerDlg::getRegions()
+//{
+//    ccHObject * selected  = comboToObject(this->comboRegions);
+//    ccHObject::Container out;
+//    selected->filterChildren(out,false, CC_TYPES::POLY_LINE,true);
+//    return out;
+//}
 
 
 
-    int id = combo->itemData(sel_id).toInt();
+//ccHObject::Container AnalyzerDlg::getTraces()
+//{
+//    ccHObject * selected  = comboToObject(this->comboTraces);
+//    ccHObject::Container out;
+//    selected->filterChildren(out,false, CC_TYPES::POLY_LINE,true);
+//    return out;
+//}
 
-    LOG(INFO) << "unique id of selected:  "<<  id;
+//ccHObject *AnalyzerDlg::comboToObject(const QComboBox *combo)
+//{
 
-    ccHObject * obj = vombat::theInstance()->getMainAppInterface()->db()->find(id);
+//    int sel_id =combo->currentIndex();
 
-    if (obj)
-    {
-        LOG(INFO) << "obj name is " << obj->getName().toStdString();
-    }
-    return obj;
-}
 
-bool AnalyzerDlg::cropStrataTraces() const
-{
-    return ui->checkBoxCropStrataTraces->checkState();
-}
 
-bool AnalyzerDlg::outputAttitudes() const
-{
-    return ui->checkBoxGenerateAttitudes->checkState();
-}
+//    int id = combo->itemData(sel_id).toInt();
 
-bool AnalyzerDlg::outputRulers() const
-{
-    return ui->checkBoxGenerateRulers->checkState();
-}
+//    LOG(INFO) << "unique id of selected:  "<<  id;
+
+//    ccHObject * obj = vombat::theInstance()->getMainAppInterface()->db()->find(id);
+
+//    if (obj)
+//    {
+//        LOG(INFO) << "obj name is " << obj->getName().toStdString();
+//    }
+//    return obj;
+//}
+
+//bool AnalyzerDlg::cropStrataTraces() const
+//{
+//    return checkBoxCropStrataTraces->checkState();
+//}
+
+//bool AnalyzerDlg::outputAttitudes() const
+//{
+//    return checkBoxGenerateAttitudes->checkState();
+//}
+
+//bool AnalyzerDlg::outputRulers() const
+//{
+//    return checkBoxGenerateRulers->checkState();
+//}
 
 //bool AnalyzerDlg::generateRegions() const
 //{
-//    return ui->checkBoxGenerateRegions->checkState();
+//    return checkBoxGenerateRegions->checkState();
 //}
 
 

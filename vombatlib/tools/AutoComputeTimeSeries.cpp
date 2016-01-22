@@ -12,7 +12,7 @@
 #include <dialogs/ComputeTimeSeriesDlg.h>
 #include <ccTimeSeries.h>
 
-
+#include <QMainWindow>
 #include <ccSingleAttitudeModel.h>
 AutoComputeTimeSeries::AutoComputeTimeSeries(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Automatically compute time series for selections defined in childrens",

@@ -7,34 +7,68 @@
     <x>0</x>
     <y>0</y>
     <width>497</width>
-    <height>180</height>
+    <height>252</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Regions of interests</string>
-     </property>
-    </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Regions of interests</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="NewObjectSelectionComboBox" name="comboRegions"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Strata traces</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="NewObjectSelectionComboBox" name="comboTraces"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Links</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="NewObjectSelectionComboBox" name="comboLinks"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="spinRegionDepth">
+       <property name="minimum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100000000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>ROI depth</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="1">
-    <widget class="QComboBox" name="comboRegions"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Strata traces</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QComboBox" name="comboTraces"/>
-   </item>
-   <item row="2" column="0">
+   <item row="1" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxGenerateRulers">
      <property name="text">
       <string>Generate Stratigraphic Rulers</string>
@@ -44,21 +78,21 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="0" colspan="2">
     <widget class="QCheckBox" name="checkBoxCropStrataTraces">
      <property name="text">
       <string>Generate Cropped Strata Traces</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="3" column="0">
     <widget class="QCheckBox" name="checkBoxGenerateAttitudes">
      <property name="text">
       <string>Generate Attitudes</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="4" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -71,7 +105,7 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="5" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -83,6 +117,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>NewObjectSelectionComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">NewObjectSelectionComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

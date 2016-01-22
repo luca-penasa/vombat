@@ -108,6 +108,8 @@ if (INSTALL_vombat_PLUGIN)
 
     #################### SPC ###########################################
     #it also automatically find PCL and other required libraries
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} (cmake))
+
     find_package(SPC 0.1.0 REQUIRED)
     include_directories(${SPC_INCLUDE_DIRS})
 

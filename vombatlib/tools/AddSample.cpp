@@ -5,7 +5,7 @@
 #include <ScalarField.h>
 #include <spc/core/logging.h>
 
-AddSample::AddSample(ccPluginInterface* parent_plugin)
+TestVTK::TestVTK(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Add a Sample Object",
                      "Add a Sample Object",
                      "Add a Sample Object",
@@ -15,7 +15,7 @@ AddSample::AddSample(ccPluginInterface* parent_plugin)
     this->setShowProgressBar(false);
 }
 
-int AddSample::compute()
+int TestVTK::compute()
 {
 
     ccHObject::Container clouds;
@@ -63,7 +63,7 @@ int AddSample::compute()
     return 1;
 }
 
-int AddSample::checkSelected()
+int TestVTK::checkSelected()
 {
     ccHObject::Container selected;
     getSelectedEntitiesThatAre(CC_TYPES::POINT_CLOUD, selected);

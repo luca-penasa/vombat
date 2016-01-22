@@ -76,15 +76,6 @@ vombat::vombat() {
   m_factory = new ccVombatObjectsFactory("vombat");
 
   DLOG(INFO) << "Vombat plugin created";
-
-  // some tests
-
-  ccScalarField *f = new ccScalarField("test_field");
-  f->resize(10);
-  f->fill(10);
-
-  ccSpcScalarFieldProvider prov(f);
-  LOG(INFO) << "as eigen " << prov.asEigenMap();
 }
 
 vombat::~vombat() {
@@ -143,7 +134,7 @@ void vombat::getActions(QActionGroup &group) {
     //        addFilter(new CalibrateDevice(this));
     addFilter(new ApplyCorrection(this));
 
-    addFilter(new AddSample(this));
+    addFilter(new TestVTK(this));
 
     //        addFilter( new ComputeStratigraphicPosition(this) );
     //        addFilter( new ComputeTimeSeries(this));
