@@ -1,7 +1,7 @@
 #pragma once
 #ifndef ccSPCElementShell_H
 #define ccSPCElementShell_H
-
+#include <ccObject.h>
 #include <ccCustomObject.h>
 #include <ccEditableHObject.h>
 #include <spc/core/macros_ptr.h>

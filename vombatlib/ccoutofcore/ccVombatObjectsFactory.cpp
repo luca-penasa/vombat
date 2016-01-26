@@ -5,7 +5,7 @@
 #include <ccSample.h>
 #include <ccTimeSeries.h>
 //#include <ccEigenTable.h>
-
+#include <ccStratigraphicConstrain.h>
 #include <ccVirtualOutcrop.h>
 #include <spc/elements/SelectionRubberband.h>
 
@@ -45,8 +45,8 @@ ccHObject *ccVombatObjectsFactory::buildObject(const QString &metaname)
     else if (metaname == "TimeSeries")
         return new ccTimeSeries();
 
-//    else if (metaname == "EigenTable")
-//        return new ccEigenTable();
+    else if (metaname.toStdString() == spc::StratigraphicConstrain::Type.getClassName())
+        return new ccStratigraphicConstrain();
 
     else if (metaname.toStdString() == spc::SelectionRubberband::Type.getClassName())
         return new ccPlanarSelection();

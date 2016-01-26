@@ -15,6 +15,8 @@ public:
 public:
     int compute();
 
+
+//    static void linkPolylinesToConstraints(ccHObject::Container links_polys, ccHObject::Container )
 protected:
     int checkSelected();
 

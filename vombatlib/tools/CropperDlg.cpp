@@ -77,6 +77,7 @@ ccHObject::Container CropperDlg::getCroppables()
     ccHObject::Container out, plines, clouds;
 
 
+
     selected->filterChildren(plines,false, CC_TYPES::POLY_LINE,true);
 
     selected->filterChildren(clouds,false, CC_TYPES::POINT_CLOUD,true);

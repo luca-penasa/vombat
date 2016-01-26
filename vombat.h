@@ -9,7 +9,7 @@
 
 #include <spc/core/DtiClass.h>
 #include <spc/elements/ElementBase.h>
-
+#include <ccObject.h>
 class PlotterDlg;
 //class QToolBar;
 class QMenu;

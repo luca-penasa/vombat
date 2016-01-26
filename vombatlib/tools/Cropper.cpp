@@ -67,6 +67,7 @@ int Cropper::compute()
 
         for (ccHObject* to_crop : croppables) {
             if (to_crop->isA(CC_TYPES::POLY_LINE)) {
+//                if (to_crop->isA(CC_TYPES::POINT_CLOUD)) {
                 ccPolyline* pline = ccHObjectCaster::ToPolyline(to_crop);
 
                 ccPointCloud* vertices = dynamic_cast<ccPointCloud*>(pline->getAssociatedCloud());

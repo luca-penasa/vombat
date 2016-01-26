@@ -1,7 +1,7 @@
 #ifndef SINGLEPLOT_H
 #define SINGLEPLOT_H
 #include <qcustomplot.h>
-#include <visualization/MainScale.h>
+#include <MainScale.h>
 
 #include <spc/elements/TimeSeriesBase.h>
 #include <ccoutofcore/ccTimeSeries.h>

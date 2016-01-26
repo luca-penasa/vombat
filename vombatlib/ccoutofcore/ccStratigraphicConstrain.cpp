@@ -10,7 +10,7 @@ ccStratigraphicConstrain::ccStratigraphicConstrain()
     : ccSPCElementShell(spc::StratigraphicConstrain::Ptr(new spc::StratigraphicConstrain))
 {
 
-    constrain_ = this->getSPCElement<spc::StratigraphicConstrain>();
+//    constrain_ = this->getSPCElement<spc::StratigraphicConstrain>();
 
     m_foreground = false;
     m_width = 0.0;
@@ -24,12 +24,12 @@ ccStratigraphicConstrain::ccStratigraphicConstrain(StratigraphicConstrain::Ptr s
 {
     m_selectionBehavior = SELECTION_IGNORED;
 
-    constrain_ = sel;
+//    constrain_ = sel;
 }
 
 ccStratigraphicConstrain::~ccStratigraphicConstrain()
 {
-    for (spc::ElementBase::Ptr el : constrain_->getVertices()) {
+    for (spc::ElementBase::Ptr el : this->getSPCElement<spc::StratigraphicConstrain>()->getVertices()) {
         ccHObject* ob = vombat::theInstance()->getObjectFromElement(el);
         if (ob) //! < maybe has been deleted in the meanwhile \todo this should not happen but it does check why
             ob->setLocked(false);
@@ -38,9 +38,9 @@ ccStratigraphicConstrain::~ccStratigraphicConstrain()
 
 ccBBox ccStratigraphicConstrain::getOwnBB(bool withGLFeatures)
 {
-    CHECK(constrain_ != NULL);
+//    CHECK(constrain_ != NULL);
 
-    spc::BoundingBox<float, 3> bb = constrain_->getPolyLineRep().getBB();
+    spc::BoundingBox<float, 3> bb = this->getSPCElement<spc::StratigraphicConstrain>()->getPolyLineRep().getBB();
 
     CCVector3 min(bb.min_.data());
     CCVector3 max(bb.max_.data());
@@ -56,7 +56,7 @@ QIcon ccStratigraphicConstrain::getIcon() const
 void ccStratigraphicConstrain::drawMeOnly(CC_DRAW_CONTEXT& context)
 {
 
-    if (!this->constrain_)
+    if (!this->getSPCElement<spc::StratigraphicConstrain>())
         return;
 
     if (MACRO_Draw3D(context)) {
@@ -129,8 +129,8 @@ void ccStratigraphicConstrain::drawMeOnly(CC_DRAW_CONTEXT& context)
         glEnable(GL_LINE_STIPPLE);
 
         glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < constrain_->getNumberOfConstrains(); ++i) {
-            Eigen::Vector3f point = constrain_->getPolyLineRep().getPoint(i);
+        for (int i = 0; i < this->getSPCElement<spc::StratigraphicConstrain>()->getNumberOfConstrains(); ++i) {
+            Eigen::Vector3f point = this->getSPCElement<spc::StratigraphicConstrain>()->getPolyLineRep().getPoint(i);
             ccGL::Vertex3v(point.data());
         }
         glEnd();

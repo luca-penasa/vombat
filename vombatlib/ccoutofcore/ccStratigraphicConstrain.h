@@ -59,7 +59,7 @@ protected:
 
     //! Width of the line
     PointCoordinateType m_width = 1;
-    spc::StratigraphicConstrainPtr constrain_;
+//    spc::StratigraphicConstrainPtr constrain_;
 
     int m_radius_ = 1;
 

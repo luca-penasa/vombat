@@ -40,7 +40,7 @@ ccHObject *NewObjectSelectionComboBox::getSelectedObject()
     return obj;
 }
 
-ccHObject::Container NewObjectSelectionComboBox::getChildrenOfSelectedObject(const CC_CLASS_ENUM &type, bool recursive, bool strict)
+ccHObject::Container NewObjectSelectionComboBox::getChildrenOfSelectedObject(const CC_CLASS_ENUM type, bool recursive, bool strict)
 {
     ccHObject::Container out;
     ccHObject * obj = this->getSelectedObject();

@@ -50,15 +50,17 @@ int Analyzer::compute()
         m_root_outcrop = new ccVirtualOutcrop();
 
 
-    ccHObject::Container regions = m_dialog->comboRegions->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
+    ccHObject::Container regions, traces, links;
 
-    ccHObject::Container traces = m_dialog->comboTraces->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
+    regions = m_dialog->comboRegions->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
 
-    ccHObject::Container links = m_dialog->comboLinks->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
+    traces = m_dialog->comboTraces->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
+
+    links = m_dialog->comboLinks->getChildrenOfSelectedObject(CC_TYPES::POLY_LINE);
 
 
     LOG(INFO) << "found " << regions.size()  << " to be processed";
-//    LOG(INFO) << "Found " << clouds.size() << " point clouds to be analyzed";
+    LOG(INFO) << "Found " << links.size() << " links";
     LOG(INFO) << "Found " << traces.size() << " polylines";
 
 
@@ -71,11 +73,8 @@ int Analyzer::compute()
 
         ccPlanarSelection * sel = ccPlanarSelection::fromPolyline(*line);
         sel->setVisible(true);
-
         sel->setDepth(m_dialog->spinRegionDepth->value());
-//        if (m_dialog->generateRegions())
-            m_root_outcrop->addChild(sel);
-
+        m_root_outcrop->addChild(sel);
 
         ccHObject::Container  fittables;
 
@@ -108,7 +107,6 @@ int Analyzer::compute()
 
         if (m_dialog->checkBoxGenerateRulers->checkState())
         {
-
             spc::StratigraphicModelSingleAttitude::Ptr spcmodel( new spc::StratigraphicModelSingleAttitude( *attitude->getAttitude()));
             ccSingleAttitudeModel * model = new ccSingleAttitudeModel(spcmodel);
 
@@ -141,8 +139,8 @@ int Analyzer::openInputDialog()
         m_dialog =  new AnalyzerDlg(vombat::theInstance()->getMainWindow());
 
 
-//    m_dialog->clearCombos();
-//    m_dialog->populateCombos();
+    //    m_dialog->clearCombos();
+    //    m_dialog->populateCombos();
 
 
     return m_dialog->exec() ? 1 : 0;

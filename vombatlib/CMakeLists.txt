@@ -5,8 +5,6 @@ project( VOMBATLIB )
 #requires PCL
 find_package(PCL REQUIRED)
 
-
-
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 include_directories( ${CloudComparePlugins_SOURCE_DIR} )
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
@@ -14,7 +12,7 @@ include_directories( ${EXTERNAL_LIBS_INCLUDE_DIR} )
 include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
 include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
 if( MSVC )
-  include_directories( ${QCC_DB_LIB_SOURCE_DIR}/msvc )
+    include_directories( ${QCC_DB_LIB_SOURCE_DIR}/msvc )
 endif()
 
 include_directories(${PCL_INCLUDE_DIRS})
@@ -29,65 +27,42 @@ file( GLOB_RECURSE ui_list *.ui)
 #file( GLOB rc_list *.rc )
 
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ccoutofcore)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dialogs)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/plotter2d)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tools)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/visualization)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/helpers)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-#for mocked files and ui_
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/ccoutofcore)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/dialogs)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/plotter2d)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/tools)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ccoutofcore)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/dialogs)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/plotter2d)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/tools)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/visualization)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/helpers)
 
-set(CMAKE_AUTOMOC ON)
+##for mocked files and ui_
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}/ccoutofcore)
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}/dialogs)
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}/plotter2d)
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}/tools)
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
+#include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
 
-if ( USE_QT5 )
-#	find_mocable_files( mocable_list ${header_list} )
+qt_wrap_ui( generated_ui_list ${ui_list} )
 
-	qt5_wrap_ui( generated_ui_list ${ui_list} )
-#		qt5_wrap_cpp( moc_list ${mocable_list} )
+add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} )
 
-	#qt5_add_resources( generated_qrc_list ${qrc_list} )
-else()
-	# find Qt mocable files
-	#find_mocable_files( mocable_list ${header_list} )
-#	qt4_wrap_cpp( moc_list ${mocable_list} )
-	qt4_wrap_ui( generated_ui_list ${ui_list} )
-	#qt4_add_resources( generated_qrc_list ${qrc_list} )
-endif()
-
-
-# find Qt mocable files
-#find_mocable_files( mocable_list ${header_list} )
-#qt4_wrap_cpp( moc_list ${mocable_list} )
-#QT4_WRAP_UI( generated_ui_list ${ui_list} )
-##QT4_ADD_RESOURCES( generated_qrc_list ${qrc_list} )
-
-set(QCUSTOMPLOT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/qcustomplot/qcustomplot.cpp )
-message(" QCUSTOMPLOT_SOURCES" ${QCUSTOMPLOT_SOURCES} )
-
-add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} ${QCUSTOMPLOT_SOURCES} )
-
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+target_link_libraries( ${PROJECT_NAME} qcustomplot)
 
 # Add custom prepocessor definitions
 if (WIN32)
-	set_property( TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS CC_USE_AS_DLL QCC_DB_USE_AS_DLL )
+    set_property( TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS CC_USE_AS_DLL QCC_DB_USE_AS_DLL )
 endif()
 
 #define the PCL_VER_1_6_OR_OLDER preprocessor to compile qPCL with older versions of PCL
 if ( PCL_VERSION VERSION_LESS  1.7 ) # VERSION_GREATER Works just like "greater or equal"
-        set_property( TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS PCL_VER_1_6_OR_OLDER )
+    set_property( TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS PCL_VER_1_6_OR_OLDER )
 endif()
 
 # Luca's PCL patch support
 if( PCL_VERSION VERSION_GREATER  1.7 ) #from 1.7 the patch was merged
-	set_property( TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS LP_PCL_PATCH_ENABLED )
+    set_property( TARGET ${PROJECT_NAME} APPEND PROPERTY COMPILE_DEFINITIONS LP_PCL_PATCH_ENABLED )
 endif()
 
 link_directories( ${PCL_LIBRARY_DIRS} )
@@ -99,3 +74,5 @@ else()
     target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser )
 endif()
 
+
+target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )

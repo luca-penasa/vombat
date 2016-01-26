@@ -1,6 +1,6 @@
 #include "vombat.h"
 
-#include <helpers/ccSpcScalarFieldProvider.h>
+#include <ccSpcScalarFieldProvider.h>
 
 #include <ccSPCElementShell.h>
 #include <ccPointCloud.h>
