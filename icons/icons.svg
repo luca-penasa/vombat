@@ -392,9 +392,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.576872"
-     inkscape:cx="408.1317"
-     inkscape:cy="-258.79815"
+     inkscape:zoom="9.153744"
+     inkscape:cx="416.66678"
+     inkscape:cy="-63.962438"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -746,12 +746,28 @@
        width="21"
        id="rect4946"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+    <rect
+       y="65.639168"
+       x="419.85153"
+       height="21"
+       width="21"
+       id="rect4957"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:none;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
   </g>
   <g
      inkscape:label="Livello 1"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-37.191444,-1031.8438)">
+    <path
+       sodipodi:nodetypes="cc"
+       style="fill:#25897f;fill-opacity:1;stroke:#25897f;stroke-width:1.21916711px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 436.72603,1109.5657 -6.97642,-9.2973"
+       id="path4973"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/luca/Code/CloudCompare-mine-git/plugins/vombat/icons/stratigraphic_constrain.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199" />
     <path
        inkscape:export-ydpi="199"
        inkscape:export-xdpi="199"
@@ -5614,19 +5630,19 @@
        id="path3643"
        style="fill:#ff5555;stroke-width:0.30000001;stroke-miterlimit:4;stroke-dasharray:none"
        sodipodi:type="arc" />
-    <path
+    <circle
        inkscape:export-ydpi="199"
        inkscape:export-xdpi="199"
        inkscape:export-filename="/home/luca/Code/CloudCompare-mine-git/plugins/vombat/icons/stratigraphic_constrain.png"
-       sodipodi:type="arc"
        style="fill:#ff5555;stroke-width:0.30000001;stroke-miterlimit:4;stroke-dasharray:none"
        id="path3647"
-       sodipodi:cx="356.46008"
-       sodipodi:cy="13.978117"
-       sodipodi:rx="0.42486301"
-       sodipodi:ry="0.42486301"
+       transform="matrix(4.6371274,0,0,4.6371274,-1180.8425,1037.1627)"
        d="m 356.88495,13.978117 a 0.42486301,0.42486301 0 0 1 -0.42487,0.424863 0.42486301,0.42486301 0 0 1 -0.42486,-0.424863 0.42486301,0.42486301 0 0 1 0.42486,-0.424863 0.42486301,0.42486301 0 0 1 0.42487,0.424863 z"
-       transform="matrix(4.6371274,0,0,4.6371274,-1180.8425,1037.1627)" />
+       sodipodi:type="arc"
+       sodipodi:ry="0.42486301"
+       sodipodi:rx="0.42486301"
+       sodipodi:cy="13.978117"
+       sodipodi:cx="356.46008" />
     <text
        xml:space="preserve"
        style="font-size:17.54052734px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#5c4d38;fill-opacity:1;stroke:none;font-family:Sans"
@@ -6545,5 +6561,41 @@
        style="fill:#ff5555;fill-opacity:1"
        inkscape:export-xdpi="199"
        inkscape:export-ydpi="199" />
+    <path
+       inkscape:export-ydpi="199"
+       inkscape:export-xdpi="199"
+       inkscape:export-filename="/home/luca/Code/CloudCompare-mine-git/plugins/vombat/icons/stratigraphic_constrain.png"
+       inkscape:connector-curvature="0"
+       id="path4959"
+       d="m 423.5074,1112.4061 6.13297,-11.9192"
+       style="fill:#25897f;fill-opacity:1;stroke:#25897f;stroke-width:1.21916711px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:nodetypes="cc" />
+    <circle
+       style="fill:#ff5555;stroke-width:0.30000001;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path4961"
+       inkscape:export-filename="/home/luca/Code/CloudCompare-mine-git/plugins/vombat/icons/stratigraphic_constrain.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199"
+       cx="423.68542"
+       cy="1112.155"
+       r="1.9701439" />
+    <circle
+       id="circle4963"
+       style="fill:#ff5555;stroke-width:0.30000001;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:export-filename="/home/luca/Code/CloudCompare-mine-git/plugins/vombat/icons/stratigraphic_constrain.png"
+       inkscape:export-xdpi="199"
+       inkscape:export-ydpi="199"
+       cx="429.93979"
+       cy="1100.233"
+       r="1.9701439" />
+    <circle
+       r="1.9701439"
+       cy="1109.4095"
+       cx="436.71298"
+       inkscape:export-ydpi="199"
+       inkscape:export-xdpi="199"
+       inkscape:export-filename="/home/luca/Code/CloudCompare-mine-git/plugins/vombat/icons/stratigraphic_constrain.png"
+       style="fill:#ff5555;stroke-width:0.30000001;stroke-miterlimit:4;stroke-dasharray:none"
+       id="circle4971" />
   </g>
 </svg>

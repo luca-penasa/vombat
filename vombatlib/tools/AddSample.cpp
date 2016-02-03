@@ -5,13 +5,16 @@
 #include <ScalarField.h>
 #include <spc/core/logging.h>
 #include <ccPolyline.h>
+#include <ccLinearGeologicalFeature.h>
 
+
+#include <spc/elements/LinearGeologicalFeature.h>
 AddSample::AddSample(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Add a Sample Object",
-                     "Add a Sample Object",
-                     "Add a Sample Object",
-                     ":/toolbar/icons/sample.png"),
-          parent_plugin)
+                                   "Add a Sample Object",
+                                   "Add a Sample Object",
+                                   ":/toolbar/icons/sample.png"),
+                 parent_plugin)
 {
     this->setShowProgressBar(false);
 }
@@ -68,17 +71,27 @@ int AddSample::compute()
         ccPolyline* pline = ccHObjectCaster::ToPolyline(obj);
 
 
-        for (int i = 0; i < pline->getAssociatedCloud()->size() ; ++i)
-        {
-            CCVector3 p;
-            pline->getAssociatedCloud()->getPoint(i, p);
+        ccLinearGeologicalFeature* linear  = ccLinearGeologicalFeature::fromPolyline(*pline);
 
-            ccSample* sample = new ccSample(p);
-            sample->setVisible(true);
+//         = new ccLinearGeologicalFeature();
+//        spc::LinearGeologicalFeature::Ptr asspc =  linear->getSPCElement<spc::LinearGeologicalFeature>();
+//        for (int i = 0; i < pline->getAssociatedCloud()->size() ; ++i)
+//        {
+//            CCVector3 p;
+//            pline->getAssociatedCloud()->getPoint(i, p);
 
-            emit newEntity(sample);
+//            Eigen::Map<Eigen::Vector3f> mapped (&p[0]);
 
-        }
+
+//            asspc->addPoint(mapped);
+
+
+
+//        }
+
+        linear->setVisible(true);
+        emit newEntity(linear);
+
 
 
 

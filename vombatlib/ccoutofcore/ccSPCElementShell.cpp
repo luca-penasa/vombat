@@ -121,10 +121,10 @@ void ccSPCElementShell::setParent(ccHObject *parent)
             if( asmine->getSPCElement()->isA(&spc::StratigraphicModelBase::Type))
             {
                 spc::StratigraphicPositionableElement::Ptr positionable = spcDynamicPointerCast<spc::StratigraphicPositionableElement>(this->getSPCElement());
-                if (positionable->getManual())
-                {
+//                if (positionable->getManual())
+//                {
                         positionable->modelFromParent();
-                }
+//                }
             }
 
         }

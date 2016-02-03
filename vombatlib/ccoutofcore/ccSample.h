@@ -11,6 +11,7 @@
 
 #include <ccSPCElementShell.h>
 #include <ccInteractor.h>
+#include <ccStratigraphicPositionableElement.h>
 
 //#include <helpers/ccSPCObjectsStreamer.h>
 namespace spc {
@@ -20,15 +21,17 @@ spcFwdDeclSharedPtr(Point3D)
 
 class cc2DLabel;
 
-class ccSample : public ccSPCElementShell, public ccInteractor
+
+
+
+class ccSample : public ccStratigraphicPositionableElement, public ccInteractor
 {
     Q_OBJECT
 
 public:
 
     Q_PROPERTY(double Radius READ getRadius WRITE setRadius)
-    Q_PROPERTY(bool Manual READ getManual WRITE setManual)
-    Q_PROPERTY(double StratigraphicPosition READ getStratigraphicPosition WRITE setStratigraphicPosition)
+
 
 
 
@@ -47,14 +50,7 @@ public:
     spcSetMacro(Radius, m_radius_, float)
     spcGetMacro(Radius, m_radius_, float)
 
-    double getStratigraphicPosition();
 
-    void setStratigraphicPosition( const double sp);
-
-
-    void setManual(const bool status);
-
-    bool getManual();
 
     virtual bool hasColors() const
     {

@@ -94,9 +94,9 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT& context)
         glPushMatrix();
 
         float x, y, z;
-        this->getSample()->getPosition(x, y, z);
+        Eigen::Vector3f p = this->getSample()->getPosition();
         //    const CCVector3* P = m_points[i].cloud->getPoint(m_points[i].index);
-        ccGL::Translate(x, y, z);
+        ccGL::Translate(p(0),p(1),p(2));
         glScalef(context.labelMarkerSize, context.labelMarkerSize,
             context.labelMarkerSize);
 
@@ -128,26 +128,26 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT& context)
 
 ccSample::ccSample()
     : m_radius_(1)
-    , ccSPCElementShell(spc::Sample::Ptr(new spc::Sample(0, 0, 0)))
+    , ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample(0, 0, 0)))
 {
     m_selectionBehavior = SELECTION_IGNORED;
 }
 
 ccSample::ccSample(const spc::Point3D& point)
-    : ccSPCElementShell(spc::Sample::Ptr(new spc::Sample(point.getPosition())), point.getElementName().c_str())
+    :  ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample(point.getPosition())), point.getElementName().c_str())
 {
     m_selectionBehavior = SELECTION_IGNORED;
 }
 
 ccSample::ccSample(const spc::Sample::Ptr sample)
-    : ccSPCElementShell(sample)
+    :  ccStratigraphicPositionableElement(sample)
 {
     m_selectionBehavior = SELECTION_IGNORED;
 }
 
 ccSample::ccSample(const cc2DLabel* label)
     : m_radius_(1)
-    , ccSPCElementShell(spc::Sample::Ptr(new spc::Sample), label->getName())
+    ,  ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample), label->getName())
 {
 
     cc2DLabel::PickedPoint picked_point
@@ -162,7 +162,7 @@ ccSample::ccSample(const cc2DLabel* label)
 
 ccSample::ccSample(const CCVector3& v)
     : m_radius_(1)
-    , ccSPCElementShell(spc::SamplePtr(new spc::Sample(v.x, v.y, v.z)))
+    , ccStratigraphicPositionableElement(spc::SamplePtr(new spc::Sample(v.x, v.y, v.z)))
 {
     m_selectionBehavior = SELECTION_IGNORED;
 }
@@ -175,25 +175,6 @@ QIcon ccSample::getIcon() const
         return QIcon(QString::fromUtf8(":/toolbar/icons/sample_locked.png"));
 }
 
-double ccSample::getStratigraphicPosition()
-{
-    return this->getSample()->getStratigraphicPosition();
-}
-
-void ccSample::setStratigraphicPosition(const double sp)
-{
-    this->getSample()->setStratigraphicPosition(sp);
-}
-
-void ccSample::setManual(const bool status)
-{
-    this->getSample()->setManual(status);
-}
-
-bool ccSample::getManual()
-{
-    return this->getSample()->getManual();
-}
 
 
 

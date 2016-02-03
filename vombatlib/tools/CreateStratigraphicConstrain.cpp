@@ -25,7 +25,7 @@ int CreateStratigraphicConstrain::compute()
 
     DLOG(INFO) << "going to compute!";
 
-    ccHObject::Container objects = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::Point3D::Type);
+    ccHObject::Container objects = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::StratigraphicPositionableElement::Type);
 
     spc::StratigraphicConstrain::Ptr constrain(new spc::StratigraphicConstrain);
 
@@ -53,6 +53,10 @@ int CreateStratigraphicConstrain::compute()
         //            out->addChild(sam);
         //            sam->setVisible(true);
     }
+
+    constrain->updatePointSetRepresentation();
+
+
 
     out->setVisible(true);
     emit newEntity(out);

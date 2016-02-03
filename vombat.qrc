@@ -41,6 +41,7 @@
         <file>icons/properties_qt.png</file>
         <file>icons/analyzer.png</file>
         <file>icons/cropper.png</file>
+        <file>icons/linear_geological_feature.png</file>
     </qresource>
     <qresource prefix="/plugin">
         <file>icons/vombat.png</file>
