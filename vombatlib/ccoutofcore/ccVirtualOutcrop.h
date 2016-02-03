@@ -10,8 +10,7 @@
 
 class ccVirtualOutcrop:  public ccSPCElementShell
 {
-public:
-
+public:       
     ccVirtualOutcrop(): ccSPCElementShell (spc::VirtualOutcrop::Ptr(new spc::VirtualOutcrop))
     {
 

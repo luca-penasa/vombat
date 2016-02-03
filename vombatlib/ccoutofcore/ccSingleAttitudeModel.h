@@ -30,6 +30,13 @@ class ccSingleAttitudeModel: public ccDynamicScalarFieldGenerator
 
 public:
 
+    Q_PROPERTY(double MinSp READ getMinSp WRITE setMinSp)
+    Q_PROPERTY(double MaxSp READ getMaxSp WRITE setMaxSp)
+    Q_PROPERTY(double Step READ getStep WRITE setStep)
+    Q_PROPERTY(double StratigraphicShift READ getStratigraphicShift WRITE setStratigraphicShift)
+
+    Q_PROPERTY(int LineWidth READ getLineWidth WRITE setLineWidth)
+
     ccSingleAttitudeModel();
 
     ccSingleAttitudeModel (spc::StratigraphicModelSingleAttitude::Ptr model);
@@ -63,6 +70,11 @@ public:
         m_generator_ = spcStaticPointerCast<spc::VariableScalarFieldBase> (model);
     }
 
+
+    double getStratigraphicShift() const;
+
+
+    void setStratigraphicShift(const double shift);
 
 
 public slots:
@@ -135,6 +147,8 @@ protected:
     int m_line_width;
 
     float m_major_thicks_length;
+
+    float m_current_shift = 0;
 
     //// these for internal use only /////////////////
     std::vector<float> m_breaks;

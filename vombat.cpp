@@ -134,7 +134,7 @@ void vombat::getActions(QActionGroup &group) {
     //        addFilter(new CalibrateDevice(this));
     addFilter(new ApplyCorrection(this));
 
-    addFilter(new TestVTK(this));
+    addFilter(new AddSample(this));
 
     //        addFilter( new ComputeStratigraphicPosition(this) );
     //        addFilter( new ComputeTimeSeries(this));

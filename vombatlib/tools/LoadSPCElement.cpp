@@ -23,6 +23,9 @@
 #include <spc/elements/TimeSeriesBase.h>
 
 
+#include <spc/elements/StratigraphicConstrain.h>
+
+
 LoadSPCElement::LoadSPCElement(ccPluginInterface * parent_plugin): BaseFilter(FilterDescription(   "Load SPC elements",
                                                                                                    "Load SPC elements",
                                                                                                    "Load SPC elements",
@@ -99,7 +102,7 @@ ccHObject *LoadSPCElement::elementToCCHobject(ElementBase::Ptr el)
     else
     {
         LOG(WARNING) << "cannot transform the loaded spc element into something cloudcompare-comaptible. plase provide the implementation here.";
-        newobj = NULL;
+        newobj = nullptr;
     }
 
 

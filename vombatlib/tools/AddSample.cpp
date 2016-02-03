@@ -4,8 +4,9 @@
 #include <ccHObjectCaster.h>
 #include <ScalarField.h>
 #include <spc/core/logging.h>
+#include <ccPolyline.h>
 
-TestVTK::TestVTK(ccPluginInterface* parent_plugin)
+AddSample::AddSample(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Add a Sample Object",
                      "Add a Sample Object",
                      "Add a Sample Object",
@@ -15,7 +16,7 @@ TestVTK::TestVTK(ccPluginInterface* parent_plugin)
     this->setShowProgressBar(false);
 }
 
-int TestVTK::compute()
+int AddSample::compute()
 {
 
     ccHObject::Container clouds;
@@ -60,13 +61,40 @@ int TestVTK::compute()
         emit newEntity(sample);
     }
 
+    ccHObject::Container polylines;
+    getSelectedEntitiesThatAre(CC_TYPES::POLY_LINE, polylines);
+
+    for (ccHObject* obj : polylines) {
+        ccPolyline* pline = ccHObjectCaster::ToPolyline(obj);
+
+
+        for (int i = 0; i < pline->getAssociatedCloud()->size() ; ++i)
+        {
+            CCVector3 p;
+            pline->getAssociatedCloud()->getPoint(i, p);
+
+            ccSample* sample = new ccSample(p);
+            sample->setVisible(true);
+
+            emit newEntity(sample);
+
+        }
+
+
+
+    }
+
+
+
+
     return 1;
 }
 
-int TestVTK::checkSelected()
+int AddSample::checkSelected()
 {
     ccHObject::Container selected;
     getSelectedEntitiesThatAre(CC_TYPES::POINT_CLOUD, selected);
+    getSelectedEntitiesThatAre(CC_TYPES::POLY_LINE, selected);
     getSelectedEntitiesThatAre(CC_TYPES::LABEL_2D, selected);
 
     if (selected.size() > 0)

@@ -8,6 +8,7 @@
 #include <ccStratigraphicConstrain.h>
 #include <ccVirtualOutcrop.h>
 #include <spc/elements/SelectionRubberband.h>
+#include <spc/elements/StratigraphicConstrain.h>
 
 #include <ccPlanarSelection.h>
 

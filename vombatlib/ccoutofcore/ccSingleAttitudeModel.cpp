@@ -12,9 +12,16 @@
 
 void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
-	m_dynamic_scale = context.labelMarkerSize;
 
-    //we draw here a little 3d representation of the sensor
+    // force recomputatio when stratigraphic shift changes
+    if (this->getModel()->getStratigraphicShift() != m_current_shift)
+    {
+        this->updateInternals();
+        m_current_shift = this->getModel()->getStratigraphicShift();
+    }
+
+    m_dynamic_scale = context.labelMarkerSize;
+
     if (MACRO_Draw3D(context))
     {
         bool pushName = MACRO_DrawEntityNames(context);
@@ -34,9 +41,9 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 
         //we draw the segments
         if (isSelected())
-			glColor3ubv(ccColor::red.rgba);
+            glColor3ubv(ccColor::red.rgba);
         else
-			glColor3ubv(ccColor::blue.rgba);
+            glColor3ubv(ccColor::blue.rgba);
 
         Eigen::Vector3f start = getModel()->getPointAtStratigraphicPosition(m_min_sp);
         Eigen::Vector3f end = getModel()->getPointAtStratigraphicPosition(m_max_sp);
@@ -55,10 +62,10 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 
 
         drawMajorThicks(context);
-		drawMajorThicksText(context);
+        drawMajorThicksText(context);
 
-		if (pushName)
-			glPopName();
+        if (pushName)
+            glPopName();
     }
 
 }
@@ -71,9 +78,9 @@ void ccSingleAttitudeModel::drawMajorThicks(CC_DRAW_CONTEXT &context)
 
     //we draw the segments
     if (isSelected())
-		glColor3ubv(ccColor::red.rgba);
+        glColor3ubv(ccColor::red.rgba);
     else
-		glColor3ubv(ccColor::blue.rgba);
+        glColor3ubv(ccColor::blue.rgba);
 
 
     glBegin(GL_LINES);
@@ -98,74 +105,34 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
     for (int i = 0; i < m_breaks.size(); i++)
     {
         float val = m_breaks.at(i);
-        std::stringstream s;
-        s << std::setprecision(2) << val;
+//        std::stringstream s;
+//        s << std::setprecision(2) << val;
+
+        QString s = QString::number(val, 'g', 4);
 
         Vector3f pos = m_major_thicks_positions.at(i);
         Vector3f end = pos + m_major_thicks_vector;
 
 
-		QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
-		// account!
-		font.setPointSize(font.pointSize());
-		font.setBold(true);
+        QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+        // account!
+        font.setPointSize(font.pointSize());
+        font.setBold(true);
 
 
 
-		glDisable(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
         if (isSelected())
-			context._win->display3DLabel(s.str().c_str(), CCVector3::fromArray(end.data()), ccColor::red.rgba, font);
+            context._win->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::red.rgba, font);
         else
-			context._win->display3DLabel(s.str().c_str(), CCVector3::fromArray(end.data()), ccColor::blue.rgba, font);
-		glEnable(GL_DEPTH_TEST);
+            context._win->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::blue.rgba, font);
+        glEnable(GL_DEPTH_TEST);
 
-	}
+    }
 
 }
 
 
-
-
-
-
-//ccCylinder ccSingleAttitudeModel::getScalePiece(const colorType *color,const float min_sp, const float max_sp)
-//{
-//    Vector3f b = getPointAtStratigraphicPosition(min_sp);
-
-//    float height = max_sp - min_sp;
-
-//    ccGLMatrix  T ;
-//    T.setTranslation(CCVector3(0,0,height*0.5)); //now the base of the cyclinder is in 0 0 0
-
-//    //the rotation aligning the cyclinder with the normal
-//    ccGLMatrix R = ccGLMatrix::FromToRotation(CCVector3(getUnitNormal().data()), CCVector3(0.0,0.0,1.0));
-//    //the rotation must be applied on the center
-//    R.shiftRotationCenter(CCVector3(0,0,0));
-
-//    ccGLMatrix T2;
-//    T2.setTranslation(CCVector3(b.data())); // now move the cylinder to its positionS
-
-//    ccGLMatrix finalTr = T2*R*T;
-
-
-
-//    ccCylinder cyl = ccCylinder(m_pipe_radius, height, &finalTr);
-
-//    std::cout << "height: " << height << std::endl;
-
-//    std::cout << "building piece" << cyl.size() <<std::endl;
-
-
-//    ccPointCloud * verts = static_cast<ccPointCloud*>(cyl.getAssociatedCloud());
-
-//    //set per vertex color
-//    for (int i = 0 ; verts->size(); ++i)
-//    {
-//        verts->setPointColor(i, color);
-//    }
-
-//    return cyl;
-//}
 
 void ccSingleAttitudeModel::initParameters()
 {
@@ -185,8 +152,8 @@ void ccSingleAttitudeModel::initParameters()
 void ccSingleAttitudeModel::updateMajorBreaks()
 {
 
-    m_max_sp = getModel()->getStratigraphicShift() + m_size_;
-    m_min_sp = getModel()->getStratigraphicShift() - m_size_;
+    //    m_max_sp = getModel()->getStratigraphicShift() + m_size_;
+    //    m_min_sp = getModel()->getStratigraphicShift() - m_size_;
     if(m_max_sp <= m_min_sp)
         return; // do nothing
 
@@ -223,6 +190,7 @@ float ccSingleAttitudeModel::getMajorThicksLength() const
 void ccSingleAttitudeModel::setMajorThickLength(float major_thick_length)
 {
     m_major_thicks_length = major_thick_length;
+    updateMajorBreaks();
 }
 
 int ccSingleAttitudeModel::getLineWidth() const
@@ -280,6 +248,16 @@ ccSingleAttitudeModel::ccSingleAttitudeModel(StratigraphicModelSingleAttitude::P
 
 
     initParameters();
+}
+
+double ccSingleAttitudeModel::getStratigraphicShift() const
+{
+    return this->getModel()->getStratigraphicShift();
+}
+
+void ccSingleAttitudeModel::setStratigraphicShift(const double shift)
+{
+    this->getModel()->setStratigraphicShift(shift);
 }
 
 float ccSingleAttitudeModel::getMinSp() const

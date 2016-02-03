@@ -13,6 +13,7 @@
 #include <ccPolyline.h>
 #include <spc/methods/EstimatorAttitude.h>
 #include <FitAttitude.h>
+#include <ccSample.h>
 
 #include <ccAttitude.h>
 #include <ccoutofcore/ccVirtualOutcrop.h>
@@ -20,6 +21,11 @@
 #include <ccSingleAttitudeModel.h>
 
 #include <QMainWindow>
+#include <spc/elements/Sample.h>
+
+#include <ccStratigraphicConstrain.h>
+
+#include <spc/elements/StratigraphicConstrain.h>
 
 Analyzer::Analyzer(ccPluginInterface* parent_plugin)
     : BaseFilter(FilterDescription("Perform geological analysis of CC objects",
@@ -66,6 +72,9 @@ int Analyzer::compute()
 
     //    if (m_dialog->generateRegions())
 
+    // this will be used to create links
+    std::map<ccPolyline *, std::vector<std::vector<ccSample *>> > mapping;
+
     // first create selections out of regions
     for (ccHObject * obj : regions)
     {
@@ -100,6 +109,49 @@ int Analyzer::compute()
             fittables.push_back(cropped_vertices);
         }
 
+        // for each region we try to find the links
+        for (ccHObject * link: links)
+        {
+            // we need to see this link
+            ccPolyline * pline =  ccHObjectCaster::ToPolyline(link);
+
+            if (!pline)
+                continue;
+
+            ccPointCloud * vertices = dynamic_cast<ccPointCloud *> (pline->getAssociatedCloud());
+
+            ccPointCloud * cropped_vertices = sel->crop(vertices);
+
+            std::vector<ccSample * > mysamples;
+
+            if (cropped_vertices) // if we have any cropped vertices
+            {
+//                ccPolyline * cropped_pline = new ccPolyline(cropped_vertices);
+                for (int i = 0; i < cropped_vertices->size(); i++)
+                {
+                    CCVector3 p;
+                    cropped_vertices->getPoint(i, p);
+
+                    ccSample * sample =  new ccSample(p);
+
+                    mysamples.push_back(sample);
+
+//                    mapping[cropped_pline].push_back(sample);
+
+                    sample->setVisible(true);
+                    sel->addChild(sample);
+                    emit newEntity(sample); // notify we got a new entity
+                }
+            }
+
+
+            if (!mysamples.empty())
+                mapping[pline].push_back(mysamples);
+
+            fittables.push_back(cropped_vertices);
+
+        }
+
         ccAttitude * attitude = FitAttitude::fitAttitude(fittables);
         if (m_dialog->checkBoxGenerateAttitudes->checkState())
             sel->addChild(attitude);
@@ -117,6 +169,30 @@ int Analyzer::compute()
     }
 
 
+
+    // create links
+
+    std::vector<ccStratigraphicConstrain * > constrains;
+
+    for (std::pair<ccPolyline *, std::vector<std::vector<ccSample *>>> pair : mapping)
+    {
+        std::vector<std::vector<ccSample *>> set = pair.second;
+
+        ccStratigraphicConstrain * constrain = new ccStratigraphicConstrain();
+
+        for (std::vector<ccSample *> c: set)
+        {
+            for (ccSample * sample: c)
+            {
+                constrain->getSPCElement<spc::StratigraphicConstrain>()->addVertex(sample->getSample());
+
+            }
+        }
+
+        constrain->setVisible(true);
+        emit newEntity(constrain);
+
+    }
 
     newEntity(m_root_outcrop);
 

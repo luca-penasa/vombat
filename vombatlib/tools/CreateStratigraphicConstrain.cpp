@@ -23,7 +23,7 @@ CreateStratigraphicConstrain::CreateStratigraphicConstrain(ccPluginInterface* pa
 int CreateStratigraphicConstrain::compute()
 {
 
-    DLOG(INFO) << "going to compue!";
+    DLOG(INFO) << "going to compute!";
 
     ccHObject::Container objects = vombat::theInstance()->getAllObjectsSelectedBySPCDti(&spc::Point3D::Type);
 

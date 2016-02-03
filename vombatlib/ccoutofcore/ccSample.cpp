@@ -33,7 +33,7 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT& context)
     //	glPushAttrib(GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
 
-    QString name = QString::fromStdString(getSample()->getElementName()) + " at SP: " + QString::number(getSample()->getStratigraphicPosition(), 'g', 3);
+    QString name = QString::number(getSample()->getStratigraphicPosition(), 'g', 3);
 
     context._win->display3DLabel(name,
         CCVector3(getSample()->getPosition().data()),
@@ -173,6 +173,26 @@ QIcon ccSample::getIcon() const
         return QIcon(QString::fromUtf8(":/toolbar/icons/sample.png"));
     else
         return QIcon(QString::fromUtf8(":/toolbar/icons/sample_locked.png"));
+}
+
+double ccSample::getStratigraphicPosition()
+{
+    return this->getSample()->getStratigraphicPosition();
+}
+
+void ccSample::setStratigraphicPosition(const double sp)
+{
+    this->getSample()->setStratigraphicPosition(sp);
+}
+
+void ccSample::setManual(const bool status)
+{
+    this->getSample()->setManual(status);
+}
+
+bool ccSample::getManual()
+{
+    return this->getSample()->getManual();
 }
 
 

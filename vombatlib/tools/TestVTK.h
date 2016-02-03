@@ -1,12 +1,12 @@
 #pragma once
-#ifndef ADDSAMPLE_H
-#define ADDSAMPLE_H
+#ifndef TESTVTK_H
+#define TESTVTK_H
 
 #include "BaseFilter.h"
 
-class AddSample : public BaseFilter {
+class TestVTK : public BaseFilter {
 public:
-    AddSample(ccPluginInterface* parent_plugin = 0);
+    TestVTK(ccPluginInterface* parent_plugin = 0);
 
     // BaseFilter interface
 public:

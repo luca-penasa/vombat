@@ -7,6 +7,7 @@
 //#include <ccGenericPointCloud.h>
 
 //#include <ccSphere.h>
+#include <spc/core/macros.h>
 
 #include <ccSPCElementShell.h>
 #include <ccInteractor.h>
@@ -19,8 +20,18 @@ spcFwdDeclSharedPtr(Point3D)
 
 class cc2DLabel;
 
-class ccSample : public ccSPCElementShell, public ccInteractor {
+class ccSample : public ccSPCElementShell, public ccInteractor
+{
+    Q_OBJECT
+
 public:
+
+    Q_PROPERTY(double Radius READ getRadius WRITE setRadius)
+    Q_PROPERTY(bool Manual READ getManual WRITE setManual)
+    Q_PROPERTY(double StratigraphicPosition READ getStratigraphicPosition WRITE setStratigraphicPosition)
+
+
+
     ccSample();
 
     ccSample(const spc::Point3D& point);
@@ -32,6 +43,18 @@ public:
     ccSample(const CCVector3& v);
 
     virtual QIcon getIcon() const;
+
+    spcSetMacro(Radius, m_radius_, float)
+    spcGetMacro(Radius, m_radius_, float)
+
+    double getStratigraphicPosition();
+
+    void setStratigraphicPosition( const double sp);
+
+
+    void setManual(const bool status);
+
+    bool getManual();
 
     virtual bool hasColors() const
     {
@@ -53,7 +76,7 @@ protected:
     //    virtual bool toFile_MeOnly(QFile& out) const;
     //    virtual bool fromFile_MeOnly(QFile& in, short dataVersion, int flags);
 
-    int m_radius_ = 1;
+    double m_radius_ = 1;
     float m_current_scaling_;
 };
 
