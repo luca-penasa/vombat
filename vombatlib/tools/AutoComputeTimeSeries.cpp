@@ -122,6 +122,10 @@ int AutoComputeTimeSeries::compute()
                     {
                         ccTimeSeries * ccts  = new ccTimeSeries(ts);
 
+                        ccts->setName(cloud->getName());
+
+                        sel->addChild(ccts);
+
                         newEntity(ccts);
                     }
                 }

@@ -16,7 +16,7 @@ double ccStratigraphicPositionableElement::getStratigraphicPosition()
 
 void ccStratigraphicPositionableElement::setStratigraphicPosition(const double sp)
 {
-    this->getSPCElement<spc::StratigraphicPositionableElement>()->setStratigraphicPosition(sp);
+    this->getSPCElement<spc::StratigraphicPositionableElement>()->setUserStratigraphicPosition(sp);
 }
 
 void ccStratigraphicPositionableElement::setManual(const bool status)

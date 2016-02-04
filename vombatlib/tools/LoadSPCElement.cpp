@@ -22,7 +22,7 @@
 #include <spc/elements/Sample.h>
 #include <spc/elements/TimeSeriesBase.h>
 
-
+#include <ccLinearGeologicalFeature.h>
 #include <spc/elements/StratigraphicConstrain.h>
 
 
@@ -99,6 +99,12 @@ ccHObject *LoadSPCElement::elementToCCHobject(ElementBase::Ptr el)
         spc::StratigraphicConstrain::Ptr ob= spcDynamicPointerCast<spc::StratigraphicConstrain>(el);
         newobj = new ccStratigraphicConstrain(ob);
     }
+
+    else if (el->isA(&spc::LinearGeologicalFeature::Type))
+    {
+        spc::LinearGeologicalFeature::Ptr ob= spcDynamicPointerCast<spc::LinearGeologicalFeature>(el);
+        newobj = new ccLinearGeologicalFeature(ob);
+    }
     else
     {
         LOG(WARNING) << "cannot transform the loaded spc element into something cloudcompare-comaptible. plase provide the implementation here.";
@@ -108,7 +114,7 @@ ccHObject *LoadSPCElement::elementToCCHobject(ElementBase::Ptr el)
 
 
 
-    LOG(INFO) << "new object created.";
+//    LOG(INFO) << "new object created.";
 
     return newobj;
 }

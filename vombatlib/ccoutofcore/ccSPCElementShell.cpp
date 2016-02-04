@@ -156,6 +156,7 @@ void ccSPCElementShell::detachChild(ccHObject *child)
 void ccSPCElementShell::setName(const QString &name)
 {
     ccObject::setName(name);
+    QObject::setObjectName(name);
     this->getSPCElement()->setElementName(name.toStdString());
 
 }

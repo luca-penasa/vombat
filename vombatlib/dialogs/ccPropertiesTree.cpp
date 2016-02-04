@@ -214,7 +214,7 @@ void ccPropertiesTree::setPropertyToStratigraphicPositionableElement(    QtVaria
             el->setManual(var_p->value().toBool());
 
         else if (var_p->propertyName() == "Stratigraphic Position" && el->getManual())
-            el->setStratigraphicPosition(var_p->value().toDouble());
+            el->setUserStratigraphicPosition(var_p->value().toDouble());
 
      }
 

@@ -86,24 +86,13 @@ void ccLinearGeologicalFeature::drawStratPos(CC_DRAW_CONTEXT& context)
     //    // draw their name
     //	glPushAttrib(GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
-
-    QString name = QString::number(getSPCElement<spc::LinearGeologicalFeature>()->getStratigraphicPosition(), 'g', 3);
+    float sp = getSPCElement<spc::LinearGeologicalFeature>()->getStratigraphicPosition();
+//    LOG(INFO) << sp;
+    QString name = QString::number(sp, 'g', 3);
 
     context._win->display3DLabel(name,
         CCVector3(getSPCElement<spc::LinearGeologicalFeature>()->getPolyline().getPoint(0).data()),
         ccColor::red.rgba, font);
-
-    //    CCVector3 p (x,y,z);
-    //    QString title = (getName());
-    //    context._win->display3DLabel(	title,
-    //                                    p + CCVector3(
-    // context.pickedPointsTextShift,
-    //                                                    context.pickedPointsTextShift,
-    //                                                    context.pickedPointsTextShift),
-    //                                    ccColor::magenta,
-    //                                    font );
-
-    //	glPopAttrib();
 }
 
 
