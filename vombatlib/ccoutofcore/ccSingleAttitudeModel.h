@@ -34,6 +34,10 @@ public:
     Q_PROPERTY(double MaxSp READ getMaxSp WRITE setMaxSp)
     Q_PROPERTY(double Step READ getStep WRITE setStep)
     Q_PROPERTY(double StratigraphicShift READ getStratigraphicShift WRITE setStratigraphicShift)
+    Q_PROPERTY(double ElasticParameter READ getElasticParameter WRITE setElasticParameter)
+    Q_PROPERTY(bool Elastic READ getIsElastic WRITE setIsElastic)
+    Q_PROPERTY(bool Freezed READ getIsFreezed WRITE setIsFreezed)
+
 
     Q_PROPERTY(int LineWidth READ getLineWidth WRITE setLineWidth)
 
@@ -72,9 +76,17 @@ public:
 
 
     double getStratigraphicShift() const;
-
-
     void setStratigraphicShift(const double shift);
+
+    double getElasticParameter( ) const;
+    void setElasticParameter(const double & elastic);
+
+
+    void setIsElastic(const bool & status);
+    bool getIsElastic() const;
+
+    void setIsFreezed(const bool & status);
+    bool getIsFreezed( ) const;
 
 
 public slots:

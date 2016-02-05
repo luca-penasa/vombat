@@ -277,3 +277,34 @@ void ccSingleAttitudeModel::initEditDlg()
 {
     m_edit_dlg = new ccSingleAttitudeModelEditorDlg(this);
 }
+
+double ccSingleAttitudeModel::getElasticParameter() const
+{
+    return this->getModel()->getElasticParameter();
+
+}
+
+void ccSingleAttitudeModel::setElasticParameter(const double &elastic)
+{
+    this->getModel()->setElasticParameter(elastic);
+}
+
+void ccSingleAttitudeModel::setIsElastic(const bool &status)
+{
+    this->getModel()->setIsElastic(status);
+}
+
+bool ccSingleAttitudeModel::getIsElastic() const
+{
+    return this->getModel()->getIsElastic();
+}
+
+void ccSingleAttitudeModel::setIsFreezed(const bool &status)
+{
+    this->getModel()->setIsFreezed(status);
+}
+
+bool ccSingleAttitudeModel::getIsFreezed() const
+{
+    return this->getModel()->getIsFreezed();
+}

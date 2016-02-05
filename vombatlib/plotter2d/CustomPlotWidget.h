@@ -20,6 +20,11 @@ public:
 	//! is this object yet present in some way?
 	bool isYetPlotted(ccHObject *ser);
 
+    ccHObject * layerableToObject(QCPLayerable *layerable) const ;
+
+
+
+
 
 signals:
     /// every time a ts is plottet this will be emitted
@@ -28,6 +33,7 @@ signals:
     void activated(CustomPlotWidget *plot);
 
     void closed(CustomPlotWidget *plot);
+
 
 public
 slots:

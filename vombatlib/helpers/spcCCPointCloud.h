@@ -56,9 +56,9 @@ public:
              // now we need to know is its s spc-base object
              ccSPCElementShell * shell  = dynamic_cast<ccSPCElementShell *> (child);
 
-             LOG(INFO)<< "PTR " << shell->getSPCElement()->getPtr();
+//             LOG(INFO)<< "PTR " << shell->getSPCElement()->getPtr();
 
-            LOG(INFO)<< "PTR " << out->getPtr();
+//            LOG(INFO)<< "PTR " << out->getPtr();
 
 
              if (shell)

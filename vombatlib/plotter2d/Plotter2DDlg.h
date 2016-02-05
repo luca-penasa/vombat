@@ -11,8 +11,8 @@ class ccSample;
 #include <QMainWindow>
 #include <QMdiSubWindow>
 
-
-
+#include <GenericFilterQt.h>
+#include <ccHObject.h>
 namespace Ui
 {
 class maindialog;
@@ -57,9 +57,21 @@ public slots:
 
 	QList<QObject *> getCurrentlySelectedObjects();
 
+    QList<ccHObject *> getCurrentlySelectedCCHObjects();
+
     void clearCurrentPlot();
 
     void selectionChanged();
+
+    void updateActiveFilters();
+
+    void addFilter(GenericFilterQt * filter);
+
+    void updatedSelectionInFilters();
+
+    void setActiveFilter(GenericFilterQt * f);
+
+    void showFilterOptions();
 
 //    void updateProperties(QList<QCPGraph *> graph);
 
@@ -74,6 +86,8 @@ private slots:
 protected:
     Ui::maindialog * ui;
 
+    std::vector<GenericFilterQt *> filters_;
+
 //    PropertyBrowser *m_browser;
 
     CustomPlotWidget * m_last_plot;
@@ -82,7 +96,9 @@ protected:
 //	QtVariantPropertyManager *m_manager;
 
 
+    GenericFilterQt * active_filter_ = nullptr;
 
+    QMap<GenericFilterQt *, QAction *> filters_to_actions;
 };
 
 

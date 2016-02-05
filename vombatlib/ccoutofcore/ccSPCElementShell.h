@@ -24,6 +24,8 @@ class ccSPCElementShell : public ccEditableHObject, public ccCustomHObject {
 public:
     ccSPCElementShell(spc::ElementBasePtr el, const QString& name = QString(""));
 
+    ~ccSPCElementShell();
+
     void updateCcDataFromSpc();
 
     spc::ElementBasePtr getSPCElement() const;

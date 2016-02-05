@@ -12,6 +12,7 @@
 
 #include <QToolBar>
 #include <QDockWidget>
+#include <spc/methods/TimeSeriesBandPassFilter.h>
 
 Q_DECLARE_METATYPE(QCPScatterStyle)
 
@@ -30,24 +31,30 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent)
     // SLOT(setSelected(CustomPlotWidget*)));
 
     // properties brower
-//	m_manager = new QtVariantPropertyManager(this);
+    //	m_manager = new QtVariantPropertyManager(this);
 
-//	connect(m_manager,
-//            SIGNAL(valueChanged(QtProperty *, const QVariant &)), this,
-//            SLOT(valueChanged(QtProperty *, const QVariant &)));
+    //	connect(m_manager,
+    //            SIGNAL(valueChanged(QtProperty *, const QVariant &)), this,
+    //            SLOT(valueChanged(QtProperty *, const QVariant &)));
 
 
     QDockWidget *dock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
 
-	PropertyBrowser *browser = new PropertyBrowser(dock);
-	m_browser = browser;
-	dock->setWidget(m_browser);
+    PropertyBrowser *browser = new PropertyBrowser(dock);
+    m_browser = browser;
+    dock->setWidget(m_browser);
+
+    spc::TimeSeriesBandPassFilter::Ptr  bandpass (new spc::TimeSeriesBandPassFilter);
+    GenericFilterQt * f =new GenericFilterQt(bandpass, this);
+    this->addFilter(f);
+
+    LOG(INFO) << "added bandpass filter " ;
 
 
-//	QtVariantEditorFactory *factory = new QtVariantEditorFactory(this);
-//	m_browser->setFactoryForManager(m_manager, factory);
+    //	QtVariantEditorFactory *factory = new QtVariantEditorFactory(this);
+    //	m_browser->setFactoryForManager(m_manager, factory);
 
 
 
@@ -80,7 +87,7 @@ CustomPlotWidget *Plotter2DDlg::addNewPlot()
 
 void Plotter2DDlg::handleNewSeries(ccTimeSeries *serie)
 {
-	getCurrentPlotWidget()->addSeries(serie);
+    getCurrentPlotWidget()->addSeries(serie);
 }
 
 void Plotter2DDlg::selected(CustomPlotWidget *plot)
@@ -92,36 +99,60 @@ void Plotter2DDlg::selected(CustomPlotWidget *plot)
 QList<QObject *> Plotter2DDlg::getCurrentlySelectedObjects()
 {
 
-	if (m_last_plot == NULL)
-		return QList<QObject *> (); // empty list
+    if (m_last_plot == NULL)
+        return QList<QObject *> (); // empty list
 
-	QList<QObject *> obj_list;
+    QList<QObject *> obj_list;
 
-	QList<QCPAxis * >sel_axis = m_last_plot->selectedAxes();
-	QList<QCPAbstractItem * > items = m_last_plot->selectedItems();
-	QList<QCPLegend *> legends = m_last_plot->selectedLegends();
-	QList<QCPGraph *> graphs = m_last_plot->selectedGraphs();
-	QList<QCPAbstractPlottable *> plottables = m_last_plot->selectedPlottables();
+    QList<QCPAxis * >sel_axis = m_last_plot->selectedAxes();
+    QList<QCPGraph *> graphs = m_last_plot->selectedGraphs();
+    QList<QCPAbstractItem *> items = m_last_plot->selectedItems();
 
-
-	for (QObject * ob: sel_axis)
-		obj_list.append(ob);
-
-	for (QObject * ob: items)
-		obj_list.append(ob);
-
-	for (QObject * ob: legends)
-		obj_list.append(ob);
-
-	for (QObject * ob: graphs)
-		obj_list.append(ob);
-
-	for (QObject * ob: plottables)
-		obj_list.append(ob);
+    QList<QCPLegend *> legends = m_last_plot->selectedLegends();
+    QList<QCPAbstractPlottable *> plottables = m_last_plot->selectedPlottables();
 
 
+    for (QObject * ob: sel_axis)
+        obj_list.append(ob);
 
-	return obj_list;
+    for (QObject * ob: items)
+        obj_list.append(ob);
+
+    for (QObject * ob: legends)
+        obj_list.append(ob);
+
+    for (QObject * ob: graphs)
+        obj_list.append(ob);
+
+    for (QObject * ob: plottables)
+        obj_list.append(ob);
+
+    return obj_list;
+}
+
+QList<ccHObject *> Plotter2DDlg::getCurrentlySelectedCCHObjects()
+{
+
+    QList<ccHObject *> out;
+    QList<QObject *> obj_list = getCurrentlySelectedObjects();
+
+    QList<QCPLayerable *> asl;
+    for (auto i: obj_list)
+    {
+        QCPLayerable * l = dynamic_cast<QCPLayerable *> (i);
+
+        if (l)
+        {
+            ccHObject * o = m_last_plot->layerableToObject(l);
+            if (o)
+            {
+                out.push_back(o);
+            }
+        }
+    }
+
+    return out;
+
 }
 
 void Plotter2DDlg::clearCurrentPlot()
@@ -133,13 +164,105 @@ void Plotter2DDlg::clearCurrentPlot()
 
 void Plotter2DDlg::selectionChanged()
 {
-	QList<QObject *> selected = getCurrentlySelectedObjects();
-	if (selected.size() > 0)
-		m_browser->setObject(selected.at(0));
-	else
-		m_browser->setObject(NULL);
+    QList<QObject *> selected = getCurrentlySelectedObjects();
+    if (selected.size() > 0)
+        m_browser->setObject(selected.at(0));
+    else
+        m_browser->setObject(NULL);
 
-	LOG(INFO) << "selection changed";
+    LOG(INFO) << "selection changed";
+
+
+    updatedSelectionInFilters();
+
+
+    updateActiveFilters();
+}
+
+void Plotter2DDlg::updateActiveFilters()
+{
+
+    LOG(INFO) << "Updating active filters";
+
+    for (GenericFilterQt * f: filters_)
+    {
+        if (f->canCompute())
+        {
+            LOG(INFO) << "enabling";
+            filters_to_actions[f]->setEnabled(true);
+        }
+        else
+        {
+            LOG(INFO) << "disabling";
+            filters_to_actions[f]->setEnabled(false);
+        }
+
+    }
+
+    LOG(INFO) << "done";
+}
+
+void Plotter2DDlg::addFilter(GenericFilterQt *filter)
+{
+
+    if(std::find(filters_.begin(), filters_.end(), filter) != filters_.end())
+        return;
+
+    QAction * action = new QAction(this);
+    action->setText(filter->getFilterName());
+
+    this->ui->toolBar->addAction(action);
+
+
+    connect(filter, SIGNAL(activated(GenericFilterQt *)), this, SLOT(setActiveFilter(GenericFilterQt *)));
+
+    // connect this  action with
+    connect(action, SIGNAL(triggered(bool)), filter, SLOT(activate(bool)));
+
+    connect (this, SIGNAL(selectionChanged), this, SLOT(updatedSelectionInFilters));
+
+    filters_to_actions[filter] = action;
+
+    filters_.push_back(filter);
+
+}
+
+void Plotter2DDlg::updatedSelectionInFilters()
+{
+
+    LOG(INFO) << "Updating the selection in filters";
+    QList<ccHObject *> list = getCurrentlySelectedCCHObjects();
+
+    QList<QObject *> good;
+
+    for (ccHObject * obj: list)
+    {
+        QObject * asqobj = dynamic_cast<QObject *> (obj);
+        if (asqobj)
+            good.push_back(asqobj);
+    }
+
+    for (GenericFilterQt * f: filters_)
+        f->setCurrentSelection(good);
+}
+
+void Plotter2DDlg::setActiveFilter(GenericFilterQt * f)
+{
+
+    LOG(INFO) << "setting active filter " << f;
+    active_filter_ = f;
+
+
+    this->showFilterOptions();
+
+}
+
+
+
+void Plotter2DDlg::showFilterOptions()
+{
+    if (active_filter_)
+        m_browser->setObject(active_filter_);
 }
 
 
@@ -286,10 +409,10 @@ void Plotter2DDlg::itemClicked(ccTimeSeries *item)
 
 CustomPlotWidget *Plotter2DDlg::getCurrentPlotWidget()
 {
-	DLOG(INFO) <<"last plot:" << m_last_plot;
+    DLOG(INFO) <<"last plot:" << m_last_plot;
 
     if (!m_last_plot) {
-		DLOG(WARNING) << "last plot not present , adding one";
+        DLOG(WARNING) << "last plot not present , adding one";
         CustomPlotWidget *plot = this->addNewPlot();
         return plot;
     }
@@ -300,8 +423,8 @@ CustomPlotWidget *Plotter2DDlg::getCurrentPlotWidget()
 
 void Plotter2DDlg::handleNewSample(ccSample *sample)
 {
-	DLOG(INFO) << "Handling new sample";
-	getCurrentPlotWidget()->addSample(sample);
+    DLOG(INFO) << "Handling new sample";
+    getCurrentPlotWidget()->addSample(sample);
 
 
 

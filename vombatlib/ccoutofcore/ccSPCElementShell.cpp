@@ -44,6 +44,18 @@ ccSPCElementShell::ccSPCElementShell(ElementBase::Ptr el, const QString &name): 
     DLOG(INFO) << "ccSPCElementShell correctly initialized";
 }
 
+ccSPCElementShell::~ccSPCElementShell()
+{
+
+//    ccHObject * par = this->getParent();
+//    if (par)
+//        par->removeChild(this);
+
+//    ccCustomHObject::~ccCustomHObject();
+
+
+}
+
 void ccSPCElementShell::updateCcDataFromSpc()
 {
     // force the name to match the one in the element

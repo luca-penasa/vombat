@@ -17,7 +17,17 @@ CustomPlotWidget::~CustomPlotWidget()
 
 bool CustomPlotWidget::isYetPlotted(ccHObject *ser)
 {
-	return (cc_to_layerable_.find(ser) != cc_to_layerable_.end());
+    return (cc_to_layerable_.find(ser) != cc_to_layerable_.end());
+}
+
+ccHObject *CustomPlotWidget::layerableToObject(QCPLayerable * layerable) const
+{
+    if (layerable_to_cc_.find(layerable) != layerable_to_cc_.end())
+        return layerable_to_cc_[layerable];
+    else
+    {
+        LOG(INFO) << "cannot find the right object for this ayerable";
+    }
 }
 
 
