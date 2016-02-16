@@ -125,6 +125,7 @@ int AutoComputeTimeSeries::compute()
                         ccts->setName(cloud->getName());
 
                         sel->addChild(ccts);
+                        LOG(INFO) << "CALLING NEWENTITY!!!";
 
                         newEntity(ccts);
                     }

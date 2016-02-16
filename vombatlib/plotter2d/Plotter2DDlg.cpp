@@ -47,7 +47,7 @@ Plotter2DDlg::Plotter2DDlg(QWidget *parent)
     dock->setWidget(m_browser);
 
     spc::TimeSeriesBandPassFilter::Ptr  bandpass (new spc::TimeSeriesBandPassFilter);
-    GenericFilterQt * f =new GenericFilterQt(bandpass, this);
+    GenericFilterQt * f =new GFBandpass(bandpass, this);
     this->addFilter(f);
 
     LOG(INFO) << "added bandpass filter " ;

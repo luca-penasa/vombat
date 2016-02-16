@@ -4,6 +4,8 @@
 #include <ccTimeSeries.h>
 #include <spc/elements/TimeSeriesEquallySpaced.h>
 
+#include <spc/methods/TimeSeriesBandPassFilter.h>
+
 #include <vombat.h>
 GenericFilterQt::GenericFilterQt(spc::GenericFilter::Ptr filter, QObject *parent): QObject(parent), filter_(filter)
 {
@@ -83,3 +85,30 @@ bool GenericFilterQt::canCompute()
     return filter_->canCompute();
 }
 
+
+spc::TimeSeriesBandPassFilter::Ptr GFBandpass::getBandpassFilter() const
+{
+    spc::TimeSeriesBandPassFilter::Ptr ptr = spcDynamicPointerCast<spc::TimeSeriesBandPassFilter> (filter_);
+    return ptr;
+}
+
+double GFBandpass::getLowFreq() const
+{
+    spc::TimeSeriesBandPassFilter::Ptr ptr = this->getBandpassFilter();
+    return  ptr->getLowFrequency();
+}
+
+void GFBandpass::setLowFreq(const double f)
+{
+    this->getBandpassFilter()->setLowFrequency(f);
+}
+
+double GFBandpass::getHighFreq() const
+{
+    return this->getBandpassFilter()->getHighFrequency();
+}
+
+void GFBandpass::setHighFreq(const double f)
+{
+    this->getBandpassFilter()->setHighFrequency(f);
+}

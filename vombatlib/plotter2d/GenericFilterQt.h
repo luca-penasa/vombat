@@ -4,6 +4,7 @@
 
 #include <QObject>
 #include <spc/methods/GenericFilter.h>
+#include <spc/methods/TimeSeriesBandPassFilter.h>
 
 class GenericFilterQt: public QObject
 {
@@ -57,5 +58,68 @@ protected:
 
     QList<QObject * > current_selection;
 };
+
+
+class GFBandpass: public GenericFilterQt
+{
+    Q_OBJECT
+
+    Q_PROPERTY(double LowFreq READ getLowFreq WRITE setLowFreq)
+
+    Q_PROPERTY(double HighFreq READ getHighFreq WRITE setHighFreq)
+
+        Q_PROPERTY(double LongPeriod READ getLongerPeriod WRITE setLongerPeriod)
+
+        Q_PROPERTY(double ShortPeriod READ getShorterPeriod WRITE setShorterPeriod)
+public:
+
+     GFBandpass(spc::GenericFilter::Ptr filter, QObject * parent = nullptr): GenericFilterQt(filter, parent)
+     {
+     }
+
+
+    spc::TimeSeriesBandPassFilter::Ptr getBandpassFilter() const;
+
+
+    double getLowFreq() const;
+
+    void setLowFreq(const double f);
+
+
+    double getHighFreq() const;
+
+    void setHighFreq(const double f);
+
+
+    double getLongerPeriod() const
+    {
+        return 1/getLowFreq();
+    }
+
+    void setLongerPeriod (const double p)
+    {
+        setLowFreq(1/p);
+    }
+
+    double getShorterPeriod() const
+    {
+        return 1/getHighFreq();
+    }
+
+    void setShorterPeriod (const double p)
+    {
+        setHighFreq(1/p);
+    }
+
+
+
+
+
+
+
+
+
+};
+
 
 #endif // GENERICFILTERQT_H
