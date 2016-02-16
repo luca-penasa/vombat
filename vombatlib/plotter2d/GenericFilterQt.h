@@ -40,8 +40,9 @@ public slots:
 
     void setCompute( const bool & status)
     {
-        compute_ = true;
-        emit doCompute();
+        compute_ = status;
+        if (status)
+            emit doCompute();
     }
 
 
