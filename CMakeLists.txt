@@ -11,20 +11,16 @@ if (INSTALL_vombat_PLUGIN)
 
     include(cmake/macros.cmake) # load some macros
 
-    if(USE_QT5)
+
         add_subdirectory(external/qtpropertybrowser_qt5)
         include_directories("external/qtpropertybrowser_qt5")
-    else()
-        add_subdirectory(external/qtpropertybrowser_qt4)
-        include_directories("external/qtpropertybrowser_qt4")
-    endif()
 
     include_directories("external/qtpropertybrowser")
 
-    if(USE_QT5)
-        find_package(Qt5Widgets)
-        include_directories(${Qt5Widgets_INCLUDE_DIRS})
-    endif()
+ #   if(USE_QT5)
+ #       find_package(Qt5Widgets)
+ #       include_directories(${Qt5Widgets_INCLUDE_DIRS})
+ #   endif()
 
 
     include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -62,7 +58,7 @@ if (INSTALL_vombat_PLUGIN)
 
     #################### SPC ###########################################
     #it also automatically find PCL and other required libraries
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} (cmake))
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "cmake")
 
     find_package(SPC 0.1.0 REQUIRED)
     include_directories(${SPC_INCLUDE_DIRS})

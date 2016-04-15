@@ -93,6 +93,8 @@ void ccLinearGeologicalFeature::drawStratPos(CC_DRAW_CONTEXT& context)
     context._win->display3DLabel(name,
         CCVector3(getSPCElement<spc::LinearGeologicalFeature>()->getPolyline().getPoint(0).data()),
         ccColor::red.rgba, font);
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 
@@ -109,6 +111,10 @@ void ccLinearGeologicalFeature::drawMeOnly(CC_DRAW_CONTEXT& context)
         return;
 
     if (MACRO_Draw3D(context)) {
+
+        QOpenGLFunctions_2_1 *glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+        assert( glFunc != nullptr );
+
         bool pushName = MACRO_DrawEntityNames(context);
         if (pushName) {
             // not particularily fast
@@ -180,7 +186,7 @@ void ccLinearGeologicalFeature::drawMeOnly(CC_DRAW_CONTEXT& context)
         glBegin(GL_LINE_STRIP);
         for (int i = 0; i < this->getSPCElement<spc::LinearGeologicalFeature>()->getPolyline().getNumberOfPoints(); ++i) {
             Eigen::Vector3f point = this->getSPCElement<spc::LinearGeologicalFeature>()->getPolyline().getPoint(i);
-            ccGL::Vertex3v(point.data());
+            ccGL::Vertex3v(glFunc, point.data());
         }
         glEnd();
 

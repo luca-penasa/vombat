@@ -270,7 +270,7 @@ vombat::getAllObjectsInTreeThatAre(CC_CLASS_ENUM ThisType) {
 ccHObject::Container vombat::getAllDirectChildrenOfType(const int parent_id,
                                                     CC_CLASS_ENUM ThisType)
 {
-    ccHObject * parent = this->getMainAppInterface()->db()->find(parent_id);
+    ccHObject * parent = this->getMainAppInterface()->dbRootObject()->find(parent_id);
 
 
 

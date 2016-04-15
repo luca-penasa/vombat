@@ -135,6 +135,10 @@ void ccPlanarSelection::drawMeOnly(CC_DRAW_CONTEXT &context)
 
     if (MACRO_Draw3D(context))
     {
+
+        QOpenGLFunctions_2_1 *glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+        assert( glFunc != nullptr );
+
         bool pushName = MACRO_DrawEntityNames(context);
 
         if (pushName)
@@ -175,7 +179,10 @@ void ccPlanarSelection::drawMeOnly(CC_DRAW_CONTEXT &context)
                     Eigen::Vector3f p = getRubberband()->getVertices().getPoint(i);
                     Eigen::Vector3f projected_p  = getRubberband()->getProjectionPlane()->projectPointOnPlane(p) + n;
 
-                    ccGL::Vertex3v( projected_p .data() );
+
+
+
+                    ccGL::Vertex3v(glFunc, projected_p.data() );
                 }
                 glEnd();
             }
@@ -194,8 +201,11 @@ void ccPlanarSelection::drawMeOnly(CC_DRAW_CONTEXT &context)
             Eigen::Vector3f p1 = projected_p + in;
             Eigen::Vector3f p2 = projected_p - in;
             //            LOG(INFO) << getRubberband()->getVertices().getPoint(i).transpose();
-            ccGL::Vertex3v(p1.data());
-            ccGL::Vertex3v(p2.data());
+            ccGL::Vertex3v(glFunc, p1.data() );
+            ccGL::Vertex3v(glFunc, p2.data() );
+
+//            ccGL::Vertex3v();
+//            ccGL::Vertex3v(p2.data());
         }
         glEnd();
 

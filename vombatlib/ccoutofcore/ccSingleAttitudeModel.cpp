@@ -12,6 +12,8 @@
 
 void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 {
+    QOpenGLFunctions_2_1 *glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+    assert( glFunc != nullptr );
 
     // force recomputatio when stratigraphic shift changes
     if (this->getModel()->getStratigraphicShift() != m_current_shift)
@@ -31,33 +33,34 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
             //not particulary fast
             if (MACRO_DrawFastNamesOnly(context))
                 return;
-            glPushName(getUniqueID());
+
+            glFunc->glPushName(getUniqueID());
         }
 
 
-        glPushAttrib(GL_LINE_BIT);
-        glLineWidth(m_line_width);
+        glFunc->glPushAttrib(GL_LINE_BIT);
+        glFunc->glLineWidth(m_line_width);
 
 
         //we draw the segments
         if (isSelected())
-            glColor3ubv(ccColor::red.rgba);
+            glFunc->glColor3ubv(ccColor::red.rgba);
         else
-            glColor3ubv(ccColor::blue.rgba);
+            glFunc->glColor3ubv(ccColor::blue.rgba);
 
         Eigen::Vector3f start = getModel()->getPointAtStratigraphicPosition(m_min_sp);
         Eigen::Vector3f end = getModel()->getPointAtStratigraphicPosition(m_max_sp);
 
 
-        glBegin(GL_LINES);
+        glFunc->glBegin(GL_LINES);
 
-        glVertex3fv( start.data() );
-        glVertex3fv( end.data() );
+        glFunc->glVertex3fv( start.data() );
+        glFunc->glVertex3fv( end.data() );
 
 
-        glEnd();
+        glFunc->glEnd();
 
-        glPopAttrib();
+        glFunc->glPopAttrib();
 
 
 
@@ -65,43 +68,49 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
         drawMajorThicksText(context);
 
         if (pushName)
-            glPopName();
+            glFunc->glPopName();
     }
 
 }
 
 void ccSingleAttitudeModel::drawMajorThicks(CC_DRAW_CONTEXT &context)
 {
+    QOpenGLFunctions_2_1 *glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+    assert( glFunc != nullptr );
 
-    glPushAttrib(GL_LINE_BIT);
-    glLineWidth(m_line_width);
+    glFunc->glPushAttrib(GL_LINE_BIT);
+    glFunc->glLineWidth(m_line_width);
 
     //we draw the segments
     if (isSelected())
-        glColor3ubv(ccColor::red.rgba);
+        glFunc->glColor3ubv(ccColor::red.rgba);
     else
-        glColor3ubv(ccColor::blue.rgba);
+        glFunc->glColor3ubv(ccColor::blue.rgba);
 
 
-    glBegin(GL_LINES);
+    glFunc->glBegin(GL_LINES);
 
     for (int i = 0 ; i < m_major_thicks_positions.size(); ++i)
     {
         Eigen::Vector3f pos = m_major_thicks_positions.at(i);
         Eigen::Vector3f end = pos + m_major_thicks_vector;
-        glVertex3fv( pos.data() );
-        glVertex3fv( end.data() );
+        glFunc->glVertex3fv( pos.data() );
+        glFunc->glVertex3fv( end.data() );
     }
 
 
-    glEnd();
-    glPopAttrib();
+    glFunc->glEnd();
+    glFunc->glPopAttrib();
 
 
 }
 
 void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 {
+
+    QOpenGLFunctions_2_1 *glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+    assert( glFunc != nullptr );
+
     for (int i = 0; i < m_breaks.size(); i++)
     {
         float val = m_breaks.at(i);

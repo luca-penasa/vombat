@@ -44,7 +44,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 #include_directories(${CMAKE_CURRENT_BINARY_DIR}/visualization)
 #include_directories(${CMAKE_CURRENT_BINARY_DIR}/helpers)
 
-qt_wrap_ui( generated_ui_list ${ui_list} )
+qt5_wrap_ui( generated_ui_list ${ui_list} )
 
 add_library( ${PROJECT_NAME} STATIC ${header_list} ${source_list} ${impl_list} ${moc_list} ${generated_ui_list} )
 
@@ -68,11 +68,9 @@ endif()
 link_directories( ${PCL_LIBRARY_DIRS} )
 add_definitions( ${PCL_DEFINITIONS} )
 
-if (USE_QT5)
+
     target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::PrintSupport )
-else()
-    target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser )
-endif()
+
 
 
 target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
