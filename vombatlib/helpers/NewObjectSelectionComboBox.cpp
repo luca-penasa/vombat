@@ -7,7 +7,7 @@
 NewObjectSelectionComboBox::NewObjectSelectionComboBox(QWidget *parent) : QComboBox(parent)
 {
     connect(vombat::theInstance(), SIGNAL(selectionChanged(ccHObject::Container&)), this, SLOT(selectionChanged(ccHObject::Container&)));
-    connect(vombat::theInstance()->getMainAppInterface()->db(), SIGNAL(elementAddedRemoved()), this, SLOT(updateItems()));
+//    connect(vombat::theInstance()->getMainAppInterface()->db(), SIGNAL(elementAddedRemoved()), this, SLOT(updateItems()));
 
 
 }
@@ -33,7 +33,7 @@ ccHObject *NewObjectSelectionComboBox::getSelectedObject()
 
     LOG(INFO) << "looking for the id " << id;
 
-    ccHObject * obj = vombat::theInstance()->getMainAppInterface()->db()->find(id);
+    ccHObject * obj = vombat::theInstance()->getMainAppInterface()->dbRootObject()->find(id);
 
 
 

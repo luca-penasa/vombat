@@ -110,7 +110,7 @@ ccHObject *CropperDlg::comboToObject(const QComboBox *combo)
 
     LOG(INFO) << "unique id of selected:  "<<  id;
 
-    ccHObject * obj = vombat::theInstance()->getMainAppInterface()->db()->find(id);
+    ccHObject * obj = vombat::theInstance()->getMainAppInterface()->dbRootObject()->find(id);
 
     if (obj)
     {

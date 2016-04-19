@@ -128,10 +128,15 @@ void ccStratigraphicConstrain::drawMeOnly(CC_DRAW_CONTEXT& context)
 
         glEnable(GL_LINE_STIPPLE);
 
+        QOpenGLFunctions_2_1 *glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+        assert( glFunc != nullptr );
+
         glBegin(GL_LINE_STRIP);
         for (int i = 0; i < this->getSPCElement<spc::StratigraphicConstrain>()->getNumberOfConstrains(); ++i) {
             Eigen::Vector3f point = this->getSPCElement<spc::StratigraphicConstrain>()->getPolyLineRep().getPoint(i);
-            ccGL::Vertex3v(point.data());
+//            ccGL::Vertex3v(glFunc, );
+
+            glFunc->glVertex3fv(point.data());
         }
         glEnd();
 

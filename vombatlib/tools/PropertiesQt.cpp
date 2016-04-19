@@ -59,12 +59,14 @@ void PropertiesQt::selected(const ccHObject::Container &objs)
     }
 
     QList<QObject *> mirrors;
-    for (int i = 1; i< objs.size(); ++i)
-    {
-        mirrors.append(objs.at(i));
-    }
 
-    m_propertyBrowser->setObject(objs.at(0), mirrors);
+    // \todo fix this;
+//    for (int i = 1; i< objs.size(); ++i)
+//    {
+//        mirrors.append(objs.at(i));
+//    }
+
+//    m_propertyBrowser->setObject(objs.at(0), mirrors);
 
     return;
 }

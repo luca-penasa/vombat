@@ -24,32 +24,42 @@ static QSharedPointer<ccSphere> c_unitPointMarker(0);
 
 void ccSample::drawStratPos(CC_DRAW_CONTEXT& context)
 {
-    QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
-    // account!
-    font.setPointSize(font.pointSize());
-    font.setBold(true);
+    if (MACRO_Draw3D(context)) {
 
-    //    // draw their name
-    //	glPushAttrib(GL_DEPTH_BUFFER_BIT);
-    glDisable(GL_DEPTH_TEST);
+        QOpenGLFunctions_2_1* glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+        assert(glFunc != nullptr);
 
-    QString name = QString::number(getSample()->getStratigraphicPosition(), 'g', 3);
+        QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+        // account!
+        font.setPointSize(font.pointSize());
+        font.setBold(true);
 
-    context._win->display3DLabel(name,
-        CCVector3(getSample()->getPosition().data()),
-        ccColor::red.rgba, font);
+        //    // draw their name
+        //	glPushAttrib(GL_DEPTH_BUFFER_BIT);
+        glFunc->glDisable(GL_DEPTH_TEST);
 
-    //    CCVector3 p (x,y,z);
-    //    QString title = (getName());
-    //    context._win->display3DLabel(	title,
-    //                                    p + CCVector3(
-    // context.pickedPointsTextShift,
-    //                                                    context.pickedPointsTextShift,
-    //                                                    context.pickedPointsTextShift),
-    //                                    ccColor::magenta,
-    //                                    font );
+        QString name = QString::number(getSample()->getStratigraphicPosition(), 'g', 3);
 
-    //	glPopAttrib();
+
+
+        context._win->display3DLabel(name,
+            CCVector3(getSample()->getPosition().data()),
+            ccColor::red.rgba, font);
+
+        //    CCVector3 p (x,y,z);
+        //    QString title = (getName());
+        //    context._win->display3DLabel(	title,
+        //                                    p + CCVector3(
+        // context.pickedPointsTextShift,
+        //                                                    context.pickedPointsTextShift,
+        //                                                    context.pickedPointsTextShift),
+        //                                    ccColor::magenta,
+        //                                    font );
+
+        //	glPopAttrib();
+
+        glFunc->glEnable(GL_DEPTH_TEST);
+    }
 }
 
 void ccSample::drawMeOnly(CC_DRAW_CONTEXT& context)
@@ -59,12 +69,15 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT& context)
         if (!this->getSample())
             return;
 
+        QOpenGLFunctions_2_1* glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
+        assert(glFunc != nullptr);
+
         bool pushName = MACRO_DrawEntityNames(context);
         if (pushName) {
             // not particularily fast
             if (MACRO_DrawFastNamesOnly(context))
                 return;
-            glPushName(getUniqueIDForDisplay());
+            glFunc->glPushName(getUniqueIDForDisplay());
         }
 
         if (!c_unitPointMarker) {
@@ -90,26 +103,29 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT& context)
             c_unitPointMarker->setRadius(m_radius_);
         }
 
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
+        glFunc->glMatrixMode(GL_MODELVIEW);
+        glFunc->glPushMatrix();
 
         float x, y, z;
         Eigen::Vector3f p = this->getSample()->getPosition();
         //    const CCVector3* P = m_points[i].cloud->getPoint(m_points[i].index);
-        ccGL::Translate(p(0),p(1),p(2));
-        glScalef(context.labelMarkerSize, context.labelMarkerSize,
+        //        ccGL::Translate();
+
+        glFunc->glTranslatef(p(0), p(1), p(2));
+
+        glFunc->glScalef(context.labelMarkerSize, context.labelMarkerSize,
             context.labelMarkerSize);
 
         m_current_scaling_ = context.labelMarkerSize;
 
         c_unitPointMarker->draw(markerContext);
 
-        glPopMatrix();
+        glFunc->glPopMatrix();
 
         drawStratPos(context);
 
         if (pushName)
-            glPopName();
+            glFunc->glPopName();
     }
 }
 
@@ -134,20 +150,20 @@ ccSample::ccSample()
 }
 
 ccSample::ccSample(const spc::Point3D& point)
-    :  ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample(point.getPosition())), point.getElementName().c_str())
+    : ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample(point.getPosition())), point.getElementName().c_str())
 {
     m_selectionBehavior = SELECTION_IGNORED;
 }
 
 ccSample::ccSample(const spc::Sample::Ptr sample)
-    :  ccStratigraphicPositionableElement(sample)
+    : ccStratigraphicPositionableElement(sample)
 {
     m_selectionBehavior = SELECTION_IGNORED;
 }
 
 ccSample::ccSample(const cc2DLabel* label)
     : m_radius_(1)
-    ,  ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample), label->getName())
+    , ccStratigraphicPositionableElement(spc::Sample::Ptr(new spc::Sample), label->getName())
 {
 
     cc2DLabel::PickedPoint picked_point
@@ -174,9 +190,6 @@ QIcon ccSample::getIcon() const
     else
         return QIcon(QString::fromUtf8(":/toolbar/icons/sample_locked.png"));
 }
-
-
-
 
 ccBBox ccSample::getMyOwnBB()
 {
