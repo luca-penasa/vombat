@@ -20,8 +20,11 @@ class DtiClassType;
 //! This grant consistency
 //! If you need to create objects which are not shells of any spc element just use a ccCustomHObject
 //! \note ccEditableHObject interface will be soon dropped
-class ccSPCElementShell : public ccEditableHObject, public ccCustomHObject {
+class ccSPCElementShell :public ccEditableHObject, public ccCustomHObject {
 public:
+
+//    Q_OBJECT
+
     ccSPCElementShell(spc::ElementBasePtr el, const QString& name = QString(""));
 
     ~ccSPCElementShell();

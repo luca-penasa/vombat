@@ -28,7 +28,7 @@ public:
 
 
 public slots:
-    void selected(const ccHObject::Container  &objs);
+    void selected(ccHObject::Container  &objs);
 
 
 private:

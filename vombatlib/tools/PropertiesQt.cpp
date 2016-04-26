@@ -48,7 +48,7 @@ int PropertiesQt::openOutputDialog()
     return 1;
 }
 
-void PropertiesQt::selected(const ccHObject::Container &objs)
+void PropertiesQt::selected(ccHObject::Container &objs)
 {
     LOG(INFO) << "called selected";
 
@@ -61,12 +61,20 @@ void PropertiesQt::selected(const ccHObject::Container &objs)
     QList<QObject *> mirrors;
 
     // \todo fix this;
-//    for (int i = 1; i< objs.size(); ++i)
-//    {
-//        mirrors.append(objs.at(i));
-//    }
+    for (int i = 1; i< objs.size(); ++i)
+    {
+        QObject * asqt = dynamic_cast<QObject*> (objs.at(i));
 
-//    m_propertyBrowser->setObject(objs.at(0), mirrors);
+        if (asqt)
+            mirrors.push_back(asqt);
+    }
+
+    if (mirrors.empty())
+        return;
+
+
+    LOG(INFO) << "setting new selection in properties qt";
+    m_propertyBrowser->setObject(mirrors.at(0), mirrors);
 
     return;
 }
