@@ -59,6 +59,7 @@ void PropertiesQt::selected(ccHObject::Container &objs)
     }
 
     QList<QObject *> mirrors;
+<<<<<<< HEAD
 
     // \todo fix this;
     for (int i = 1; i< objs.size(); ++i)
@@ -75,6 +76,16 @@ void PropertiesQt::selected(ccHObject::Container &objs)
 
     LOG(INFO) << "setting new selection in properties qt";
     m_propertyBrowser->setObject(mirrors.at(0), mirrors);
+=======
+
+    // \todo fix this;
+//    for (int i = 1; i< objs.size(); ++i)
+//    {
+//        mirrors.append(objs.at(i));
+//    }
+
+//    m_propertyBrowser->setObject(objs.at(0), mirrors);
+>>>>>>> 4d76e02bbef7b55ab45eecb6f21f51bddb697e21
 
     return;
 }
