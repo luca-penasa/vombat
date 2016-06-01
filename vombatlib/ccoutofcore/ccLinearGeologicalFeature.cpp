@@ -78,7 +78,7 @@ ccLinearGeologicalFeature *ccLinearGeologicalFeature::fromPointCloud(const CCLib
 
 void ccLinearGeologicalFeature::drawStratPos(CC_DRAW_CONTEXT& context)
 {
-    QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+    QFont font(context.display->getTextDisplayFont()); // takes rendering zoom into
     // account!
     font.setPointSize(font.pointSize());
     font.setBold(true);
@@ -90,7 +90,7 @@ void ccLinearGeologicalFeature::drawStratPos(CC_DRAW_CONTEXT& context)
 //    LOG(INFO) << sp;
     QString name = QString::number(sp, 'g', 3);
 
-    context._win->display3DLabel(name,
+    context.display->display3DLabel(name,
         CCVector3(getSPCElement<spc::LinearGeologicalFeature>()->getPolyline().getPoint(0).data()),
         ccColor::red.rgba, font);
 
@@ -140,7 +140,7 @@ void ccLinearGeologicalFeature::drawMeOnly(CC_DRAW_CONTEXT& context)
         //        markerContext.flags
         //                &= (~CC_DRAW_ENTITY_NAMES); // we must remove the 'push name flag' so
         //        // that the sphere doesn't push its own!
-        //        markerContext._win = 0;
+        //        markercontext.display = 0;
 
         //        if (isSelected() && !pushName)
         //            c_unitPointMarker->setTempColor(ccColor::green);

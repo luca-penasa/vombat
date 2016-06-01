@@ -13,7 +13,13 @@ spcFwdDeclSharedPtr(Attitude)
 /// \brief The ccAttitude class gives a qCC-valid representation of a geological attitude
 ///
 class ccAttitude : public ccSPCElementShell {
+
+    Q_OBJECT
 public:
+
+
+    Q_PROPERTY(bool ShowAttitudeString READ getShowAttitudeString WRITE setShowAttitudeString)
+
     ccAttitude();
 
     ccAttitude(CCVector3 center, CCVector3 orientation);
@@ -21,6 +27,18 @@ public:
     ccAttitude(const spc::Attitude& att);
 
     ccAttitude(spc::AttitudePtr att_ptr);
+
+    bool getShowAttitudeString() const
+    {
+        return showAttitudeTextString;
+    }
+
+
+    void setShowAttitudeString(const bool &val)
+    {
+        showAttitudeTextString = val;
+    }
+
 
     void flipNormal();
 
@@ -37,15 +55,9 @@ public:
     }
 
 public:
-    spc::AttitudePtr getAttitude() const
-    {
-        return m_attitude;
-    }
+	spc::AttitudePtr getAttitude() const;
 
-    void setAttitude(spc::AttitudePtr att)
-    {
-        m_attitude = att;
-    }
+	void setAttitude(spc::AttitudePtr att);
 
     void setAttitude(const spc::Attitude& att);
 
@@ -68,8 +80,10 @@ protected:
     float m_scale = 10;
     int m_width = 4;
 
+    bool showAttitudeTextString = false;
+
     /// the attitude itself
-    spc::AttitudePtr m_attitude;
+//    spc::AttitudePtr m_attitude;
 
 }; //end class
 

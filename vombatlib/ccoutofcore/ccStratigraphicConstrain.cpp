@@ -85,7 +85,7 @@ void ccStratigraphicConstrain::drawMeOnly(CC_DRAW_CONTEXT& context)
         //        markerContext.flags
         //                &= (~CC_DRAW_ENTITY_NAMES); // we must remove the 'push name flag' so
         //        // that the sphere doesn't push its own!
-        //        markerContext._win = 0;
+        //        markercontext.display = 0;
 
         //        if (isSelected() && !pushName)
         //            c_unitPointMarker->setTempColor(ccColor::green);

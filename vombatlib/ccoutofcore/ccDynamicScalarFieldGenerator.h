@@ -21,7 +21,7 @@
 
 class ccDynamicScalarFieldGenerator: public ccSPCElementShell
 {
-    Q_GADGET
+    Q_OBJECT
 
 public:
 

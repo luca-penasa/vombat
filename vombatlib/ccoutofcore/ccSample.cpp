@@ -29,7 +29,7 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT& context)
         QOpenGLFunctions_2_1* glFunc = context.glFunctions<QOpenGLFunctions_2_1>();
         assert(glFunc != nullptr);
 
-        QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+        QFont font(context.display->getTextDisplayFont()); // takes rendering zoom into
         // account!
         font.setPointSize(font.pointSize());
         font.setBold(true);
@@ -42,13 +42,13 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT& context)
 
 
 
-        context._win->display3DLabel(name,
+        context.display->display3DLabel(name,
             CCVector3(getSample()->getPosition().data()),
             ccColor::red.rgba, font);
 
         //    CCVector3 p (x,y,z);
         //    QString title = (getName());
-        //    context._win->display3DLabel(	title,
+        //    context.display->display3DLabel(	title,
         //                                    p + CCVector3(
         // context.pickedPointsTextShift,
         //                                                    context.pickedPointsTextShift,
@@ -89,10 +89,10 @@ void ccSample::drawMeOnly(CC_DRAW_CONTEXT& context)
 
         // build-up point maker own 'context'
         CC_DRAW_CONTEXT markerContext = context;
-        markerContext.flags
+        markerContext.drawingFlags
             &= (~CC_DRAW_ENTITY_NAMES); // we must remove the 'push name flag' so
         // that the sphere doesn't push its own!
-        markerContext._win = 0;
+        markerContext.display = nullptr;
 
         if (isSelected() && !pushName) {
             c_unitPointMarker->setTempColor(ccColor::red);

@@ -6,6 +6,8 @@ class QDialog;
 
 class ccEditableHObject
 {
+//    Q_GADGET
+
 public:
     ccEditableHObject();
 

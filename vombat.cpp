@@ -115,7 +115,7 @@ void vombat::getActions(QActionGroup &group) {
     //        addFilter(new LinkModelToRubberband(this));
 
     addFilter(new EvaluateDynamicScalarFieldGenerator(this));
-    addFilter(new Edit(this));
+//    addFilter(new Edit(this));
 
     //        addFilter(new OpenPlotsDialog(this));
 
@@ -143,12 +143,12 @@ void vombat::getActions(QActionGroup &group) {
     //        addFilter(new EvaluateStratigraphicPosition(this));
     //        addFilter(new Properties(this));
     addFilter(new CloudToPlanarSelection(this));
-    addFilter(new NewRoi(this));
+//    addFilter(new NewRoi(this));
 
 #ifdef SPC_WITH_PCL
     addFilter(new GaussianFilter(this));
 #endif
-    addFilter(new Properties(this));
+//    addFilter(new Properties(this));
     addFilter(new PropertiesQt(this));
     addFilter(new SaveSPCElement(this));
     addFilter(new LoadSPCElement(this));

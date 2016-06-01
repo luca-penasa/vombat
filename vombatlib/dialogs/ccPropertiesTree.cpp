@@ -25,6 +25,9 @@ ccPropertiesTree::ccPropertiesTree(QWidget *parent)
     QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory(this);
 
     ui->treeView->setFactoryForManager(variantManager, variantFactory);
+
+
+
 }
 
 ccPropertiesTree::~ccPropertiesTree()

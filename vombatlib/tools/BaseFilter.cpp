@@ -15,6 +15,8 @@
 //#                                                                        #
 //##########################################################################
 //
+
+#include <glog/logging.h>
 #include "BaseFilter.h"
 
 //qCC_db
@@ -76,6 +78,8 @@ void BaseFilter::updateSelectedEntities(const ccHObject::Container& selectedEnti
 
     if (m_action)
         m_action->setEnabled(checkSelected() == 1);
+
+//    DLOG(INFO) << "here plugin iface: selection changed, now we have " << m_selected.size() << " selected items";
 
     // emit selectionChanged signal
     emit selectionChanged(m_selected);

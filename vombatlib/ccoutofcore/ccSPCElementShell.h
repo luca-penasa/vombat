@@ -20,10 +20,11 @@ class DtiClassType;
 //! This grant consistency
 //! If you need to create objects which are not shells of any spc element just use a ccCustomHObject
 //! \note ccEditableHObject interface will be soon dropped
-class ccSPCElementShell :public ccEditableHObject, public ccCustomHObject {
+class ccSPCElementShell :public ccCustomHObject {
+        Q_OBJECT
 public:
 
-//    Q_OBJECT
+
 
     ccSPCElementShell(spc::ElementBasePtr el, const QString& name = QString(""));
 
@@ -43,6 +44,8 @@ public:
 
     // each derived object should implement one
     QString getSPCClassName() const;
+
+	void setSPCElement(spc::ElementBasePtr el);
 
 private:
     virtual void writeSPCClassNameToMetadata();
@@ -64,6 +67,8 @@ public:
     virtual void setName(const QString& name) override;
 
 private:
+
+	//! the wrapped SPC element
     spc::ElementBasePtr element_;
 
 protected:

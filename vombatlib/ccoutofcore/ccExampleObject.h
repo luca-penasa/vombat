@@ -106,7 +106,7 @@ protected:
         //            Vector3f strike_dir = pos + strike_v * m_scale * 0.5  * context.pickedPointsRadius;
         //            Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.pickedPointsRadius;
 
-        //            context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
+        //            context.display->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3(pos(0), pos(1), pos(2)), ccColor::red);
 
         //            glBegin(GL_LINES);
         //            glColor3ubv(ccColor::red);

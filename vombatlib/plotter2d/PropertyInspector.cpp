@@ -177,7 +177,7 @@ void PropertyBrowser::addClassProperties(const QMetaObject *metaObject) {
 
     if (!classProperty) // we need to create the subproperty
     {
-        LOG(WARNING) << "Null class property";
+        DLOG(WARNING) << "Null class property";
 
         QString className = QLatin1String(metaObject->className());
         classProperty = m_manager->addProperty(

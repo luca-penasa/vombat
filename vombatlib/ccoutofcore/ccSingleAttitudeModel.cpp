@@ -123,7 +123,7 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
         Vector3f end = pos + m_major_thicks_vector;
 
 
-        QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
+        QFont font(context.display->getTextDisplayFont()); // takes rendering zoom into
         // account!
         font.setPointSize(font.pointSize());
         font.setBold(true);
@@ -132,9 +132,9 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 
         glDisable(GL_DEPTH_TEST);
         if (isSelected())
-            context._win->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::red.rgba, font);
+            context.display->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::red.rgba, font);
         else
-            context._win->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::blue.rgba, font);
+            context.display->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::blue.rgba, font);
         glEnable(GL_DEPTH_TEST);
 
     }
@@ -145,7 +145,7 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 
 void ccSingleAttitudeModel::initParameters()
 {
-    setEditDlgsFreezesUi(false); //it have a non-modal edit dlg
+//    setEditDlgsFreezesUi(false); //it have a non-modal edit dlg
     m_min_sp =-10;
     m_max_sp = 10;
     m_step = 1;
@@ -282,10 +282,10 @@ void ccSingleAttitudeModel::setMinSp(float min_sp)
 }
 
 
-void ccSingleAttitudeModel::initEditDlg()
-{
-    m_edit_dlg = new ccSingleAttitudeModelEditorDlg(this);
-}
+//void ccSingleAttitudeModel::initEditDlg()
+//{
+//    m_edit_dlg = new ccSingleAttitudeModelEditorDlg(this);
+//}
 
 double ccSingleAttitudeModel::getElasticParameter() const
 {

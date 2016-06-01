@@ -143,7 +143,7 @@ protected:
 
     void initParameters();
 
-    virtual void initEditDlg();
+//    virtual void initEditDlg();
 
 
 

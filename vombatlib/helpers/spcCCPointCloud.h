@@ -38,12 +38,12 @@ public:
 
         if (!cloud)
         {
-            LOG(ERROR) << "Trying to create spcCCPointCloud from a null ptr";
+            DLOG(ERROR) << "Trying to create spcCCPointCloud from a null ptr";
             return nullptr;
         }
 
 
-        LOG(INFO) << "spcCCPointCloud constructor here";
+        DLOG(INFO) << "spcCCPointCloud constructor here";
         out->setInCloud( cloud );
 
         for (int i = 0 ; i < cloud->getChildrenNumber(); ++i)
@@ -51,32 +51,32 @@ public:
 
              ccHObject * child = cloud->getChild(i);
 
-             LOG(INFO) << "translating childs " << i << " " <<  child->getName().toStdString().c_str();
+             DLOG(INFO) << "translating childs " << i << " " <<  child->getName().toStdString().c_str();
 
              // now we need to know is its s spc-base object
              ccSPCElementShell * shell  = dynamic_cast<ccSPCElementShell *> (child);
 
-//             LOG(INFO)<< "PTR " << shell->getSPCElement()->getPtr();
+//             DLOG(INFO)<< "PTR " << shell->getSPCElement()->getPtr();
 
-//            LOG(INFO)<< "PTR " << out->getPtr();
+//            DLOG(INFO)<< "PTR " << out->getPtr();
 
 
              if (shell)
              {
-                 LOG(INFO) << "child was spc";
+                 DLOG(INFO) << "child was spc";
 
 
-                 LOG(INFO) << "element is " << shell->getSPCElement();
+                 DLOG(INFO) << "element is " << shell->getSPCElement();
                  out->addChild(shell->getSPCElement());
 
-                 LOG(INFO) << "child was sp";
+                 DLOG(INFO) << "child was sp";
              }
              else
              {
-                 LOG(INFO) << "child was NOT spc";
+                 DLOG(INFO) << "child was NOT spc";
              }
 
-             LOG(INFO) << "done " << i << " " <<  child->getName().toStdString().c_str();
+             DLOG(INFO) << "done " << i << " " <<  child->getName().toStdString().c_str();
 
         }
 

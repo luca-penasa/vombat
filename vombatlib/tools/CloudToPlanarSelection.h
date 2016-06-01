@@ -11,11 +11,11 @@ public:
     CloudToPlanarSelection(ccPluginInterface* parent_plugin = 0);
 
 protected:
-    virtual int compute();
+    virtual int compute() override;
 
-    virtual int openInputDialog();
+    virtual int openInputDialog() override;
 
-    virtual int checkParameters();
+    virtual int checkSelected() override;
 };
 
 #endif // DEFINE2DSELECTION_H

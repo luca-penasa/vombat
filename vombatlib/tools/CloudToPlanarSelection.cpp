@@ -1,15 +1,7 @@
 #include "CloudToPlanarSelection.h"
-
-//#include <ccGraphicalSegmentationTool.h>
-
 #include <ccPointCloud.h>
 
 #include <vombat.h>
-
-//#include <ccGLWindow.h>
-
-//#include <cc2DRubberbandLabel.h>
-
 #include <ccPolyline.h>
 #include <spc/elements/SelectionRubberband.h>
 #include <ccoutofcore/ccPlanarSelection.h>
@@ -41,37 +33,53 @@ int CloudToPlanarSelection::openInputDialog()
 
     ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_TYPES::POINT_CLOUD);
 
+    ccHObject::Container plines = vombat::theInstance()->getSelectedKindOf(CC_TYPES::POLY_LINE);
+
+    for (ccHObject* pline : plines) {
+        ccPolyline* pl = dynamic_cast<ccPolyline*>(pline);
+
+        ccPointCloud* asc = dynamic_cast<ccPointCloud*>(pl->getAssociatedCloud());
+        if (asc)
+            cont.push_back(asc);
+    }
+
     if (cont.size() == 0)
         return -1;
 
-    ccPointCloud* verts = ccHObjectCaster::ToPointCloud(cont.at(0));
+    for (ccHObject* obj : cont)
 
-    if (!verts)
-        return -1;
+    {
 
-    LOG(INFO) << "get as spc point cloud";
-    spcCCPointCloud::Ptr c = spcCCPointCloud::fromccPointCloud(verts);
+        ccPointCloud* verts = ccHObjectCaster::ToPointCloud(obj);
 
-    if (c->getNumberOfPoints() >= 40) {
-        LOG(ERROR) << "too much points here. Cannot create a selction with all these points";
-        return -1;
+        if (!verts)
+            return -1;
+
+        DLOG(INFO) << "get as spc point cloud";
+        spcCCPointCloud::Ptr c = spcCCPointCloud::fromccPointCloud(verts);
+
+        if (c->getNumberOfPoints() >= 200) {
+            DLOG(ERROR) << "too much points here. Cannot create a selction with all these points";
+            return -1;
+        }
+
+        DLOG(INFO) << "now create rubberband";
+        spc::SelectionRubberband::Ptr sel(new spc::SelectionRubberband(*c));
+        ccPlanarSelection* pl = new ccPlanarSelection(sel);
+        pl->setVisible(true);
+        DLOG(INFO) << "now call newEntity";
+        newEntity(pl);
     }
-
-    LOG(INFO) << "now create rubberband";
-    spc::SelectionRubberband::Ptr sel(new spc::SelectionRubberband(*c));
-    ccPlanarSelection* pl = new ccPlanarSelection(sel);
-    pl->setVisible(true);
-    LOG(INFO) << "now call newEntity";
-    newEntity(pl);
 
     return 1;
 }
 
-int CloudToPlanarSelection::checkParameters()
+int CloudToPlanarSelection::checkSelected()
 {
     ccHObject::Container cont = vombat::theInstance()->getSelectedKindOf(CC_TYPES::POINT_CLOUD);
+    ccHObject::Container cont_pline = vombat::theInstance()->getSelectedThatAre(CC_TYPES::POLY_LINE);
 
-    if (cont.size() == 0)
+    if (cont.size() == 0 & cont_pline.size() == 0)
         return -1;
     else
         return 1;

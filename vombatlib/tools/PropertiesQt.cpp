@@ -26,8 +26,13 @@ PropertiesQt::PropertiesQt(ccPluginInterface* parent_plugin)
 
     layout->addWidget(m_propertyBrowser);
 
-    connect(this, SIGNAL(selectionChanged(ccHObject::Container)), this, SLOT(selected(ccHObject::Container)));
+//    connect(this, SIGNAL(selectionChanged(ccHObject::Container &)), this, SLOT(selected(ccHObject::Container &)));
+    connect(this, &PropertiesQt::selectionChanged, this, &PropertiesQt::selected);
 //    connect(m_dialog, SIGNAL(objectChanged(ccHObject*)), this, SIGNAL(entityHasChanged(ccHObject*)));
+
+
+    DLOG(INFO) << "created properties tree";
+
 }
 
 PropertiesQt::~PropertiesQt()
@@ -48,44 +53,40 @@ int PropertiesQt::openOutputDialog()
     return 1;
 }
 
-void PropertiesQt::selected(ccHObject::Container &objs)
+void PropertiesQt::selected(const ccHObject::Container &objs)
 {
-    LOG(INFO) << "called selected";
+    DLOG(INFO) << "called selected . selection changed in main tree";
 
     if (objs.empty())
     {
+        DLOG(INFO) << "no objects ins selectio. returning nullptr";
         m_propertyBrowser->setObject(nullptr);
         return;
     }
 
     QList<QObject *> mirrors;
-<<<<<<< HEAD
 
     // \todo fix this;
-    for (int i = 1; i< objs.size(); ++i)
+    for (int i = 0; i< objs.size(); ++i)
     {
         QObject * asqt = dynamic_cast<QObject*> (objs.at(i));
-
         if (asqt)
+        {
+            DLOG(INFO) << "found qobject derived selection! ";
             mirrors.push_back(asqt);
+        }
     }
 
     if (mirrors.empty())
+    {
+        DLOG(INFO) <<"mirrors is empty";
+        m_propertyBrowser->setObject(nullptr);
         return;
+    }
 
 
     LOG(INFO) << "setting new selection in properties qt";
     m_propertyBrowser->setObject(mirrors.at(0), mirrors);
-=======
-
-    // \todo fix this;
-//    for (int i = 1; i< objs.size(); ++i)
-//    {
-//        mirrors.append(objs.at(i));
-//    }
-
-//    m_propertyBrowser->setObject(objs.at(0), mirrors);
->>>>>>> 4d76e02bbef7b55ab45eecb6f21f51bddb697e21
 
     return;
 }

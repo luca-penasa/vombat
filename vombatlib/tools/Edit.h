@@ -4,21 +4,21 @@
 
 #include <BaseFilter.h>
 
-class Edit : public BaseFilter {
-public:
-    Edit(ccPluginInterface* parent_plugin = 0);
+//class Edit : public BaseFilter {
+//public:
+//    Edit(ccPluginInterface* parent_plugin = 0);
 
-    virtual int compute();
+//    virtual int compute();
 
-protected:
-    virtual int checkSelected();
+//protected:
+//    virtual int checkSelected();
 
-    //    int openInputDialog();
+//    //    int openInputDialog();
 
-private:
-    //    FastCloudSelectionDlg * m_dialog;
+//private:
+//    //    FastCloudSelectionDlg * m_dialog;
 
-    //    ccSingleAttitudeModel * m_model;
-};
+//    //    ccSingleAttitudeModel * m_model;
+//};
 
 #endif // EDIT_H

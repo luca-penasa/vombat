@@ -18,7 +18,7 @@ ccAttitude::ccAttitude()
     : ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude))
 {
 
-    m_attitude = this->getSPCElement<spc::Attitude>();
+//    m_attitude = this->getSPCElement<spc::Attitude>();
 
     LOG(INFO) << " ccAttitude constructor called!";
     m_selectionBehavior = SELECTION_IGNORED;
@@ -27,10 +27,10 @@ ccAttitude::ccAttitude()
 ccAttitude::ccAttitude(CCVector3 center, CCVector3 orientation)
     : ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(asEigenVector(orientation), asEigenVector(center))))
 {
-    m_attitude = this->getSPCElement<spc::Attitude>();
+//    m_attitude = this->getSPCElement<spc::Attitude>();
     m_selectionBehavior = SELECTION_IGNORED;
 
-    if (m_attitude->getNormal()(2) < 0)
+	if (getAttitude()->getNormal()(2) < 0)
         flipNormal();
 }
 
@@ -38,26 +38,25 @@ ccAttitude::ccAttitude(const spc::Attitude& att)
     : ccSPCElementShell(spc::Attitude::Ptr(new spc::Attitude(att)))
 {
 
-    m_attitude = this->getSPCElement<spc::Attitude>();
+//    m_attitude = this->getSPCElement<spc::Attitude>();
     m_selectionBehavior = SELECTION_IGNORED;
-    if (m_attitude->getNormal()(2) < 0)
+	if (getAttitude()->getNormal()(2) < 0)
         flipNormal();
 }
 
 ccAttitude::ccAttitude(spc::Attitude::Ptr att_ptr)
-    : m_attitude(att_ptr)
-    , ccSPCElementShell(att_ptr)
+	: ccSPCElementShell(att_ptr)
 {
 
     setName(att_ptr->getDipAndDipAngleAsString().c_str());
     m_selectionBehavior = SELECTION_IGNORED;
-    if (m_attitude->getNormal()(2) < 0)
+	if (getAttitude()->getNormal()(2) < 0)
         flipNormal();
 }
 
 void ccAttitude::flipNormal()
 {
-    m_attitude->setNormal(-m_attitude->getNormal());
+   getAttitude()->setNormal(-getAttitude()->getNormal());
 }
 
 ccBBox ccAttitude::getOwnBB()
@@ -79,9 +78,19 @@ QIcon ccAttitude::getIcon() const
     return QIcon(QString::fromUtf8(":/toolbar/icons/attitude.png"));
 }
 
+spc::AttitudePtr ccAttitude::getAttitude() const
+{
+	return this->getSPCElement<spc::Attitude>();
+}
+
+void ccAttitude::setAttitude(spc::AttitudePtr att)
+{
+	this->setSPCElement(att);
+}
+
 void ccAttitude::setAttitude(const spc::Attitude& att)
 {
-    spc::Attitude::Ptr at_ptr = spcMakeSharedPtrMacro<spc::Attitude>(att);
+	spc::Attitude::Ptr at_ptr = spcMakeSharedPtrMacro<spc::Attitude>(att);
     setAttitude(at_ptr);
 }
 
@@ -93,7 +102,7 @@ bool ccAttitude::toFile_MeOnly(QFile& out) const
     outs << m_scale;
     outs << m_width;
 
-    ccSPCObjectsStreamer::WriteToQFile(m_attitude, out);
+	ccSPCObjectsStreamer::WriteToQFile(this->getAttitude(), out);
     return true;
 }
 
@@ -106,7 +115,7 @@ bool ccAttitude::fromFile_MeOnly(QFile& in, short dataVersion, int flags)
     ins >> m_width;
 
     spc::ISerializable::Ptr ptr = ccSPCObjectsStreamer::ReadFromQFile(in);
-    m_attitude = spcStaticPointerCast<spc::Attitude>(ptr);
+   this->setAttitude( spcStaticPointerCast<spc::Attitude>(ptr) );
 
     return true;
 }
@@ -142,15 +151,18 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT& context)
         Vector3f strike_dir = pos + strike_v * m_scale * 0.5 * context.labelMarkerSize;
         Vector3f s_opp = pos - strike_v * m_scale * 0.5 * context.labelMarkerSize;
 
-        QFont font(context._win->getTextDisplayFont()); // takes rendering zoom into
-        // account!
-        font.setPointSize(font.pointSize());
-        font.setBold(true);
-        //
-        glDisable(GL_DEPTH_TEST);
-        context._win->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgba, font);
+        if (showAttitudeTextString) {
 
-        glEnable(GL_DEPTH_TEST);
+            QFont font(context.display->getTextDisplayFont()); // takes rendering zoom into
+            // account!
+            font.setPointSize(font.pointSize());
+            font.setBold(true);
+            //
+            glDisable(GL_DEPTH_TEST);
+            context.display->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgba, font);
+
+            glEnable(GL_DEPTH_TEST);
+        }
 
         glBegin(GL_LINES);
         glColor3ubv(ccColor::red.rgba);

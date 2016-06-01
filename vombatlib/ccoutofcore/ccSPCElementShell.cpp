@@ -71,9 +71,15 @@ QString ccSPCElementShell::getSPCClassName() const
 
 }
 
+void ccSPCElementShell::setSPCElement(spc::ElementBasePtr el)
+{
+	DCHECK (el!=nullptr);
+	element_ = el;
+}
+
 ElementBase::Ptr ccSPCElementShell::getSPCElement() const
 {
-    return element_;
+	return element_;
 }
 
 void ccSPCElementShell::writeSPCClassNameToMetadata()
