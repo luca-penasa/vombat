@@ -16,7 +16,7 @@
 //##########################################################################
 //
 
-#include <glog/logging.h>
+#include <spc/core/logging.h>
 #include "BaseFilter.h"
 
 //qCC_db

@@ -8,7 +8,7 @@
 #include <ccHObject.h>
 
 #include <ccCustomObject.h>
-#include <spc/elements/ElementBase.h>
+#include <spc/core/ElementBase.h>
 #include <helpers/ccSPCObjectsStreamer.h>
 
 

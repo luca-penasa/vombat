@@ -14,6 +14,8 @@
 #include <QDockWidget>
 #include <spc/methods/TimeSeriesBandPassFilter.h>
 
+
+#include <spc/core/logging.h>
 Q_DECLARE_METATYPE(QCPScatterStyle)
 
 

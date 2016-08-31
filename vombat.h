@@ -1,6 +1,6 @@
 #ifndef Q_VOMBAT_PLUGIN_HEADER
 #define Q_VOMBAT_PLUGIN_HEADER
-
+#include <spc/core/logging.h>
 
 #include <ccStdPluginInterface.h>
 
@@ -8,7 +8,7 @@
 #include <QtGui>
 
 #include <spc/core/DtiClass.h>
-#include <spc/elements/ElementBase.h>
+#include <spc/core/ElementBase.h>
 #include <ccObject.h>
 class PlotterDlg;
 //class QToolBar;

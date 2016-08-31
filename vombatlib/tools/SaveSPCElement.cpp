@@ -1,6 +1,6 @@
 #include "SaveSPCElement.h"
 #include <vombat.h>
-#include <spc/elements/ElementBase.h>
+#include <spc/core/ElementBase.h>
 
 #include <ccoutofcore/ccSPCElementShell.h>
 #include <ccoutofcore/ccAttitude.h>

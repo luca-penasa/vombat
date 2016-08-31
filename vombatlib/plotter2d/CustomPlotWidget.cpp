@@ -3,6 +3,9 @@
 #include <ccHObject.h>
 #include <ccSample.h>
 #include "QCPItemSample.h"
+
+#include <spc/core/logging.h>
+
 CustomPlotWidget::CustomPlotWidget(QWidget *parent) : QCustomPlot(parent)
 {
     this->setInteractions(QCP::iRangeZoom | QCP::iRangeDrag

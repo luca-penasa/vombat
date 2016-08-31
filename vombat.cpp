@@ -67,9 +67,19 @@
 
 static vombat *qgeo_instance = 0;
 
+
+INITIALIZE_EASYLOGGINGPP
+
+
 vombat::vombat() {
 
-  google::InitGoogleLogging("vombat");
+#ifndef NDEBUG
+	el::Loggers::reconfigureAllLoggers(el::ConfigurationType::Format, "%level ->  %msg -> %fbase:%line");
+#endif
+
+el::Loggers::addFlag(el::LoggingFlag::ColoredTerminalOutput); //ColoredTerminalOutput
+
+//  google::InitGoogleLogging("vombat");
   DLOG(WARNING) << "Logging started";
 
   qgeo_instance = this;
