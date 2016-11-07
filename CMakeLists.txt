@@ -37,7 +37,7 @@ if (INSTALL_vombat_PLUGIN)
     include_directories( ${GLEW_LIB_SOURCE_DIR}/include )
     include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
     include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
-    include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
+	include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
 
 
     if( MSVC )
@@ -55,6 +55,15 @@ if (INSTALL_vombat_PLUGIN)
     else()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wno-narrowing")  #get rid of annoying warns
     endif()
+
+
+	option(SPC_BUILD_SHARED "Build spc library as a shared lib." OFF)
+
+
+	add_subdirectory(spc)
+
+
+
 
     #################### SPC ###########################################
     #it also automatically find PCL and other required libraries

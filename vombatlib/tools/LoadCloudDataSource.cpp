@@ -43,7 +43,8 @@ int LoadCloudDataSource::compute()
 
         FileIOFilter::LoadParameters pars;
 
-        ccHObject * cloud = FileIOFilter::LoadFromFile(QString(fname.c_str()), pars);
+        CC_FILE_ERROR result;
+        ccHObject * cloud = FileIOFilter::LoadFromFile(QString(fname.c_str()), pars, result);
 
         cloud->setVisible(true);
         obj->addChild(cloud);
