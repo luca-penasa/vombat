@@ -56,10 +56,7 @@ if (INSTALL_vombat_PLUGIN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wno-narrowing")  #get rid of annoying warns
     endif()
 
-
-	option(SPC_BUILD_SHARED "Build spc library as a shared lib." OFF)
-
-
+	set(SPC_BUILD_SHARED OFF CACHE BOOL "Build spc library as a shared lib." FORCE)
 	add_subdirectory(spc)
 
 
@@ -67,12 +64,16 @@ if (INSTALL_vombat_PLUGIN)
 
     #################### SPC ###########################################
     #it also automatically find PCL and other required libraries
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "cmake")
+	set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "cmake" )
 
-    find_package(SPC 0.1.0 REQUIRED)
-    include_directories(${SPC_INCLUDE_DIRS})
-    link_directories(${SPC_LIBRARY_DIRS})
-    add_definitions(${SPC_DEFINITIONS})
+#	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/spc )
+
+find_package(SPC 0.1.0 REQUIRED
+	        PATHS ${CMAKE_CURRENT_BINARY_DIR}/spc
+		NO_DEFAULT_PATH )
+	include_directories(${SPC_INCLUDE_DIRS})
+	link_directories(${SPC_LIBRARY_DIRS})
+	add_definitions(${SPC_DEFINITIONS})
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib)
     include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib)
