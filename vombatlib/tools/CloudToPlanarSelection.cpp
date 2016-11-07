@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cc2DViewportLabel.h>
 
-#include <qPCL/PclUtils/utils/cc2sm.h>
+//#include <qPCL/PclUtils/utils/cc2sm.h>
 #include <helpers/spcCCPointCloud.h>
 
 #include <ccHObjectCaster.h>

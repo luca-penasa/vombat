@@ -3,7 +3,7 @@ project( VOMBATLIB )
 
 
 #requires PCL
-find_package(PCL REQUIRED)
+#find_package(PCL REQUIRED)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 include_directories( ${CloudComparePlugins_SOURCE_DIR} )

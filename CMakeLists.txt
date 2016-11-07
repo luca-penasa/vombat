@@ -86,9 +86,11 @@ if (INSTALL_vombat_PLUGIN)
     target_link_libraries( ${PROJECT_NAME} CC_CORE_LIB )
     target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
 
-    target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB)
+#    target_link_libraries( ${PROJECT_NAME} QPCL_PLUGIN_UTILS_LIB)
 
-    ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare)
+#    ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QPCL_PLUGIN QCC_IO_LIB CloudCompare)
+    ADD_DEPENDENCIES(  vombat CC_CORE_LIB QCC_DB_LIB QCC_GL_LIB QCC_IO_LIB CloudCompare)
+
 
 endif() #main if ends here
 
