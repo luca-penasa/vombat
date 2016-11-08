@@ -52,7 +52,7 @@ before_script:
 
 build-mxe:
   stage: build
-  
+
   script:
     - apt-get -qq update
     - mkdir build-mxe
@@ -77,5 +77,5 @@ build-mxe:
     
     
   artifacts:
-    paths:
-    - ${HOME}/ccwin/CloudCompare
+    paths:    
+    - ${HOME}/ccwin/CloudCompare/*
