@@ -52,11 +52,6 @@ build:
     
     
   artifacts:
-    paths:    
-    - CloudCompare
+    paths:        
     - cc/pack/CloudCompare
-    - cc/pack
-    - cc
-    - fix_needed_dynamic_libs.py
-    - builds/cc/pack
-    - test.txt
+    
