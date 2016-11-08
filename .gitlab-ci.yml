@@ -5,6 +5,8 @@ variables:
   GIT_STRATEGY: none
 
 before_script:
+  - CI_PROJECT_DIR=/builds/cc
+  - echo ${CI_PROJECT_DIR}
   - cd /
   - touch test.txt
   - ls
@@ -12,6 +14,7 @@ before_script:
   - touch test.txt
   - git clone https://github.com/luca-penasa/trunk.git cc --depth=3 -b to_vombat
   - cd cc
+  - touch test.txt
   - cat .gitmodules
   - git submodule update --init --depth=3
   - cd plugins/vombat
