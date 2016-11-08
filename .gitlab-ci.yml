@@ -6,8 +6,10 @@ variables:
 
 before_script:
   - cd /
+  - touch test.txt
   - ls
   - cd /builds
+  - touch test.txt
   - git clone https://github.com/luca-penasa/trunk.git cc --depth=3 -b to_vombat
   - cd cc
   - cat .gitmodules
@@ -55,3 +57,4 @@ build:
     - cc
     - fix_needed_dynamic_libs.py
     - builds/cc/pack
+    - test.txt
