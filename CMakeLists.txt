@@ -47,7 +47,7 @@ if (INSTALL_vombat_PLUGIN)
     include_directories( ${QCC_GL_LIB_SOURCE_DIR} )
 
 
-    if (WIN32)
+	if (MSVC)
         add_definitions("-DNOMINMAX")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4996") #pcl::SHOOT warn
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4521") # pcl/eigen multiple copy constructors warn
@@ -56,7 +56,10 @@ if (INSTALL_vombat_PLUGIN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wno-narrowing")  #get rid of annoying warns
     endif()
 
+	# Force spc to be build as a static lib
 	set(SPC_BUILD_SHARED OFF CACHE BOOL "Build spc library as a shared lib." FORCE)
+	# and force disable gflags wich is not needed by cloudcompare
+	set(SPC_GFLAGS OFF CACHE BOOL "Enable Google Flags. Needed by the tools" FORCE)
 	add_subdirectory(spc)
 
 

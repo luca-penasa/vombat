@@ -37,12 +37,12 @@
 #include <qtconcurrentrun.h>
 
 //system
-#if defined(CC_WINDOWS)
-#include "Windows.h"
-#else
+//#if defined(CC_WINDOWS)
+//#include "Windows.h"
+//#else
 #include <time.h>
 #include <unistd.h>
-#endif
+//#endif
 
 BaseFilter::BaseFilter(FilterDescription desc, ccPluginInterface* parent_plugin)
     : m_action(0)
