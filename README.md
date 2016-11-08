@@ -1,6 +1,14 @@
 VOMBAT
 =====
 
+
+
+[![build 
+status](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/badges/master/build.svg)](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/commits/master)
+
+
+
+
 **Virtual Outcrop Models Basic Analysis Tool**
 
 
