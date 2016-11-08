@@ -5,15 +5,9 @@ variables:
   GIT_STRATEGY: none
 
 before_script:
-  - echo ${CI_PROJECT_DIR}
-  - cd /
-  - touch test.txt
-  - ls
   - cd ${CI_PROJECT_DIR}
-  - touch test.txt
   - git clone https://github.com/luca-penasa/trunk.git cc --depth=3 -b to_vombat
   - cd cc
-  - touch test.txt
   - cat .gitmodules
   - git submodule update --init --depth=3
   - cd plugins/vombat
@@ -46,7 +40,7 @@ build:
       # -DINSTALL_QM3C2_PLUGIN=ON
       # -DINSTALL_QPCV_PLUGIN=ON ..
     - make -j 8 install
-    - cp ../fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}/cc/pack
+    - cp ../plugins/vombat/fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}/cc/pack
     - cd ${CI_PROJECT_DIR}/cc/pack
     - python fix_needed_dynamic_libs.py
     
