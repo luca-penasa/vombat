@@ -40,6 +40,7 @@ build:
     
     
   artifacts:
+    name : "cloudcompare-vombat-win64$-{CI_BUILD_REF}"
     paths:        
     - CloudCompare
     
