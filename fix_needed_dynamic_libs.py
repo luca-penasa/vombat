@@ -8,7 +8,8 @@ import re
 import shutil
 
 
-files = ["Qt5Concurrent.dll",
+files = ["libglib-2.0-0.dll",
+"Qt5Concurrent.dll",
 "Qt5Core.dll",
 "Qt5Gui.dll",
 "Qt5OpenGL.dll",
