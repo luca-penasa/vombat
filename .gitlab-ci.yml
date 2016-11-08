@@ -52,4 +52,5 @@ build:
     - CloudCompare
     - cc/pack/CloudCompare
     - cc/pack
-    
+    - cc
+    - fix_needed_dynamic_libs.py
