@@ -4,17 +4,12 @@ variables:
   #GIT_DEPTH: "1"
   GIT_STRATEGY: none
 
-before_script:
-  - cd ${CI_PROJECT_DIR}
-  - git clone https://github.com/luca-penasa/trunk.git cc --depth=3 -b to_vombat
-  - cd cc
-  - cat .gitmodules
-  - git submodule update --init --depth=3
-  - cd plugins/vombat
-  - git submodule update --init 
-  - cd spc
-  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-  - git submodule update --init --recursive
+#before_script:
+#  - cd /cc
+#  - cd plugins/vombat; git pull origin master
+#  - cd /cc/build-mxe
+#  - make
+  
 
 
 
@@ -23,11 +18,10 @@ build:
   stage: build
 
   script:
-    - cd ${CI_PROJECT_DIR}/cc
-    - mkdir build-mxe
-    - cd build-mxe
-    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=${CI_PROJECT_DIR}/cc/pack
-      # -DINSTALL_vombat_PLUGIN=ON         
+     - cd /cc/plugins/vombat; git pull origin master 
+     - cd /cc/build-mxe
+     - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=${CI_PROJECT_DIR}
+        -DINSTALL_vombat_PLUGIN=ON         
       # -DINSTALL_QANIMATION_PLUGIN=ON
       # -DINSTALL_QBLUR_PLUGIN=ON
       # -DINSTALL_QDUMMY_PLUGIN=ON
@@ -39,13 +33,13 @@ build:
       # -DINSTALL_QPHOTOSCAN_IO_PLUGIN=ON
       # -DINSTALL_QM3C2_PLUGIN=ON
       # -DINSTALL_QPCV_PLUGIN=ON ..
-    - make -j 8 install
-    - cp ../plugins/vombat/fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}/cc/pack
-    - cd ${CI_PROJECT_DIR}/cc/pack
-    - python fix_needed_dynamic_libs.py
+     - make -j 8 install
+#    - cp ../plugins/vombat/fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}/cc/pack
+#    - cd ${CI_PROJECT_DIR}/cc/pack
+#    - python fix_needed_dynamic_libs.py
     
     
   artifacts:
     paths:        
-    - cc/pack/CloudCompare
+    - CloudCompare
     
