@@ -5,12 +5,11 @@ variables:
   GIT_STRATEGY: none
 
 before_script:
-  - CI_PROJECT_DIR=/builds/cc
   - echo ${CI_PROJECT_DIR}
   - cd /
   - touch test.txt
   - ls
-  - cd /builds
+  - cd ${CI_PROJECT_DIR}
   - touch test.txt
   - git clone https://github.com/luca-penasa/trunk.git cc --depth=3 -b to_vombat
   - cd cc
@@ -30,10 +29,10 @@ build:
   stage: build
 
   script:
-    - cd /builds/cc
+    - cd ${CI_PROJECT_DIR}/cc
     - mkdir build-mxe
     - cd build-mxe
-    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=/builds/cc/pack
+    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=${CI_PROJECT_DIR}/cc/pack
       # -DINSTALL_vombat_PLUGIN=ON         
       # -DINSTALL_QANIMATION_PLUGIN=ON
       # -DINSTALL_QBLUR_PLUGIN=ON
@@ -47,8 +46,8 @@ build:
       # -DINSTALL_QM3C2_PLUGIN=ON
       # -DINSTALL_QPCV_PLUGIN=ON ..
     - make -j 8 install
-    - cp ../fix_needed_dynamic_libs.py /builds/cc/pack
-    - cd /builds/cc/pack
+    - cp ../fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}/cc/pack
+    - cd ${CI_PROJECT_DIR}/cc/pack
     - python fix_needed_dynamic_libs.py
     
     
