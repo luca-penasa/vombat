@@ -34,9 +34,9 @@ build:
       # -DINSTALL_QM3C2_PLUGIN=ON
       # -DINSTALL_QPCV_PLUGIN=ON ..
      - make -j 8 install
-#    - cp ../plugins/vombat/fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}/cc/pack
-#    - cd ${CI_PROJECT_DIR}/cc/pack
-#    - python fix_needed_dynamic_libs.py
+     - cp ../plugins/vombat/fix_needed_dynamic_libs.py ${CI_PROJECT_DIR}
+     - cd ${CI_PROJECT_DIR}
+     - python fix_needed_dynamic_libs.py
     
     
   artifacts:
