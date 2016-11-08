@@ -37,7 +37,7 @@ if (INSTALL_vombat_PLUGIN)
     include_directories( ${GLEW_LIB_SOURCE_DIR}/include )
     include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
     include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
-    include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
+	include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
 
 
     if( MSVC )
@@ -47,7 +47,7 @@ if (INSTALL_vombat_PLUGIN)
     include_directories( ${QCC_GL_LIB_SOURCE_DIR} )
 
 
-    if (WIN32)
+	if (MSVC)
         add_definitions("-DNOMINMAX")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4996") #pcl::SHOOT warn
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4521") # pcl/eigen multiple copy constructors warn
@@ -56,14 +56,27 @@ if (INSTALL_vombat_PLUGIN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wno-narrowing")  #get rid of annoying warns
     endif()
 
+	# Force spc to be build as a static lib
+	set(SPC_BUILD_SHARED OFF CACHE BOOL "Build spc library as a shared lib." FORCE)
+	# and force disable gflags wich is not needed by cloudcompare
+	set(SPC_GFLAGS OFF CACHE BOOL "Enable Google Flags. Needed by the tools" FORCE)
+	add_subdirectory(spc)
+
+
+
+
     #################### SPC ###########################################
     #it also automatically find PCL and other required libraries
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "cmake")
+	set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "cmake" )
 
-    find_package(SPC 0.1.0 REQUIRED)
-    include_directories(${SPC_INCLUDE_DIRS})
-    link_directories(${SPC_LIBRARY_DIRS})
-    add_definitions(${SPC_DEFINITIONS})
+#	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/spc )
+
+find_package(SPC 0.1.0 REQUIRED
+	        PATHS ${CMAKE_CURRENT_BINARY_DIR}/spc
+		NO_DEFAULT_PATH )
+	include_directories(${SPC_INCLUDE_DIRS})
+	link_directories(${SPC_LIBRARY_DIRS})
+	add_definitions(${SPC_DEFINITIONS})
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vombatlib)
     include_directories(${CMAKE_CURRENT_BINARY_DIR}/vombatlib)

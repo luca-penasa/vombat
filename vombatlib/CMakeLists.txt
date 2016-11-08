@@ -69,8 +69,13 @@ link_directories( ${PCL_LIBRARY_DIRS} )
 add_definitions( ${PCL_DEFINITIONS} )
 
 
-    target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::PrintSupport )
+target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::PrintSupport )
 
 
 
-target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB )
+target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB QCC_IO_LIB QCC_GL_LIB )
+
+
+if(MINGW)
+	target_link_libraries( ${PROJECT_NAME} opengl32 )
+endif()
