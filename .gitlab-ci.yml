@@ -28,7 +28,7 @@ build:
     - cd /builds/cc
     - mkdir build-mxe
     - cd build-mxe
-    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=/builds/ccwin-build
+    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=/builds/cc/pack
       # -DINSTALL_vombat_PLUGIN=ON         
       # -DINSTALL_QANIMATION_PLUGIN=ON
       # -DINSTALL_QBLUR_PLUGIN=ON
@@ -42,11 +42,14 @@ build:
       # -DINSTALL_QM3C2_PLUGIN=ON
       # -DINSTALL_QPCV_PLUGIN=ON ..
     - make -j 8 install
-    - cp ../fix_needed_dynamic_libs.py /builds/ccwin-build
-    - cd /builds/ccwin-build
+    - cp ../fix_needed_dynamic_libs.py /builds/cc/pack
+    - cd /builds/cc/pack
     - python fix_needed_dynamic_libs.py
     
     
   artifacts:
     paths:    
-    - ccwin-build/CloudCompare*
+    - CloudCompare
+    - cc/pack/CloudCompare
+    - cc/pack
+    
