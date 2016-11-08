@@ -50,8 +50,9 @@ before_script:
   #- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
 
-build:
-  stage: build-mxe
+build-mxe:
+  stage: build
+  
   script:
     - apt-get -qq update
     - mkdir build-mxe
