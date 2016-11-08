@@ -12,9 +12,10 @@ before_script:
   - cat .gitmodules
   - git submodule update --init --depth=3
   - cd plugins/vombat
-  - git submodule update --init --depth=3
+  - git submodule update --init 
   - cd spc
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
   - cd ../../../
 
 
@@ -53,23 +54,27 @@ build:
   stage: build-mxe
   script:
     - apt-get -qq update
-    - apt-get -y install build-essential cmake libeigen3-dev libboost-all-dev libgflags-dev git ninja
     - mkdir build-mxe
     - cd build-mxe
-    - x86_64-w64-mingw32.shared-cmake 
-      -DINSTALL_vombat_PLUGIN=ON 
-      -DCMAKE_INSTALL_PREFIX=$HOME/ccwin
-      -DINSTALL_QANIMATION_PLUGIN=ON
-      -DINSTALL_QBLUR_PLUGIN=ON
-      -DINSTALL_QDUMMY_PLUGIN=ON
-      -DINSTALL_QEDL_PLUGIN=ON
-      -DINSTALL_QPOISSON_RECON_PLUGIN=OFF
-      -DINSTALL_QSRA_PLUGIN=ON
-      -DINSTALL_QSSAO_PLUGIN=ON
-      -DINSTALL_QCSF_PLUGIN=ON
-      -DINSTALL_QPHOTOSCAN_IO_PLUGIN=ON
-      -DINSTALL_QM3C2_PLUGIN=ON
-      -DINSTALL_QPCV_PLUGIN=ON ..
-    - make -j 2 install
+    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=$HOME/ccwin
+      # -DINSTALL_vombat_PLUGIN=ON         
+      # -DINSTALL_QANIMATION_PLUGIN=ON
+      # -DINSTALL_QBLUR_PLUGIN=ON
+      # -DINSTALL_QDUMMY_PLUGIN=ON
+      # -DINSTALL_QEDL_PLUGIN=ON
+      # -DINSTALL_QPOISSON_RECON_PLUGIN=OFF
+      # -DINSTALL_QSRA_PLUGIN=ON
+      # -DINSTALL_QSSAO_PLUGIN=ON
+      # -DINSTALL_QCSF_PLUGIN=ON
+      # -DINSTALL_QPHOTOSCAN_IO_PLUGIN=ON
+      # -DINSTALL_QM3C2_PLUGIN=ON
+      # -DINSTALL_QPCV_PLUGIN=ON ..
+    - make -j 8 install
+    - cp ../fix_needed_dynamic_libs.py ${HOME}/ccwin
+    - cd ${HOME}/ccwin
+    - python fix_needed_dynamic_libs.py
     
     
+  artifacts:
+    paths:
+    - ${HOME}/ccwin/CloudCompare

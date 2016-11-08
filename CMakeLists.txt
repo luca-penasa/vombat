@@ -74,6 +74,9 @@ if (INSTALL_vombat_PLUGIN)
 find_package(SPC 0.1.0 REQUIRED
 	        PATHS ${CMAKE_CURRENT_BINARY_DIR}/spc
 		NO_DEFAULT_PATH )
+
+	message("SPC INCLUDE DIR ${SPC_INCLUDE_DIRS}")
+
 	include_directories(${SPC_INCLUDE_DIRS})
 	link_directories(${SPC_LIBRARY_DIRS})
 	add_definitions(${SPC_DEFINITIONS})
