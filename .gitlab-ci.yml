@@ -5,8 +5,9 @@ variables:
   GIT_STRATEGY: none
 
 before_script:
-  - cd
-  - mkdir builds; cd builds
+  - cd /
+  - ls
+  - cd /builds
   - git clone https://github.com/luca-penasa/trunk.git cc --depth=3 -b to_vombat
   - cd cc
   - cat .gitmodules
@@ -16,48 +17,21 @@ before_script:
   - cd spc
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
-  - cd ../../../
 
 
 
-#  - echo "${SSH_PRIVATE_KEY}" 
-  # Install ssh-agent if not already installed, it is required by Docker.
-  # (change apt-get to yum if you use a CentOS-based image)
-#  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client expect -y )'
 
-  # Run ssh-agent (inside the build environment)
- # - eval $(ssh-agent -s)
-#
-  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-#  - ssh-add -h
-  # echo "-----BEGIN RSA PRIVATE KEY-----" > key.keys
-  #- echo "$SSH_PRIVATE_KEY" >> key.keys
-  # echo "-----END RSA PRIVATE KEY-----"  >> key.keys
-  #- chmod og-xrw key.keys
+stages:
+  - build-mxe
 
-  #- ssh-add key.keys
-
-
-  #- ssh-add key.txt
-  #- rm key.keys
-
-
-  # For Docker builds disable host key checking. Be aware that by adding that
-  # you are suspectible to man-in-the-middle attacks.
-  # WARNING: Use this only with the Docker executor, if you use it with shell
-  # you will overwrite your user's SSH config.
-  #- mkdir -p ~/.ssh
-  #- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-
-build-mxe:
+build:
   stage: build
 
   script:
-    - apt-get -qq update
+    - cd /builds/cc
     - mkdir build-mxe
     - cd build-mxe
-    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=./ccwin-build
+    - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=/builds/ccwin-build
       # -DINSTALL_vombat_PLUGIN=ON         
       # -DINSTALL_QANIMATION_PLUGIN=ON
       # -DINSTALL_QBLUR_PLUGIN=ON
@@ -71,11 +45,11 @@ build-mxe:
       # -DINSTALL_QM3C2_PLUGIN=ON
       # -DINSTALL_QPCV_PLUGIN=ON ..
     - make -j 8 install
-    - cp ../fix_needed_dynamic_libs.py ./ccwin-build
-    - cd ./ccwin-build
+    - cp ../fix_needed_dynamic_libs.py /builds/ccwin-build
+    - cd /builds/ccwin-build
     - python fix_needed_dynamic_libs.py
     
     
   artifacts:
     paths:    
-    - ccwin-build
+    - ccwin-build/CloudCompare*
