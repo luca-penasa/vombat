@@ -7,6 +7,9 @@ VOMBAT
 status](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/badges/master/build.svg)](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/commits/master)
 
 
+Compiled version of CloudCompare with vombat can be found 
+[here](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/builds)
+
 
 
 **Virtual Outcrop Models Basic Analysis Tool**
