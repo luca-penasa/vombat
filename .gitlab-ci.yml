@@ -21,9 +21,6 @@ before_script:
 
 
 
-stages:
-  - build-mxe
-
 build:
   stage: build
 
