@@ -78,4 +78,4 @@ build-mxe:
     
   artifacts:
     paths:    
-    - ./ccwin-build/CloudCompare
+    - ccwin-build
