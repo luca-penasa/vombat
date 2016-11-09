@@ -1,4 +1,4 @@
-image: cc_mxe_64_compile
+image:  lucapenasa/cc_mxe_64_compile:first
 
 variables:
   #GIT_DEPTH: "1"
