@@ -1,4 +1,4 @@
-image: mxe-docker-image-win64
+image: cc_mxe_64_compile
 
 variables:
   #GIT_DEPTH: "1"
