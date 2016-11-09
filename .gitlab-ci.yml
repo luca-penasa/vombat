@@ -10,11 +10,7 @@ variables:
 #  - cd /cc/build-mxe
 #  - make
   
-
-
-
-
-build:
+win64-mxe:
   stage: build
 
   script:
