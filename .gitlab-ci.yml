@@ -4,17 +4,19 @@ variables:
   #GIT_DEPTH: "1"
   GIT_STRATEGY: none
 
-#before_script:
-#  - cd /cc
-#  - cd plugins/vombat; git pull origin master
-#  - cd /cc/build-mxe
-#  - make
+before_script:
+  - cd /cc 
+  - git pull origin master 
+  - cd /cc/plugins/vombat 
+  - git pull origin master
+  - git submodule update  --init --recursive
+
   
 win64-mxe:
   stage: build
 
   script:
-     - cd /cc/plugins/vombat; git pull origin master ; git submodule update  --init --recursive
+     
      - cd /cc/build-mxe
      - x86_64-w64-mingw32.shared-cmake .. -DOPTION_BUILD_CCVIEWER=OFF -DCMAKE_INSTALL_PREFIX=${CI_PROJECT_DIR}
         -DINSTALL_vombat_PLUGIN=ON         
