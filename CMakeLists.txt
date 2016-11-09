@@ -56,13 +56,26 @@ if (INSTALL_vombat_PLUGIN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated -Wno-narrowing")  #get rid of annoying warns
     endif()
 
-	# Force spc to be build as a static lib
-	set(SPC_BUILD_SHARED OFF CACHE BOOL "Build spc library as a shared lib." FORCE)
+	option (SPC_AS_STATIC "compile spc as static lib, instead that shared" ON)
+
+	if (${SPC_AS_STATIC})
+		# Force spc to be build as a static lib
+		set(SPC_BUILD_SHARED OFF CACHE BOOL "Build spc library as a shared lib." FORCE)
+		set(SPC_ENABLE_INSTALL OFF CACHE BOOL "Enable/Disable the install target" FORCE)
+	else()
+		set(SPC_BUILD_SHARED ON CACHE BOOL "Build spc library as a shared lib." FORCE)
+		set(SPC_ENABLE_INSTALL ON CACHE BOOL "Enable/Disable the install target" FORCE)
+	endif()
+
 	# and force disable gflags wich is not needed by cloudcompare
 	set(SPC_GFLAGS OFF CACHE BOOL "Enable Google Flags. Needed by the tools" FORCE)
+
+
+
 	add_subdirectory(spc)
 
 
+#	set(SPC_INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
 
 
     #################### SPC ###########################################
