@@ -1,4 +1,4 @@
-image:  lucapenasa/cc_mxe_64_compile:first
+image:  lucapenasa/cc_mxe_64_compile:latest
 
 variables:
   #GIT_DEPTH: "1"
@@ -10,7 +10,7 @@ before_script:
   - git submodule update  --init --recursive
 
   
-  
+
 win64-mxe:
   stage: build
 
