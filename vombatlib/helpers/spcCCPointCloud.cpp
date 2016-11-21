@@ -170,7 +170,7 @@ bool spc::spcCCPointCloud::getRGBField(const PointCloudBase::COLORS_ENUM &color,
         {
             Eigen::Block<Eigen::Map<ColMatType>, -1, 1> all = map.col((int) color);
             if (indices.empty())
-                vector =  all.cast<float>();
+                vector =  all.template cast<float>();
             else
             {
                 vector.resize(indices.size());
@@ -188,7 +188,7 @@ bool spc::spcCCPointCloud::getRGBField(const PointCloudBase::COLORS_ENUM &color,
             Eigen::Matrix<ColorCompType, Eigen::Dynamic, 3> mat;
             if (indices.empty())
             {
-                vector = (map.rowwise().sum().array() / 3.0).cast<float>();
+                vector = (map.rowwise().sum().array() / 3.0).template cast<float>();
             }
             else
             {
