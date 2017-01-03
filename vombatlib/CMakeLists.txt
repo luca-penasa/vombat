@@ -73,7 +73,7 @@ target_link_libraries( ${PROJECT_NAME} ${SPC_LIBRARIES}  QtPropertyBrowser Qt5::
 
 
 
-target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB QCC_IO_LIB QCC_GL_LIB )
+target_link_libraries( ${PROJECT_NAME} QCC_DB_LIB QCC_IO_LIB QCC_GL_LIB  ${OPENGL_LIBRARIES})
 
 
 if(MINGW)

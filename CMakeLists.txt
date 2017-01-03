@@ -108,7 +108,7 @@ find_package(SPC 0.1.0 REQUIRED
 
     include( ../CMakePluginTpl.cmake )
 
-    target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES})
+	target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES} )
 
     target_link_libraries(${PROJECT_NAME} VOMBATLIB)
 
