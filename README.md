@@ -8,7 +8,7 @@ status](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/badges/master/build.s
 
 
 Compiled version of CloudCompare with vombat can be found 
-[here](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/builds)
+[here](https://ns392452.ip-176-31-109.eu/owncloud/index.php/s/8ZaUXaG3bGiYbKg)
 
 
 
