@@ -158,17 +158,23 @@ void vombat::getActions(QActionGroup &group) {
 #ifdef SPC_WITH_PCL
     addFilter(new GaussianFilter(this));
 #endif
+
+    addFilter(new CreateStratigraphicConstrain(this));
+    addFilter(new Cropper(this));
+
 //    addFilter(new Properties(this));
     addFilter(new PropertiesQt(this));
     addFilter(new SaveSPCElement(this));
     addFilter(new LoadSPCElement(this));
+
+#ifdef VOMBAT_EX_TOOLS
     addFilter(new LoadCloudDataSource(this));
     addFilter(new AutoComputeTimeSeries(this));
-    addFilter(new CreateStratigraphicConstrain(this));
-
     addFilter(new Analyzer(this));
+#endif
 
-    addFilter(new Cropper(this));
+
+
 
   }
 

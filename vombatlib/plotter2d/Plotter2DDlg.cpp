@@ -239,6 +239,9 @@ void Plotter2DDlg::updatedSelectionInFilters()
 
     for (ccHObject * obj: list)
     {
+		if (!obj) // ne sure no null stuff passes here
+			continue;
+
         QObject * asqobj = dynamic_cast<QObject *> (obj);
         if (asqobj)
             good.push_back(asqobj);

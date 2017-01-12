@@ -7,7 +7,12 @@ if (INSTALL_vombat_PLUGIN)
     project(vombat)
 
     option(BUILD_VOMBAT_MONOLITHIC "Build vombat plugin all-in-one" OFF)
+	option (VOMBAT_ENABLE_EXPERIMENTAL_TOOLS "enable all the available tools, for developing porpuses" OFF )
 
+
+	if (VOMBAT_ENABLE_EXPERIMENTAL_TOOLS)
+		add_definitions(-DVOMBAT_EX_TOOLS)
+	endif(VOMBAT_ENABLE_EXPERIMENTAL_TOOLS)
 
     include(cmake/macros.cmake) # load some macros
 

@@ -43,8 +43,8 @@ void CropperDlg::populateCombos()
 void CropperDlg::clearCombos()
 {
 //    ui->comboBox->clear();
-    ui->comboRubberbands->clear();
-    ui->comboCroppables->clear();
+	this->ui->comboRubberbands->clear();
+	this->ui->comboCroppables->clear();
 }
 
 ccHObject::Container CropperDlg::getSelections()

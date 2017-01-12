@@ -86,21 +86,24 @@ int Cropper::compute()
 
             else if (to_crop->isA(CC_TYPES::POINT_CLOUD)) {
 
+				LOG(INFO) << "cropping point cloud with name " << to_crop->getName().toStdString();
+
                 ccPointCloud* cloud = ccHObjectCaster::ToPointCloud(to_crop);
 
                 spc::PointCloudBase::Ptr asspc = spcCCPointCloud::fromccPointCloud(cloud);
 
                 spc::SelectionExtractor<Eigen::Vector3f, int> ext;
                 ext.setInputSet(asspc);
-
                 ext.setSelection(sel->getSPCElement<spc::SelectionBase<Eigen::Vector3f> >());
-
                 ext.compute();
 
                 std::vector<int> inside = ext.getInsideIds();
 
                 if (inside.size() == 0)
+				{
+					LOG(WARNING) << "the selection did not find anything inside it. Skipping";
                     continue;
+				}
 
                 CCLib::ReferenceCloud* ref = new CCLib::ReferenceCloud(cloud);
                 for (int i : inside) {
@@ -109,6 +112,7 @@ int Cropper::compute()
 
                 ccPointCloud* outcloud = cloud->partialClone(ref);
 
+				LOG(INFO) << "done with cropping, calling add child on object: " << sel->getName().toStdString();
                 sel->addChild(outcloud);
                 newEntity(outcloud);
             }

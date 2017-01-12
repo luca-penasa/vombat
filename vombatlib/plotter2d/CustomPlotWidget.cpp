@@ -29,7 +29,9 @@ ccHObject *CustomPlotWidget::layerableToObject(QCPLayerable * layerable) const
         return layerable_to_cc_[layerable];
     else
     {
-        LOG(INFO) << "cannot find the right object for this ayerable";
+        DLOG(WARNING) << "cannot find the right object for this ayerable";
+        return nullptr;
+
     }
 }
 
