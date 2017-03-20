@@ -47,23 +47,41 @@ int FitAttitude::compute()
 
     DLOG(INFO) << "found " << entities.size() << " point clouds";
 
+    DLOG(INFO) << "found " << polylines.size() << " polylines";
+
     //convert them to pcl point clouds
     std::vector<ccPointCloud*> clouds;
+
+    ccHObject::Container used_ents;
 
     for (ccHObject* ent : entities) {
         ccPointCloud* cloud = ccHObjectCaster::ToPointCloud(ent);
         clouds.push_back(cloud);
+
+        used_ents.push_back(ent);
     }
 
     for (ccHObject* ent : polylines) {
         ccPolyline* pline = ccHObjectCaster::ToPolyline(ent);
         ccPointCloud* verts = dynamic_cast<ccPointCloud*>(pline->getAssociatedCloud());
         if (verts)
+        {
             clouds.push_back(verts);
+            DLOG(INFO) << "pushed back polyline with " << verts->size() << "points";
+
+            used_ents.push_back(ent);
+        }
+
+
     }
+
+
+
 
     // fitting all atts in an unique normal
     if (m_dlg->isUniqueNormal()) {
+
+        DLOG(INFO) << "creating estimator";
         //set up an estimator
         spc::AttitudeEstimator<float> estimator;
 
@@ -82,21 +100,39 @@ int FitAttitude::compute()
             return 0;
         }
 
+        DLOG(INFO) << "estimation done";
+
         std::vector<spc::Attitude> atts;
         atts = estimator.getEstimatedAttitudes();
+
+//        DLOG(INFO) << "got n " << atts.size() << " attitudes";
 
         //now for each entity we send back an object for visualizing the result
         int id = 0;
         for (spc::Attitude att : atts) {
 
-            LOG(INFO) << "attitude is in place: " << att.getPosition();
+//            DLOG(INFO) << "attitude is in place: " << att.getPosition();
             ccAttitude* ccAtt = new ccAttitude(att);
 
+
+//            DLOG(INFO) << "attitude created. ";
             ccAtt->setVisible(true);
-            entities.at(id)->addChild(ccAtt);
+
+//            newEntity(ccAtt);
+//            DLOG(INFO) << "now visible. ";
+
+//            DLOG(INFO) << "going to add the child ";
+            used_ents.at(id)->addChild(ccAtt);
+
+//            DLOG(INFO) << "added child ";
             ccAtt->setName(ccAtt->getAttitude()->getDipAndDipAngleAsString().c_str());
-            entityHasChanged(entities.at(id++));
+
+//            DLOG(INFO) << "notfy changes. ";
+            entityHasChanged(used_ents.at(id++));
+
+//            DLOG( INFO)  << "calling new entity!";
             newEntity(ccAtt);
+//            DLOG(INFO) << "called new entity for " << ccAtt->getName().toStdString();
         }
     }
     else // each attitude individually

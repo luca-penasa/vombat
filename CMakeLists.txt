@@ -6,6 +6,9 @@ if (INSTALL_vombat_PLUGIN)
 
     project(vombat)
 
+	add_definitions(-DELPP_THREAD_SAFE) # for thread safe loggin
+
+
     option(BUILD_VOMBAT_MONOLITHIC "Build vombat plugin all-in-one" OFF)
 	option (VOMBAT_ENABLE_EXPERIMENTAL_TOOLS "enable all the available tools, for developing porpuses" OFF )
 
