@@ -21,9 +21,9 @@ protected:
     int openInputDialog();
 
 
-    CropperDlg * m_dialog;
+    CropperDlg * m_dialog = nullptr;
 
-    ccVirtualOutcrop * m_root_outcrop;
+    ccVirtualOutcrop * m_root_outcrop = nullptr;
 };
 
 #endif // Cropper_H

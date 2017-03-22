@@ -135,10 +135,16 @@ int Cropper::openInputDialog()
 {
 
     if (!m_dialog)
+	{
         m_dialog = new CropperDlg(vombat::theInstance()->getMainWindow());
+		m_dialog->populateCombos();
+	}
 
-    m_dialog->clearCombos();
-    m_dialog->populateCombos();
+	else
+	{
+		m_dialog->clearCombos();
+		m_dialog->populateCombos();
+	}
 
     return m_dialog->exec() ? 1 : 0;
 
