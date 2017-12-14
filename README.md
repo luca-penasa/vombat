@@ -2,9 +2,7 @@ VOMBAT
 =====
 
 
-
-[![build 
-status](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/badges/master/build.svg)](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/commits/master)
+[![Build Status](https://travis-ci.org/luca-penasa/trunk.svg?branch=to_vombat)](https://travis-ci.org/luca-penasa/trunk)
 
 
 Compiled version of CloudCompare with vombat can be found on google drive
