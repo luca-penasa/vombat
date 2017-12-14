@@ -7,8 +7,8 @@ VOMBAT
 status](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/badges/master/build.svg)](http://ns392452.ip-176-31-109.eu:808/penasa/vombat/commits/master)
 
 
-Compiled version of CloudCompare with vombat can be found 
-[here](http://ns392452.ip-176-31-109.eu:8080/seafdav/cloudcompare-builds/)
+Compiled version of CloudCompare with vombat can be found on google drive
+[here](https://drive.google.com/open?id=1MNwG3LGH8dOZ0friJ0wewYCIDVSBsqVN). Be sure to download the latest one.
 
 
 
