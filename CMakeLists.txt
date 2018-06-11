@@ -46,7 +46,9 @@ if (INSTALL_vombat_PLUGIN)
     include_directories( ${CC_FBO_LIB_SOURCE_DIR}/include )
     include_directories( ${CC_CORE_LIB_SOURCE_DIR}/include )
 	include_directories( ${QCC_DB_LIB_SOURCE_DIR} )
-
+	include_directories( ${QCC_IO_LIB_SOURCE_DIR} )
+	include_directories( ${CloudCompare_SOURCE_DIR}/db_tree )
+include_directories( ${qcustomplot_SOURCE_DIR} )
 
     if( MSVC )
         include_directories( ${QCC_DB_LIB_SOURCE_DIR}/msvc )
@@ -114,7 +116,7 @@ find_package(SPC 0.1.0 REQUIRED
 
     add_subdirectory(vombatlib)
 
-    include( ../CMakePluginTpl.cmake )
+    include( ../../CMakePluginTpl.cmake )
 
 	target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES} ${SPC_LIBRARIES} VOMBATLIB ${QT_LIBRARIES} )
 
