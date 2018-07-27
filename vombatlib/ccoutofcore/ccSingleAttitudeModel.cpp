@@ -44,9 +44,9 @@ void ccSingleAttitudeModel::drawMeOnly(CC_DRAW_CONTEXT &context)
 
         //we draw the segments
         if (isSelected())
-            glFunc->glColor3ubv(ccColor::red.rgba);
+            glFunc->glColor3ubv(ccColor::red.rgb);
         else
-            glFunc->glColor3ubv(ccColor::blue.rgba);
+            glFunc->glColor3ubv(ccColor::blue.rgb);
 
         Eigen::Vector3f start = getModel()->getPointAtStratigraphicPosition(m_min_sp);
         Eigen::Vector3f end = getModel()->getPointAtStratigraphicPosition(m_max_sp);
@@ -83,9 +83,9 @@ void ccSingleAttitudeModel::drawMajorThicks(CC_DRAW_CONTEXT &context)
 
     //we draw the segments
     if (isSelected())
-        glFunc->glColor3ubv(ccColor::red.rgba);
+        glFunc->glColor3ubv(ccColor::red.rgb);
     else
-        glFunc->glColor3ubv(ccColor::blue.rgba);
+        glFunc->glColor3ubv(ccColor::blue.rgb);
 
 
     glFunc->glBegin(GL_LINES);
@@ -132,9 +132,9 @@ void ccSingleAttitudeModel::drawMajorThicksText(CC_DRAW_CONTEXT &context)
 
         glDisable(GL_DEPTH_TEST);
         if (isSelected())
-            context.display->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::red.rgba, font);
+            context.display->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::red.rgb, font);
         else
-            context.display->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::blue.rgba, font);
+            context.display->display3DLabel(s, CCVector3::fromArray(end.data()), ccColor::blue.rgb, font);
         glEnable(GL_DEPTH_TEST);
 
     }

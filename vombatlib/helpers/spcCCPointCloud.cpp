@@ -156,9 +156,9 @@ bool spc::spcCCPointCloud::getRGBField(const PointCloudBase::COLORS_ENUM &color,
 {
 
         // put everything in an eigen map fo easy access
-        // this only works on 64 bit systems!!!!
+        // this only works on 64 bit systems!!!! we are assuming they are ordered
 
-        const ColorCompType * firstc = cloud_->getPointColor(0);
+        const ColorCompType * firstc = &cloud_->getPointColor(0).rgb[0];
 
         typedef Eigen::Matrix<ColorCompType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> ColMatType;
 //        typedef Eigen::Matrix<ColorCompType, Eigen::Dynamic, 1> ColVectType;

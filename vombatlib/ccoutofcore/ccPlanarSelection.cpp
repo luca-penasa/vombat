@@ -163,9 +163,9 @@ void ccPlanarSelection::drawMeOnly(CC_DRAW_CONTEXT &context)
 
             //we draw the segments
             if (isSelected())
-                glColor3ubv(ccColor::red.rgba);
+                glColor3ubv(ccColor::red.rgb);
             else
-                glColor3ubv(ccColor::green.rgba);
+                glColor3ubv(ccColor::green.rgb);
 
 
             for (int i = -1; i <= 1; ++i)

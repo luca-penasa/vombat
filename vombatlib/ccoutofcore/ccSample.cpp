@@ -44,7 +44,7 @@ void ccSample::drawStratPos(CC_DRAW_CONTEXT& context)
 
         context.display->display3DLabel(name,
             CCVector3(getSample()->getPosition().data()),
-            ccColor::red.rgba, font);
+            ccColor::red.rgb, font);
 
         //    CCVector3 p (x,y,z);
         //    QString title = (getName());

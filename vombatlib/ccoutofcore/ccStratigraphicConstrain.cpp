@@ -14,7 +14,7 @@ ccStratigraphicConstrain::ccStratigraphicConstrain()
 
     m_foreground = false;
     m_width = 0.0;
-    //		memcpy(m_rgbColor, ccColor::red.rgba, sizeof(colorType) * 3);
+    //		memcpy(m_rgbColor, ccColor::red.rgb, sizeof(colorType) * 3);
     m_rgbColor = ccColor::red;
     setVisible(true);
 }
@@ -116,13 +116,13 @@ void ccStratigraphicConstrain::drawMeOnly(CC_DRAW_CONTEXT& context)
         glPushAttrib(GL_LINE_BIT);
 
         if (isSelected()) {
-            glColor3ubv(ccColor::red.rgba);
+            glColor3ubv(ccColor::red.rgb);
             glLineWidth(5);
             glLineStipple(5, 0xAAAA);
         }
         else {
             glLineWidth(2);
-            glColor3ubv(ccColor::orange.rgba);
+            glColor3ubv(ccColor::orange.rgb);
             glLineStipple(2, 0xAAAA);
         }
 

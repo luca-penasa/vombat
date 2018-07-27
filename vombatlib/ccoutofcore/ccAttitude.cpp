@@ -138,9 +138,9 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT& context)
 
         //we draw the segments
         if (isSelected())
-            glColor3ubv(ccColor::red.rgba);
+            glColor3ubv(ccColor::red.rgb);
         else
-            glColor3ubv(ccColor::green.rgba);
+            glColor3ubv(ccColor::green.rgb);
 
         Vector3f pos = getAttitude()->getPosition();
 
@@ -159,18 +159,18 @@ void ccAttitude::drawMeOnly(CC_DRAW_CONTEXT& context)
             font.setBold(true);
             //
             glDisable(GL_DEPTH_TEST);
-            context.display->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgba, font);
+            context.display->display3DLabel(getAttitude()->getDipAndDipAngleAsString().c_str(), CCVector3::fromArray(getAttitude()->getPosition().data()), ccColor::red.rgb, font);
 
             glEnable(GL_DEPTH_TEST);
         }
 
         glBegin(GL_LINES);
-        glColor3ubv(ccColor::red.rgba);
+        glColor3ubv(ccColor::red.rgb);
 
         glVertex3fv(pos.data());
         glVertex3fv(arr_shaft.data());
 
-        glColor3ubv(ccColor::blue.rgba);
+        glColor3ubv(ccColor::blue.rgb);
 
         glVertex3fv(pos.data());
         glVertex3fv(strike_dir.data());
